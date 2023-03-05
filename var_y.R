@@ -106,5 +106,13 @@ y_primary_giver_distance <- function(df) {
   )
 }
 
+y_receive_help_banking_freq <- function(df) {
+  receive_help_banking_freq <- c(
+    primary_help_banking_1 <- nrow(filter(df, AGB_20 == 1)),
+    primary_help_banking_2 <- nrow(filter(df, AGB_20 == 2)),
+    primary_help_banking_3 <- nrow(filter(df, AGB_20 == 3)),
+    primary_help_banking_4 <- nrow(filter(df, AGB_20 == 4))
+  )
+}
 
 

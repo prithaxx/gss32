@@ -51,7 +51,6 @@ giver_age_group <- c(
   "70+"
 )
 
-
 hours_help_received <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
 
 primary_giver_distance <- c(
@@ -63,6 +62,8 @@ primary_giver_distance <- c(
   "1 to <3 hours",
   ">3 hours"
 )
+
+primary_help_banking <- c("daily", "at least once a week", "at least once a month", "less than once a month")
 
 
 # Filter lists ####
