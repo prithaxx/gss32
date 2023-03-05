@@ -160,17 +160,6 @@ tab_hours_help_received <- function(df) {
 }
 
 chart_hours_help_received <- function(df_receiver, HAR_10C) {
-  # hours_0 <- nrow(filter(df_receiver, HAR_10C == 0))
-  # hours_1 <- nrow(filter(df_receiver, HAR_10C == 1))
-  # hours_2 <- nrow(filter(df_receiver, HAR_10C == 2))
-  # hours_3 <- nrow(filter(df_receiver, HAR_10C == 3))
-  # hours_4 <- nrow(filter(df_receiver, HAR_10C == 4))
-  # hours_5 <- nrow(filter(df_receiver, HAR_10C == 5))
-
-  # hours_help_received <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
-  # hours_help_received_freq <- c(hours_0, hours_1, hours_2, hours_3, hours_4, hours_5)
-  # 
-  # df_hours_help_received <- tibble(hours_help_received, hours_help_received_freq)
   df_hours_help_received <- tab_hours_help_received(df_receiver)
 
   c_hours_help_received <- ggplot(data = df_hours_help_received, mapping = aes(
@@ -191,25 +180,32 @@ chart_hours_help_received <- function(df_receiver, HAR_10C) {
 }
 
 ### Distance between the respondent's and the caregiver's dwellings
-chart_primary_giver_distance <- function(df_receiver, PGD_10) {
-  primary_giver_distance_1 <- nrow(filter(df_receiver, PGD_10 == 1))
-  primary_giver_distance_2 <- nrow(filter(df_receiver, PGD_10 == 2))
-  primary_giver_distance_3 <- nrow(filter(df_receiver, PGD_10 == 3))
-  primary_giver_distance_4 <- nrow(filter(df_receiver, PGD_10 == 4))
-  primary_giver_distance_5 <- nrow(filter(df_receiver, PGD_10 == 5))
-  primary_giver_distance_6 <- nrow(filter(df_receiver, PGD_10 == 6))
-  primary_giver_distance_7 <- nrow(filter(df_receiver, PGD_10 == 7))
+tab_primary_giver_distance <- function(df) {
+  primary_giver_distance_freq <- y_primary_giver_distance(df)
+  df_output <- tibble(primary_giver_distance, primary_giver_distance_freq)
+  return(df_output)
+}
 
-  primary_giver_distance <- c("same household", "same building", "<10 min", "10 to <30 min", "30 min
-   to <1 hour", "1 to <3 hours", ">3 hours")
-  primary_giver_distance_freq <- c(
-    primary_giver_distance_1, primary_giver_distance_2, primary_giver_distance_3,
-    primary_giver_distance_4, primary_giver_distance_5, primary_giver_distance_6,
-    primary_giver_distance_7
-  )
+chart_primary_giver_distance <- function(df_receiver) {
+  # primary_giver_distance_1 <- nrow(filter(df_receiver, PGD_10 == 1))
+  # primary_giver_distance_2 <- nrow(filter(df_receiver, PGD_10 == 2))
+  # primary_giver_distance_3 <- nrow(filter(df_receiver, PGD_10 == 3))
+  # primary_giver_distance_4 <- nrow(filter(df_receiver, PGD_10 == 4))
+  # primary_giver_distance_5 <- nrow(filter(df_receiver, PGD_10 == 5))
+  # primary_giver_distance_6 <- nrow(filter(df_receiver, PGD_10 == 6))
+  # primary_giver_distance_7 <- nrow(filter(df_receiver, PGD_10 == 7))
 
-  df_primary_giver_distance <- tibble(primary_giver_distance, primary_giver_distance_freq)
+  # primary_giver_distance <- c("same household", "same building", "<10 min", "10 to <30 min", "30 min
+  #  to <1 hour", "1 to <3 hours", ">3 hours")
+  # primary_giver_distance_freq <- c(
+  #   primary_giver_distance_1, primary_giver_distance_2, primary_giver_distance_3,
+  #   primary_giver_distance_4, primary_giver_distance_5, primary_giver_distance_6,
+  #   primary_giver_distance_7
+  # )
 
+  # df_primary_giver_distance <- tibble(primary_giver_distance, primary_giver_distance_freq)
+  df_primary_giver_distance <- tab_primary_giver_distance(df_receiver)
+  
   c_primary_giver_distance <- ggplot(data = df_primary_giver_distance, mapping = aes(
     x = fct_inorder(primary_giver_distance), y =
       primary_giver_distance_freq, fill = primary_giver_distance

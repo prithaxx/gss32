@@ -94,3 +94,17 @@ y_hours_help_received <- function(df_receiver) {
   )
 }
 
+y_primary_giver_distance <- function(df) {
+  primary_giver_distance <- c(
+    primary_giver_distance_1 <- nrow(filter(df, PGD_10 == 1)),
+    primary_giver_distance_2 <- nrow(filter(df, PGD_10 == 2)),
+    primary_giver_distance_3 <- nrow(filter(df, PGD_10 == 3)),
+    primary_giver_distance_4 <- nrow(filter(df, PGD_10 == 4)),
+    primary_giver_distance_5 <- nrow(filter(df, PGD_10 == 5)),
+    primary_giver_distance_6 <- nrow(filter(df, PGD_10 == 6)),
+    primary_giver_distance_7 <- nrow(filter(df, PGD_10 == 7))
+  )
+}
+
+
+

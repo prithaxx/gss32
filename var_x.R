@@ -36,9 +36,34 @@ activity_receive_help <- c(
   "other"
 )
 
-giver_age_group <- c("<20", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70+")
+giver_age_group <- c(
+  "<20",
+  "20-24",
+  "25-29",
+  "30-34",
+  "35-39",
+  "40-44",
+  "45-49",
+  "50-54",
+  "55-59",
+  "60-64",
+  "65-69",
+  "70+"
+)
+
 
 hours_help_received <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
+
+primary_giver_distance <- c(
+  "same household",
+  "same building",
+  "<10 min",
+  "10 to <30 min",
+  "30 min to <1 hour",
+  "1 to <3 hours",
+  ">3 hours"
+)
+
 
 # Filter lists ####
 

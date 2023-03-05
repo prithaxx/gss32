@@ -25,8 +25,8 @@ receiver_response_tabs <- list(
   "Activity receive help" = tab_activity_receive_help,
   "Age of primary giver" = tab_age_primary_giver,
   "Activity receive help from professional" = tab_activity_receive_help_pro,
-  "Hours of help received" = tab_hours_help_received
-  # "Primary giver distance" = chart_primary_giver_distance,
+  "Hours of help received" = tab_hours_help_received,
+  "Primary giver distance" = tab_primary_giver_distance
   # "Receive help banking - frequency" = chart_receive_help_banking_freq,
   # "Receive help banking - hours" = chart_receive_help_banking_hours,
   # "Help banking hours - daily" = chart_help_banking_hours_daily,
