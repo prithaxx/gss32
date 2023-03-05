@@ -99,12 +99,10 @@ chart_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE
   return(c_activity_receive_help)
 }
 
-
-
 ### Age of respondent's primary caregiver
 tab_age_primary_giver <- function(df) {
-  data_y <- y_age_primary_giver(df)
-  df_output <- tibble(age_giver, data_y)
+  age_primary_giver_freq <- y_age_primary_giver(df)
+  df_output <- tibble(giver_age_group, age_primary_giver_freq)
   
   return(df_output)
 }
@@ -112,9 +110,9 @@ tab_age_primary_giver <- function(df) {
 chart_age_primary_giver <- function(df_receiver, CRGVAGGR) {
   df_age_primary_giver <- tab_age_primary_giver(df_receiver)
   
-  c_age_primary_giver <- ggplot(data = df_age_primary_giver, mapping = aes(x = fct_inorder(age_giver), y = age_giver_freq, fill = age_giver)) +
+  c_age_primary_giver <- ggplot(data = df_age_primary_giver, mapping = aes(x = fct_inorder(giver_age_group), y =  age_primary_giver_freq, fill = giver_age_group)) +
     geom_col() +
-    geom_text(aes(label = age_giver_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label =  age_primary_giver_freq), position = position_stack(vjust = 0.5)) +
     ggtitle("Age of respondent's primary caregivers") +
     labs(caption = str_wrap("Count of the age (groups of 5) of primary caregivers for respondents considered to be a care receiver and 65 years of age or older.", width = 120)) +
     xlab("Age (years)") +
@@ -126,36 +124,27 @@ chart_age_primary_giver <- function(df_receiver, CRGVAGGR) {
 }
 
 ### Types of activities respondents received professional help with
-chart_activity_receive_help_pro <- function(df_receiver, PAA_10, PAA_20, PAA_30, PAA_40, PAA_50, PAA_60, PAA_70, PAA_80) {
-  transportation <- nrow(filter(df_receiver, PAA_10 == 1))
-  household_chores <- nrow(filter(df_receiver, PAA_20 == 1))
-  house_maintenance <- nrow(filter(df_receiver, PAA_30 == 1))
-  personal_care <- nrow(filter(df_receiver, PAA_40 == 1))
-  medical_treatment <- nrow(filter(df_receiver, PAA_50 == 1))
-  scheduling <- nrow(filter(df_receiver, PAA_60 == 1))
-  banking <- nrow(filter(df_receiver, PAA_70 == 1))
-  help_activity_other <- nrow(filter(df_receiver, PAA_80 == 1))
+tab_activity_receive_help_pro<- function(df) {
+  activity_receive_help_pro_freq <- y_activity_receive_help_pro(df)
+  df_output <- tibble(activity_receive_help, activity_receive_help_pro_freq)
+  
+  return(df_output)
+}
 
-  help_activities_pro <- c("transportation", "household chores", "house maintenance", "personal care", "medical
-  treatment", "scheduling", "banking", "other")
-  help_activities_pro_freq <- c(
-    transportation, household_chores, house_maintenance, personal_care, medical_treatment,
-    scheduling, banking, help_activity_other
-  )
-
-  df_activity_receive_help_pro <- tibble(help_activities_pro, help_activities_pro_freq)
+chart_activity_receive_help_pro <- function(df_receiver) {
+  df_activity_receive_help_pro <- tab_activity_receive_help_pro(df_receiver)
   
   c_activity_receive_help_pro <- ggplot(data = df_activity_receive_help_pro, mapping = aes(
-    x = fct_inorder(help_activities_pro), y =
-      help_activities_pro_freq, fill = help_activities_pro
+    x = fct_inorder(activity_receive_help), y =
+      activity_receive_help_pro_freq, fill = activity_receive_help
   )) +
     geom_col() +
-    geom_text(aes(label = help_activities_pro_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = activity_receive_help_pro_freq), position = position_stack(vjust = 0.5)) +
     ggtitle("Activities received professional help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$help_activities_pro, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$activity_receive_help, width = 12)) +
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
@@ -164,18 +153,25 @@ chart_activity_receive_help_pro <- function(df_receiver, PAA_10, PAA_20, PAA_30,
 
 
 ### Numbers of hours of help received - Per average week per activity
+tab_hours_help_received <- function(df) {
+  hours_help_received_freq <- y_hours_help_received(df)
+  df_output <- tibble(hours_help_received, hours_help_received_freq)
+  return(df_output)
+}
+
 chart_hours_help_received <- function(df_receiver, HAR_10C) {
-  hours_0 <- nrow(filter(df_receiver, HAR_10C == 0))
-  hours_1 <- nrow(filter(df_receiver, HAR_10C == 1))
-  hours_2 <- nrow(filter(df_receiver, HAR_10C == 2))
-  hours_3 <- nrow(filter(df_receiver, HAR_10C == 3))
-  hours_4 <- nrow(filter(df_receiver, HAR_10C == 4))
-  hours_5 <- nrow(filter(df_receiver, HAR_10C == 5))
+  # hours_0 <- nrow(filter(df_receiver, HAR_10C == 0))
+  # hours_1 <- nrow(filter(df_receiver, HAR_10C == 1))
+  # hours_2 <- nrow(filter(df_receiver, HAR_10C == 2))
+  # hours_3 <- nrow(filter(df_receiver, HAR_10C == 3))
+  # hours_4 <- nrow(filter(df_receiver, HAR_10C == 4))
+  # hours_5 <- nrow(filter(df_receiver, HAR_10C == 5))
 
-  hours_help_received <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
-  hours_help_received_freq <- c(hours_0, hours_1, hours_2, hours_3, hours_4, hours_5)
-
-  df_hours_help_received <- tibble(hours_help_received, hours_help_received_freq)
+  # hours_help_received <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
+  # hours_help_received_freq <- c(hours_0, hours_1, hours_2, hours_3, hours_4, hours_5)
+  # 
+  # df_hours_help_received <- tibble(hours_help_received, hours_help_received_freq)
+  df_hours_help_received <- tab_hours_help_received(df_receiver)
 
   c_hours_help_received <- ggplot(data = df_hours_help_received, mapping = aes(
     x = hours_help_received, y = hours_help_received_freq, fill =

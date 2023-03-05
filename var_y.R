@@ -70,4 +70,27 @@ y_age_primary_giver <- function(df_receiver) {
   )
 }
 
+y_activity_receive_help_pro <- function(df_receiver) {
+  activity_receive_help_pro <- c(
+    transportation <- nrow(filter(df_receiver, PAA_10 == 1)),
+    household_chores <- nrow(filter(df_receiver, PAA_20 == 1)),
+    house_maintenance <- nrow(filter(df_receiver, PAA_30 == 1)),
+    personal_care <- nrow(filter(df_receiver, PAA_40 == 1)),
+    medical_treatment <- nrow(filter(df_receiver, PAA_50 == 1)),
+    scheduling <- nrow(filter(df_receiver, PAA_60 == 1)),
+    banking <- nrow(filter(df_receiver, PAA_70 == 1)),
+    help_activity_other <- nrow(filter(df_receiver, PAA_80 == 1))
+  )
+}
+
+y_hours_help_received <- function(df_receiver) {
+  hours_help_received <- c(
+    hours_0 <- nrow(filter(df_receiver, HAR_10C == 0)),
+    hours_1 <- nrow(filter(df_receiver, HAR_10C == 1)),
+    hours_2 <- nrow(filter(df_receiver, HAR_10C == 2)),
+    hours_3 <- nrow(filter(df_receiver, HAR_10C == 3)),
+    hours_4 <- nrow(filter(df_receiver, HAR_10C == 4)),
+    hours_5 <- nrow(filter(df_receiver, HAR_10C == 5))
+  )
+}
 

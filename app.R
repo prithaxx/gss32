@@ -23,9 +23,9 @@ receiver_response_charts <- list(
 receiver_response_tabs <- list(
   "Health conditions" = tab_health_conditions,
   "Activity receive help" = tab_activity_receive_help,
-  "Age of primary giver" = tab_age_primary_giver
-  # "Activity receive help from professional" = chart_activity_receive_help_pro,
-  # "Hours of help received" = chart_hours_help_received,
+  "Age of primary giver" = tab_age_primary_giver,
+  "Activity receive help from professional" = tab_activity_receive_help_pro,
+  "Hours of help received" = tab_hours_help_received
   # "Primary giver distance" = chart_primary_giver_distance,
   # "Receive help banking - frequency" = chart_receive_help_banking_freq,
   # "Receive help banking - hours" = chart_receive_help_banking_hours,
@@ -249,10 +249,9 @@ server <- function(input, output) {
   
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
-    chart_function <- receiver_response_charts[[input$receiver_select_box]]
-    
+    chart <- receiver_response_charts[[input$receiver_select_box]]
     update_receiver_df()
-    chart_function(output_receiver_df)
+    chart(output_receiver_df)
   })
 
   # receiver table tab
@@ -260,8 +259,6 @@ server <- function(input, output) {
     update_receiver_df()
     tab <- receiver_response_tabs[[input$receiver_select_box]]
     tab(output_receiver_df)
-    
-    
   })
   
   
