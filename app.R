@@ -27,12 +27,12 @@ receiver_response_tabs <- list(
   "Activity receive help from professional" = tab_activity_receive_help_pro,
   "Hours of help received" = tab_hours_help_received,
   "Primary giver distance" = tab_primary_giver_distance,
-  "Receive help banking - frequency" = tab_receive_help_banking_freq
-  # "Receive help banking - hours" = chart_receive_help_banking_hours,
-  # "Help banking hours - daily" = chart_help_banking_hours_daily,
-  # "Help banking hours - at least once a week" = chart_help_banking_weekly,
-  # "Help banking hours - at least once a month" = chart_help_banking_monthly,
-  # "Help banking hours - less than once a month" = chart_help_banking_monthly_less
+  "Receive help banking - frequency" = tab_receive_help_banking_freq,
+  "Receive help banking - hours" = tab_receive_help_banking_hours,
+  "Help banking hours - daily" = tab_help_banking_hours_daily,
+  "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
+  "Help banking hours - at least once a month" = tab_help_banking_hours_monthly,
+  "Help banking hours - less than once a month" = tab_help_banking_hours_monthly_less
 )
 
 giver_response_charts <- list(

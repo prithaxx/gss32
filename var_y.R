@@ -108,10 +108,28 @@ y_primary_giver_distance <- function(df) {
 
 y_receive_help_banking_freq <- function(df) {
   receive_help_banking_freq <- c(
-    primary_help_banking_1 <- nrow(filter(df, AGB_20 == 1)),
-    primary_help_banking_2 <- nrow(filter(df, AGB_20 == 2)),
-    primary_help_banking_3 <- nrow(filter(df, AGB_20 == 3)),
-    primary_help_banking_4 <- nrow(filter(df, AGB_20 == 4))
+    receive_help_banking_1 <- nrow(filter(df, AGB_20 == 1)),
+    receive_help_banking_2 <- nrow(filter(df, AGB_20 == 2)),
+    receive_help_banking_3 <- nrow(filter(df, AGB_20 == 3)),
+    receive_help_banking_4 <- nrow(filter(df, AGB_20 == 4))
+  )
+}
+
+y_receive_help_banking_hours <- function(df) {
+  receive_help_banking_hours <- c(
+    help_banking_hours_1 <- nrow(filter(df, AGB_30C == 1)),
+    help_banking_hours_2 <- nrow(filter(df, AGB_30C == 2)),
+    help_banking_hours_3 <- nrow(filter(df, AGB_30C == 3)),
+    help_banking_hours_4 <- nrow(filter(df, AGB_30C == 4))
+  )
+}
+
+y_receive_help_banking_hours_freq <- function(df, response_code) {
+  receive_help_banking_hours_freq <- c(
+    help_banking_1 <- nrow(filter(df, AGB_30C == 1 & AGB_20 == response_code)),
+    help_banking_2 <- nrow(filter(df, AGB_30C == 2 & AGB_20 == response_code)),
+    help_banking_3 <- nrow(filter(df, AGB_30C == 3 & AGB_20 == response_code)),
+    help_banking_4 <- nrow(filter(df, AGB_30C == 4 & AGB_20 == response_code))
   )
 }
 

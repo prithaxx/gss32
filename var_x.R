@@ -63,8 +63,8 @@ primary_giver_distance <- c(
   ">3 hours"
 )
 
-primary_help_banking <- c("daily", "at least once a week", "at least once a month", "less than once a month")
-
+primary_help_banking_freq <- c("daily", "at least once a week", "at least once a month", "less than once a month")
+primary_help_banking_hours <- c("<1", "1 to <3", "3 to <5", "5+")
 
 # Filter lists ####
 
