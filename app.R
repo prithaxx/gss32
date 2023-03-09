@@ -92,7 +92,7 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts),selected = names(receiver_response_charts[1])),
+        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), selected = names(receiver_response_charts[1])),
         selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
         selectInput("receiver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
         selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
@@ -159,7 +159,7 @@ server <- function(input, output) {
     if (input$general_selected_box == general_charts[1]) {
       df_pops %>% rename("Respondent Group" = pop_name, "Count" = pop_freq)
     } else {
-      df_primary_sex %>% rename("Sex" = sex, "Count" = freq, )
+      df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
     }
   })
   
@@ -253,12 +253,21 @@ server <- function(input, output) {
     update_receiver_df()
     chart(output_receiver_df)
   })
-
+  
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
     tab <- receiver_response_tabs[[input$receiver_select_box]]
-    tab(output_receiver_df)
+    
+    final_table <- tab(output_receiver_df) 
+    
+    for (i in seq_along(receiver_response_charts)) {
+      if (input$receiver_select_box == names(receiver_response_charts[i])) {
+        final_table <- final_table %>% rename(!!names(receiver_response_charts[i]) := 1, "Count" := 2)
+      }
+    }
+    
+    final_table
   })
   
   

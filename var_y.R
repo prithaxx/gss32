@@ -20,10 +20,7 @@ primary_receiver_sex_freq <- c(
   primary_receiver_female <- nrow(filter(df_giver, PRN_25 == 2))
 )
 
-
-
-
-
+# Care receiver response y variables
 
 y_health_condition <- function(df_receiver) {
   health_conditions_freq <- c(
@@ -38,7 +35,6 @@ y_health_condition <- function(df_receiver) {
     other <- nrow(filter(df_receiver, PRA_10GR == 9))
   )
 }
-
 
 y_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE_40, ARE_50, ARE_60, ARE_70, ARE_80) {
   activity_receive_help_freq <- c(

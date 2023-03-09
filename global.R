@@ -3,11 +3,11 @@ source("df.R")
 source("var_x.R")
 source("var_y.R")
 source("output_df.R")
+source("table.R")
 
 # General Charts ####
 
 ## Respondent groups ####
-
 c_respondent_groups <-
   ggplot(
     data = df_pops,
@@ -26,7 +26,6 @@ c_respondent_groups <-
 
 
 ## Sex of primary caregiver and primary care receiver ####
-
 c_primary_sex <- ggplot(data = df_primary_sex, mapping = aes(x = sex, y = freq, fill = sex)) +
   geom_col() +
   geom_text(aes(label = freq), position = position_stack(vjust = 0.5)) +
@@ -41,7 +40,6 @@ c_primary_sex <- ggplot(data = df_primary_sex, mapping = aes(x = sex, y = freq, 
 
 
 # Care receiver responses #####
-
 chart_health_conditions <- function(df_receiver) {
   df_health_conditions <- tab_health_conditions(df_receiver)
 
@@ -62,22 +60,8 @@ chart_health_conditions <- function(df_receiver) {
   return(c_health_conditions)
 }
 
-tab_health_conditions <- function(df) {
-  health_conditions_freq <- y_health_condition(df)
-  df_health_conditions <- tibble(health_conditions, health_conditions_freq)
- 
-  return(df_health_conditions)
-}
-
 
 ### Types of activities respondents received help with
-tab_activity_receive_help <- function(df) {
-  activity_receive_help_freq <- y_activity_receive_help(df)
-  df_activity_receive_help <- tibble(activity_receive_help, activity_receive_help_freq)
-  
-  return(df_activity_receive_help)
-}
-
 chart_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE_40, ARE_50, ARE_60, ARE_70, ARE_80) {
   df_activity_receive_help <- tab_activity_receive_help(df_receiver)
 
@@ -100,13 +84,6 @@ chart_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE
 }
 
 ### Age of respondent's primary caregiver
-tab_age_primary_giver <- function(df) {
-  age_primary_giver_freq <- y_age_primary_giver(df)
-  df_output <- tibble(giver_age_group, age_primary_giver_freq)
-  
-  return(df_output)
-}
-
 chart_age_primary_giver <- function(df_receiver, CRGVAGGR) {
   df_age_primary_giver <- tab_age_primary_giver(df_receiver)
   
@@ -124,13 +101,6 @@ chart_age_primary_giver <- function(df_receiver, CRGVAGGR) {
 }
 
 ### Types of activities respondents received professional help with
-tab_activity_receive_help_pro<- function(df) {
-  activity_receive_help_pro_freq <- y_activity_receive_help_pro(df)
-  df_output <- tibble(activity_receive_help, activity_receive_help_pro_freq)
-  
-  return(df_output)
-}
-
 chart_activity_receive_help_pro <- function(df_receiver) {
   df_activity_receive_help_pro <- tab_activity_receive_help_pro(df_receiver)
   
@@ -153,12 +123,6 @@ chart_activity_receive_help_pro <- function(df_receiver) {
 
 
 ### Numbers of hours of help received - Per average week per activity
-tab_hours_help_received <- function(df) {
-  hours_help_received_freq <- y_hours_help_received(df)
-  df_output <- tibble(hours_help_received, hours_help_received_freq)
-  return(df_output)
-}
-
 chart_hours_help_received <- function(df_receiver, HAR_10C) {
   df_hours_help_received <- tab_hours_help_received(df_receiver)
 
@@ -180,12 +144,6 @@ chart_hours_help_received <- function(df_receiver, HAR_10C) {
 }
 
 ### Distance between the respondent's and the caregiver's dwellings
-tab_primary_giver_distance <- function(df) {
-  primary_giver_distance_freq <- y_primary_giver_distance(df)
-  df_output <- tibble(primary_giver_distance, primary_giver_distance_freq)
-  return(df_output)
-}
-
 chart_primary_giver_distance <- function(df_receiver) {
   df_primary_giver_distance <- tab_primary_giver_distance(df_receiver)
   
@@ -208,12 +166,6 @@ chart_primary_giver_distance <- function(df_receiver) {
 }
 
 ### Primary caregiver helped with banking - Frequency
-tab_receive_help_banking_freq<- function(df) {
-  receive_help_banking_freq <- y_receive_help_banking_freq(df)
-  df_output <- tibble(primary_help_banking_freq, receive_help_banking_freq)
-  return(df_output)
-}
-
 chart_receive_help_banking_freq <- function(df_receiver) {
   df_receive_help_banking_freq <- tab_receive_help_banking_freq(df_receiver)
   
@@ -235,12 +187,6 @@ chart_receive_help_banking_freq <- function(df_receiver) {
 }
 
 ### Primary caregiver helped with banking - Number of hours
-tab_receive_help_banking_hours <- function(df) {
-  receive_help_banking_hours_freq <- y_receive_help_banking_hours(df)
-  df_output <- tibble(primary_help_banking_hours, receive_help_banking_hours_freq)
-  return(df_output)
-}
-
 chart_receive_help_banking_hours <- function(df_receiver, AGB_30C) {
   df_receive_help_banking_hours <- tab_receive_help_banking_hours(df_receiver)
   
@@ -261,14 +207,9 @@ chart_receive_help_banking_hours <- function(df_receiver, AGB_30C) {
   return(c_receive_help_banking_hours)
 }
 
-### The following 4 charts show how often the respondent received help from their primary care giver and how many hours each time
-### daily
+### The following 4 charts show How often and number of hours a respondent received help from with banking
 
-tab_help_banking_hours_daily <- function(df) {
-  help_banking_hours_daily_freq <- y_receive_help_banking_hours_freq(df, 1)
-  df_output <- tibble(primary_help_banking_hours, help_banking_hours_daily_freq)
-  return(df_output)
-}
+### daily
 chart_help_banking_hours_daily <- function(df_receiver) {
   df_help_banking_hours_freq <- tab_help_banking_hours_daily(df_receiver)
 
@@ -290,12 +231,6 @@ chart_help_banking_hours_daily <- function(df_receiver) {
 }
 
 ### at least once a week
-tab_help_banking_hours_weekly <- function(df) {
-  help_banking_hours_freq <- y_receive_help_banking_hours_freq(df, 2)
-  df_output <- tibble(primary_help_banking_hours, help_banking_hours_freq)
-  return(df_output)
-}
-
 chart_help_banking_weekly <- function(df_receiver) {
   df_help_banking_hours_weekly <- tab_help_banking_hours_weekly(df_receiver)
 
@@ -317,11 +252,6 @@ chart_help_banking_weekly <- function(df_receiver) {
 }
 
 ### monthly
-tab_help_banking_hours_monthly <- function(df) {
-  help_banking_hours_freq <- y_receive_help_banking_hours_freq(df, 3)
-  df_output <- tibble(primary_help_banking_hours, help_banking_hours_freq)
-  return(df_output)
-}
 
 chart_help_banking_monthly <- function(df_receiver) {
   df_help_banking_hours_monthly <- tab_help_banking_hours_monthly(df_receiver)
@@ -344,11 +274,6 @@ chart_help_banking_monthly <- function(df_receiver) {
 }
 
 # less than monthly
-tab_help_banking_hours_monthly_less <- function(df) {
-  help_banking_hours_freq <- y_receive_help_banking_hours_freq(df, 4)
-  df_output <- tibble(primary_help_banking_hours, help_banking_hours_freq)
-  return(df_output)
-}
 chart_help_banking_monthly_less <- function(df_receiver, AGB_30C, AGB_20) {
   df_help_banking_hours_monthly_less <- tab_help_banking_hours_monthly_less(df_receiver)
   
