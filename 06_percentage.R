@@ -13,6 +13,7 @@ chart_respondent_groups <- function() {
     )
   ) +
     geom_col() +
+    ylim(0, 1) +
     geom_text(aes(label = percentage), position = position_stack(vjust = 0.5)) +
     ggtitle("GSS 2018 repsondent groups") +
     labs(
