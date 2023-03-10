@@ -1,16 +1,28 @@
+tab_pop_freq <- function() {
+  count <- y_pop_freq(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help) 
+  df_pops <- tibble(pop_name, count) %>%
+    mutate(percentage = count / sum(count))
+  
+  return(df_pops)
+}
+
+
 # Care receiver responses #####
 
 tab_health_conditions <- function(df) {
-  health_conditions_freq <- y_health_condition(df)
-  df_health_conditions <- tibble(health_conditions, health_conditions_freq)
+  # health_conditions_freq <- y_health_condition(df)
+  count <- y_health_condition(df)
+  df_health_conditions <- tibble(health_conditions, count) %>%
+    mutate(percentage = count / sum(count))
   
   return(df_health_conditions)
 }
 
 ### Types of activities respondents received help with
 tab_activity_receive_help <- function(df) {
-  activity_receive_help_freq <- y_activity_receive_help(df)
-  df_activity_receive_help <- tibble(activity_receive_help, activity_receive_help_freq)
+  count <- y_activity_receive_help(df)
+  df_activity_receive_help <- tibble(activity_receive_help, count) %>%
+    mutate(percentage = count / sum(count))
   
   return(df_activity_receive_help)
 }

@@ -1,8 +1,7 @@
-source("var_x.R")
-source("var_y.R")
+# source("var_x.R")
+# source("var_y.R")
 
 df_pops <- tibble(pop_name, pop_freq) 
-  # rename("Respondent Group" = pop_name, "Count" = pop_freq)
 
 df_primary_sex <- tibble(
   sex = c(primary_sex, primary_sex),

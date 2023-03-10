@@ -4,7 +4,7 @@ source("02_var_x.R")
 source("03_var_y.R")
 source("04_general_df.R")
 source("05_table.R")
-
+source("06_percentage.R")
 # General Charts ####
 
 ## Respondent groups ####
@@ -17,13 +17,12 @@ c_respondent_groups <-
   geom_text(aes(label = pop_freq), position = position_stack(vjust = 0.5)) +
   ggtitle("GSS 2018 repsondent groups") +
   labs(caption = str_wrap("Count for respondent groupings: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)) +
-  xlab("Respond group") +
+  xlab("Respondent group") +
   ylab("Count") +
   scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
   scale_fill_viridis_d() +
   guides(fill = "none") +
   theme(plot.caption = element_text(hjust = 0))
-
 
 ## Sex of primary caregiver and primary care receiver ####
 c_primary_sex <- ggplot(data = df_primary_sex, mapping = aes(x = sex, y = freq, fill = sex)) +
@@ -45,10 +44,10 @@ chart_health_conditions <- function(df_receiver) {
 
   c_health_conditions <- ggplot(data = df_health_conditions, mapping = aes(
     x = fct_inorder(health_conditions), y =
-      health_conditions_freq, fill = health_conditions
+      count, fill = health_conditions
   )) +
     geom_col() +
-    geom_text(aes(label = health_conditions_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     labs(caption = str_wrap("Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.", width = 115)) +
     xlab("Health Condition") +
     ylab("Count") +
@@ -62,7 +61,7 @@ chart_health_conditions <- function(df_receiver) {
 
 
 ### Types of activities respondents received help with
-chart_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE_40, ARE_50, ARE_60, ARE_70, ARE_80) {
+chart_activity_receive_help <- function(df_receiver) {
   df_activity_receive_help <- tab_activity_receive_help(df_receiver)
 
   c_activity_receive_help <- ggplot(data = df_activity_receive_help, mapping = aes(
