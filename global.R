@@ -66,10 +66,10 @@ chart_activity_receive_help <- function(df_receiver) {
 
   c_activity_receive_help <- ggplot(data = df_activity_receive_help, mapping = aes(
     x = fct_inorder(activity_receive_help), y =
-      activity_receive_help_freq, fill = activity_receive_help
+      count, fill = activity_receive_help
   )) +
     geom_col() +
-    geom_text(aes(label = activity_receive_help_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Activities received help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
     xlab("Activity") +
