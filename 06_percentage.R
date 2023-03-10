@@ -62,7 +62,7 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_receive_help$activity_receive_help, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df$activity_receive_help, width = 12)) +
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
