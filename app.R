@@ -20,19 +20,33 @@ receiver_response_charts <- list(
   "Help banking hours - at least once a month" = chart_help_banking_monthly,
   "Help banking hours - less than once a month" = chart_help_banking_monthly_less
 )
+receiver_charts_percent <- list(
+  "Health conditions" = chart_health_conditions_percent,
+  "Activity receive help" = chart_activity_receive_help_percent
+  # "Age of primary giver" = chart_age_primary_giver_percent,
+  # "Activity receive help from professional" = chart_activity_receive_help_pro_percent,
+  # "Hours of help received" = chart_hours_help_received_percent,
+  # "Primary giver distance" = chart_primary_giver_distance_percent,
+  # "Receive help banking - frequency" = chart_receive_help_banking_freq_percent,
+  # "Receive help banking - hours" = chart_receive_help_banking_hours_percent,
+  # "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
+  # "Help banking hours - at least once a week" = chart_help_banking_weekly_percent,
+  # "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
+  # "Help banking hours - less than once a month" = chart_help_banking_monthly_less_percent
+)
 receiver_response_tabs <- list(
   "Health conditions" = tab_health_conditions,
   "Activity receive help" = tab_activity_receive_help,
   "Age of primary giver" = tab_age_primary_giver,
   "Activity receive help from professional" = tab_activity_receive_help_pro,
-  "Hours of help received" = tab_hours_help_received
-  # "Primary giver distance" = chart_primary_giver_distance,
-  # "Receive help banking - frequency" = chart_receive_help_banking_freq,
-  # "Receive help banking - hours" = chart_receive_help_banking_hours,
-  # "Help banking hours - daily" = chart_help_banking_hours_daily,
-  # "Help banking hours - at least once a week" = chart_help_banking_weekly,
-  # "Help banking hours - at least once a month" = chart_help_banking_monthly,
-  # "Help banking hours - less than once a month" = chart_help_banking_monthly_less
+  "Hours of help received" = tab_hours_help_received,
+  "Primary giver distance" = tab_primary_giver_distance,
+  "Receive help banking - frequency" = tab_receive_help_banking_freq,
+  "Receive help banking - hours" = tab_receive_help_banking_hours,
+  "Help banking hours - daily" = tab_help_banking_hours_daily,
+  "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
+  "Help banking hours - at least once a month" = tab_help_banking_hours_monthly,
+  "Help banking hours - less than once a month" = tab_help_banking_hours_monthly_less
 )
 
 giver_response_charts <- list(
@@ -80,7 +94,8 @@ ui <- fluidPage(
             "Counts",
             plotOutput("general_selected_chart")
           ),
-          tabPanel("Percentages", "Data shown as percentages will be displayed here"),
+          tabPanel("Percentages", 
+                   plotOutput("general_percentage")),
           tabPanel("Tables", 
                     tableOutput("general_table")), #table id
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
@@ -92,7 +107,7 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts),selected = names(receiver_response_charts[1])),
+        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), selected = names(receiver_response_charts[1])),
         selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
         selectInput("receiver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
         selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
@@ -108,7 +123,7 @@ ui <- fluidPage(
             "Counts",
             plotOutput("receiver_selected_chart")
           ),
-          tabPanel("Percentages", "Data shown as percentages will be displayed here"),
+          tabPanel("Percentages", plotOutput("receiver_percentage")),
           tabPanel("Tables", 
                    tableOutput("receiver_table")), # receiver table id
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
@@ -144,24 +159,34 @@ server <- function(input, output) {
   # general counts tab
   output$general_selected_chart <- renderPlot({
     # chart_function <- general_charts[[input$general_selected_box]]
-
     # general_charts[[input$general_selected_box]]
     if (input$general_selected_box == general_charts[1]) {
       c_respondent_groups 
     } else {
       c_primary_sex
     }
-
   })
   
-  # general table tab
+  # general percentage
+  output$general_percentage <- renderPlot({
+    if (input$general_selected_box == general_charts[1]) {
+      chart_respondent_groups()
+    } else {
+      print("else")
+    }
+    
+  })
+  
+  # general table 
   output$general_table <- renderTable({
     if (input$general_selected_box == general_charts[1]) {
-      df_pops %>% rename("Respondent Group" = pop_name, "Count" = pop_freq)
+      tab_pop_freq()
     } else {
-      df_primary_sex %>% rename("Sex" = sex, "Count" = freq, )
+      df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
     }
   })
+  
+  
   
   update_receiver_df <- reactive({
     # filter by sex
@@ -253,12 +278,28 @@ server <- function(input, output) {
     update_receiver_df()
     chart(output_receiver_df)
   })
+  
+  # receiver percentage tab
+  output$receiver_percentage <- renderPlot({
+    chart <- receiver_charts_percent[[input$receiver_select_box]]
+    update_receiver_df()
 
+    chart(output_receiver_df)
+  })
+  
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
     tab <- receiver_response_tabs[[input$receiver_select_box]]
-    tab(output_receiver_df)
+    final_table <- tab(output_receiver_df) 
+    
+    for (i in seq_along(receiver_response_charts)) {
+      if (input$receiver_select_box == names(receiver_response_charts[i])) {
+        final_table <- final_table %>% rename(!!names(receiver_response_charts[i]) := 1, "Count" := 2)
+      }
+    }
+    
+    final_table
   })
   
   
