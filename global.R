@@ -1,4 +1,3 @@
-library(viridis)
 source("01_main.R")
 source("02_var_x.R")
 source("03_var_y.R")
@@ -86,9 +85,10 @@ chart_activity_receive_help <- function(df_receiver) {
 chart_age_primary_giver <- function(df_receiver, CRGVAGGR) {
   df_age_primary_giver <- tab_age_primary_giver(df_receiver)
   
-  c_age_primary_giver <- ggplot(data = df_age_primary_giver, mapping = aes(x = fct_inorder(giver_age_group), y =  age_primary_giver_freq, fill = giver_age_group)) +
+  c_age_primary_giver <- ggplot(data = df_age_primary_giver, mapping = aes(x = fct_inorder(giver_age_group), y =
+    count, fill = giver_age_group)) +
     geom_col() +
-    geom_text(aes(label =  age_primary_giver_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Age of respondent's primary caregivers") +
     labs(caption = str_wrap("Count of the age (groups of 5) of primary caregivers for respondents considered to be a care receiver and 65 years of age or older.", width = 120)) +
     xlab("Age (years)") +
@@ -105,10 +105,10 @@ chart_activity_receive_help_pro <- function(df_receiver) {
   
   c_activity_receive_help_pro <- ggplot(data = df_activity_receive_help_pro, mapping = aes(
     x = fct_inorder(activity_receive_help), y =
-      activity_receive_help_pro_freq, fill = activity_receive_help
+      count, fill = activity_receive_help
   )) +
     geom_col() +
-    geom_text(aes(label = activity_receive_help_pro_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Activities received professional help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
     xlab("Activity") +
@@ -126,11 +126,11 @@ chart_hours_help_received <- function(df_receiver, HAR_10C) {
   df_hours_help_received <- tab_hours_help_received(df_receiver)
 
   c_hours_help_received <- ggplot(data = df_hours_help_received, mapping = aes(
-    x = hours_help_received, y = hours_help_received_freq, fill =
+    x = hours_help_received, y = count, fill =
       hours_help_received
   )) +
     geom_col() +
-    geom_text(aes(label = hours_help_received_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Numbers of hours of help received - Per average week per activity") +
     labs(caption = str_wrap("Count for the number of hours of help received, per average week per activity (transportation, house maintenance, household chores, scheduling, banking, medical treatment, personal care, other) for respondents considered to be a care receiver and 65 years of age or older from family, friends or neighbours in the past 12 months.", width = 115)) +
     xlab("Time (hour)") +
@@ -148,10 +148,10 @@ chart_primary_giver_distance <- function(df_receiver) {
   
   c_primary_giver_distance <- ggplot(data = df_primary_giver_distance, mapping = aes(
     x = fct_inorder(primary_giver_distance), y =
-      primary_giver_distance_freq, fill = primary_giver_distance
+      count, fill = primary_giver_distance
   )) +
     geom_col() +
-    geom_text(aes(label = primary_giver_distance_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Distance between the respondent's and caregiver's dwellings") +
     labs(caption = str_wrap("Counts for the distance by car between respondents considered to be a care receiver and 65 years of age or older, and their primary caregiver during the time they were receiving help in the past 12 months.", width = 115)) +
     xlab("Distance (time)") +
@@ -169,11 +169,11 @@ chart_receive_help_banking_freq <- function(df_receiver) {
   df_receive_help_banking_freq <- tab_receive_help_banking_freq(df_receiver)
   
   c_receive_help_banking_freq <- ggplot(data = df_receive_help_banking_freq, mapping = aes(
-    x = fct_inorder(primary_help_banking_freq ), y = receive_help_banking_freq, fill =
+    x = fct_inorder(primary_help_banking_freq ), y = count, fill =
       primary_help_banking_freq 
   )) +
     geom_col() +
-    geom_text(aes(label = receive_help_banking_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Primary caregiver helped with banking - Frequency") +
     labs(caption = str_wrap("Count for how often respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 120)) +
     xlab("Help Frequency") +
@@ -191,10 +191,10 @@ chart_receive_help_banking_hours <- function(df_receiver, AGB_30C) {
   
   c_receive_help_banking_hours <- ggplot(data = df_receive_help_banking_hours, mapping = aes(
     x = primary_help_banking_hours, y =
-      receive_help_banking_hours_freq, fill = primary_help_banking_hours
+      count, fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = receive_help_banking_hours_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Primary caregiver helped with banking - Number of hours") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 115)) +
     xlab("Time (hours)") +
@@ -214,10 +214,10 @@ chart_help_banking_hours_daily <- function(df_receiver) {
 
   c_help_banking_hours_daily <- ggplot(data = df_help_banking_hours_freq, mapping = aes(
     x = primary_help_banking_hours, y =
-      help_banking_hours_daily_freq, fill = primary_help_banking_hours
+      count, fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_hours_daily_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - Daily") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances daily", width = 115)) +
     xlab("Time (hours)") +
@@ -235,10 +235,10 @@ chart_help_banking_weekly <- function(df_receiver) {
 
   c_help_banking_weekly <- ggplot(data = df_help_banking_hours_weekly, mapping = aes(
     x = primary_help_banking_hours, y =
-      help_banking_hours_freq, fill = primary_help_banking_hours
+      count, fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_hours_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - At least once a week") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a week", width = 115)) +
     xlab("Time (hours)") +
@@ -257,10 +257,10 @@ chart_help_banking_monthly <- function(df_receiver) {
   
   c_help_banking_monthly <- ggplot(data = df_help_banking_hours_monthly, mapping = aes(
     x = primary_help_banking_hours, y =
-      help_banking_hours_freq, fill = primary_help_banking_hours
+      count, fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_hours_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - At least once a month") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a month", width = 115)) +
     xlab("Time (hours)") +
@@ -278,10 +278,10 @@ chart_help_banking_monthly_less <- function(df_receiver, AGB_30C, AGB_20) {
   
   c_help_banking_monthly_less <- ggplot(data = df_help_banking_hours_monthly_less, mapping = aes(
     x = primary_help_banking_hours, y =
-      help_banking_hours_freq, fill = primary_help_banking_hours
+      count, fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_hours_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - Less than once a month") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances less than once a month", width = 115)) +
     xlab("Time (hours)") +

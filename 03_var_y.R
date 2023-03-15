@@ -46,7 +46,7 @@ y_health_condition <- function(df_receiver) {
   )
 }
 
-y_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE_40, ARE_50, ARE_60, ARE_70, ARE_80) {
+y_activity_receive_help <- function(df_receiver) {
   activity_receive_help_freq <- c(
     transportation <- nrow(filter(df_receiver, ARE_10 == 1)),
     household_chores <- nrow(filter(df_receiver, ARE_20 == 1)),

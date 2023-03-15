@@ -22,17 +22,17 @@ receiver_response_charts <- list(
 )
 receiver_charts_percent <- list(
   "Health conditions" = chart_health_conditions_percent,
-  "Activity receive help" = chart_activity_receive_help_percent
-  # "Age of primary giver" = chart_age_primary_giver_percent,
-  # "Activity receive help from professional" = chart_activity_receive_help_pro_percent,
-  # "Hours of help received" = chart_hours_help_received_percent,
-  # "Primary giver distance" = chart_primary_giver_distance_percent,
-  # "Receive help banking - frequency" = chart_receive_help_banking_freq_percent,
-  # "Receive help banking - hours" = chart_receive_help_banking_hours_percent,
-  # "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
-  # "Help banking hours - at least once a week" = chart_help_banking_weekly_percent,
-  # "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
-  # "Help banking hours - less than once a month" = chart_help_banking_monthly_less_percent
+  "Activity receive help" = chart_activity_receive_help_percent,
+  "Age of primary giver" = chart_age_primary_giver_percent,
+  "Activity receive help from professional" = chart_activity_receive_help_pro_percent,
+  "Hours of help received" = chart_hours_help_received_percent,
+  "Primary giver distance" = chart_primary_giver_distance_percent,
+  "Receive help banking - frequency" = chart_receive_help_banking_freq_percent,
+  "Receive help banking - hours" = chart_receive_help_banking_hours_percent,
+  "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
+  "Help banking hours - at least once a week" = chart_help_banking_weekly_percent,
+  "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
+  "Help banking hours - less than once a month" = chart_help_banking_monthly_less_percent
 )
 receiver_response_tabs <- list(
   "Health conditions" = tab_health_conditions,
@@ -172,7 +172,8 @@ server <- function(input, output) {
     if (input$general_selected_box == general_charts[1]) {
       chart_respondent_groups()
     } else {
-      print("else")
+      # TODO: create primary sex percent chart
+      # print("else")
     }
     
   })
