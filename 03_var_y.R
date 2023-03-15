@@ -1,4 +1,4 @@
-# source("df.R")
+
 
 pop_freq <-
   c(
@@ -139,4 +139,5 @@ y_receive_help_banking_hours_freq <- function(df, response_code) {
   )
 }
 
+# Care giver response y variables
 
