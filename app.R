@@ -170,7 +170,7 @@ server <- function(input, output) {
   # general percentage
   output$general_percentage <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
-      chart_respondent_groups()
+      chart_respondent_groups_percent()
     } else {
       # TODO: create primary sex percent chart
       # print("else")

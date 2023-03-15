@@ -1,10 +1,9 @@
-
 # Percentage charts
 
-chart_respondent_groups <- function() {
+chart_respondent_groups_percent <- function() {
   df <- tab_pop_freq()
 
-  ggplot(
+  chart <- ggplot(
     data = df,
     mapping = aes(
       x = fct_inorder(pop_name),
@@ -23,13 +22,15 @@ chart_respondent_groups <- function() {
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
+
+  return(chart)
 }
 
 
 chart_health_conditions_percent <- function(df_receiver) {
   df <- tab_health_conditions(df_receiver)
 
-  ggplot(
+  chart <- ggplot(
     data = df,
     mapping = aes(
       x = fct_inorder(health_conditions),
@@ -46,13 +47,15 @@ chart_health_conditions_percent <- function(df_receiver) {
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
+
+  return(chart)
 }
 
 ### Types of activities respondents received help with
 chart_activity_receive_help_percent <- function(df_receiver) {
   df <- tab_activity_receive_help(df_receiver)
 
-  ggplot(
+  chart <- ggplot(
     data = df,
     mapping = aes(
       x = fct_inorder(activity_receive_help),
@@ -70,15 +73,22 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
+
+  return(chart)
 }
 
 ### Age of respondent's primary caregiver
 chart_age_primary_giver_percent <- function(df_receiver) {
   df <- tab_age_primary_giver(df_receiver)
 
-  c_age_primary_giver <- ggplot(data = df, mapping = aes(
-    x = fct_inorder(giver_age_group), y = percentage, fill = giver_age_group
-  )) +
+  c_age_primary_giver <- ggplot(
+    data = df,
+    mapping = aes(
+      x = fct_inorder(giver_age_group),
+      y = percentage,
+      fill = giver_age_group
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Age of respondent's primary caregivers") +
@@ -96,11 +106,14 @@ chart_age_primary_giver_percent <- function(df_receiver) {
 chart_activity_receive_help_pro_percent <- function(df_receiver) {
   df <- tab_activity_receive_help_pro(df_receiver)
 
-  c_activity_receive_help_pro <- ggplot(data = df, mapping = aes(
-    x = fct_inorder(activity_receive_help), 
-    y = percentage, 
-    fill = activity_receive_help
-  )) +
+  c_activity_receive_help_pro <- ggplot(
+    data = df,
+    mapping = aes(
+      x = fct_inorder(activity_receive_help),
+      y = percentage,
+      fill = activity_receive_help
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Activities received professional help with - Past 12 months") +
@@ -111,6 +124,7 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
+
   return(c_activity_receive_help_pro)
 }
 
@@ -119,9 +133,14 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
 chart_hours_help_received_percent <- function(df_receiver) {
   df <- tab_hours_help_received(df_receiver)
 
-  c_hours_help_received <- ggplot(data = df, mapping = aes(
-    x = hours_help_received, y = percentage, fill = hours_help_received
-  )) +
+  c_hours_help_received <- ggplot(
+    data = df,
+    mapping = aes(
+      x = hours_help_received,
+      y = percentage,
+      fill = hours_help_received
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Numbers of hours of help received - Per average week per activity") +
@@ -139,9 +158,14 @@ chart_hours_help_received_percent <- function(df_receiver) {
 chart_primary_giver_distance_percent <- function(df_receiver) {
   df <- tab_primary_giver_distance(df_receiver)
 
-  c_primary_giver_distance <- ggplot(data = df, mapping = aes(
-    x = fct_inorder(primary_giver_distance), y = percentage, fill = primary_giver_distance
-  )) +
+  c_primary_giver_distance <- ggplot(
+    data = df,
+    mapping = aes(
+      x = fct_inorder(primary_giver_distance),
+      y = percentage,
+      fill = primary_giver_distance
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Distance between the respondent's and caregiver's dwellings") +
@@ -160,9 +184,14 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
 chart_receive_help_banking_freq_percent <- function(df_receiver) {
   df <- tab_receive_help_banking_freq(df_receiver)
 
-  c_receive_help_banking_freq <- ggplot(data = df, mapping = aes(
-    x = fct_inorder(primary_help_banking_freq ), y = percentage, fill = primary_help_banking_freq
-  )) +
+  c_receive_help_banking_freq <- ggplot(
+    data = df,
+    mapping = aes(
+      x = fct_inorder(primary_help_banking_freq),
+      y = percentage,
+      fill = primary_help_banking_freq
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Primary caregiver helped with banking - Frequency") +
@@ -180,9 +209,14 @@ chart_receive_help_banking_freq_percent <- function(df_receiver) {
 chart_receive_help_banking_hours_percent <- function(df_receiver) {
   df <- tab_receive_help_banking_hours(df_receiver)
 
-  c_receive_help_banking_hours <- ggplot(data = df, mapping = aes(
-    x = primary_help_banking_hours, y = percentage, fill = primary_help_banking_hours
-  )) +
+  c_receive_help_banking_hours <- ggplot(
+    data = df,
+    mapping = aes(
+      x = primary_help_banking_hours,
+      y = percentage,
+      fill = primary_help_banking_hours
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Primary caregiver helped with banking - Number of hours") +
@@ -202,9 +236,14 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
 chart_help_banking_hours_daily_percent <- function(df_receiver) {
   df <- tab_help_banking_hours_daily(df_receiver)
 
-  c_help_banking_hours_daily <- ggplot(data = df, mapping = aes(
-    x = primary_help_banking_hours, y = percentage, fill = primary_help_banking_hours
-  )) +
+  c_help_banking_hours_daily <- ggplot(
+    data = df,
+    mapping = aes(
+      x = primary_help_banking_hours,
+      y = percentage,
+      fill = primary_help_banking_hours
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - Daily") +
@@ -222,9 +261,14 @@ chart_help_banking_hours_daily_percent <- function(df_receiver) {
 chart_help_banking_weekly_percent <- function(df_receiver) {
   df <- tab_help_banking_hours_weekly(df_receiver)
 
-  c_help_banking_weekly <- ggplot(data = df, mapping = aes(
-    x = primary_help_banking_hours, y = percentage, fill = primary_help_banking_hours
-  )) +
+  c_help_banking_weekly <- ggplot(
+    data = df,
+    mapping = aes(
+      x = primary_help_banking_hours,
+      y = percentage,
+      fill = primary_help_banking_hours
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - At least once a week") +
@@ -243,9 +287,14 @@ chart_help_banking_weekly_percent <- function(df_receiver) {
 chart_help_banking_monthly_percent <- function(df_receiver) {
   df <- tab_help_banking_hours_monthly(df_receiver)
 
-  c_help_banking_monthly <- ggplot(data = df, mapping = aes(
-    x = primary_help_banking_hours, y = percentage, fill = primary_help_banking_hours
-  )) +
+  c_help_banking_monthly <- ggplot(
+    data = df,
+    mapping = aes(
+      x = primary_help_banking_hours,
+      y = percentage,
+      fill = primary_help_banking_hours
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - At least once a month") +
@@ -263,9 +312,14 @@ chart_help_banking_monthly_percent <- function(df_receiver) {
 chart_help_banking_monthly_less_percent <- function(df_receiver) {
   df <- tab_help_banking_hours_monthly_less(df_receiver)
 
-  c_help_banking_monthly_less <- ggplot(data = df, mapping = aes(
-    x = primary_help_banking_hours, y = percentage, fill = primary_help_banking_hours
-  )) +
+  c_help_banking_monthly_less <- ggplot(
+    data = df,
+    mapping = aes(
+      x = primary_help_banking_hours,
+      y = percentage,
+      fill = primary_help_banking_hours
+    )
+  ) +
     geom_col() +
     geom_text(aes(label = round(percentage, 2)), position = position_stack(vjust = 0.5)) +
     ggtitle("Hours primary caregiver helped with banking - Less than once a month") +
