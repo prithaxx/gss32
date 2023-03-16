@@ -161,9 +161,9 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
   c_primary_giver_distance <- ggplot(
     data = df,
     mapping = aes(
-      x = fct_inorder(primary_giver_distance),
+      x = fct_inorder(dwelling_distances),
       y = percentage,
-      fill = primary_giver_distance
+      fill = dwelling_distances
     )
   ) +
     geom_col() +
@@ -172,7 +172,7 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
     labs(caption = str_wrap("Counts for the distance by car between respondents considered to be a care receiver and 65 years of age or older, and their primary caregiver during the time they were receiving help in the past 12 months.", width = 115)) +
     xlab("Distance (time)") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_primary_giver_distance$primary_giver_distance, width = 13)) +
+    scale_x_discrete(labels = str_wrap(df$dwelling_distances, width = 13)) +
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))

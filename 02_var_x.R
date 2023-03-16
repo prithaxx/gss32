@@ -56,10 +56,19 @@ primary_receiver_age_group <- c(
   "85-89", "90-94", "95+"
 )
 
-hours_help_received <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
 help_hours <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
 
 primary_giver_distance <- c(
+  "same household",
+  "same building",
+  "<10 min",
+  "10 to <30 min",
+  "30 min to <1 hour",
+  "1 to <3 hours",
+  ">3 hours"
+)
+
+dwelling_distances <- c(
   "same household",
   "same building",
   "<10 min",
@@ -77,6 +86,27 @@ primary_help_banking_freq <- c(
 )
 
 primary_help_banking_hours <- c("<1", "1 to <3", "3 to <5", "5+")
+
+out_of_pocket_expenses <- c(
+  "home modifications", 
+  "professional service", 
+  "hiring people to help", 
+  "transportation", 
+  "accommodation", 
+  "specialized aids/devices", 
+  "prescription/non-pres. drugs", 
+  "other"
+)
+
+financial_hardship <- c(
+  "borrowed money from family or friends", 
+  "loans from a bank or financial institution", 
+  "use or defer savings", 
+  "modify spending", 
+  "sell off assets", 
+  "file for bankruptcy", 
+  "other"
+)
 
 # Filter lists ####
 

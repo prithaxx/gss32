@@ -57,7 +57,7 @@ tab_hours_help_received <- function(df) {
 ### Distance between the respondent's and the caregiver's dwellings
 tab_primary_giver_distance <- function(df) {
   count <- y_primary_giver_distance(df)
-  df_output <- tibble(primary_giver_distance, count) %>%
+  df_output <- tibble(dwelling_distances, count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)
@@ -117,3 +117,5 @@ tab_help_banking_hours_monthly_less <- function(df) {
 
   return(df_output)
 }
+
+# giver tables

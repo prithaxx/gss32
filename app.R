@@ -144,8 +144,10 @@ ui <- fluidPage(
             "Counts",
             plotOutput("giver_selected_chart")
           ),
-          tabPanel("Percentages", "Data shown as percentages will be displayed here"),
-          tabPanel("Tables", "Tabluar data will be displayed here"),
+          tabPanel("Percentages", 
+                   plotOutput("giver_percentage")),
+          tabPanel("Tables", 
+                   tableOutput("giver_table")), # giver table
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -321,6 +323,16 @@ server <- function(input, output) {
 
     chart_function(filtered_df)
     # giver_response_charts[[input$giver_selected_box]]
+  })
+  
+  # giver percentage tab
+  output$giver_percentage <- renderPlot({
+    # TODO
+  })
+  
+  # receiver table tab
+  output$giver_table <- renderTable({
+    # TODO
   })
 }
 
