@@ -63,10 +63,24 @@ giver_response_charts <- list(
   "Out of pocket expenses" = chart_out_of_pocket,
   "Financial hardship" = chart_financial_hardship
 )
+giver_response_tabs <- list(
+  "Activity give help" = tab_activity_give_help
+#   "Age of primary receiver" = tab_age_primary_receiver,
+#   "Hours of help provided" = tab_hours_help_provided,
+#   "Primary receiver distance" = tab_primary_receiver_distance,
+#   "Give help banking - frequency" = tab_give_help_banking_freq,
+#   "Give help banking - hours" = tab_give_help_banking_hours,
+#   "Give help banking - daily" = tab_give_help_banking_daily,
+#   "Give help banking - at least once a week" = tab_give_help_banking_weekly,
+#   "Give help banking - at least once a month" = tab_give_help_banking_monthly,
+#   "Give help banking - less than once a month" = tab_give_help_banking_monthly_less,
+#   "Out of pocket expenses" = tab_out_of_pocket,
+#   "Financial hardship" = tab_financial_hardship
+)
 
 # apply_filter(): takes a frame and filter based on option selected
 # df_input (tibble): data frame to be transformed
-# select_option (integer): value mapped to the response category
+# select_option (integer): filter value mapped to the response category
 # col_name (String): variable to filter by
 apply_filter <- function(df_input, select_option, col_name ) {
   filtered_df <- if (select_option != -1) {
@@ -123,8 +137,6 @@ ui <- fluidPage(
       sidebarPanel(
         selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), selected = names(receiver_response_charts[1])),
         selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
-  
-        
         selectInput("receiver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
         selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
         selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = filter_partner_in_household[1]),
@@ -151,8 +163,8 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("giver_selected_box", "Questions asked to respondents who provided care to older adults:", choices = names(giver_response_charts), selected = names(giver_response_charts[1])),
-        selectInput("giver_selected_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1])
+        selectInput("giver_select_box", "Questions asked to respondents who provided care to older adults:", choices = names(giver_response_charts), selected = names(giver_response_charts[1])),
+        selectInput("giver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1])
       ),
       mainPanel(
         tabsetPanel(
@@ -173,7 +185,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output_receiver_df <- df_receiver
-  output_giver_df <- df_giver
+  df_output_giver <- df_giver
   
   # general counts tab
   output$general_selected_chart <- renderPlot({
@@ -257,39 +269,38 @@ server <- function(input, output) {
   
   update_giver_df <- reactive({
     # filter by sex
-    filtered_df <- if (input$giver_selected_box_sex == filter_sex[2]) {
-      filtered_df <- df_giver %>% filter(SEX == 1)
-      # df_giver_male
-    } else if (input$giver_selected_box_sex == filter_sex[3]) {
-      filtered_df <- df_giver %>% filter(SEX == 2)
-      # df_giver_female
-    } else {
-      df_giver
-    }
-
-    output_giver_df <<- filtered_df
+    print(input$giver_select_box_sex)
+    # print(names(filter_sex[2]))
+    # print(filter_sex[2])
+    # print(nrow(df_output_giver))
+    df_filtered <- apply_filter(df_giver, strtoi(input$giver_select_box_sex), "SEX")
+    # print(nrow(df_filtered))
+    
+    df_output_giver <<- df_filtered
   })
   
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
-    # chart <- giver_response_charts[[input$giver_select_box]]
-    # update_giver_df()
-    # chart(output_giver_df)
+    chart <- giver_response_charts[[input$giver_select_box]]
+    update_giver_df()
     
-    chart_function <- giver_response_charts[[input$giver_selected_box]]
+    df_output_giver
+    chart(df_output_giver)
+    
+    # chart_function <- giver_response_charts[[input$giver_select_box]]
 
     # filter by sex
-    filtered_df <- if (input$giver_selected_box_sex == filter_sex[2]) {
-      filtered_df <- df_giver %>% filter(SEX == 1)
-      # df_giver_male
-    } else if (input$giver_selected_box_sex == filter_sex[3]) {
-      filtered_df <- df_giver %>% filter(SEX == 2)
-      # df_giver_female
-    } else {
-      df_giver
-    }
+    # filtered_df <- if (input$giver_select_box_sex == filter_sex[2]) {
+    #   filtered_df <- df_giver %>% filter(SEX == 1)
+    #   # df_giver_male
+    # } else if (input$giver_select_box_sex == filter_sex[3]) {
+    #   filtered_df <- df_giver %>% filter(SEX == 2)
+    #   # df_giver_female
+    # } else {
+    #   df_giver
+    # }
 
-    chart_function(filtered_df)
+    # chart_function(filtered_df)
     # giver_response_charts[[input$giver_selected_box]]
   })
   
@@ -298,9 +309,24 @@ server <- function(input, output) {
     # TODO
   })
   
-  # receiver table tab
+  # giver table tab
   output$giver_table <- renderTable({
     # TODO
+    print(nrow(df_output_giver))
+    update_giver_df()
+    print(nrow(df_output_giver))
+    
+    tab <- giver_response_tabs[[input$giver_select_box]]
+    print(tab)
+    final_table <- tab(df_output_giver)
+    print(final_table)
+    # for (i in seq_along(giver_response_charts)) {
+    #   if (input$giver_select_box == names(giver_response_charts[i])) {
+    #     final_table <- final_table %>% rename(!!names(giver_response_charts[i]) := 1, "Count" := 2)
+    #   }
+    # }
+
+    return(final_table)
   })
 }
 

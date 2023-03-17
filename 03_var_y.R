@@ -152,14 +152,14 @@ y_receive_help_banking_hours_freq <- function(df, response_code) {
 # Care giver response y variables
 y_activity_give_help <- function(df) {
   activity_give_help_freq <- c(
-    transportation <- nrow(filter(df_giver, APR_10 == 1)),
-    household_chores <- nrow(filter(df_giver, APR_20 == 1)),
-    house_maintenance <- nrow(filter(df_giver, APR_30 == 1)),
-    personal_care <- nrow(filter(df_giver, APR_40 == 1)),
-    medical_treatment <- nrow(filter(df_giver, APR_50 == 1)),
-    scheduling <- nrow(filter(df_giver, APR_60 == 1)),
-    banking <- nrow(filter(df_giver, APR_70 == 1)),
-    help_activity_other <- nrow(filter(df_giver, APR_80 == 1))
+    transportation <- nrow(filter(df, APR_10 == 1)),
+    household_chores <- nrow(filter(df, APR_20 == 1)),
+    house_maintenance <- nrow(filter(df, APR_30 == 1)),
+    personal_care <- nrow(filter(df, APR_40 == 1)),
+    medical_treatment <- nrow(filter(df, APR_50 == 1)),
+    scheduling <- nrow(filter(df, APR_60 == 1)),
+    banking <- nrow(filter(df, APR_70 == 1)),
+    help_activity_other <- nrow(filter(df, APR_80 == 1))
   )
 }
 

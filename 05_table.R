@@ -121,8 +121,9 @@ tab_help_banking_hours_monthly_less <- function(df) {
 # giver tables
 
 tab_activity_give_help <- function(df) {
+  print(nrow(df))
   count <- y_activity_give_help(df)
-  df_output<- tibble(help_activities, count) %>%
+  df_output <- tibble(help_activities, count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)

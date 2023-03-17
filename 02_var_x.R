@@ -117,12 +117,6 @@ filter_sex <- list(
   "Female" = 2
 )
 
-# filter_age_group <- list(
-#   "65 years and over",
-#   "65 to 74 years",
-#   "75 years and over"
-# )
-
 filter_age_group <- list(
   "65 years and over" = no_filter,
   "65 to 74 years" = 6,
@@ -141,40 +135,6 @@ filter_partner_in_household <- list(
   "Yes" = 1,
   "No" = 2
 )
-
-# filter_living_arrangement_senior_household <- list(
-#   "All" ,
-#   "Living alone",
-#   "living with spouse or partner only",
-#   "Living with spouse or partner and child(ren)" ,
-#   "Living with child(ren) only" ,
-#   "Living with other(s)"
-# )
-
-# filter_indigenous_status <- list(
-#   "All",
-#   "Indigenous",
-#   "Non-indigenous"
-# )
-
-# filter_visible_minority_status <- list(
-#   "All",
-#   "Visible minority" ,
-#   "Not a visible minority"
-# )
-# 
-# filter_group_religious_participation <- list(
-#   "All" = no_filter,
-#   "At least once a week",
-#   "At least once a month" ,
-#   "At least 3 times a year" ,
-#   "Once or twice a year",
-#   "Not at all"
-# )
-
-
-###
-
 
 filter_living_arrangement_senior_household <- list(
   "All" = no_filter,

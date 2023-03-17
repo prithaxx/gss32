@@ -345,29 +345,29 @@ chart_help_banking_monthly_less <- function(df_receiver) {
 
 ### Types of activities respondents provided help with
 chart_activity_give_help <- function(df_giver) {
-  transportation <- nrow(filter(df_giver, APR_10 == 1))
-  household_chores <- nrow(filter(df_giver, APR_20 == 1))
-  house_maintenance <- nrow(filter(df_giver, APR_30 == 1))
-  personal_care <- nrow(filter(df_giver, APR_40 == 1))
-  medical_treatment <- nrow(filter(df_giver, APR_50 == 1))
-  scheduling <- nrow(filter(df_giver, APR_60 == 1))
-  banking <- nrow(filter(df_giver, APR_70 == 1))
-  help_activity_other <- nrow(filter(df_giver, APR_80 == 1))
-
-  activity_give_help_freq <- c(
-    transportation, household_chores, house_maintenance, personal_care, medical_treatment,
-    scheduling, banking, help_activity_other
-  )
-  # df_activity_give_help <- tab_activity_give_help(df_giver)
-  df_activity_give_help <- tibble(help_activities, activity_give_help_freq)
+  # transportation <- nrow(filter(df_giver, APR_10 == 1))
+  # household_chores <- nrow(filter(df_giver, APR_20 == 1))
+  # house_maintenance <- nrow(filter(df_giver, APR_30 == 1))
+  # personal_care <- nrow(filter(df_giver, APR_40 == 1))
+  # medical_treatment <- nrow(filter(df_giver, APR_50 == 1))
+  # scheduling <- nrow(filter(df_giver, APR_60 == 1))
+  # banking <- nrow(filter(df_giver, APR_70 == 1))
+  # help_activity_other <- nrow(filter(df_giver, APR_80 == 1))
+  # 
+  # activity_give_help_freq <- c(
+  #   transportation, household_chores, house_maintenance, personal_care, medical_treatment,
+  #   scheduling, banking, help_activity_other
+  # )
+  df_activity_give_help <- tab_activity_give_help(df_giver)
+  # df_activity_give_help <- tibble(help_activities, activity_give_help_freq)
 
   c_activity_give_help <- ggplot(data = df_activity_give_help, mapping = aes(
     x = fct_inorder(help_activities), 
-    y = activity_give_help_freq, 
+    y = count, 
     fill = help_activities
   )) +
     geom_col() +
-    geom_text(aes(label = activity_give_help_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Types of activities respondents provided help with - Past 12 months") +
     xlab("Activity") +
     ylab("Count") +
