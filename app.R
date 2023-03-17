@@ -22,17 +22,17 @@ receiver_response_charts <- list(
 )
 receiver_charts_percent <- list(
   "Health conditions" = chart_health_conditions_percent,
-  "Activity receive help" = chart_activity_receive_help_percent
-  # "Age of primary giver" = chart_age_primary_giver_percent,
-  # "Activity receive help from professional" = chart_activity_receive_help_pro_percent,
-  # "Hours of help received" = chart_hours_help_received_percent,
-  # "Primary giver distance" = chart_primary_giver_distance_percent,
-  # "Receive help banking - frequency" = chart_receive_help_banking_freq_percent,
-  # "Receive help banking - hours" = chart_receive_help_banking_hours_percent,
-  # "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
-  # "Help banking hours - at least once a week" = chart_help_banking_weekly_percent,
-  # "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
-  # "Help banking hours - less than once a month" = chart_help_banking_monthly_less_percent
+  "Activity receive help" = chart_activity_receive_help_percent,
+  "Age of primary giver" = chart_age_primary_giver_percent,
+  "Activity receive help from professional" = chart_activity_receive_help_pro_percent,
+  "Hours of help received" = chart_hours_help_received_percent,
+  "Primary giver distance" = chart_primary_giver_distance_percent,
+  "Receive help banking - frequency" = chart_receive_help_banking_freq_percent,
+  "Receive help banking - hours" = chart_receive_help_banking_hours_percent,
+  "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
+  "Help banking hours - at least once a week" = chart_help_banking_weekly_percent,
+  "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
+  "Help banking hours - less than once a month" = chart_help_banking_monthly_less_percent
 )
 receiver_response_tabs <- list(
   "Health conditions" = tab_health_conditions,
@@ -63,6 +63,20 @@ giver_response_charts <- list(
   "Out of pocket expenses" = chart_out_of_pocket,
   "Financial hardship" = chart_financial_hardship
 )
+
+# apply_filter(): takes a frame and filter based on option selected
+# df_input (tibble): data frame to be transformed
+# select_option (integer): value mapped to the response category
+# col_name (String): variable to filter by
+apply_filter <- function(df_input, select_option, col_name ) {
+  filtered_df <- if (select_option != -1) {
+    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
+  } else {
+    df_input
+  }
+  
+  return(filtered_df)
+}
 
 ui <- fluidPage(
   titlePanel("Explore the 2018 General Social Survey on Caregiving and Care Receiving"),
@@ -109,6 +123,8 @@ ui <- fluidPage(
       sidebarPanel(
         selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), selected = names(receiver_response_charts[1])),
         selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
+  
+        
         selectInput("receiver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
         selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
         selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = filter_partner_in_household[1]),
@@ -144,8 +160,10 @@ ui <- fluidPage(
             "Counts",
             plotOutput("giver_selected_chart")
           ),
-          tabPanel("Percentages", "Data shown as percentages will be displayed here"),
-          tabPanel("Tables", "Tabluar data will be displayed here"),
+          tabPanel("Percentages", 
+                   plotOutput("giver_percentage")),
+          tabPanel("Tables", 
+                   tableOutput("giver_table")), # giver table
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -155,6 +173,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output_receiver_df <- df_receiver
+  output_giver_df <- df_giver
   
   # general counts tab
   output$general_selected_chart <- renderPlot({
@@ -170,9 +189,10 @@ server <- function(input, output) {
   # general percentage
   output$general_percentage <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
-      chart_respondent_groups()
+      chart_respondent_groups_percent()
     } else {
-      print("else")
+      # TODO: create primary sex percent chart
+      # print("else")
     }
     
   })
@@ -186,88 +206,20 @@ server <- function(input, output) {
     }
   })
   
-  
-  
   update_receiver_df <- reactive({
     # filter by sex
-    filtered_df <- if (input$receiver_select_box_sex == filter_sex[2]) {
-      filtered_df <- df_receiver %>% filter(SEX == 1)
-    } else if (input$receiver_select_box_sex == filter_sex[3]) {
-      filtered_df <- df_receiver %>% filter(SEX == 2)
-    } else {
-      df_receiver
-    }
+    # print(input$receiver_select_box_sex )
+    # print(names(filter_sex[2]))
+    # print(filter_sex[2])
     
-    # filter 65+, 65-74, 75+
-    filtered_df <- if (input$receiver_select_box_age == filter_age_group[2]) {
-      filtered_df <- filtered_df %>% filter(AGEGR10 == 6)
-    } else if (input$receiver_select_box_age == filter_age_group[3]) {
-      filtered_df <- filtered_df %>% filter(AGEGR10 == 7)
-    } else {
-      filtered_df
-    }
-    
-    # filter population centre
-    filtered_df <- if (input$receiver_select_box_pop_centre == filter_pop_centre[2]) {
-      filtered_df <- filtered_df %>% filter(LUC_RST == 1)
-    } else if (input$receiver_select_box_pop_centre == filter_pop_centre[3]) {
-      filtered_df <- filtered_df %>% filter(LUC_RST == 2)
-    } else if (input$receiver_select_box_pop_centre == filter_pop_centre[4]) {
-      filtered_df <- filtered_df %>% filter(LUC_RST == 3)
-    } else {
-      filtered_df
-    }
-    
-    filtered_df <- if (input$receiver_select_box_partner_in_household == filter_partner_in_household[2]) {
-      filtered_df <- filtered_df %>% filter(PHSDFLG == 1)
-    } else if (input$receiver_select_box_partner_in_household == filter_partner_in_household[3]) {
-      filtered_df <- filtered_df %>% filter(PHSDFLG == 2)
-    } else {
-      filtered_df
-    }
-    
-    filtered_df <- if (input$receiver_select_box_living_arrangement_senior_household ==
-                       filter_living_arrangement_senior_household[2]) {
-      filtered_df <- filtered_df %>% filter(LIVARRSN == 1)
-    } else if (input$receiver_select_box_living_arrangement_senior_household ==
-               filter_living_arrangement_senior_household[3]) {
-      filtered_df <- filtered_df %>% filter(LIVARRSN == 2)
-    } else if (input$receiver_select_box_living_arrangement_senior_household ==
-               filter_living_arrangement_senior_household[4]) {
-      filtered_df <- filtered_df %>% filter(LIVARRSN == 3)
-    } else if (input$receiver_select_box_living_arrangement_senior_household ==
-               filter_living_arrangement_senior_household[5]) {
-      filtered_df <- filtered_df %>% filter(LIVARRSN == 4)
-    } else if (input$receiver_select_box_living_arrangement_senior_household ==
-               filter_living_arrangement_senior_household[6]) {
-      filtered_df <- filtered_df %>% filter(LIVARRSN == 5)
-    }else {
-      filtered_df
-    }
-    
-    filtered_df <- if (input$receiver_select_box_indigenous_status == filter_indigenous_status[2]) {
-      filtered_df <- filtered_df %>% filter(AMB_01_1 == 1)
-    } else if (input$receiver_select_box_indigenous_status == filter_indigenous_status[3]) {
-      filtered_df <- filtered_df %>% filter(AMB_01_1 == 2)
-    } else {
-      filtered_df
-    }
-    
-    filtered_df <- if (input$receiver_select_box_visible_minority == filter_visible_minority_status[2]) {
-      filtered_df <- filtered_df %>% filter(VISMIN == 1)
-    } else if (input$receiver_select_box_visible_minority == filter_visible_minority_status[3]) {
-      filtered_df <- filtered_df %>% filter(VISMIN == 2)
-    } else {
-      filtered_df
-    }
-    
-    filtered_df <- if (input$receiver_select_box_group_religious_participation == filter_group_religious_participation[2]) {
-      filtered_df <- filtered_df %>% filter(REE_02 == 1)
-    } else if (input$receiver_select_box_group_religious_participation == filter_group_religious_participation[3]) {
-      filtered_df <- filtered_df %>% filter(REE_02 == 2)
-    } else {
-      filtered_df
-    }
+    filtered_df <- apply_filter(df_receiver, strtoi(input$receiver_select_box_sex), "SEX")
+    filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_age), "AGEGR10")
+    filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_pop_centre), "LUC_RST")
+    filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_partner_in_household), "PHSDFLG")
+    filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_living_arrangement_senior_household), "LIVARRSN")
+    filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_indigenous_status), "AMB_01_1")
+    filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_visible_minority), "VISMIN")
+    filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_group_religious_participation), "REE_02")
     
     output_receiver_df <<- filtered_df
   })
@@ -303,8 +255,27 @@ server <- function(input, output) {
   })
   
   
+  update_giver_df <- reactive({
+    # filter by sex
+    filtered_df <- if (input$giver_selected_box_sex == filter_sex[2]) {
+      filtered_df <- df_giver %>% filter(SEX == 1)
+      # df_giver_male
+    } else if (input$giver_selected_box_sex == filter_sex[3]) {
+      filtered_df <- df_giver %>% filter(SEX == 2)
+      # df_giver_female
+    } else {
+      df_giver
+    }
+
+    output_giver_df <<- filtered_df
+  })
+  
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
+    # chart <- giver_response_charts[[input$giver_select_box]]
+    # update_giver_df()
+    # chart(output_giver_df)
+    
     chart_function <- giver_response_charts[[input$giver_selected_box]]
 
     # filter by sex
@@ -320,6 +291,16 @@ server <- function(input, output) {
 
     chart_function(filtered_df)
     # giver_response_charts[[input$giver_selected_box]]
+  })
+  
+  # giver percentage tab
+  output$giver_percentage <- renderPlot({
+    # TODO
+  })
+  
+  # receiver table tab
+  output$giver_table <- renderTable({
+    # TODO
   })
 }
 

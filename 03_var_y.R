@@ -1,4 +1,4 @@
-# source("df.R")
+
 
 pop_freq <-
   c(
@@ -32,6 +32,15 @@ primary_receiver_sex_freq <- c(
 
 # Care receiver response y variables
 
+# count_map <- function(df_receiver, x_options, col_name) {
+#   counts <- map(x_options, function(f) nrow(filter(df_receiver, !!as.symbol(col_name) ==f)))
+# }
+# 
+# y_health_condition <- function(df_receiver) {
+#   health_conditions_freq <- count_map(df_receiver, health_conditions, "PRA_10GR")
+# }
+
+
 y_health_condition <- function(df_receiver) {
   health_conditions_freq <- c(
     arthritis <- nrow(filter(df_receiver, PRA_10GR == 1)),
@@ -46,7 +55,7 @@ y_health_condition <- function(df_receiver) {
   )
 }
 
-y_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE_40, ARE_50, ARE_60, ARE_70, ARE_80) {
+y_activity_receive_help <- function(df_receiver) {
   activity_receive_help_freq <- c(
     transportation <- nrow(filter(df_receiver, ARE_10 == 1)),
     household_chores <- nrow(filter(df_receiver, ARE_20 == 1)),
@@ -58,6 +67,7 @@ y_activity_receive_help <- function(df_receiver, ARE_10, ARE_20, ARE_30, ARE_40,
     help_activity_other <- nrow(filter(df_receiver, ARE_80 == 1))
   )
 }
+
 
 y_age_primary_giver <- function(df_receiver) {
   age_primary_giver <- c(
@@ -139,4 +149,17 @@ y_receive_help_banking_hours_freq <- function(df, response_code) {
   )
 }
 
+# Care giver response y variables
+y_activity_give_help <- function(df) {
+  activity_give_help_freq <- c(
+    transportation <- nrow(filter(df_giver, APR_10 == 1)),
+    household_chores <- nrow(filter(df_giver, APR_20 == 1)),
+    house_maintenance <- nrow(filter(df_giver, APR_30 == 1)),
+    personal_care <- nrow(filter(df_giver, APR_40 == 1)),
+    medical_treatment <- nrow(filter(df_giver, APR_50 == 1)),
+    scheduling <- nrow(filter(df_giver, APR_60 == 1)),
+    banking <- nrow(filter(df_giver, APR_70 == 1)),
+    help_activity_other <- nrow(filter(df_giver, APR_80 == 1))
+  )
+}
 

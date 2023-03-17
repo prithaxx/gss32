@@ -1,6 +1,7 @@
 library(conflicted)
 library(tidyverse)
 library(haven)
+library(viridis)
 conflicts_prefer(dplyr::filter)
 
 GSS_PUMF_2018 <- read_sas("c32pumfm.sas7bdat")

@@ -1,6 +1,3 @@
-# source("var_x.R")
-# source("var_y.R")
-
 df_pops <- tibble(pop_name, pop_freq) 
 
 df_primary_sex <- tibble(
