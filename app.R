@@ -64,9 +64,13 @@ giver_response_charts <- list(
   "Financial hardship" = chart_financial_hardship
 )
 
+# apply_filter(): takes a frame and filter based on option selected
+# df_input (tibble): data frame to be transformed
+# select_option (integer): value mapped to the response category
+# col_name (String): variable to filter by
 apply_filter <- function(df_input, select_option, col_name ) {
   filtered_df <- if (select_option != -1) {
-    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. male = 1, female = 2
+    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
   } else {
     df_input
   }
@@ -202,36 +206,12 @@ server <- function(input, output) {
     }
   })
   
-  # apply_filter <- function(df_input, select_option, col_name ) {
-  #   filtered_df <- if (select_option != -1) {
-  #     filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. male = 1, female = 2
-  #   } else {
-  #     df_input
-  #   }
-  # 
-  # }
-  
   update_receiver_df <- reactive({
     # filter by sex
     # print(input$receiver_select_box_sex )
     # print(names(filter_sex[2]))
     # print(filter_sex[2])
     
-    # filtered_df <- if (strtoi(input$receiver_select_box_sex) == filter_sex[2]) {
-    #   filtered_df <- df_receiver %>% filter(SEX == 1)
-    #   
-    # } else if (strtoi(input$receiver_select_box_sex) == filter_sex[3]) {
-    #   filtered_df <- df_receiver %>% filter(SEX == 2)
-    # } else {
-    #   df_receiver
-    # }
-    
-    
-    # filtered_df <- if (strtoi(input$receiver_select_box_sex) != -1) {
-    #   filtered_df <- df_receiver %>% filter(SEX == strtoi(input$receiver_select_box_sex)) # the value from the list: e.g. male = 1, female = 2
-    # } else {
-    #   df_receiver
-    # }
     filtered_df <- apply_filter(df_receiver, strtoi(input$receiver_select_box_sex), "SEX")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_age), "AGEGR10")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_pop_centre), "LUC_RST")
@@ -240,78 +220,6 @@ server <- function(input, output) {
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_indigenous_status), "AMB_01_1")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_visible_minority), "VISMIN")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_group_religious_participation), "REE_02")
-    
-    
-    # filter 65+, 65-74, 75+
-    # filtered_df <- if (input$receiver_select_box_age == filter_age_group[2]) {
-    #   filtered_df <- filtered_df %>% filter(AGEGR10 == 6)
-    # } else if (input$receiver_select_box_age == filter_age_group[3]) {
-    #   filtered_df <- filtered_df %>% filter(AGEGR10 == 7)
-    # } else {
-    #   filtered_df
-    # }
-    # 
-    # filter population centre
-    # filtered_df <- if (input$receiver_select_box_pop_centre == filter_pop_centre[2]) {
-    #   filtered_df <- filtered_df %>% filter(LUC_RST == 1)
-    # } else if (input$receiver_select_box_pop_centre == filter_pop_centre[3]) {
-    #   filtered_df <- filtered_df %>% filter(LUC_RST == 2)
-    # } else if (input$receiver_select_box_pop_centre == filter_pop_centre[4]) {
-    #   filtered_df <- filtered_df %>% filter(LUC_RST == 3)
-    # } else {
-    #   filtered_df
-    # }
-    
-    # filtered_df <- if (input$receiver_select_box_partner_in_household == filter_partner_in_household[2]) {
-    #   filtered_df <- filtered_df %>% filter(PHSDFLG == 1)
-    # } else if (input$receiver_select_box_partner_in_household == filter_partner_in_household[3]) {
-    #   filtered_df <- filtered_df %>% filter(PHSDFLG == 2)
-    # } else {
-    #   filtered_df
-    # }
-    
-    # filtered_df <- if (input$receiver_select_box_living_arrangement_senior_household ==
-    #                    filter_living_arrangement_senior_household[2]) {
-    #   filtered_df <- filtered_df %>% filter(LIVARRSN == 1)
-    # } else if (input$receiver_select_box_living_arrangement_senior_household ==
-    #            filter_living_arrangement_senior_household[3]) {
-    #   filtered_df <- filtered_df %>% filter(LIVARRSN == 2)
-    # } else if (input$receiver_select_box_living_arrangement_senior_household ==
-    #            filter_living_arrangement_senior_household[4]) {
-    #   filtered_df <- filtered_df %>% filter(LIVARRSN == 3)
-    # } else if (input$receiver_select_box_living_arrangement_senior_household ==
-    #            filter_living_arrangement_senior_household[5]) {
-    #   filtered_df <- filtered_df %>% filter(LIVARRSN == 4)
-    # } else if (input$receiver_select_box_living_arrangement_senior_household ==
-    #            filter_living_arrangement_senior_household[6]) {
-    #   filtered_df <- filtered_df %>% filter(LIVARRSN == 5)
-    # }else {
-    #   filtered_df
-    # }
-
-    # filtered_df <- if (input$receiver_select_box_indigenous_status == filter_indigenous_status[2]) {
-    #   filtered_df <- filtered_df %>% filter(AMB_01_1 == 1)
-    # } else if (input$receiver_select_box_indigenous_status == filter_indigenous_status[3]) {
-    #   filtered_df <- filtered_df %>% filter(AMB_01_1 == 2)
-    # } else {
-    #   filtered_df
-    # }
-
-    filtered_df <- if (input$receiver_select_box_visible_minority == filter_visible_minority_status[2]) {
-      filtered_df <- filtered_df %>% filter(VISMIN == 1)
-    } else if (input$receiver_select_box_visible_minority == filter_visible_minority_status[3]) {
-      filtered_df <- filtered_df %>% filter(VISMIN == 2)
-    } else {
-      filtered_df
-    }
-
-    filtered_df <- if (input$receiver_select_box_group_religious_participation == filter_group_religious_participation[2]) {
-      filtered_df <- filtered_df %>% filter(REE_02 == 1)
-    } else if (input$receiver_select_box_group_religious_participation == filter_group_religious_participation[3]) {
-      filtered_df <- filtered_df %>% filter(REE_02 == 2)
-    } else {
-      filtered_df
-    }
     
     output_receiver_df <<- filtered_df
   })

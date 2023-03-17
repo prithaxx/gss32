@@ -91,8 +91,7 @@ out_of_pocket_expenses <- c(
   "home modifications", 
   "professional service", 
   "hiring people to help", 
-  "transportation", 
-  "accommodation", 
+  "transportation, accommodation", 
   "specialized aids/devices", 
   "prescription/non-pres. drugs", 
   "other"
