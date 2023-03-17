@@ -10,7 +10,6 @@ tab_pop_freq <- function() {
 # Care receiver responses #####
 
 tab_health_conditions <- function(df) {
-  # health_conditions_freq <- y_health_condition(df)
   count <- y_health_condition(df)
   df_health_conditions <- tibble(health_conditions, count) %>%
     mutate(percentage = count / sum(count))
@@ -39,7 +38,7 @@ tab_age_primary_giver <- function(df) {
 ### Types of activities respondents received professional help with
 tab_activity_receive_help_pro <- function(df) {
   count <- y_activity_receive_help_pro(df)
-  df_output <- tibble(activity_receive_help, count) %>%
+  df_output <- tibble(help_activities, count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)
@@ -118,4 +117,13 @@ tab_help_banking_hours_monthly_less <- function(df) {
   return(df_output)
 }
 
+
 # giver tables
+
+tab_activity_give_help <- function(df) {
+  count <- y_activity_give_help(df)
+  df_output<- tibble(help_activities, count) %>%
+    mutate(percentage = count / sum(count))
+  
+  return(df_output)
+}

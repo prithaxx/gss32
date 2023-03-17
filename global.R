@@ -358,7 +358,7 @@ chart_activity_give_help <- function(df_giver) {
     transportation, household_chores, house_maintenance, personal_care, medical_treatment,
     scheduling, banking, help_activity_other
   )
-
+  # df_activity_give_help <- tab_activity_give_help(df_giver)
   df_activity_give_help <- tibble(help_activities, activity_give_help_freq)
 
   c_activity_give_help <- ggplot(data = df_activity_give_help, mapping = aes(

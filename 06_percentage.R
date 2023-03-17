@@ -58,9 +58,9 @@ chart_activity_receive_help_percent <- function(df_receiver) {
   chart <- ggplot(
     data = df,
     mapping = aes(
-      x = fct_inorder(activity_receive_help),
+      x = fct_inorder(help_activities),
       y = percentage,
-      fill = activity_receive_help
+      fill = help_activities
     )
   ) +
     geom_col() +
@@ -69,7 +69,7 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df$activity_receive_help, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
@@ -109,9 +109,9 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
   c_activity_receive_help_pro <- ggplot(
     data = df,
     mapping = aes(
-      x = fct_inorder(activity_receive_help),
+      x = fct_inorder(help_activities),
       y = percentage,
-      fill = activity_receive_help
+      fill = help_activities
     )
   ) +
     geom_col() +
@@ -120,7 +120,7 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$activity_receive_help, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
@@ -136,9 +136,9 @@ chart_hours_help_received_percent <- function(df_receiver) {
   c_hours_help_received <- ggplot(
     data = df,
     mapping = aes(
-      x = hours_help_received,
+      x = help_hours,
       y = percentage,
-      fill = hours_help_received
+      fill = help_hours
     )
   ) +
     geom_col() +

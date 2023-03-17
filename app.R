@@ -64,6 +64,16 @@ giver_response_charts <- list(
   "Financial hardship" = chart_financial_hardship
 )
 
+apply_filter <- function(df_input, select_option, col_name ) {
+  filtered_df <- if (select_option != -1) {
+    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. male = 1, female = 2
+  } else {
+    df_input
+  }
+  
+  return(filtered_df)
+}
+
 ui <- fluidPage(
   titlePanel("Explore the 2018 General Social Survey on Caregiving and Care Receiving"),
   div(
@@ -109,6 +119,8 @@ ui <- fluidPage(
       sidebarPanel(
         selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), selected = names(receiver_response_charts[1])),
         selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
+  
+        
         selectInput("receiver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
         selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
         selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = filter_partner_in_household[1]),
@@ -157,6 +169,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output_receiver_df <- df_receiver
+  output_giver_df <- df_giver
   
   # general counts tab
   output$general_selected_chart <- renderPlot({
@@ -189,17 +202,38 @@ server <- function(input, output) {
     }
   })
   
-  
+  # apply_filter <- function(df_input, select_option, col_name ) {
+  #   filtered_df <- if (select_option != -1) {
+  #     filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. male = 1, female = 2
+  #   } else {
+  #     df_input
+  #   }
+  # 
+  # }
   
   update_receiver_df <- reactive({
     # filter by sex
-    filtered_df <- if (input$receiver_select_box_sex == filter_sex[2]) {
-      filtered_df <- df_receiver %>% filter(SEX == 1)
-    } else if (input$receiver_select_box_sex == filter_sex[3]) {
-      filtered_df <- df_receiver %>% filter(SEX == 2)
-    } else {
-      df_receiver
-    }
+    print(input$receiver_select_box_sex )
+    print(names(filter_sex[2]))
+    print(filter_sex[2])
+    
+    # filtered_df <- if (strtoi(input$receiver_select_box_sex) == filter_sex[2]) {
+    #   filtered_df <- df_receiver %>% filter(SEX == 1)
+    #   
+    # } else if (strtoi(input$receiver_select_box_sex) == filter_sex[3]) {
+    #   filtered_df <- df_receiver %>% filter(SEX == 2)
+    # } else {
+    #   df_receiver
+    # }
+    
+    
+    # filtered_df <- if (strtoi(input$receiver_select_box_sex) != -1) {
+    #   filtered_df <- df_receiver %>% filter(SEX == strtoi(input$receiver_select_box_sex)) # the value from the list: e.g. male = 1, female = 2
+    # } else {
+    #   df_receiver
+    # }
+    filtered_df <- apply_filter(df_receiver, strtoi(input$receiver_select_box_sex), "SEX")
+    
     
     # filter 65+, 65-74, 75+
     filtered_df <- if (input$receiver_select_box_age == filter_age_group[2]) {
@@ -306,8 +340,27 @@ server <- function(input, output) {
   })
   
   
+  update_giver_df <- reactive({
+    # filter by sex
+    filtered_df <- if (input$giver_selected_box_sex == filter_sex[2]) {
+      filtered_df <- df_giver %>% filter(SEX == 1)
+      # df_giver_male
+    } else if (input$giver_selected_box_sex == filter_sex[3]) {
+      filtered_df <- df_giver %>% filter(SEX == 2)
+      # df_giver_female
+    } else {
+      df_giver
+    }
+
+    output_giver_df <<- filtered_df
+  })
+  
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
+    # chart <- giver_response_charts[[input$giver_select_box]]
+    # update_giver_df()
+    # chart(output_giver_df)
+    
     chart_function <- giver_response_charts[[input$giver_selected_box]]
 
     # filter by sex

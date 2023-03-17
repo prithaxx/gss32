@@ -110,10 +110,12 @@ financial_hardship <- c(
 
 # Filter lists ####
 
+no_filter = -1
+
 filter_sex <- list(
-  "Both sexes",
-  "Male",
-  "Female"
+  "Both sexes" = no_filter,
+  "Male" = 1,
+  "Female" = 2
 )
 
 filter_age_group <- list(
@@ -121,6 +123,12 @@ filter_age_group <- list(
   "65 to 74 years",
   "75 years and over"
 )
+
+# filter_age_group <- list(
+#   "65 years and over" = no_filter,
+#   "65 to 74 years" = 6,
+#   "75 years and over" = 7
+# )
 
 filter_pop_centre <- list(
   "All",
