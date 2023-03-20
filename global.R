@@ -1,3 +1,9 @@
+library(conflicted)
+library(tidyverse)
+library(haven)
+library(viridis)
+conflicts_prefer(dplyr::filter)
+
 source("01_main.R")
 source("02_var_x.R")
 source("03_var_y.R")

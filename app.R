@@ -288,6 +288,10 @@ server <- function(input, output) {
     # giver_response_charts[[input$giver_selected_box]]
   })
   
+  # giver percentage tab
+  output$giver_percentage <- renderPlot({
+    # TODO
+  })
   
   # giver table tab
   output$giver_table <- renderTable({
@@ -304,15 +308,6 @@ server <- function(input, output) {
     return(final_table)
   })
   
-  
-  
-  
-  
-  
-  # giver percentage tab
-  output$giver_percentage <- renderPlot({
-    # TODO
-  })
 }
 
 shinyApp(ui = ui, server = server)
