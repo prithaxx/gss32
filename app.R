@@ -64,18 +64,18 @@ giver_response_charts <- list(
   "Financial hardship" = chart_financial_hardship
 )
 giver_response_tabs <- list(
-  "Activity give help" = tab_activity_give_help
-#   "Age of primary receiver" = tab_age_primary_receiver,
-#   "Hours of help provided" = tab_hours_help_provided,
-#   "Primary receiver distance" = tab_primary_receiver_distance,
-#   "Give help banking - frequency" = tab_give_help_banking_freq,
-#   "Give help banking - hours" = tab_give_help_banking_hours,
-#   "Give help banking - daily" = tab_give_help_banking_daily,
-#   "Give help banking - at least once a week" = tab_give_help_banking_weekly,
-#   "Give help banking - at least once a month" = tab_give_help_banking_monthly,
-#   "Give help banking - less than once a month" = tab_give_help_banking_monthly_less,
-#   "Out of pocket expenses" = tab_out_of_pocket,
-#   "Financial hardship" = tab_financial_hardship
+  "Activity give help" = tab_activity_give_help,
+  "Age of primary receiver" = tab_age_primary_receiver,
+  "Hours of help provided" = tab_hours_help_provided,
+  "Primary receiver distance" = tab_primary_receiver_distance,
+  "Give help banking - frequency" = tab_give_help_banking_freq,
+  "Give help banking - hours" = tab_give_help_banking_hours,
+  "Give help banking - daily" = tab_give_help_banking_daily,
+  "Give help banking - at least once a week" = tab_give_help_banking_weekly,
+  "Give help banking - at least once a month" = tab_give_help_banking_monthly,
+  "Give help banking - less than once a month" = tab_give_help_banking_monthly_less,
+  "Out of pocket expenses" = tab_out_of_pocket,
+  "Financial hardship" = tab_financial_hardship
 )
 
 # apply_filter(): takes a frame and filter based on option selected
@@ -267,14 +267,14 @@ server <- function(input, output) {
   })
   
   
+  
+  
+  ### 
+  
   update_giver_df <- reactive({
     # filter by sex
-    print(input$giver_select_box_sex)
-    # print(names(filter_sex[2]))
-    # print(filter_sex[2])
-    # print(nrow(df_output_giver))
     df_filtered <- apply_filter(df_giver, strtoi(input$giver_select_box_sex), "SEX")
-    # print(nrow(df_filtered))
+    
     
     df_output_giver <<- df_filtered
   })
@@ -283,50 +283,41 @@ server <- function(input, output) {
   output$giver_selected_chart <- renderPlot({
     chart <- giver_response_charts[[input$giver_select_box]]
     update_giver_df()
-    
-    df_output_giver
     chart(df_output_giver)
     
-    # chart_function <- giver_response_charts[[input$giver_select_box]]
-
-    # filter by sex
-    # filtered_df <- if (input$giver_select_box_sex == filter_sex[2]) {
-    #   filtered_df <- df_giver %>% filter(SEX == 1)
-    #   # df_giver_male
-    # } else if (input$giver_select_box_sex == filter_sex[3]) {
-    #   filtered_df <- df_giver %>% filter(SEX == 2)
-    #   # df_giver_female
-    # } else {
-    #   df_giver
-    # }
-
-    # chart_function(filtered_df)
     # giver_response_charts[[input$giver_selected_box]]
   })
   
-  # giver percentage tab
-  output$giver_percentage <- renderPlot({
-    # TODO
-  })
   
   # giver table tab
   output$giver_table <- renderTable({
     # TODO
-    print(nrow(df_output_giver))
+    # print(nrow(df_output_giver))
     update_giver_df()
-    print(nrow(df_output_giver))
+    # print(nrow(df_output_giver))
     
     tab <- giver_response_tabs[[input$giver_select_box]]
-    print(tab)
+    # print(tab)
     final_table <- tab(df_output_giver)
-    print(final_table)
-    # for (i in seq_along(giver_response_charts)) {
-    #   if (input$giver_select_box == names(giver_response_charts[i])) {
-    #     final_table <- final_table %>% rename(!!names(giver_response_charts[i]) := 1, "Count" := 2)
-    #   }
-    # }
+    # print(final_table)
+    
+    for (i in seq_along(giver_response_charts)) {
+      if (input$giver_select_box == names(giver_response_charts[i])) {
+        final_table <- final_table %>% rename(!!names(giver_response_charts[i]) := 1, "Count" := 2)
+      }
+    }
 
     return(final_table)
+  })
+  
+  
+  
+  
+  
+  
+  # giver percentage tab
+  output$giver_percentage <- renderPlot({
+    # TODO
   })
 }
 

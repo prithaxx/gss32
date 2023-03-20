@@ -1,14 +1,14 @@
 
 
-pop_freq <-
-  c(
-    giver_pop <- nrow(df_giver),
-    receiver_pop <- nrow(df_receiver),
-    receiver_65_74_pop <- nrow(df_receiver_65_74),
-    receiver_75_pop <- nrow(df_receiver_75),
-    receiver_giver_pop <- nrow(df_giver_receiver),
-    unmet_pop <- nrow(df_need_help)
-  )
+pop_freq <- c(
+  giver_pop <- nrow(df_giver),
+  receiver_pop <- nrow(df_receiver),
+  receiver_65_74_pop <- nrow(df_receiver_65_74),
+  receiver_75_pop <- nrow(df_receiver_75),
+  receiver_giver_pop <- nrow(df_giver_receiver),
+  unmet_pop <- nrow(df_need_help)
+)
+
 y_pop_freq <- function(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help) {
   pop_freq <- c(
     giver_pop <- nrow(df_giver),
@@ -149,6 +149,8 @@ y_receive_help_banking_hours_freq <- function(df, response_code) {
   )
 }
 
+
+
 # Care giver response y variables
 y_activity_give_help <- function(df) {
   activity_give_help_freq <- c(
@@ -163,3 +165,100 @@ y_activity_give_help <- function(df) {
   )
 }
 
+y_age_primary_receiver <- function(df) {
+  age_receiever_freq <- c(
+    age_receiver_1 <- nrow(filter(df, CRRCPAGR == 1)),
+    age_receiver_2 <- nrow(filter(df, CRRCPAGR == 2)),
+    age_receiver_3 <- nrow(filter(df, CRRCPAGR == 3)),
+    age_receiver_4 <- nrow(filter(df, CRRCPAGR == 4)),
+    age_receiver_5 <- nrow(filter(df, CRRCPAGR == 5)),
+    age_receiver_6 <- nrow(filter(df, CRRCPAGR == 6)),
+    age_receiver_7 <- nrow(filter(df, CRRCPAGR == 7)),
+    age_receiver_8 <- nrow(filter(df, CRRCPAGR == 8)),
+    age_receiver_9 <- nrow(filter(df, CRRCPAGR == 9)),
+    age_receiver_10 <- nrow(filter(df, CRRCPAGR == 10)),
+    age_receiver_11 <- nrow(filter(df, CRRCPAGR == 11)),
+    age_receiver_12 <- nrow(filter(df, CRRCPAGR == 12)),
+    age_receiver_13 <- nrow(filter(df, CRRCPAGR == 13)),
+    age_receiver_14 <- nrow(filter(df, CRRCPAGR == 14)),
+    age_receiver_15 <- nrow(filter(df, CRRCPAGR == 15)),
+    age_receiver_16 <- nrow(filter(df, CRRCPAGR == 16)),
+    age_receiver_17 <- nrow(filter(df, CRRCPAGR == 17)),
+    age_receiver_18 <- nrow(filter(df, CRRCPAGR == 18)),
+    age_receiver_19 <- nrow(filter(df, CRRCPAGR == 19)),
+    age_receiver_20 <- nrow(filter(df, CRRCPAGR == 20))
+  )
+}
+
+y_hours_help_provided <- function(df) {
+  hours_help_provided <- c(
+    hours_0 <- nrow(filter(df, HAR_10C == 0)),
+    hours_1 <- nrow(filter(df, HAR_10C == 1)),
+    hours_2 <- nrow(filter(df, HAR_10C == 2)),
+    hours_3 <- nrow(filter(df, HAR_10C == 3)),
+    hours_4 <- nrow(filter(df, HAR_10C == 4)),
+    hours_5 <- nrow(filter(df, HAR_10C == 5))
+  )
+}
+
+y_primary_receiver_distance <- function(df) {
+  primary_receiver_distance <- c(
+    primary_receiver_distance_1 <- nrow(filter(df, PRD_10 == 1)),
+    primary_receiver_distance_2 <- nrow(filter(df, PRD_10 == 2)),
+    primary_receiver_distance_3 <- nrow(filter(df, PRD_10 == 3)),
+    primary_receiver_distance_4 <- nrow(filter(df, PRD_10 == 4)),
+    primary_receiver_distance_5 <- nrow(filter(df, PRD_10 == 5)),
+    primary_receiver_distance_6 <- nrow(filter(df, PRD_10 == 6)),
+    primary_receiver_distance_7 <- nrow(filter(df, PRD_10 == 7))
+  )
+}
+
+y_give_help_banking_freq <- function(df) {
+  give_help_banking_freq <- c(
+    give_help_banking_1 <- nrow(filter(df, AGB_20 == 1)),
+    give_help_banking_2 <- nrow(filter(df, AGB_20 == 2)),
+    give_help_banking_3 <- nrow(filter(df, AGB_20 == 3)),
+    give_help_banking_4 <- nrow(filter(df, AGB_20 == 4))
+  )
+}
+
+y_give_help_banking_hours <- function(df) {
+  give_help_banking_hours_freq <- c(
+    help_banking_hours_1 <- nrow(filter(df, ARB_30C == 1)),
+    help_banking_hours_2 <- nrow(filter(df, ARB_30C == 2)),
+    help_banking_hours_3 <- nrow(filter(df, ARB_30C == 3)),
+    help_banking_hours_4 <- nrow(filter(df, ARB_30C == 4))
+  )
+}
+
+y_give_help_banking_hours_freq <- function(df, response_code) {
+  give_help_banking_hours_freq <- c(
+    help_banking_1 <- nrow(filter(df, ARB_30C == 1 & ARB_20 == response_code)),
+    help_banking_2 <- nrow(filter(df, ARB_30C == 2 & ARB_20 == response_code)),
+    help_banking_3 <- nrow(filter(df, ARB_30C == 3 & ARB_20 == response_code)),
+    help_banking_4 <- nrow(filter(df, ARB_30C == 4 & ARB_20 == response_code))
+  )
+}
+
+y_out_of_pocket <- function(df) {
+  out_of_pocket_freq <- c(
+    out_of_pocket_1 <- nrow(filter(df, ICF_210 == 1)),
+    out_of_pocket_2 <- nrow(filter(df, ICF_220 == 1)),
+    out_of_pocket_3 <- nrow(filter(df, ICF_230 == 1)),
+    out_of_pocket_4 <- nrow(filter(df, ICF_240 == 1)),
+    out_of_pocket_5 <- nrow(filter(df, ICF_250 == 1)),
+    out_of_pocket_6 <- nrow(filter(df, ICF_260 == 1)),
+    out_of_pocket_7 <- nrow(filter(df, ICF2_270 == 1))
+  )
+}
+y_financial_hardship <- function(df) {
+  financial_hardship_freq <- c(
+    financial_hardship_1 <- nrow(filter(df, ICF2_290 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
+    financial_hardship_2 <- nrow(filter(df, ICF2_300 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
+    financial_hardship_3 <- nrow(filter(df, ICF2_310 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
+    financial_hardship_4 <- nrow(filter(df, ICF2_320 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
+    financial_hardship_5 <- nrow(filter(df, ICF2_330 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
+    financial_hardship_6 <- nrow(filter(df, ICF2_340 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
+    financial_hardship_7 <- nrow(filter(df, ICF2_350 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
+  )
+}

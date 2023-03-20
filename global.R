@@ -381,44 +381,46 @@ chart_activity_give_help <- function(df_giver) {
 
 ### Age of respondent's care receiver
 chart_age_primary_receiver <- function(df_giver) {
-  age_receiver_1 <- nrow(filter(df_giver, CRRCPAGR == 1))
-  age_receiver_2 <- nrow(filter(df_giver, CRRCPAGR == 2))
-  age_receiver_3 <- nrow(filter(df_giver, CRRCPAGR == 3))
-  age_receiver_4 <- nrow(filter(df_giver, CRRCPAGR == 4))
-  age_receiver_5 <- nrow(filter(df_giver, CRRCPAGR == 5))
-  age_receiver_6 <- nrow(filter(df_giver, CRRCPAGR == 6))
-  age_receiver_7 <- nrow(filter(df_giver, CRRCPAGR == 7))
-  age_receiver_8 <- nrow(filter(df_giver, CRRCPAGR == 8))
-  age_receiver_9 <- nrow(filter(df_giver, CRRCPAGR == 9))
-  age_receiver_10 <- nrow(filter(df_giver, CRRCPAGR == 10))
-  age_receiver_11 <- nrow(filter(df_giver, CRRCPAGR == 11))
-  age_receiver_12 <- nrow(filter(df_giver, CRRCPAGR == 12))
-  age_receiver_13 <- nrow(filter(df_giver, CRRCPAGR == 13))
-  age_receiver_14 <- nrow(filter(df_giver, CRRCPAGR == 14))
-  age_receiver_15 <- nrow(filter(df_giver, CRRCPAGR == 15))
-  age_receiver_16 <- nrow(filter(df_giver, CRRCPAGR == 16))
-  age_receiver_17 <- nrow(filter(df_giver, CRRCPAGR == 17))
-  age_receiver_18 <- nrow(filter(df_giver, CRRCPAGR == 18))
-  age_receiver_19 <- nrow(filter(df_giver, CRRCPAGR == 19))
-  age_receiver_20 <- nrow(filter(df_giver, CRRCPAGR == 20))
+  # age_receiver_1 <- nrow(filter(df_giver, CRRCPAGR == 1))
+  # age_receiver_2 <- nrow(filter(df_giver, CRRCPAGR == 2))
+  # age_receiver_3 <- nrow(filter(df_giver, CRRCPAGR == 3))
+  # age_receiver_4 <- nrow(filter(df_giver, CRRCPAGR == 4))
+  # age_receiver_5 <- nrow(filter(df_giver, CRRCPAGR == 5))
+  # age_receiver_6 <- nrow(filter(df_giver, CRRCPAGR == 6))
+  # age_receiver_7 <- nrow(filter(df_giver, CRRCPAGR == 7))
+  # age_receiver_8 <- nrow(filter(df_giver, CRRCPAGR == 8))
+  # age_receiver_9 <- nrow(filter(df_giver, CRRCPAGR == 9))
+  # age_receiver_10 <- nrow(filter(df_giver, CRRCPAGR == 10))
+  # age_receiver_11 <- nrow(filter(df_giver, CRRCPAGR == 11))
+  # age_receiver_12 <- nrow(filter(df_giver, CRRCPAGR == 12))
+  # age_receiver_13 <- nrow(filter(df_giver, CRRCPAGR == 13))
+  # age_receiver_14 <- nrow(filter(df_giver, CRRCPAGR == 14))
+  # age_receiver_15 <- nrow(filter(df_giver, CRRCPAGR == 15))
+  # age_receiver_16 <- nrow(filter(df_giver, CRRCPAGR == 16))
+  # age_receiver_17 <- nrow(filter(df_giver, CRRCPAGR == 17))
+  # age_receiver_18 <- nrow(filter(df_giver, CRRCPAGR == 18))
+  # age_receiver_19 <- nrow(filter(df_giver, CRRCPAGR == 19))
+  # age_receiver_20 <- nrow(filter(df_giver, CRRCPAGR == 20))
 
-  age_receiver_freq <- c(
-    age_receiver_1, age_receiver_2, age_receiver_3, age_receiver_4, age_receiver_5, age_receiver_6,
-    age_receiver_7, age_receiver_8, age_receiver_9, age_receiver_10, age_receiver_11,
-    age_receiver_12, age_receiver_13, age_receiver_14, age_receiver_15, age_receiver_16,
-    age_receiver_17, age_receiver_18, age_receiver_19, age_receiver_20
-  )
+  # age_receiver_freq <- c(
+  #   age_receiver_1, age_receiver_2, age_receiver_3, age_receiver_4, age_receiver_5, age_receiver_6,
+  #   age_receiver_7, age_receiver_8, age_receiver_9, age_receiver_10, age_receiver_11,
+  #   age_receiver_12, age_receiver_13, age_receiver_14, age_receiver_15, age_receiver_16,
+  #   age_receiver_17, age_receiver_18, age_receiver_19, age_receiver_20
+  # )
 
-  df_age_primary_receiver <- tibble(primary_receiver_age_group, age_receiver_freq)
+  # df_age_primary_receiver <- tibble(primary_receiver_age_group, age_receiver_freq)
+  
+  df_age_primary_receiver <- tab_age_primary_receiver(df_giver)
 
   c_age_primary_receiver <- ggplot(
     data = df_age_primary_receiver, 
     mapping = aes(
       x = fct_inorder(primary_receiver_age_group), 
-      y = age_receiver_freq, 
+      y = count, 
       fill = primary_receiver_age_group)) +
     geom_col() +
-    geom_text(aes(label = age_receiver_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Age of primary care receiver") +
     xlab("Age Group (years)") +
     ylab("Count") +
@@ -445,9 +447,9 @@ chart_hours_help_provided <- function(df_giver) {
   c_hours_help_provided <- ggplot(
     data = df_hours_help_provided, 
     mapping = aes(
-    x = fct_inorder(help_hours), 
-    y = hours_help_provided_freq, 
-    fill = help_hours
+      x = fct_inorder(help_hours), 
+      y = hours_help_provided_freq, 
+      fill = help_hours
   )) +
     geom_col() +
     geom_text(aes(label = hours_help_provided_freq), position = position_stack(vjust = 0.5)) +
