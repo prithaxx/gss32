@@ -291,15 +291,9 @@ server <- function(input, output) {
   
   # giver table tab
   output$giver_table <- renderTable({
-    # TODO
-    # print(nrow(df_output_giver))
     update_giver_df()
-    # print(nrow(df_output_giver))
-    
     tab <- giver_response_tabs[[input$giver_select_box]]
-    # print(tab)
     final_table <- tab(df_output_giver)
-    # print(final_table)
     
     for (i in seq_along(giver_response_charts)) {
       if (input$giver_select_box == names(giver_response_charts[i])) {
