@@ -63,6 +63,20 @@ giver_response_charts <- list(
   "Out of pocket expenses" = chart_out_of_pocket,
   "Financial hardship" = chart_financial_hardship
 )
+giver_response_percent <- list(
+  "Activity give help" = chart_activity_give_help_percent,
+  "Age of primary receiver" = chart_age_primary_receiver_percent,
+  "Hours of help provided" = chart_hours_help_provided_percent,
+  "Primary receiver distance" = chart_primary_receiver_distance_percent,
+  "Give help banking - frequency" = chart_give_help_banking_freq_percent,
+  "Give help banking - hours" = chart_give_help_banking_hours_percent,
+  "Give help banking - daily" = chart_give_help_banking_daily_percent,
+  "Give help banking - at least once a week" = chart_give_help_banking_weekly_percent,
+  "Give help banking - at least once a month" = chart_give_help_banking_monthly_percent,
+  "Give help banking - less than once a month" = chart_give_help_banking_monthly_less_percent,
+  "Out of pocket expenses" = chart_out_of_pocket_percent,
+  "Financial hardship" = chart_financial_hardship_percent
+)
 giver_response_tabs <- list(
   "Activity give help" = tab_activity_give_help,
   "Age of primary receiver" = tab_age_primary_receiver,
@@ -173,7 +187,7 @@ ui <- fluidPage(
             plotOutput("giver_selected_chart")
           ),
           tabPanel("Percentages", 
-                   plotOutput("giver_percentage")),
+                   plotOutput("giver_percentage")), # giver percentages
           tabPanel("Tables", 
                    tableOutput("giver_table")), # giver table
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
@@ -266,9 +280,6 @@ server <- function(input, output) {
     final_table
   })
   
-  
-  
-  
   ### 
   
   update_giver_df <- reactive({
@@ -290,7 +301,9 @@ server <- function(input, output) {
   
   # giver percentage tab
   output$giver_percentage <- renderPlot({
-    # TODO
+    chart <- giver_response_percent[[input$giver_select_box]]
+    update_giver_df()
+    chart(df_output_giver)
   })
   
   # giver table tab
