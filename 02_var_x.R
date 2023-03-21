@@ -11,7 +11,6 @@ primary_sex <- c("male", "female")
 
 ###
 
-
 health_conditions <- c(
   "Arthritis",
   "Cardiovascular disease",
@@ -57,16 +56,6 @@ primary_receiver_age_group <- c(
 )
 
 help_hours <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
-
-# primary_giver_distance <- c(
-#   "same household",
-#   "same building",
-#   "<10 min",
-#   "10 to <30 min",
-#   "30 min to <1 hour",
-#   "1 to <3 hours",
-#   ">3 hours"
-# )
 
 dwelling_distances <- c(
   "same household",

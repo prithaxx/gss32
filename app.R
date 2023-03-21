@@ -63,6 +63,7 @@ giver_response_charts <- list(
   "Out of pocket expenses" = chart_out_of_pocket,
   "Financial hardship" = chart_financial_hardship
 )
+
 giver_response_percent <- list(
   "Activity give help" = chart_activity_give_help_percent,
   "Age of primary receiver" = chart_age_primary_receiver_percent,
@@ -77,6 +78,7 @@ giver_response_percent <- list(
   "Out of pocket expenses" = chart_out_of_pocket_percent,
   "Financial hardship" = chart_financial_hardship_percent
 )
+
 giver_response_tabs <- list(
   "Activity give help" = tab_activity_give_help,
   "Age of primary receiver" = tab_age_primary_receiver,
@@ -96,13 +98,13 @@ giver_response_tabs <- list(
 # df_input (tibble): data frame to be transformed
 # select_option (integer): filter value mapped to the response category
 # col_name (String): variable to filter by
-apply_filter <- function(df_input, select_option, col_name ) {
+apply_filter <- function(df_input, select_option, col_name) {
   filtered_df <- if (select_option != -1) {
     filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
   } else {
     df_input
   }
-  
+
   return(filtered_df)
 }
 
@@ -136,10 +138,14 @@ ui <- fluidPage(
             "Counts",
             plotOutput("general_selected_chart")
           ),
-          tabPanel("Percentages", 
-                   plotOutput("general_percentage")),
-          tabPanel("Tables", 
-                    tableOutput("general_table")), #table id
+          tabPanel(
+            "Percentages",
+            plotOutput("general_percentage")
+          ),
+          tabPanel(
+            "Tables",
+            tableOutput("general_table")
+          ), # table id
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -166,8 +172,10 @@ ui <- fluidPage(
             plotOutput("receiver_selected_chart")
           ),
           tabPanel("Percentages", plotOutput("receiver_percentage")),
-          tabPanel("Tables", 
-                   tableOutput("receiver_table")), # receiver table id
+          tabPanel(
+            "Tables",
+            tableOutput("receiver_table")
+          ), # receiver table id
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -178,7 +186,14 @@ ui <- fluidPage(
     sidebarLayout(
       sidebarPanel(
         selectInput("giver_select_box", "Questions asked to respondents who provided care to older adults:", choices = names(giver_response_charts), selected = names(giver_response_charts[1])),
-        selectInput("giver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1])
+        selectInput("giver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
+        selectInput("giver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
+        selectInput("giver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
+        selectInput("giver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = filter_partner_in_household[1]),
+        selectInput("giver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = filter_partner_in_household[1]),
+        selectInput("giver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = filter_indigenous_status[1]),
+        selectInput("giver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = filter_visible_minority_status[1]),
+        selectInput("giver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = filter_group_religious_participation[1])
       ),
       mainPanel(
         tabsetPanel(
@@ -186,10 +201,14 @@ ui <- fluidPage(
             "Counts",
             plotOutput("giver_selected_chart")
           ),
-          tabPanel("Percentages", 
-                   plotOutput("giver_percentage")), # giver percentages
-          tabPanel("Tables", 
-                   tableOutput("giver_table")), # giver table
+          tabPanel(
+            "Percentages",
+            plotOutput("giver_percentage")
+          ), # giver percentages
+          tabPanel(
+            "Tables",
+            tableOutput("giver_table")
+          ), # giver table
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -200,18 +219,18 @@ ui <- fluidPage(
 server <- function(input, output) {
   output_receiver_df <- df_receiver
   df_output_giver <- df_giver
-  
+
   # general counts tab
   output$general_selected_chart <- renderPlot({
     # chart_function <- general_charts[[input$general_selected_box]]
     # general_charts[[input$general_selected_box]]
     if (input$general_selected_box == general_charts[1]) {
-      c_respondent_groups 
+      c_respondent_groups
     } else {
       c_primary_sex
     }
   })
-  
+
   # general percentage
   output$general_percentage <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
@@ -220,10 +239,9 @@ server <- function(input, output) {
       # TODO: create primary sex percent chart
       # print("else")
     }
-    
   })
-  
-  # general table 
+
+  # general table
   output$general_table <- renderTable({
     if (input$general_selected_box == general_charts[1]) {
       tab_pop_freq()
@@ -231,13 +249,13 @@ server <- function(input, output) {
       df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
     }
   })
-  
+
   update_receiver_df <- reactive({
     # filter by sex
     # print(input$receiver_select_box_sex )
     # print(names(filter_sex[2]))
     # print(filter_sex[2])
-    
+
     filtered_df <- apply_filter(df_receiver, strtoi(input$receiver_select_box_sex), "SEX")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_age), "AGEGR10")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_pop_centre), "LUC_RST")
@@ -246,17 +264,17 @@ server <- function(input, output) {
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_indigenous_status), "AMB_01_1")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_visible_minority), "VISMIN")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_group_religious_participation), "REE_02")
-    
+
     output_receiver_df <<- filtered_df
   })
-  
+
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
     chart <- receiver_response_charts[[input$receiver_select_box]]
     update_receiver_df()
     chart(output_receiver_df)
   })
-  
+
   # receiver percentage tab
   output$receiver_percentage <- renderPlot({
     chart <- receiver_charts_percent[[input$receiver_select_box]]
@@ -264,63 +282,68 @@ server <- function(input, output) {
 
     chart(output_receiver_df)
   })
-  
+
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
     tab <- receiver_response_tabs[[input$receiver_select_box]]
-    final_table <- tab(output_receiver_df) 
-    
+    final_table <- tab(output_receiver_df)
+
     for (i in seq_along(receiver_response_charts)) {
       if (input$receiver_select_box == names(receiver_response_charts[i])) {
-        final_table <- final_table %>% rename(!!names(receiver_response_charts[i]) := 1, "Count" := 2)
+        final_table <- final_table %>% rename(!!names(receiver_response_charts[i]) := 1, "Count" := 2, "Percentage" := 3)
       }
     }
-    
+
     final_table
   })
-  
-  ### 
-  
+
+  ###
+
   update_giver_df <- reactive({
     # filter by sex
     df_filtered <- apply_filter(df_giver, strtoi(input$giver_select_box_sex), "SEX")
-    
-    
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_age), "AGEGR10")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_pop_centre), "LUC_RST")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_partner_in_household), "PHSDFLG")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_living_arrangement_senior_household), "LIVARRSN")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_indigenous_status), "AMB_01_1")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_visible_minority), "VISMIN")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_group_religious_participation), "REE_02")
+
     df_output_giver <<- df_filtered
   })
-  
+
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
     chart <- giver_response_charts[[input$giver_select_box]]
     update_giver_df()
     chart(df_output_giver)
-    
+
     # giver_response_charts[[input$giver_selected_box]]
   })
-  
+
   # giver percentage tab
   output$giver_percentage <- renderPlot({
     chart <- giver_response_percent[[input$giver_select_box]]
     update_giver_df()
     chart(df_output_giver)
   })
-  
+
   # giver table tab
   output$giver_table <- renderTable({
     update_giver_df()
     tab <- giver_response_tabs[[input$giver_select_box]]
     final_table <- tab(df_output_giver)
-    
+
     for (i in seq_along(giver_response_charts)) {
       if (input$giver_select_box == names(giver_response_charts[i])) {
-        final_table <- final_table %>% rename(!!names(giver_response_charts[i]) := 1, "Count" := 2)
+        final_table <- final_table %>% rename(!!names(giver_response_charts[i]) := 1, "Count" := 2, "Percentage" := 3)
       }
     }
 
     return(final_table)
   })
-  
 }
 
 shinyApp(ui = ui, server = server)
