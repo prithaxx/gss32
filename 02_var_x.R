@@ -11,16 +11,27 @@ primary_sex <- c("male", "female")
 
 ###
 
+# health_conditions <- c(
+#   "Arthritis",
+#   "Cardiovascular disease",
+#   "Back problems",
+#   "Cancer",
+#   "Mental illness",
+#   "Alzheimer's disease or dementia",
+#   "Injury resulting from an accident",
+#   "Aging or frailty",
+#   "Other"
+# )
 health_conditions <- c(
-  "Arthritis",
-  "Cardiovascular disease",
-  "Back problems",
-  "Cancer",
-  "Mental illness",
-  "Alzheimer's disease or dementia",
-  "Injury resulting from an accident",
-  "Aging or frailty",
-  "Other"
+  "Arthritis" = 1,
+  "Cardiovascular disease" = 2,
+  "Back problems" = 3,
+  "Cancer" = 4,
+  "Mental illness" = 5,
+  "Alzheimer's disease or dementia" = 6,
+  "Injury resulting from an accident" = 7,
+  "Aging or frailty" = 8,
+  "Other" = 9
 )
 
 help_activities <- c(

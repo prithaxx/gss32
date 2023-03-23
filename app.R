@@ -300,7 +300,7 @@ server <- function(input, output) {
 
     for (i in seq_along(receiver_response_charts)) {
       if (input$receiver_select_box == names(receiver_response_charts[i])) {
-        final_table <- final_table %>% rename(!!names(receiver_response_charts[i]) := 1, "Count" := 2, "Percentage" := 3)
+        final_table <- final_table %>% rename(!!names(receiver_response_charts[i]) := 1, "Count" := 2)
       }
     }
 

@@ -32,28 +32,31 @@ primary_receiver_sex_freq <- c(
 
 # Care receiver response y variables
 
-# count_map <- function(df_receiver, x_options, col_name) {
-#   counts <- map(x_options, function(f) nrow(filter(df_receiver, !!as.symbol(col_name) ==f)))
-# }
-# 
-# y_health_condition <- function(df_receiver) {
-#   health_conditions_freq <- count_map(df_receiver, health_conditions, "PRA_10GR")
-# }
-
+count_map <- function(df_receiver, x_options, col_name) {
+  counts <- unlist(map(x_options, function(f) {
+    nrow(filter(df_receiver, !!as.symbol(col_name) == f))
+    }
+  ))
+}
 
 y_health_condition <- function(df_receiver) {
-  health_conditions_freq <- c(
-    arthritis <- nrow(filter(df_receiver, PRA_10GR == 1)),
-    cardiovascular_disease <- nrow(filter(df_receiver, PRA_10GR == 2)),
-    back_problems <- nrow(filter(df_receiver, PRA_10GR == 3)),
-    cancer <- nrow(filter(df_receiver, PRA_10GR == 4)),
-    mental_illness <- nrow(filter(df_receiver, PRA_10GR == 5)),
-    alzheimer_dementia <- nrow(filter(df_receiver, PRA_10GR == 6)),
-    injury_from_accident <- nrow(filter(df_receiver, PRA_10GR == 7)),
-    aging_frailty <- nrow(filter(df_receiver, PRA_10GR == 8)),
-    other <- nrow(filter(df_receiver, PRA_10GR == 9))
-  )
+  health_conditions_freq <- count_map(df_receiver, health_conditions, "PRA_10GR")
 }
+
+
+# y_health_condition <- function(df_receiver) {
+#   health_conditions_freq <- c(
+#     arthritis <- nrow(filter(df_receiver, PRA_10GR == 1)),
+#     cardiovascular_disease <- nrow(filter(df_receiver, PRA_10GR == 2)),
+#     back_problems <- nrow(filter(df_receiver, PRA_10GR == 3)),
+#     cancer <- nrow(filter(df_receiver, PRA_10GR == 4)),
+#     mental_illness <- nrow(filter(df_receiver, PRA_10GR == 5)),
+#     alzheimer_dementia <- nrow(filter(df_receiver, PRA_10GR == 6)),
+#     injury_from_accident <- nrow(filter(df_receiver, PRA_10GR == 7)),
+#     aging_frailty <- nrow(filter(df_receiver, PRA_10GR == 8)),
+#     other <- nrow(filter(df_receiver, PRA_10GR == 9))
+#   )
+# }
 
 y_activity_receive_help <- function(df_receiver) {
   activity_receive_help_freq <- c(

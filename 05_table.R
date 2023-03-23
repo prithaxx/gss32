@@ -20,20 +20,17 @@ tab_pop_freq <- function() {
 
 tab_health_conditions <- function(df) {
   count <- y_health_condition(df)
-  df_health_conditions <- tibble(health_conditions, count) %>%
-    mutate(percentage = count / sum(count))
+  df_health_conditions <- tibble(health_conditions = names(health_conditions), count) %>%
+    mutate(percentage = count / sum(count), 
+           Male = male_counts <- sapply(1:9, function(i) {
+             sum(df$SEX == 1 & df$PRA_10GR == i)
+             }),
+           Female = female_counts <- sapply(1:9, function(i) {
+             sum(df$SEX == 2 & df$PRA_10GR == i)
+             })
+           )
   
-  male_counts <- sapply(1:9, function(i) {
-    sum(df$SEX == 1 & df$PRA_10GR == i)
-  })
-  
-  female_counts <- sapply(1:9, function(i) {
-    sum(df$SEX == 2 & df$PRA_10GR == i)
-  })
-  
-  df_health_conditions$male <- male_counts
-  df_health_conditions$female <- female_counts
-  
+  print(df_health_conditions)
   return(df_health_conditions)
 }
 
