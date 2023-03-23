@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyjs)
 source("global.R")
 
 general_charts <- list(
@@ -109,6 +110,10 @@ apply_filter <- function(df_input, select_option, col_name) {
 }
 
 ui <- fluidPage(
+  useShinyjs(),
+  actionButton("button", "Click me"),
+  textInput("text", "Text"),
+  
   titlePanel("Explore the 2018 General Social Survey on Caregiving and Care Receiving"),
   div(
     p("The data represents respondents who are:"),
@@ -217,6 +222,10 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
+  observeEvent(input$button, {
+    toggle("text")  # toggle is a shinyjs function
+  })
+  
   output_receiver_df <- df_receiver
   df_output_giver <- df_giver
 

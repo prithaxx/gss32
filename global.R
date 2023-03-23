@@ -10,6 +10,7 @@ source("03_var_y.R")
 source("04_general_df.R")
 source("05_table.R")
 source("06_percentage.R")
+# source("group_by.R")
 # General Charts ####
 
 ## Respondent groups ####
@@ -20,9 +21,9 @@ c_respondent_groups <- ggplot(
   geom_col() +
   geom_text(aes(label = pop_freq), position = position_stack(vjust = 0.5)) +
   ggtitle("GSS 2018 repsondent groups") +
-  labs(caption = str_wrap("Count for respondent groupings: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)) +
-  xlab("Respondent group") +
-  ylab("Count") +
+  labs(x = "Respondent group", 
+       y = "Count", 
+       caption = str_wrap("Count for respondent groupings: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)) +
   scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
   scale_fill_viridis_d() +
   guides(fill = "none") +

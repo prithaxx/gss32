@@ -10,11 +10,30 @@ tab_pop_freq <- function() {
 
 # Care receiver responses #####
 
+# tab_health_conditions <- function(df) {
+#   count <- y_health_condition(df)
+#   df_health_conditions <- tibble(health_conditions, count) %>%
+#     mutate(percentage = count / sum(count))
+# 
+#   return(df_health_conditions)
+# }
+
 tab_health_conditions <- function(df) {
   count <- y_health_condition(df)
   df_health_conditions <- tibble(health_conditions, count) %>%
     mutate(percentage = count / sum(count))
-
+  
+  male_counts <- sapply(1:9, function(i) {
+    sum(df$SEX == 1 & df$PRA_10GR == i)
+  })
+  
+  female_counts <- sapply(1:9, function(i) {
+    sum(df$SEX == 2 & df$PRA_10GR == i)
+  })
+  
+  df_health_conditions$male <- male_counts
+  df_health_conditions$female <- female_counts
+  
   return(df_health_conditions)
 }
 
@@ -22,7 +41,7 @@ tab_health_conditions <- function(df) {
 tab_activity_receive_help <- function(df) {
   count <- y_activity_receive_help(df)
   df_activity_receive_help <- tibble(help_activities, count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count)) 
 
   return(df_activity_receive_help)
 }
