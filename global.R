@@ -10,7 +10,7 @@ source("03_var_y.R")
 source("04_general_df.R")
 source("05_table.R")
 source("06_percentage.R")
-# source("group_by.R")
+source("07_group_by.R")
 # General Charts ####
 
 ## Respondent groups ####

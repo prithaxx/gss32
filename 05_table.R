@@ -20,8 +20,8 @@ tab_pop_freq <- function() {
 
 tab_health_conditions <- function(df) {
   # count <- y_health_condition(df)
-  
-  count <- count_map(df_receiver, health_conditions, "PRA_10GR")
+  count <- count_map(df, health_conditions, "PRA_10GR")
+  # count <- count_map(df_receiver, health_conditions, "PRA_10GR")
   
   df_health_conditions <- tibble(health_conditions = names(health_conditions), count) %>%
     mutate(percentage = count / sum(count), 

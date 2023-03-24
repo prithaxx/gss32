@@ -94,6 +94,7 @@ giver_response_tabs <- list(
   "Out of pocket expenses" = tab_out_of_pocket,
   "Financial hardship" = tab_financial_hardship
 )
+show_group <- list("false", "true")
 
 # apply_filter(): takes a frame and filter based on option selected
 # df_input (tibble): data frame to be transformed
@@ -168,7 +169,9 @@ ui <- fluidPage(
         selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = filter_partner_in_household[1]),
         selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = filter_indigenous_status[1]),
         selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = filter_visible_minority_status[1]),
-        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = filter_group_religious_participation[1])
+        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = filter_group_religious_participation[1]),
+        radioButtons("receiver_radio", "Group by:", choices = list("none" = 1, "sex" = 2), selected = 1),
+        selectInput("radio_select_box", "radio select box", list("hello" = 1, "world" = 2), selected = 1)
       ),
       mainPanel(
         tabsetPanel(
@@ -226,6 +229,14 @@ server <- function(input, output) {
     toggle("text")  # toggle is a shinyjs function
   })
   
+  observeEvent(input$receiver_radio, {
+    if (input$receiver_radio != 1) {
+      disable("radio_select_box")
+    } else {
+      enable("radio_select_box")
+    }
+  },)
+  
   output_receiver_df <- df_receiver
   df_output_giver <- df_giver
 
@@ -281,7 +292,13 @@ server <- function(input, output) {
   output$receiver_selected_chart <- renderPlot({
     chart <- receiver_response_charts[[input$receiver_select_box]]
     update_receiver_df()
-    chart(output_receiver_df)
+    
+    if (input$receiver_radio == 2) {
+      group_by_sex(output_receiver_df)
+    } else {
+      chart(output_receiver_df)
+    }
+    # chart(output_receiver_df)
   })
 
   # receiver percentage tab
