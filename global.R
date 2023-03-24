@@ -129,9 +129,9 @@ chart_activity_receive_help_pro <- function(df_receiver) {
   c_activity_receive_help_pro <- ggplot(
     data = df_activity_receive_help_pro,
     mapping = aes(
-      x = fct_inorder(activity_receive_help),
+      x = fct_inorder(help_activities),
       y = count,
-      fill = activity_receive_help
+      fill = help_activities
     )
   ) +
     geom_col() +
@@ -140,7 +140,7 @@ chart_activity_receive_help_pro <- function(df_receiver) {
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$activity_receive_help, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$help_activities, width = 12)) +
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))

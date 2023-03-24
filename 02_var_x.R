@@ -11,17 +11,6 @@ primary_sex <- c("male", "female")
 
 ###
 
-# health_conditions <- c(
-#   "Arthritis",
-#   "Cardiovascular disease",
-#   "Back problems",
-#   "Cancer",
-#   "Mental illness",
-#   "Alzheimer's disease or dementia",
-#   "Injury resulting from an accident",
-#   "Aging or frailty",
-#   "Other"
-# )
 health_conditions <- c(
   "Arthritis" = 1,
   "Cardiovascular disease" = 2,
@@ -46,18 +35,18 @@ help_activities <- c(
 )
 
 giver_age_group <- c(
-  "<20",
-  "20-24",
-  "25-29",
-  "30-34",
-  "35-39",
-  "40-44",
-  "45-49",
-  "50-54",
-  "55-59",
-  "60-64",
-  "65-69",
-  "70+"
+  "<20" = 1,
+  "20-24" = 2,
+  "25-29" = 3,
+  "30-34" = 4,
+  "35-39" = 5,
+  "40-44" = 6,
+  "45-49" = 7,
+  "50-54" = 8,
+  "55-59" = 9,
+  "60-64" = 10,
+  "65-69" = 11,
+  "70+" = 12
 )
 
 primary_receiver_age_group <- c(
@@ -66,16 +55,23 @@ primary_receiver_age_group <- c(
   "85-89", "90-94", "95+"
 )
 
-help_hours <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
+help_hours <- c(
+  "0" = 0,
+  "1-9" = 1,
+  "10-19" = 2,
+  "20-29" = 3,
+  "30-39" = 4,
+  "40+" = 5
+)
 
 dwelling_distances <- c(
-  "same household",
-  "same building",
-  "<10 min",
-  "10 to <30 min",
-  "30 min to <1 hour",
-  "1 to <3 hours",
-  ">3 hours"
+  "Same household" = 1,
+  "Same building" = 2,
+  "<10 min by car" = 3,
+  "10 to <30 minutes by car" = 4,
+  "30 min to <1 hour by car" = 5,
+  "1 hour to <3 hours by car" = 6,
+  "3+ hours by car" = 7
 )
 
 primary_help_banking_freq <- c(

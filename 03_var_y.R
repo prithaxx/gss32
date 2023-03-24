@@ -1,4 +1,15 @@
+# count_map(): takes a frame and returns the count for a categorical vector based on a chosen column
+# df (tibble): data frame to be transformed
+# x_options (vector): vector of variables to be counted
+# col_name (String): variable to filter by
+count_map <- function(df_input, x_options, col_name) {
+  counts <- unlist(map(x_options, function(f) {
+    nrow(filter(df_input, !!as.symbol(col_name) == f))
+  }
+  ))
+}
 
+###
 
 pop_freq <- c(
   giver_pop <- nrow(df_giver),
@@ -31,13 +42,6 @@ primary_receiver_sex_freq <- c(
 )
 
 # Care receiver response y variables
-
-count_map <- function(df_receiver, x_options, col_name) {
-  counts <- unlist(map(x_options, function(f) {
-    nrow(filter(df_receiver, !!as.symbol(col_name) == f))
-    }
-  ))
-}
 
 y_health_condition <- function(df_receiver) {
   health_conditions_freq <- count_map(df_receiver, health_conditions, "PRA_10GR")
@@ -73,20 +77,21 @@ y_activity_receive_help <- function(df_receiver) {
 
 
 y_age_primary_giver <- function(df_receiver) {
-  age_primary_giver <- c(
-    age_giver_1 <- nrow(filter(df_receiver, CRGVAGGR == 1)),
-    age_giver_2 <- nrow(filter(df_receiver, CRGVAGGR == 2)),
-    age_giver_3 <- nrow(filter(df_receiver, CRGVAGGR == 3)),
-    age_giver_4 <- nrow(filter(df_receiver, CRGVAGGR == 4)),
-    age_giver_5 <- nrow(filter(df_receiver, CRGVAGGR == 5)),
-    age_giver_6 <- nrow(filter(df_receiver, CRGVAGGR == 6)),
-    age_giver_7 <- nrow(filter(df_receiver, CRGVAGGR == 7)),
-    age_giver_8 <- nrow(filter(df_receiver, CRGVAGGR == 8)),
-    age_giver_9 <- nrow(filter(df_receiver, CRGVAGGR == 9)),
-    age_giver_10 <- nrow(filter(df_receiver, CRGVAGGR == 10)),
-    age_giver_11 <- nrow(filter(df_receiver, CRGVAGGR == 11)),
-    age_giver_12 <- nrow(filter(df_receiver, CRGVAGGR == 12))
-  )
+  # age_primary_giver <- c(
+  #   age_giver_1 <- nrow(filter(df_receiver, CRGVAGGR == 1)),
+  #   age_giver_2 <- nrow(filter(df_receiver, CRGVAGGR == 2)),
+  #   age_giver_3 <- nrow(filter(df_receiver, CRGVAGGR == 3)),
+  #   age_giver_4 <- nrow(filter(df_receiver, CRGVAGGR == 4)),
+  #   age_giver_5 <- nrow(filter(df_receiver, CRGVAGGR == 5)),
+  #   age_giver_6 <- nrow(filter(df_receiver, CRGVAGGR == 6)),
+  #   age_giver_7 <- nrow(filter(df_receiver, CRGVAGGR == 7)),
+  #   age_giver_8 <- nrow(filter(df_receiver, CRGVAGGR == 8)),
+  #   age_giver_9 <- nrow(filter(df_receiver, CRGVAGGR == 9)),
+  #   age_giver_10 <- nrow(filter(df_receiver, CRGVAGGR == 10)),
+  #   age_giver_11 <- nrow(filter(df_receiver, CRGVAGGR == 11)),
+  #   age_giver_12 <- nrow(filter(df_receiver, CRGVAGGR == 12))
+  # )
+  age_primary_giver <- count_map(df_receiver, giver_age_group, "CRGVAGGR")
 }
 
 y_activity_receive_help_pro <- function(df_receiver) {
@@ -103,26 +108,29 @@ y_activity_receive_help_pro <- function(df_receiver) {
 }
 
 y_hours_help_received <- function(df_receiver) {
-  hours_help_received <- c(
-    hours_0 <- nrow(filter(df_receiver, HAR_10C == 0)),
-    hours_1 <- nrow(filter(df_receiver, HAR_10C == 1)),
-    hours_2 <- nrow(filter(df_receiver, HAR_10C == 2)),
-    hours_3 <- nrow(filter(df_receiver, HAR_10C == 3)),
-    hours_4 <- nrow(filter(df_receiver, HAR_10C == 4)),
-    hours_5 <- nrow(filter(df_receiver, HAR_10C == 5))
-  )
+  # hours_help_received <- c(
+  #   hours_0 <- nrow(filter(df_receiver, HAR_10C == 0)),
+  #   hours_1 <- nrow(filter(df_receiver, HAR_10C == 1)),
+  #   hours_2 <- nrow(filter(df_receiver, HAR_10C == 2)),
+  #   hours_3 <- nrow(filter(df_receiver, HAR_10C == 3)),
+  #   hours_4 <- nrow(filter(df_receiver, HAR_10C == 4)),
+  #   hours_5 <- nrow(filter(df_receiver, HAR_10C == 5))
+  # )
+  hours_help_received <- count_map(df_receiver, help_hours, "HAR_10C")
 }
 
 y_primary_giver_distance <- function(df) {
-  primary_giver_distance <- c(
-    primary_giver_distance_1 <- nrow(filter(df, PGD_10 == 1)),
-    primary_giver_distance_2 <- nrow(filter(df, PGD_10 == 2)),
-    primary_giver_distance_3 <- nrow(filter(df, PGD_10 == 3)),
-    primary_giver_distance_4 <- nrow(filter(df, PGD_10 == 4)),
-    primary_giver_distance_5 <- nrow(filter(df, PGD_10 == 5)),
-    primary_giver_distance_6 <- nrow(filter(df, PGD_10 == 6)),
-    primary_giver_distance_7 <- nrow(filter(df, PGD_10 == 7))
-  )
+  # primary_giver_distance <- c(
+  #   primary_giver_distance_1 <- nrow(filter(df, PGD_10 == 1)),
+  #   primary_giver_distance_2 <- nrow(filter(df, PGD_10 == 2)),
+  #   primary_giver_distance_3 <- nrow(filter(df, PGD_10 == 3)),
+  #   primary_giver_distance_4 <- nrow(filter(df, PGD_10 == 4)),
+  #   primary_giver_distance_5 <- nrow(filter(df, PGD_10 == 5)),
+  #   primary_giver_distance_6 <- nrow(filter(df, PGD_10 == 6)),
+  #   primary_giver_distance_7 <- nrow(filter(df, PGD_10 == 7))
+  # )
+  hours_help_received <- count_map(df, dwelling_distances, "PGD_10")
+  
 }
 
 y_receive_help_banking_freq <- function(df) {
