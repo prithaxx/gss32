@@ -306,7 +306,7 @@ server <- function(input, output) {
     update_receiver_df()
 
     if (input$receiver_radio == 2) {
-      group_by_sex(output_receiver_df)
+      group_by_sex_percent(output_receiver_df)
     } else {
       chart(output_receiver_df)
     }

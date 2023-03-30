@@ -34,9 +34,6 @@ tab_health_conditions <- function(df) {
            female_percentage = round(Female/count, 2),
            )
            
-
-  
-  
   return(df_health_conditions)
 }
 
