@@ -94,6 +94,8 @@ giver_response_tabs <- list(
   "Out of pocket expenses" = tab_out_of_pocket,
   "Financial hardship" = tab_financial_hardship
 )
+
+group_by_options <- list("None" = 1, "Sex" = 2, "Age group" = 3, "Living arrangement" = 4, "Visible minority status" = 5)
 show_group <- list("false", "true")
 
 # apply_filter(): takes a frame and filter based on option selected
@@ -132,11 +134,7 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("general_selected_box",
-          "General info:",
-          choices = general_charts,
-          selected = general_charts[1]
-        ),
+        selectInput("general_selected_box", "General info:", choices = general_charts, selected = 0),
       ),
       mainPanel(
         tabsetPanel(
@@ -161,16 +159,16 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), selected = names(receiver_response_charts[1])),
-        selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
-        selectInput("receiver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
-        selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
-        selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = filter_partner_in_household[1]),
-        selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = filter_partner_in_household[1]),
-        selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = filter_indigenous_status[1]),
-        selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = filter_visible_minority_status[1]),
-        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = filter_group_religious_participation[1]),
-        radioButtons("receiver_radio", "Group by:", choices = list("none" = 1, "sex" = 2), selected = 1),
+        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), 0),
+        selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, 0),
+        selectInput("receiver_select_box_age", "Age group", filter_age_group, 0),
+        selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, 0),
+        selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, 0),
+        selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, 0),
+        selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = 0),
+        selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = 0),
+        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = 0),
+        radioButtons("receiver_radio", "Group by:", choices = group_by_options, selected = 1),
         selectInput("radio_select_box", "radio select box", list("hello" = 1, "world" = 2), selected = 1)
       ),
       mainPanel(

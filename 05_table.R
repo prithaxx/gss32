@@ -85,7 +85,7 @@ tab_primary_giver_distance <- function(df) {
 ### Primary caregiver helped with banking - Frequency
 tab_receive_help_banking_freq <- function(df) {
   count <- y_receive_help_banking_freq(df)
-  df_output <- tibble(primary_help_banking_freq, count) %>%
+  df_output <- tibble(primary_help_banking_freq = names(primary_help_banking_freq), count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)
@@ -94,7 +94,7 @@ tab_receive_help_banking_freq <- function(df) {
 ### Primary caregiver helped with banking - Number of hours
 tab_receive_help_banking_hours <- function(df) {
   count <- y_receive_help_banking_hours(df)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)
@@ -104,7 +104,9 @@ tab_receive_help_banking_hours <- function(df) {
 ### daily
 tab_help_banking_hours_daily <- function(df) {
   count <- y_receive_help_banking_hours_freq(df, 1)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  print(count)
+  
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)
@@ -113,7 +115,7 @@ tab_help_banking_hours_daily <- function(df) {
 ### at least once a week
 tab_help_banking_hours_weekly <- function(df) {
   count <- y_receive_help_banking_hours_freq(df, 2)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)
@@ -122,7 +124,7 @@ tab_help_banking_hours_weekly <- function(df) {
 ### monthly
 tab_help_banking_hours_monthly <- function(df) {
   count <- y_receive_help_banking_hours_freq(df, 3)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)

@@ -75,13 +75,18 @@ dwelling_distances <- c(
 )
 
 primary_help_banking_freq <- c(
-  "daily",
-  "at least once a week",
-  "at least once a month",
-  "less than once a month"
+  "daily" = 1,
+  "at least once a week" = 2,
+  "at least once a month" = 3,
+  "less than once a month" = 4
 )
 
-primary_help_banking_hours <- c("<1", "1 to <3", "3 to <5", "5+")
+primary_help_banking_hours <- c(
+  "<1" = 1, 
+  "1 to <3" = 2,
+  "3 to <5" = 3, 
+  "5+" = 4
+)
 
 out_of_pocket_expenses <- c(
   "home modifications", 
