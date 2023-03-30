@@ -97,6 +97,7 @@ giver_response_tabs <- list(
 
 group_by_options <- list("None" = 1, "Sex" = 2, "Age group" = 3, "Living arrangement" = 4, "Visible minority status" = 5)
 show_group <- list("false", "true")
+default <- 0
 
 # apply_filter(): takes a frame and filter based on option selected
 # df_input (tibble): data frame to be transformed
@@ -134,7 +135,7 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("general_selected_box", "General info:", choices = general_charts, selected = 0),
+        selectInput("general_selected_box", "General info:", choices = general_charts, selected = default),
       ),
       mainPanel(
         tabsetPanel(
@@ -159,15 +160,15 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), 0),
-        selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, 0),
-        selectInput("receiver_select_box_age", "Age group", filter_age_group, 0),
-        selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, 0),
-        selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, 0),
-        selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, 0),
-        selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = 0),
-        selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = 0),
-        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = 0),
+        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), default),
+        selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, default),
+        selectInput("receiver_select_box_age", "Age group", filter_age_group, default),
+        selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, default),
+        selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, default),
+        selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, default),
+        selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = default),
+        selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = default),
+        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = default),
         radioButtons("receiver_radio", "Group by:", choices = group_by_options, selected = 1),
         selectInput("radio_select_box", "radio select box", list("hello" = 1, "world" = 2), selected = 1)
       ),
@@ -192,14 +193,14 @@ ui <- fluidPage(
     sidebarLayout(
       sidebarPanel(
         selectInput("giver_select_box", "Questions asked to respondents who provided care to older adults:", choices = names(giver_response_charts), selected = names(giver_response_charts[1])),
-        selectInput("giver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
-        selectInput("giver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
-        selectInput("giver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
-        selectInput("giver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = filter_partner_in_household[1]),
-        selectInput("giver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = filter_partner_in_household[1]),
-        selectInput("giver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = filter_indigenous_status[1]),
-        selectInput("giver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = filter_visible_minority_status[1]),
-        selectInput("giver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = filter_group_religious_participation[1])
+        selectInput("giver_select_box_sex", "Filter by sex", choices = filter_sex, selected = default),
+        selectInput("giver_select_box_age", "Age group", filter_age_group, selected = default),
+        selectInput("giver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = default),
+        selectInput("giver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = default),
+        selectInput("giver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = default),
+        selectInput("giver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = default),
+        selectInput("giver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = default),
+        selectInput("giver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = default)
       ),
       mainPanel(
         tabsetPanel(
@@ -304,7 +305,12 @@ server <- function(input, output) {
     chart <- receiver_charts_percent[[input$receiver_select_box]]
     update_receiver_df()
 
-    chart(output_receiver_df)
+    if (input$receiver_radio == 2) {
+      group_by_sex(output_receiver_df)
+    } else {
+      chart(output_receiver_df)
+    }
+    
   })
 
   # receiver table tab

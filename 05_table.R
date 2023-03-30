@@ -21,7 +21,6 @@ tab_pop_freq <- function() {
 tab_health_conditions <- function(df) {
   # count <- y_health_condition(df)
   count <- count_map(df, health_conditions, "PRA_10GR")
-  # count <- count_map(df_receiver, health_conditions, "PRA_10GR")
   
   df_health_conditions <- tibble(health_conditions = names(health_conditions), count) %>%
     mutate(percentage = count / sum(count), 
@@ -30,8 +29,13 @@ tab_health_conditions <- function(df) {
              }),
            Female = female_counts <- sapply(1:9, function(i) {
              sum(df$SEX == 2 & df$PRA_10GR == i)
-             })
+             }),
+           male_percentage = round(Male/count, 2),
+           female_percentage = round(Female/count, 2),
            )
+           
+
+  
   
   return(df_health_conditions)
 }

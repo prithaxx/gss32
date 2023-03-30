@@ -2,6 +2,8 @@
 # df (tibble): data frame to be transformed
 # x_options (vector): vector of variables to be counted
 # col_name (String): variable to filter by
+# col_name2 (String): second variable to filter by
+# response_code (numeric): response value constant mapped to col_name2
 count_map <- function(df_input, x_options, col_name, col_name2 = NULL, response_code = NULL) {
   counts <- unlist(map(x_options, function(f) {
     if (!is.null(col_name2) & !is.null(response_code)) {
@@ -120,7 +122,9 @@ y_receive_help_banking_hours_freq <- function(df, response_code) {
 
 
 
-# Care giver response y variables
+# Care giver response y variables ####
+
+
 y_activity_give_help <- function(df) {
   activity_give_help_freq <- c(
     transportation <- nrow(filter(df, APR_10 == 1)),

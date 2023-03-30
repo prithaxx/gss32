@@ -8,7 +8,7 @@ group_by_sex <- function(df) {
   
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = names(filter_sex[2:3]), names_to = "sex", values_to = "Count")
-  print(df_long)
+  # print(df_long)
   
   chart_output <- ggplot(df_long, aes(x = fct_inorder(health_conditions), y = Count, fill = sex)) +
     geom_col( position = "dodge") +
