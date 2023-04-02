@@ -10,14 +10,6 @@ tab_pop_freq <- function() {
 
 # Care receiver responses #####
 
-# tab_health_conditions <- function(df) {
-#   count <- y_health_condition(df)
-#   df_health_conditions <- tibble(health_conditions, count) %>%
-#     mutate(percentage = count / sum(count))
-# 
-#   return(df_health_conditions)
-# }
-
 tab_health_conditions <- function(df) {
   # count <- y_health_condition(df)
   count <- count_map(df, health_conditions, "PRA_10GR")
@@ -30,8 +22,8 @@ tab_health_conditions <- function(df) {
            Female = female_counts <- sapply(1:9, function(i) {
              sum(df$SEX == 2 & df$PRA_10GR == i)
              }),
-           male_percentage = round(Male/count, 2),
-           female_percentage = round(Female/count, 2),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
            )
            
   return(df_health_conditions)
@@ -134,7 +126,7 @@ tab_help_banking_hours_monthly <- function(df) {
 # less than monthly
 tab_help_banking_hours_monthly_less <- function(df) {
   count <- y_receive_help_banking_hours_freq(df, 4)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble((primary_help_banking_hours = names(primary_help_banking_hours)), count) %>%
     mutate(percentage = count / sum(count))
 
   return(df_output)
@@ -144,7 +136,6 @@ tab_help_banking_hours_monthly_less <- function(df) {
 # giver tables ####
 
 tab_activity_give_help <- function(df) {
-  # print(nrow(df))
   count <- y_activity_give_help(df)
   df_output <- tibble(help_activities, count) %>%
     mutate(percentage = count / sum(count))
@@ -154,7 +145,7 @@ tab_activity_give_help <- function(df) {
 
 tab_age_primary_receiver <- function(df) {
   count <- y_age_primary_receiver(df)
-  df_output <- tibble(primary_receiver_age_group, count) %>%
+  df_output <- tibble(primary_receiver_age_group = names(primary_receiver_age_group), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -162,7 +153,7 @@ tab_age_primary_receiver <- function(df) {
 
 tab_hours_help_provided <- function(df) {
   count <- y_hours_help_provided(df)
-  df_output <- tibble(help_hours, count) %>%
+  df_output <- tibble(help_hours = names(help_hours), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -170,7 +161,7 @@ tab_hours_help_provided <- function(df) {
 
 tab_primary_receiver_distance <- function(df) {
   count <- y_primary_receiver_distance(df)
-  df_output <- tibble(dwelling_distances, count) %>%
+  df_output <- tibble(dwelling_distances = names(dwelling_distances), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -178,7 +169,7 @@ tab_primary_receiver_distance <- function(df) {
 
 tab_give_help_banking_freq <- function(df) {
   count <- y_give_help_banking_freq(df)
-  df_output <- tibble(primary_help_banking_freq, count) %>%
+  df_output <- tibble(primary_help_banking_freq = names(primary_help_banking_freq), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -186,7 +177,7 @@ tab_give_help_banking_freq <- function(df) {
 
 tab_give_help_banking_hours <- function(df) {
   count <- y_give_help_banking_hours(df)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -194,7 +185,7 @@ tab_give_help_banking_hours <- function(df) {
 
 tab_give_help_banking_daily <- function(df) {
   count <- y_give_help_banking_hours_freq(df, 1)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -202,7 +193,7 @@ tab_give_help_banking_daily <- function(df) {
 
 tab_give_help_banking_weekly <- function(df) {
   count <- y_give_help_banking_hours_freq(df, 2)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -210,7 +201,7 @@ tab_give_help_banking_weekly <- function(df) {
 
 tab_give_help_banking_monthly <- function(df) {
   count <- y_give_help_banking_hours_freq(df, 3)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)
@@ -218,7 +209,7 @@ tab_give_help_banking_monthly <- function(df) {
 
 tab_give_help_banking_monthly_less <- function(df) {
   count <- y_give_help_banking_hours_freq(df, 4)
-  df_output <- tibble(primary_help_banking_hours, count) %>%
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
     mutate(percentage = count / sum(count))
   
   return(df_output)

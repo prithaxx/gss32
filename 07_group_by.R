@@ -1,8 +1,7 @@
-# df <- tab_health_conditions(df_receiver)
 
 
 
-# create the ggplot object
+
 group_by_sex <- function(df) {
   df <- tab_health_conditions(df)
   print(df)
@@ -22,6 +21,9 @@ group_by_sex <- function(df) {
   return(chart_output)
 }
 
+
+# group_by_percent
+
 group_by_sex_percent <- function(df) {
   df <- tab_health_conditions(df)
   
@@ -31,7 +33,7 @@ group_by_sex_percent <- function(df) {
   print(df_long)
  
   chart_output <- ggplot(df_long, aes(x = fct_inorder(health_conditions), y = sex_percent, fill = sex)) +
-    geom_col( position = "dodge") +
+    geom_col(position = "dodge") +
     labs(
       title = "Number of People with Health Conditions by Sex",
       x = "Health Conditions",

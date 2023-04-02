@@ -1,4 +1,3 @@
-
 GSS_PUMF_2018 <- read_sas("c32pumfm.sas7bdat")
 
 # Care Receiving ---
@@ -46,3 +45,4 @@ df_giver_receiver <- intersect(df_receiver, df_giver)
 # Need help (did not receive)
 df_need_help <- GSS_PUMF_2018 %>%
   filter(NFA_10 == 1 & (AGEGR10 == 6 | AGEGR10 == 7))
+

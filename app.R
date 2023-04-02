@@ -103,15 +103,15 @@ default <- 0
 # df_input (tibble): data frame to be transformed
 # select_option (integer): filter value mapped to the response category
 # col_name (String): variable to filter by
-apply_filter <- function(df_input, select_option, col_name) {
-  filtered_df <- if (select_option != -1) {
-    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
-  } else {
-    df_input
-  }
-
-  return(filtered_df)
-}
+# apply_filter <- function(df_input, select_option, col_name) {
+#   filtered_df <- if (select_option != -1) {
+#     filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
+#   } else {
+#     df_input
+#   }
+# 
+#   return(filtered_df)
+# }
 
 ui <- fluidPage(
   useShinyjs(),

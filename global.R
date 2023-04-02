@@ -11,6 +11,42 @@ source("04_general_df.R")
 source("05_table.R")
 source("06_percentage.R")
 source("07_group_by.R")
+
+
+# apply_filter(): takes a frame and filter based on option selected
+# df_input (tibble): data frame to be transformed
+# select_option (integer): filter value mapped to the response category
+# col_name (String): variable to filter by
+apply_filter <- function(df_input, select_option, col_name) {
+  filtered_df <- if (select_option != -1) {
+    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
+  } else {
+    df_input
+  }
+  
+  return(filtered_df)
+}
+
+# count_map(): takes a frame and returns the count for a categorical vector based on a chosen column
+# df (tibble): data frame to be transformed
+# x_options (vector): vector of variables to be counted
+# col_name (String): variable to filter by
+# col_name2 (String): second variable to filter by
+# response_code (numeric): response value constant mapped to col_name2
+count_map <- function(df_input, x_options, col_name, col_name2 = NULL, response_code = NULL) {
+  counts <- unlist(map(x_options, function(f) {
+    if (!is.null(col_name2) & !is.null(response_code)) {
+      nrow(filter(df_input, !!as.symbol(col_name) == f & !!as.symbol(col_name2) == response_code))
+    } else {
+      nrow(filter(df_input, !!as.symbol(col_name) == f))
+    }
+  }
+  ))
+}
+
+total_receiver_male <- nrow(apply_filter(df_receiver, 1, "SEX"))
+total_receiver_female <- nrow(apply_filter(df_receiver, 2, "SEX"))
+ 
 # General Charts ####
 
 ## Respondent groups ####
@@ -401,7 +437,7 @@ chart_hours_help_provided <- function(df_giver) {
   c_hours_help_provided <- ggplot(
     data = df_hours_help_provided, 
     mapping = aes(
-      x = fct_inorder(help_hours), 
+      x = fct_inorder(help_hours),
       y = count, 
       fill = help_hours
   )) +
