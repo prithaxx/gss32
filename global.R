@@ -46,7 +46,9 @@ count_map <- function(df_input, x_options, col_name, col_name2 = NULL, response_
 
 total_receiver_male <- nrow(apply_filter(df_receiver, 1, "SEX"))
 total_receiver_female <- nrow(apply_filter(df_receiver, 2, "SEX"))
- 
+total_giver_male <- nrow(apply_filter(df_giver, 1, "SEX"))
+total_giver_female <- nrow(apply_filter(df_giver, 2, "SEX"))
+
 # General Charts ####
 
 ## Respondent groups ####

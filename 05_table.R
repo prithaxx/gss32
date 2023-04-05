@@ -25,34 +25,74 @@ tab_health_conditions <- function(df) {
            male_percentage = round(Male/total_receiver_male, 2),
            female_percentage = round(Female/total_receiver_female, 2),
            )
-           
+  
+
   return(df_health_conditions)
 }
 
 ### Types of activities respondents received help with
 tab_activity_receive_help <- function(df) {
   count <- y_activity_receive_help(df)
+  x_options <- help_activities
+  cols <- help_activity_codes
+  
   df_activity_receive_help <- tibble(help_activities, count) %>%
-    mutate(percentage = count / sum(count)) 
-
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols[i]]] == 1)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols[i]]] == 1)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
+  
   return(df_activity_receive_help)
 }
+
+
 
 ### Age of respondent's primary caregiver
 tab_age_primary_giver <- function(df) {
   count <- y_age_primary_giver(df)
+  x_options <- giver_age_group
+  cols <- "CRGVAGGR"
   
-  df_output <- tibble(giver_age_group = names(giver_age_group), count) %>%
-    mutate(percentage = count / sum(count))
+  df_output <- tibble(giver_age_group = names(x_options), count) %>%
+    mutate(percentage = count / sum(count), 
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
 
+
+
 ### Types of activities respondents received professional help with
 tab_activity_receive_help_pro <- function(df) {
   count <- y_activity_receive_help_pro(df)
+  x_options <- help_activities
+  cols <- help_activity_pro_codes
+  
   df_output <- tibble(help_activities, count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols[i]]] == 1)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols[i]]] == 1)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
@@ -60,8 +100,20 @@ tab_activity_receive_help_pro <- function(df) {
 ### Numbers of hours of help received - Per average week per activity
 tab_hours_help_received <- function(df) {
   count <- y_hours_help_received(df)
+  x_options <- help_hours
+  cols <- "HAR_10C"
+  
   df_output <- tibble(help_hours = names(help_hours), count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+          Male = male_counts <- sapply(0:5, function(i) {
+            sum(df$SEX == 1 & df[[cols]] == i)
+          }),
+          Female = female_counts <- sapply(0:5, function(i) {
+            sum(df$SEX == 2 & df[[cols]] == i)
+          }),
+          male_percentage = round(Male/total_receiver_male, 2),
+          female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
@@ -69,8 +121,20 @@ tab_hours_help_received <- function(df) {
 ### Distance between the respondent's and the caregiver's dwellings
 tab_primary_giver_distance <- function(df) {
   count <- y_primary_giver_distance(df)
+  x_options <- dwelling_distances
+  cols <- "PGD_10"
+  
   df_output <- tibble(dwelling_distances = names(dwelling_distances), count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
@@ -78,8 +142,20 @@ tab_primary_giver_distance <- function(df) {
 ### Primary caregiver helped with banking - Frequency
 tab_receive_help_banking_freq <- function(df) {
   count <- y_receive_help_banking_freq(df)
+  x_options <- primary_help_banking_freq
+  cols <- "AGB_20"
+  
   df_output <- tibble(primary_help_banking_freq = names(primary_help_banking_freq), count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+           )
 
   return(df_output)
 }
@@ -87,8 +163,20 @@ tab_receive_help_banking_freq <- function(df) {
 ### Primary caregiver helped with banking - Number of hours
 tab_receive_help_banking_hours <- function(df) {
   count <- y_receive_help_banking_hours(df)
+  x_options <- primary_help_banking_hours
+  cols <- "AGB_30C"
+  
   df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
@@ -96,38 +184,88 @@ tab_receive_help_banking_hours <- function(df) {
 ### How often and number of hours a respondent received help from with banking
 ### daily
 tab_help_banking_hours_daily <- function(df) {
-  count <- y_receive_help_banking_hours_freq(df, 1)
-  print(count)
+  response_code <- 1
+  count <- y_receive_help_banking_hours_freq(df, response_code)
+  x_options <- primary_help_banking_hours
+  cols <- "AGB_30C"
   
   df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
 
 ### at least once a week
 tab_help_banking_hours_weekly <- function(df) {
-  count <- y_receive_help_banking_hours_freq(df, 2)
+  response_code <- 2
+  count <- y_receive_help_banking_hours_freq(df, response_code)
+  x_options <- primary_help_banking_hours
+  cols <- "AGB_30C"
+  
   df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
 
 ### monthly
 tab_help_banking_hours_monthly <- function(df) {
-  count <- y_receive_help_banking_hours_freq(df, 3)
+  response_code <- 3
+  count <- y_receive_help_banking_hours_freq(df, response_code)
+  x_options <- primary_help_banking_hours
+  cols <- "AGB_30C"
+  
   df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }
 
 # less than monthly
 tab_help_banking_hours_monthly_less <- function(df) {
-  count <- y_receive_help_banking_hours_freq(df, 4)
-  df_output <- tibble((primary_help_banking_hours = names(primary_help_banking_hours)), count) %>%
-    mutate(percentage = count / sum(count))
+  response_code <- 4
+  count <- y_receive_help_banking_hours_freq(df, response_code)
+  x_options <- primary_help_banking_hours
+  cols <- "AGB_30C"
+  
+  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
+    mutate(percentage = count / sum(count),
+           Male = male_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           Female = female_counts <- sapply(1:length(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols]] == i & df$AGB_20 == response_code)
+           }),
+           male_percentage = round(Male/total_receiver_male, 2),
+           female_percentage = round(Female/total_receiver_female, 2),
+    )
 
   return(df_output)
 }

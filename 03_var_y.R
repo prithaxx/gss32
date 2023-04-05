@@ -36,21 +36,6 @@ y_health_condition <- function(df_receiver) {
   health_conditions_freq <- count_map(df_receiver, health_conditions, "PRA_10GR")
 }
 
-
-# y_health_condition <- function(df_receiver) {
-#   health_conditions_freq <- c(
-#     arthritis <- nrow(filter(df_receiver, PRA_10GR == 1)),
-#     cardiovascular_disease <- nrow(filter(df_receiver, PRA_10GR == 2)),
-#     back_problems <- nrow(filter(df_receiver, PRA_10GR == 3)),
-#     cancer <- nrow(filter(df_receiver, PRA_10GR == 4)),
-#     mental_illness <- nrow(filter(df_receiver, PRA_10GR == 5)),
-#     alzheimer_dementia <- nrow(filter(df_receiver, PRA_10GR == 6)),
-#     injury_from_accident <- nrow(filter(df_receiver, PRA_10GR == 7)),
-#     aging_frailty <- nrow(filter(df_receiver, PRA_10GR == 8)),
-#     other <- nrow(filter(df_receiver, PRA_10GR == 9))
-#   )
-# }
-
 y_activity_receive_help <- function(df_receiver) {
   activity_receive_help_freq <- c(
     transportation <- nrow(filter(df_receiver, ARE_10 == 1)),
@@ -63,7 +48,16 @@ y_activity_receive_help <- function(df_receiver) {
     help_activity_other <- nrow(filter(df_receiver, ARE_80 == 1))
   )
 }
-
+help_activity_codes <- c(
+  "ARE_10",
+  "ARE_20",
+  "ARE_30",
+  "ARE_40",
+  "ARE_50",
+  "ARE_60",
+  "ARE_70",
+  "ARE_80"
+)
 
 y_age_primary_giver <- function(df_receiver) {
   age_primary_giver <- count_map(df_receiver, giver_age_group, "CRGVAGGR")
@@ -81,6 +75,16 @@ y_activity_receive_help_pro <- function(df_receiver) {
     help_activity_other <- nrow(filter(df_receiver, PAA_80 == 1))
   )
 }
+help_activity_pro_codes <- c(
+  "PAA_10",
+  "PAA_20",
+  "PAA_30",
+  "PAA_40",
+  "PAA_50",
+  "PAA_60",
+  "PAA_70",
+  "PAA_80"
+)
 
 y_hours_help_received <- function(df_receiver) {
   hours_help_received <- count_map(df_receiver, help_hours, "HAR_10C")
@@ -88,7 +92,6 @@ y_hours_help_received <- function(df_receiver) {
 
 y_primary_giver_distance <- function(df) {
   hours_help_received <- count_map(df, dwelling_distances, "PGD_10")
-
 }
 
 y_receive_help_banking_freq <- function(df) {
