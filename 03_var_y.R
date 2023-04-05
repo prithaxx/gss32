@@ -110,18 +110,31 @@ y_receive_help_banking_hours_freq <- function(df, response_code) {
 
 # Care giver response y variables ####
 
-
+activity_give_help_codes <- c(
+  "APR_10", # transportation
+  "APR_20", # household chores
+  "APR_30", # house maintenance
+  "APR_40", # personal care
+  "APR_50", # medical treatment
+  "APR_60", # scheduling
+  "APR_70", # banking
+  "APR_80"  # other
+)
 y_activity_give_help <- function(df) {
-  activity_give_help_freq <- c(
-    transportation <- nrow(filter(df, APR_10 == 1)),
-    household_chores <- nrow(filter(df, APR_20 == 1)),
-    house_maintenance <- nrow(filter(df, APR_30 == 1)),
-    personal_care <- nrow(filter(df, APR_40 == 1)),
-    medical_treatment <- nrow(filter(df, APR_50 == 1)),
-    scheduling <- nrow(filter(df, APR_60 == 1)),
-    banking <- nrow(filter(df, APR_70 == 1)),
-    help_activity_other <- nrow(filter(df, APR_80 == 1))
-  )
+  # activity_give_help_freq <- c(
+  #   transportation <- nrow(filter(df, APR_10 == 1)),
+  #   household_chores <- nrow(filter(df, APR_20 == 1)),
+  #   house_maintenance <- nrow(filter(df, APR_30 == 1)),
+  #   personal_care <- nrow(filter(df, APR_40 == 1)),
+  #   medical_treatment <- nrow(filter(df, APR_50 == 1)),
+  #   scheduling <- nrow(filter(df, APR_60 == 1)),
+  #   banking <- nrow(filter(df, APR_70 == 1)),
+  #   help_activity_other <- nrow(filter(df, APR_80 == 1))
+  # )
+
+  activity_give_help_freq <- unlist(lapply(activity_give_help_codes, function(code) {
+    nrow(filter(df, !!sym(code) == 1))
+  }))
 }
 
 y_age_primary_receiver <- function(df) {

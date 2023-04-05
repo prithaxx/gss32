@@ -127,7 +127,7 @@ financial_hardship <- c(
 
 # Filter lists ####
 
-no_filter = -1
+no_filter <- -1
 
 filter_sex <- list(
   "Both sexes" = no_filter,
