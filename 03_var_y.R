@@ -143,7 +143,7 @@ y_age_primary_receiver <- function(df) {
 
 y_hours_help_provided <- function(df) {
 
-  hours_help_provided <- count_map(df, help_hours, "HAR_10C")
+  hours_help_provided <- count_map(df, help_hours, "HAP_10C")
 }
 
 y_primary_receiver_distance <- function(df) {
@@ -162,6 +162,15 @@ y_give_help_banking_hours_freq <- function(df, response_code) {
   give_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code)
 }
 
+out_of_pocket_codes <- c(
+  "ICF_210",
+  "ICF_220",
+  "ICF_230",
+  "ICF_240",
+  "ICF_250",
+  "ICF_260",
+  "ICF2_270"
+)
 y_out_of_pocket <- function(df) {
   out_of_pocket_freq <- c(
     out_of_pocket_1 <- nrow(filter(df, ICF_210 == 1)),
@@ -174,6 +183,15 @@ y_out_of_pocket <- function(df) {
   )
 }
 
+financial_hardship_codes <- c(
+  "ICF2_290",
+  "ICF2_300",
+  "ICF2_310",
+  "ICF2_320",
+  "ICF2_330",
+  "ICF2_340",
+  "ICF2_350"
+)
 y_financial_hardship <- function(df) {
   financial_hardship_freq <- c(
     financial_hardship_1 <- nrow(filter(df, ICF2_290 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),

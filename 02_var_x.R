@@ -116,13 +116,13 @@ out_of_pocket_expenses <- c(
 )
 
 financial_hardship <- c(
-  "borrowed money from family or friends", 
-  "loans from a bank or financial institution", 
-  "use or defer savings", 
-  "modify spending", 
-  "sell off assets", 
-  "file for bankruptcy", 
-  "other"
+  "Borrowed money from family or friends",
+  "Loans from a bank or financial institution",
+  "Use or defer savings",
+  "Modify spending",
+  "Sell off assets",
+  "File for bankruptcy",
+  "Other"
 )
 
 # Filter lists ####

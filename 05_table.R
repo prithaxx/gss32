@@ -36,6 +36,9 @@ tab_health_conditions <- function(df) {
 
 
 tab_helper_multi_var <- function(df, count, x_options, cols) {
+  total_male <- sum(df$SEX == 1)
+  total_female <- sum(df$SEX == 2)
+
   tibble(x_options, count) %>%
     mutate(percentage = count / sum(count),
            Male = sapply(seq_along(x_options), function(i) {
@@ -44,8 +47,8 @@ tab_helper_multi_var <- function(df, count, x_options, cols) {
            Female = sapply(seq_along(x_options), function(i) {
              sum(df$SEX == 2 & df[[cols[i]]] == 1)
            }),
-           male_percentage = round(Male/total_receiver_male, 2),
-           female_percentage = round(Female/total_receiver_female, 2),
+           male_percentage = round(Male/total_male, 2),
+           female_percentage = round(Female/total_female, 2),
     )
 }
 ### Types of activities respondents received help with
@@ -75,6 +78,8 @@ tab_activity_receive_help <- function(df) {
 
 tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   start <- x_options[1]
+  total_male <- sum(df$SEX == 1)
+  total_female <- sum(df$SEX == 2)
 
   tibble(x_options = names(x_options), count) %>%
     mutate(percentage = count / sum(count),
@@ -93,8 +98,8 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
                sum(df$SEX == 2 & df[[cols]] == i)
              }
            }),
-           male_percentage = round(Male/total_receiver_male, 2),
-           female_percentage = round(Female/total_receiver_female, 2),
+           male_percentage = round(Male/total_male, 2),
+           female_percentage = round(Female/total_female, 2),
     )
 }
 
@@ -221,20 +226,20 @@ tab_receive_help_banking_freq <- function(df) {
 ### Primary caregiver helped with banking - Number of hours
 tab_receive_help_banking_hours <- function(df) {
   count <- y_receive_help_banking_hours(df)
-  x_options <- primary_help_banking_hours
-  cols <- "AGB_30C"
-  
-  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count),
-           Male = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 1 & df[[cols]] == i)
-           }),
-           Female = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 2 & df[[cols]] == i)
-           }),
-           male_percentage = round(Male/total_receiver_male, 2),
-           female_percentage = round(Female/total_receiver_female, 2),
-    )
+  # x_options <- primary_help_banking_hours
+  # cols <- "AGB_30C"
+  #
+  # df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
+  #   mutate(percentage = count / sum(count),
+  #          Male = sapply(seq_along(x_options), function(i) {
+  #            sum(df$SEX == 1 & df[[cols]] == i)
+  #          }),
+  #          Female = sapply(seq_along(x_options), function(i) {
+  #            sum(df$SEX == 2 & df[[cols]] == i)
+  #          }),
+  #          male_percentage = round(Male/total_receiver_male, 2),
+  #          female_percentage = round(Female/total_receiver_female, 2),
+  #   )
 
   df_output <- tab_helper(df, count, primary_help_banking_hours,"AGB_30C") %>%
     rename(primary_help_banking_hours = x_options)
@@ -344,120 +349,170 @@ tab_help_banking_hours_monthly_less <- function(df) {
 
 tab_activity_give_help <- function(df) {
   count <- y_activity_give_help(df)
-  x_options <- help_activities
-  cols <- activity_give_help_codes
+  # x_options <- help_activities
+  # cols <- activity_give_help_codes
+  #
+  # df_output <- tibble(help_activities, count) %>%
+  #   mutate(percentage = count / sum(count),
+  #          Male = sapply(seq_along(x_options), function(i) {
+  #            sum(df$SEX == 1 & df[[cols[i]]] == 1)
+  #          }),
+  #          Female = sapply(seq_along(x_options), function(i) {
+  #            sum(df$SEX == 2 & df[[cols[i]]] == 1)
+  #          }),
+  #          male_percentage = round(Male/total_giver_male, 2),
+  #          female_percentage = round(Female/total_giver_female, 2),
+  #   )
 
-  df_output <- tibble(help_activities, count) %>%
-    mutate(percentage = count / sum(count),
-           Male = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 1 & df[[cols[i]]] == 1)
-           }),
-           Female = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 2 & df[[cols[i]]] == 1)
-           }),
-           male_percentage = round(Male/total_giver_male, 2),
-           female_percentage = round(Female/total_giver_female, 2),
-    )
-  
+  df_output <- tab_helper_multi_var(df, count, help_activities, activity_give_help_codes) %>%
+    rename(help_activities = x_options)
+
   return(df_output)
 }
 
 tab_age_primary_receiver <- function(df) {
   count <- y_age_primary_receiver(df)
-  x_options <- primary_receiver_age_group
-  cols <- "CRRCPAGR"
+  # x_options <- primary_receiver_age_group
+  # cols <- "CRRCPAGR"
+  #
+  # df_output <- tibble(primary_receiver_age_group = names(primary_receiver_age_group), count) %>%
+  #   mutate(percentage = count / sum(count),
+  #          Male = sapply(seq_along(x_options), function(i) {
+  #            sum(df$SEX == 1 & df[[cols]] == i)
+  #          }),
+  #          Female = sapply(seq_along(x_options), function(i) {
+  #            sum(df$SEX == 2 & df[[cols]] == i)
+  #          }),
+  #          male_percentage = round(Male/total_receiver_male, 2),
+  #          female_percentage = round(Female/total_receiver_female, 2),
+  #   )
 
-  df_output <- tibble(primary_receiver_age_group = names(primary_receiver_age_group), count) %>%
-    mutate(percentage = count / sum(count),
-           Male = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 1 & df[[cols]] == i)
-           }),
-           Female = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 2 & df[[cols]] == i)
-           }),
-           male_percentage = round(Male/total_receiver_male, 2),
-           female_percentage = round(Female/total_receiver_female, 2),
-    )
-  
+  df_output <- tab_helper(df, count, primary_receiver_age_group, "CRRCPAGR") %>%
+    rename(primary_receiver_age_group = x_options)
+
   return(df_output)
 }
 
 tab_hours_help_provided <- function(df) {
   count <- y_hours_help_provided(df)
-  df_output <- tibble(help_hours = names(help_hours), count) %>%
-    mutate(percentage = count / sum(count))
-  
+  # df_output <- tibble(help_hours = names(help_hours), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, help_hours, "HAP_10C") %>%
+    rename(help_hours = x_options)
+
   return(df_output)
 }
 
 tab_primary_receiver_distance <- function(df) {
   count <- y_primary_receiver_distance(df)
-  df_output <- tibble(dwelling_distances = names(dwelling_distances), count) %>%
-    mutate(percentage = count / sum(count))
+  # df_output <- tibble(dwelling_distances = names(dwelling_distances), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, dwelling_distances, "PRD_10") %>%
+    rename(dwelling_distances = x_options)
   
   return(df_output)
 }
 
 tab_give_help_banking_freq <- function(df) {
   count <- y_give_help_banking_freq(df)
-  df_output <- tibble(primary_help_banking_freq = names(primary_help_banking_freq), count) %>%
-    mutate(percentage = count / sum(count))
-  
+  # df_output <- tibble(primary_help_banking_freq = names(primary_help_banking_freq), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, primary_help_banking_freq, "AGB_20") %>%
+    rename(primary_help_banking_freq = x_options)
+
   return(df_output)
 }
 
 tab_give_help_banking_hours <- function(df) {
   count <- y_give_help_banking_hours(df)
-  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
-  
+  # df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C") %>%
+    rename(primary_help_banking_hours = x_options)
+
   return(df_output)
 }
 
 tab_give_help_banking_daily <- function(df) {
-  count <- y_give_help_banking_hours_freq(df, 1)
-  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
-  
+  response_code <- 1
+  count <- y_give_help_banking_hours_freq(df, response_code)
+  # df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
+    rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
 
 tab_give_help_banking_weekly <- function(df) {
-  count <- y_give_help_banking_hours_freq(df, 2)
-  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
-  
+  response_code <- 2
+  count <- y_give_help_banking_hours_freq(df, response_code)
+  # df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
+    rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
 
 tab_give_help_banking_monthly <- function(df) {
-  count <- y_give_help_banking_hours_freq(df, 3)
-  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
-  
+  response_code <- 3
+  count <- y_give_help_banking_hours_freq(df, response_code)
+  # df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
+    rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
 
 tab_give_help_banking_monthly_less <- function(df) {
-  count <- y_give_help_banking_hours_freq(df, 4)
-  df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
-    mutate(percentage = count / sum(count))
-  
+  response_code <- 4
+  count <- y_give_help_banking_hours_freq(df, response_code)
+  # df_output <- tibble(primary_help_banking_hours = names(primary_help_banking_hours), count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
+    rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
 
 tab_out_of_pocket <- function(df) {
   count <- y_out_of_pocket(df)
-  df_output <- tibble(out_of_pocket_expenses, count) %>%
-    mutate(percentage = count / sum(count))
-  
+  # df_output <- tibble(out_of_pocket_expenses, count) %>%
+  #   mutate(percentage = count / sum(count))
+
+  df_output <- tab_helper_multi_var(df, count, out_of_pocket_expenses, out_of_pocket_codes) %>%
+    rename(out_of_pocket_expenses = x_options)
   return(df_output)
 }
 
 tab_financial_hardship <- function(df) {
-  count <- y_out_of_pocket(df)
-  df_output <- tibble(financial_hardship, count) %>%
-    mutate(percentage = count / sum(count))
-  
+  count <- y_financial_hardship(df)
+  # df_output <- tibble(financial_hardship, count) %>%
+  #   mutate(percentage = count / sum(count))
+  total_male <- sum(df$SEX == 1)
+  total_female <- sum(df$SEX == 2)
+  x_options <- financial_hardship
+  cols <- financial_hardship_codes
+  cols2 <- "CRRCPAGR"
+
+  df_output <- tibble(x_options, count) %>%
+    mutate(percentage = count / sum(count),
+           Male = sapply(seq_along(x_options), function(i) {
+             sum(df$SEX == 1 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
+           }),
+           Female = sapply(seq_along(x_options), function(i) {
+             sum(df$SEX == 2 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
+           }),
+           male_percentage = round(Male/total_male, 2),
+           female_percentage = round(Female/total_female, 2),
+    ) %>%
+    rename(financial_hardship = x_options)
+
   return(df_output)
 }
