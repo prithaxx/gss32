@@ -78,12 +78,18 @@ tab_activity_receive_help <- function(df) {
 
 tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   start <- x_options[1]
+  end <- x_options[length(x_options)]
   total_male <- sum(df$SEX == 1)
   total_female <- sum(df$SEX == 2)
 
+  print(start)
+  print(length(x_options))
+  print(x_options[length(x_options)])
+
   tibble(x_options = names(x_options), count) %>%
-    mutate(percentage = count / sum(count),
-           Male = sapply(start:length(x_options), function(i) {
+    mutate(percentage = count / sum(count)
+            ,
+           Male = sapply(start:end, function(i) {
 
              if (!is.null(col2)) {
                sum(df$SEX == 1 & df[[cols]] == i & df[[col2]] == response_code)
@@ -91,13 +97,14 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
                sum(df$SEX == 1 & df[[cols]] == i)
              }
            }),
-           Female = sapply(start:length(x_options), function(i) {
+           Female = sapply(start:end, function(i) {
              if (!is.null(col2)) {
                sum(df$SEX == 2 & df[[cols]] == i & df[[col2]] == response_code)
              } else {
                sum(df$SEX == 2 & df[[cols]] == i)
              }
-           }),
+           })
+        ,
            male_percentage = round(Male/total_male, 2),
            female_percentage = round(Female/total_female, 2),
     )
