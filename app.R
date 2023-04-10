@@ -143,9 +143,7 @@ default <- 0
 
 ui <- fluidPage(
   useShinyjs(),
-  actionButton("button", "Click me"),
-  textInput("text", "Text"),
-  
+
   titlePanel("Explore the 2018 General Social Survey on Caregiving and Care Receiving"),
   div(
     p("The data represents respondents who are:"),
@@ -252,10 +250,6 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  observeEvent(input$button, {
-    toggle("text")  # toggle is a shinyjs function
-  })
-  
   observeEvent(input$receiver_radio, {
     if (input$receiver_radio != 1) {
       disable("radio_select_box")
@@ -322,26 +316,34 @@ server <- function(input, output) {
 
     chart <- receiver_response_charts[[index]]
     tab <- receiver_tabs[[index]]
-    x_lab <- receiver_options[[index]]
+    x_lab <- names(receiver_options)[[index]]
+    title_lab <- group_by_titles[[index]]
 
     update_receiver_df()
 
     if (input$receiver_radio == 2) {
       # group_by_sex(output_receiver_df)
-      group_by_sex(output_receiver_df, tab, x_lab)
+      group_by_sex(output_receiver_df, tab, x_lab, title_lab)
     } else {
       chart(output_receiver_df)
     }
-    # chart(output_receiver_df)
+
   })
 
   # receiver percentage tab
   output$receiver_percentage <- renderPlot({
-    chart <- receiver_charts_percent[[input$receiver_select_box]]
+
+    index <- receiver_options[[input$receiver_select_box]]
+    # print(index)
+    chart <- receiver_charts_percent[[index]]
+    tab <- receiver_tabs[[index]]
+    x_lab <- names(receiver_options)[[index]]
+    print(x_lab)
+    title_lab <- group_by_titles[[index]]
     update_receiver_df()
 
     if (input$receiver_radio == 2) {
-      group_by_sex_percent(output_receiver_df)
+      group_by_sex_percent(output_receiver_df, tab, x_lab, title_lab)
     } else {
       chart(output_receiver_df)
     }

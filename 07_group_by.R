@@ -1,21 +1,23 @@
-receiver_x_options <- list(
-  health_conditions,
-  help_activities,
-  giver_age_group,
-  primary_receiver_age_group,
-  help_hours,
-  dwelling_distances,
-  primary_help_banking_freq,
-  primary_help_banking_hours
+group_by_titles <- list(
+  "Number of People with Health Conditions by Sex",
+  "Number of People who Received Help with an Activity by Sex",
+  "Age of Respondent's Primary Caregiver by Sex",
+  "Number of People who Received Professional Help with an Activity by Sex",
+  "Number of People and the Number of Hours of Help Received - Per Average Week by Sex",
+  "Number of People and the Distance Between the Respondent and the Caregiver's Dwellings by Sex",
+  "Number of People and the Frequency Their Primary Caregiver Helped with Banking by Sex",
+  "Number of People and Number of Hours the Primary Caregiver Helped with Banking by Sex",
+  "Number of People and Number of Hours the Primary Caregiver Helped with Banking Daily by Sex",
+  "Number of People and Number of Hours the Primary Caregiver Helped with Banking Weekly by Sex",
+  "Number of People and Number of Hours the Primary Caregiver Helped with Banking Monthly by Sex",
+  "Number of People and Number of Hours the Primary Caregiver Helped with Banking Less Than Once a Month by Sex"
 )
 
-receiver_x_lab <- list(
-  "Health Conditions"
-
-)
-
-
-group_by_sex <- function(df_input, tab_option,  x_lab) {
+# group_by_sex():
+# df_input (tibble):
+# tab_option (function):
+# x_lab (string):
+group_by_sex <- function(df_input, tab_option,  x_lab, title_lab) {
   df <- tab_option(df_input)
 
   # convert the data from wide to long format
@@ -24,7 +26,7 @@ group_by_sex <- function(df_input, tab_option,  x_lab) {
   chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = Count, fill = sex)) +
     geom_col(position = "dodge") +
     labs(
-      title = "Number of People with Health Conditions by Sex",
+      title = title_lab,
       x = x_lab,
       y = "Number of People"
     )
@@ -33,21 +35,20 @@ group_by_sex <- function(df_input, tab_option,  x_lab) {
 }
 
 # group_by_percent
+group_by_sex_percent <- function(df_input, tab_option, x_lab, title_lab) {
+  df <- tab_option(df_input)
 
-group_by_sex_percent <- function(df) {
-  df <- tab_health_conditions(df)
-  
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = c(male_percentage, female_percentage), names_to = "sex", values_to = "sex_percent")
   # print(df_long)
- 
-  chart_output <- ggplot(df_long, aes(x = fct_inorder(health_conditions), y = sex_percent, fill = sex)) +
+
+  chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = sex_percent, fill = sex)) +
     geom_col(position = "dodge") +
     labs(
-      title = "Number of People with Health Conditions by Sex",
-      x = "Health Conditions",
-      y = "Number of People"
-    ) 
-  
+      title = title_lab,
+      x = x_lab,
+      y = "Percentage of people"
+    )
+
   return(chart_output)
 }
