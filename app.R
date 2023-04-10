@@ -21,6 +21,34 @@ receiver_response_charts <- list(
   "Help banking hours - at least once a month" = chart_help_banking_monthly,
   "Help banking hours - less than once a month" = chart_help_banking_monthly_less
 )
+receiver_options <- list(
+  "Health conditions" = 1,
+  "Activity receive help" = 2,
+  "Age of primary giver" = 3,
+  "Activity receive help from professional" = 4,
+  "Hours of help received" = 5,
+  "Primary giver distance" = 6,
+  "Receive help banking - frequency" = 7,
+  "Receive help banking - hours" = 8,
+  "Help banking hours - daily" = 9,
+  "Help banking hours - at least once a week" = 10,
+  "Help banking hours - at least once a month" = 11,
+  "Help banking hours - less than once a month" = 12
+)
+receiver_tabs <- list(
+  "Health conditions" = tab_health_conditions,
+  "Activity receive help" = tab_activity_receive_help,
+  "Age of primary giver" = tab_age_primary_giver,
+  "Activity receive help from professional" = tab_activity_receive_help_pro,
+  "Hours of help received" = tab_hours_help_received,
+  "Primary giver distance" = tab_primary_giver_distance,
+  "Receive help banking - frequency" = tab_receive_help_banking_freq,
+  "Receive help banking - hours" = tab_receive_help_banking_hours,
+  "Help banking hours - daily" = tab_help_banking_hours_daily,
+  "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
+  "Help banking hours - at least once a month" = tab_help_banking_hours_monthly,
+  "Help banking hours - less than once a month" = tab_help_banking_hours_monthly_less
+)
 receiver_charts_percent <- list(
   "Health conditions" = chart_health_conditions_percent,
   "Activity receive help" = chart_activity_receive_help_percent,
@@ -289,11 +317,18 @@ server <- function(input, output) {
 
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
-    chart <- receiver_response_charts[[input$receiver_select_box]]
+    index <- receiver_options[[input$receiver_select_box]]
+    # print(index)
+
+    chart <- receiver_response_charts[[index]]
+    tab <- receiver_tabs[[index]]
+    x_lab <- receiver_options[[index]]
+
     update_receiver_df()
-    
+
     if (input$receiver_radio == 2) {
-      group_by_sex(output_receiver_df)
+      # group_by_sex(output_receiver_df)
+      group_by_sex(output_receiver_df, tab, x_lab)
     } else {
       chart(output_receiver_df)
     }
