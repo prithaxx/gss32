@@ -151,7 +151,7 @@ y_primary_receiver_distance <- function(df) {
 }
 
 y_give_help_banking_freq <- function(df) {
-  give_help_banking_freq <- count_map(df, primary_help_banking_freq, "AGB_20")
+  give_help_banking_freq <- count_map(df, primary_help_banking_freq, "ARB_20")
 }
 
 y_give_help_banking_hours <- function(df) {

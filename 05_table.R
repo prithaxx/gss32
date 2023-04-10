@@ -1,10 +1,10 @@
-# tab_helper():
-# df (tibble):
-# count (vector):
-# x_options (vector):
-# cols (string):
-# cols2 (string):
-# response_code (integer):
+# tab_helper(): returns a data frame adding sex counts and percentage columns
+# df (tibble): data frame to be transformed
+# count (vector): y-axis values (quantitative)
+# x_options (vector): x-axis values (categorical)
+# cols (string): primary filter variable
+# cols2 (string = NULL): secondary filter variable
+# response_code (integer): mapped value to cols2
 tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   start <- x_options[1]
   end <- x_options[length(x_options)]
@@ -32,6 +32,12 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
     )
 }
 
+# tab_helper_multi_var(): returns a data frame where x values are consists of multiple variables adding sex counts and
+# percentage columns
+# df (tibble): data frame to be transformed
+# count (vector): y-axis values (quantitative)
+# x_options (vector): x-axis values (categorical)
+# cols (vector): primary filter variables where each value in x_options is mapped to a different column
 tab_helper_multi_var <- function(df, count, x_options, cols) {
   total_male <- sum(df$SEX == 1)
   total_female <- sum(df$SEX == 2)

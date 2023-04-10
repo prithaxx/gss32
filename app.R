@@ -7,20 +7,7 @@ general_charts <- list(
   "Sex of primary caregivers and care receivers"
 )
 
-receiver_response_charts <- list(
-  "Health conditions" = chart_health_conditions,
-  "Activity receive help" = chart_activity_receive_help,
-  "Age of primary giver" = chart_age_primary_giver,
-  "Activity receive help from professional" = chart_activity_receive_help_pro,
-  "Hours of help received" = chart_hours_help_received,
-  "Primary giver distance" = chart_primary_giver_distance,
-  "Receive help banking - frequency" = chart_receive_help_banking_freq,
-  "Receive help banking - hours" = chart_receive_help_banking_hours,
-  "Help banking hours - daily" = chart_help_banking_hours_daily,
-  "Help banking hours - at least once a week" = chart_help_banking_weekly,
-  "Help banking hours - at least once a month" = chart_help_banking_monthly,
-  "Help banking hours - less than once a month" = chart_help_banking_monthly_less
-)
+
 receiver_options <- list(
   "Health conditions" = 1,
   "Activity receive help" = 2,
@@ -35,20 +22,22 @@ receiver_options <- list(
   "Help banking hours - at least once a month" = 11,
   "Help banking hours - less than once a month" = 12
 )
-receiver_tabs <- list(
-  "Health conditions" = tab_health_conditions,
-  "Activity receive help" = tab_activity_receive_help,
-  "Age of primary giver" = tab_age_primary_giver,
-  "Activity receive help from professional" = tab_activity_receive_help_pro,
-  "Hours of help received" = tab_hours_help_received,
-  "Primary giver distance" = tab_primary_giver_distance,
-  "Receive help banking - frequency" = tab_receive_help_banking_freq,
-  "Receive help banking - hours" = tab_receive_help_banking_hours,
-  "Help banking hours - daily" = tab_help_banking_hours_daily,
-  "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
-  "Help banking hours - at least once a month" = tab_help_banking_hours_monthly,
-  "Help banking hours - less than once a month" = tab_help_banking_hours_monthly_less
+
+receiver_response_charts <- list(
+  "Health conditions" = chart_health_conditions,
+  "Activity receive help" = chart_activity_receive_help,
+  "Age of primary giver" = chart_age_primary_giver,
+  "Activity receive help from professional" = chart_activity_receive_help_pro,
+  "Hours of help received" = chart_hours_help_received,
+  "Primary giver distance" = chart_primary_giver_distance,
+  "Receive help banking - frequency" = chart_receive_help_banking_freq,
+  "Receive help banking - hours" = chart_receive_help_banking_hours,
+  "Help banking hours - daily" = chart_help_banking_hours_daily,
+  "Help banking hours - at least once a week" = chart_help_banking_weekly,
+  "Help banking hours - at least once a month" = chart_help_banking_monthly,
+  "Help banking hours - less than once a month" = chart_help_banking_monthly_less
 )
+
 receiver_charts_percent <- list(
   "Health conditions" = chart_health_conditions_percent,
   "Activity receive help" = chart_activity_receive_help_percent,
@@ -63,6 +52,7 @@ receiver_charts_percent <- list(
   "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
   "Help banking hours - less than once a month" = chart_help_banking_monthly_less_percent
 )
+
 receiver_response_tabs <- list(
   "Health conditions" = tab_health_conditions,
   "Activity receive help" = tab_activity_receive_help,
@@ -76,6 +66,21 @@ receiver_response_tabs <- list(
   "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
   "Help banking hours - at least once a month" = tab_help_banking_hours_monthly,
   "Help banking hours - less than once a month" = tab_help_banking_hours_monthly_less
+)
+
+giver_options <- list(
+  "Activity give help" = 1,
+  "Age of primary receiver" = 2,
+  "Hours of help provided" = 3,
+  "Primary receiver distance" = 4,
+  "Give help banking - frequency" = 5,
+  "Give help banking - hours" = 6,
+  "Give help banking - daily" = 7,
+  "Give help banking - at least once a week" = 8,
+  "Give help banking - at least once a month" = 9,
+  "Give help banking - less than once a month" = 10,
+  "Out of pocket expenses" = 11,
+  "Financial hardship" = 12
 )
 
 giver_response_charts <- list(
@@ -126,20 +131,6 @@ giver_response_tabs <- list(
 group_by_options <- list("None" = 1, "Sex" = 2, "Age group" = 3, "Living arrangement" = 4, "Visible minority status" = 5)
 show_group <- list("false", "true")
 default <- 0
-
-# apply_filter(): takes a frame and filter based on option selected
-# df_input (tibble): data frame to be transformed
-# select_option (integer): filter value mapped to the response category
-# col_name (String): variable to filter by
-# apply_filter <- function(df_input, select_option, col_name) {
-#   filtered_df <- if (select_option != -1) {
-#     filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
-#   } else {
-#     df_input
-#   }
-# 
-#   return(filtered_df)
-# }
 
 ui <- fluidPage(
   useShinyjs(),
@@ -226,7 +217,8 @@ ui <- fluidPage(
         selectInput("giver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = default),
         selectInput("giver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = default),
         selectInput("giver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = default),
-        selectInput("giver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = default)
+        selectInput("giver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = default),
+        radioButtons("giver_radio", "Group by:", choices = group_by_options, selected = 1)
       ),
       mainPanel(
         tabsetPanel(
@@ -312,12 +304,11 @@ server <- function(input, output) {
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
     index <- receiver_options[[input$receiver_select_box]]
-    # print(index)
 
     chart <- receiver_response_charts[[index]]
-    tab <- receiver_tabs[[index]]
+    tab <- receiver_response_tabs[[index]]
     x_lab <- names(receiver_options)[[index]]
-    title_lab <- group_by_titles[[index]]
+    title_lab <- receiver_group_by_titles[[index]]
 
     update_receiver_df()
 
@@ -332,14 +323,13 @@ server <- function(input, output) {
 
   # receiver percentage tab
   output$receiver_percentage <- renderPlot({
-
     index <- receiver_options[[input$receiver_select_box]]
-    # print(index)
+
     chart <- receiver_charts_percent[[index]]
-    tab <- receiver_tabs[[index]]
+    tab <- receiver_response_tabs[[index]]
     x_lab <- names(receiver_options)[[index]]
-    print(x_lab)
     title_lab <- group_by_titles[[index]]
+
     update_receiver_df()
 
     if (input$receiver_radio == 2) {
@@ -347,7 +337,7 @@ server <- function(input, output) {
     } else {
       chart(output_receiver_df)
     }
-    
+
   })
 
   # receiver table tab
@@ -383,17 +373,39 @@ server <- function(input, output) {
 
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
-    chart <- giver_response_charts[[input$giver_select_box]]
+    # chart <- giver_response_charts[[input$giver_select_box]]
+    # update_giver_df()
+    
+    index <- giver_options[[input$giver_select_box]]
+    
+    chart <- giver_response_charts[[index]]
+    tab <- giver_response_tabs[[index]]
+    x_lab <- names(giver_options)[[index]]
+    title_lab <- giver_group_by_titles[[index]]
+    
     update_giver_df()
-    chart(df_output_giver)
-
-    # giver_response_charts[[input$giver_selected_box]]
+    
+    if (input$giver_radio == 2) {
+      # group_by_sex(output_receiver_df)
+      print("group by sex radio selected")
+      print(tab)
+      print(x_lab)
+      print(title_lab)
+      
+      group_by_sex(df_output_giver, tab, x_lab, title_lab)
+    } else {
+      chart(df_output_giver)
+    }
+    
   })
 
   # giver percentage tab
   output$giver_percentage <- renderPlot({
     chart <- giver_response_percent[[input$giver_select_box]]
     update_giver_df()
+    
+
+    
     chart(df_output_giver)
   })
 
