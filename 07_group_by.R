@@ -38,7 +38,6 @@ group_by_sex <- function(df_input, tab_option, x_lab, title_lab) {
 
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = names(filter_sex[2:3]), names_to = "sex", values_to = "Count")
-  print(df_long)
 
   chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = Count, fill = sex)) +
     geom_col(position = "dodge") +
@@ -61,7 +60,6 @@ group_by_sex_percent <- function(df_input, tab_option, x_lab, title_lab) {
 
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = c(male_percentage, female_percentage), names_to = "sex", values_to = "sex_percent")
-  # print(df_long)
 
   chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = sex_percent, fill = sex)) +
     geom_col(position = "dodge") +

@@ -313,7 +313,6 @@ server <- function(input, output) {
     update_receiver_df()
 
     if (input$receiver_radio == 2) {
-      # group_by_sex(output_receiver_df)
       group_by_sex(output_receiver_df, tab, x_lab, title_lab)
     } else {
       chart(output_receiver_df)
@@ -386,27 +385,30 @@ server <- function(input, output) {
     update_giver_df()
     
     if (input$giver_radio == 2) {
-      # group_by_sex(output_receiver_df)
-      print("group by sex radio selected")
-      print(tab)
-      print(x_lab)
-      print(title_lab)
-      
       group_by_sex(df_output_giver, tab, x_lab, title_lab)
     } else {
       chart(df_output_giver)
     }
-    
+
   })
 
   # giver percentage tab
   output$giver_percentage <- renderPlot({
-    chart <- giver_response_percent[[input$giver_select_box]]
-    update_giver_df()
-    
+    index <- giver_options[[input$giver_select_box]]
 
+    chart <- giver_response_percent[[index]]
+    tab <- giver_response_tabs[[index]]
+    x_lab <- names(giver_options)[[index]]
+    title_lab <- giver_group_by_titles[[index]]
     
-    chart(df_output_giver)
+    update_giver_df()
+
+    if (input$giver_radio == 2) {
+      group_by_sex_percent(df_output_giver, tab, x_lab, title_lab)
+    } else {
+      chart(df_output_giver)
+    }
+  
   })
 
   # giver table tab
