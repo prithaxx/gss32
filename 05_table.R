@@ -10,6 +10,8 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   end <- x_options[length(x_options)]
   total_male <- sum(df$SEX == 1)
   total_female <- sum(df$SEX == 2)
+  total_age_65_74 <- sum(df$AGEGR10 == 6)
+  total_age_75 <- sum(df$AGEGR10 == 7)
 
   tibble(x_options = names(x_options), count) %>%
     mutate(percentage = count / sum(count),
@@ -29,6 +31,23 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
            }),
            male_percentage = round(Male/total_male, 2),
            female_percentage = round(Female/total_female, 2),
+           age_65_74 = sapply(start:end, function(i) {
+             if (!is.null(col2)) {
+               sum(df$AGEGR10 == 6 & df[[cols]] == i & df[[col2]] == response_code)
+             } else {
+               sum(df$AGEGR10 == 6 & df[[cols]] == i)
+             }
+           }),
+           age_75 = sapply(start:end, function(i) {
+             if (!is.null(col2)) {
+               sum(df$AGEGR10 == 7 & df[[cols]] == i & df[[col2]] == response_code)
+             } else {
+               sum(df$AGEGR10 == 7 & df[[cols]] == i)
+             }
+           }),
+           age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
+           age_75_percentage = round(age_75 / total_age_75, 2)
+
     )
 }
 
@@ -41,6 +60,8 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
 tab_helper_multi_var <- function(df, count, x_options, cols) {
   total_male <- sum(df$SEX == 1)
   total_female <- sum(df$SEX == 2)
+  total_age_65_74 <- sum(df$AGEGR10 == 6)
+  total_age_75 <- sum(df$AGEGR10 == 7)
 
   tibble(x_options, count) %>%
     mutate(percentage = count / sum(count),
@@ -52,6 +73,14 @@ tab_helper_multi_var <- function(df, count, x_options, cols) {
            }),
            male_percentage = round(Male/total_male, 2),
            female_percentage = round(Female/total_female, 2),
+           age_65_74 = sapply(seq_along(x_options), function(i) {
+             sum(df$AGEGR10 == 6 & df[[cols[i]]] == 1)
+           }),
+           age_75 = sapply(seq_along(x_options), function(i) {
+             sum(df$AGEGR10 == 7 & df[[cols[i]]] == 1)
+           }),
+           age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
+           age_75_percentage = round(age_75 / total_age_75, 2)
     )
 }
 

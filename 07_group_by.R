@@ -28,6 +28,17 @@ giver_group_by_titles <- list(
   "who Experienced Financial Hardship Because of Caregiving Responsibilities"
 )
 
+group_by_age <- function(df_input) {
+
+
+
+
+}
+
+group_by_age_percent <- function(df_input) {
+
+}
+
 # group_by_sex(): Returns a chart where the y variable *counts* are grouped by sex
 # df_input (tibble): data frame to be transformed
 # tab_option (function): the function from the receiver_tabs list to transform df_input

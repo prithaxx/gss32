@@ -327,7 +327,7 @@ server <- function(input, output) {
     chart <- receiver_charts_percent[[index]]
     tab <- receiver_response_tabs[[index]]
     x_lab <- names(receiver_options)[[index]]
-    title_lab <- group_by_titles[[index]]
+    title_lab <- receiver_group_by_titles[[index]]
 
     update_receiver_df()
 
