@@ -1,9 +1,54 @@
+library(conflicted)
+library(tidyverse)
+library(haven)
+library(viridis)
+conflicts_prefer(dplyr::filter)
+
 source("01_main.R")
 source("02_var_x.R")
 source("03_var_y.R")
 source("04_general_df.R")
 source("05_table.R")
 source("06_percentage.R")
+source("07_group_by.R")
+
+
+# apply_filter(): takes a frame and filter based on option selected
+# df_input (tibble): data frame to be transformed
+# select_option (integer): filter value mapped to the response category
+# col_name (String): variable to filter by
+apply_filter <- function(df_input, select_option, col_name) {
+  filtered_df <- if (select_option != -1) {
+    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
+  } else {
+    df_input
+  }
+  
+  return(filtered_df)
+}
+
+# count_map(): takes a frame and returns the count for a categorical vector based on a chosen column
+# df (tibble): data frame to be transformed
+# x_options (vector): vector of variables to be counted
+# col_name (String): variable to filter by
+# col_name2 (String): second variable to filter by
+# response_code (numeric): response value constant mapped to col_name2
+count_map <- function(df_input, x_options, col_name, col_name2 = NULL, response_code = NULL) {
+  counts <- unlist(map(x_options, function(f) {
+    if (!is.null(col_name2) & !is.null(response_code)) {
+      nrow(filter(df_input, !!as.symbol(col_name) == f & !!as.symbol(col_name2) == response_code))
+    } else {
+      nrow(filter(df_input, !!as.symbol(col_name) == f))
+    }
+  }
+  ))
+}
+
+total_receiver_male <- nrow(apply_filter(df_receiver, 1, "SEX"))
+total_receiver_female <- nrow(apply_filter(df_receiver, 2, "SEX"))
+total_giver_male <- nrow(apply_filter(df_giver, 1, "SEX"))
+total_giver_female <- nrow(apply_filter(df_giver, 2, "SEX"))
+
 # General Charts ####
 
 ## Respondent groups ####
@@ -14,9 +59,9 @@ c_respondent_groups <- ggplot(
   geom_col() +
   geom_text(aes(label = pop_freq), position = position_stack(vjust = 0.5)) +
   ggtitle("GSS 2018 repsondent groups") +
-  labs(caption = str_wrap("Count for respondent groupings: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)) +
-  xlab("Respondent group") +
-  ylab("Count") +
+  labs(x = "Respondent group", 
+       y = "Count", 
+       caption = str_wrap("Count for respondent groupings: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)) +
   scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
   scale_fill_viridis_d() +
   guides(fill = "none") +
@@ -34,7 +79,7 @@ c_primary_sex <- ggplot(
   xlab("Sex") +
   ylab("Count") +
   facet_wrap(~type, ncol = 1) +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d(begin = 0.2, end = 0.8) +
   guides(fill = "none") +
   theme(plot.caption = element_text(hjust = 0))
 
@@ -122,9 +167,9 @@ chart_activity_receive_help_pro <- function(df_receiver) {
   c_activity_receive_help_pro <- ggplot(
     data = df_activity_receive_help_pro,
     mapping = aes(
-      x = fct_inorder(activity_receive_help),
+      x = fct_inorder(help_activities),
       y = count,
-      fill = activity_receive_help
+      fill = help_activities
     )
   ) +
     geom_col() +
@@ -133,7 +178,7 @@ chart_activity_receive_help_pro <- function(df_receiver) {
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$activity_receive_help, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$help_activities, width = 12)) +
     scale_fill_viridis_d() +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0))
@@ -345,29 +390,15 @@ chart_help_banking_monthly_less <- function(df_receiver) {
 
 ### Types of activities respondents provided help with
 chart_activity_give_help <- function(df_giver) {
-  transportation <- nrow(filter(df_giver, APR_10 == 1))
-  household_chores <- nrow(filter(df_giver, APR_20 == 1))
-  house_maintenance <- nrow(filter(df_giver, APR_30 == 1))
-  personal_care <- nrow(filter(df_giver, APR_40 == 1))
-  medical_treatment <- nrow(filter(df_giver, APR_50 == 1))
-  scheduling <- nrow(filter(df_giver, APR_60 == 1))
-  banking <- nrow(filter(df_giver, APR_70 == 1))
-  help_activity_other <- nrow(filter(df_giver, APR_80 == 1))
-
-  activity_give_help_freq <- c(
-    transportation, household_chores, house_maintenance, personal_care, medical_treatment,
-    scheduling, banking, help_activity_other
-  )
-  # df_activity_give_help <- tab_activity_give_help(df_giver)
-  df_activity_give_help <- tibble(help_activities, activity_give_help_freq)
+  df_activity_give_help <- tab_activity_give_help(df_giver)
 
   c_activity_give_help <- ggplot(data = df_activity_give_help, mapping = aes(
     x = fct_inorder(help_activities), 
-    y = activity_give_help_freq, 
+    y = count, 
     fill = help_activities
   )) +
     geom_col() +
-    geom_text(aes(label = activity_give_help_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Types of activities respondents provided help with - Past 12 months") +
     xlab("Activity") +
     ylab("Count") +
@@ -381,44 +412,16 @@ chart_activity_give_help <- function(df_giver) {
 
 ### Age of respondent's care receiver
 chart_age_primary_receiver <- function(df_giver) {
-  age_receiver_1 <- nrow(filter(df_giver, CRRCPAGR == 1))
-  age_receiver_2 <- nrow(filter(df_giver, CRRCPAGR == 2))
-  age_receiver_3 <- nrow(filter(df_giver, CRRCPAGR == 3))
-  age_receiver_4 <- nrow(filter(df_giver, CRRCPAGR == 4))
-  age_receiver_5 <- nrow(filter(df_giver, CRRCPAGR == 5))
-  age_receiver_6 <- nrow(filter(df_giver, CRRCPAGR == 6))
-  age_receiver_7 <- nrow(filter(df_giver, CRRCPAGR == 7))
-  age_receiver_8 <- nrow(filter(df_giver, CRRCPAGR == 8))
-  age_receiver_9 <- nrow(filter(df_giver, CRRCPAGR == 9))
-  age_receiver_10 <- nrow(filter(df_giver, CRRCPAGR == 10))
-  age_receiver_11 <- nrow(filter(df_giver, CRRCPAGR == 11))
-  age_receiver_12 <- nrow(filter(df_giver, CRRCPAGR == 12))
-  age_receiver_13 <- nrow(filter(df_giver, CRRCPAGR == 13))
-  age_receiver_14 <- nrow(filter(df_giver, CRRCPAGR == 14))
-  age_receiver_15 <- nrow(filter(df_giver, CRRCPAGR == 15))
-  age_receiver_16 <- nrow(filter(df_giver, CRRCPAGR == 16))
-  age_receiver_17 <- nrow(filter(df_giver, CRRCPAGR == 17))
-  age_receiver_18 <- nrow(filter(df_giver, CRRCPAGR == 18))
-  age_receiver_19 <- nrow(filter(df_giver, CRRCPAGR == 19))
-  age_receiver_20 <- nrow(filter(df_giver, CRRCPAGR == 20))
-
-  age_receiver_freq <- c(
-    age_receiver_1, age_receiver_2, age_receiver_3, age_receiver_4, age_receiver_5, age_receiver_6,
-    age_receiver_7, age_receiver_8, age_receiver_9, age_receiver_10, age_receiver_11,
-    age_receiver_12, age_receiver_13, age_receiver_14, age_receiver_15, age_receiver_16,
-    age_receiver_17, age_receiver_18, age_receiver_19, age_receiver_20
-  )
-
-  df_age_primary_receiver <- tibble(primary_receiver_age_group, age_receiver_freq)
+  df_age_primary_receiver <- tab_age_primary_receiver(df_giver)
 
   c_age_primary_receiver <- ggplot(
     data = df_age_primary_receiver, 
     mapping = aes(
       x = fct_inorder(primary_receiver_age_group), 
-      y = age_receiver_freq, 
+      y = count, 
       fill = primary_receiver_age_group)) +
     geom_col() +
-    geom_text(aes(label = age_receiver_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Age of primary care receiver") +
     xlab("Age Group (years)") +
     ylab("Count") +
@@ -431,26 +434,17 @@ chart_age_primary_receiver <- function(df_giver) {
 
 # ### Number of hours are or help provided by respondent - Per average week
 chart_hours_help_provided <- function(df_giver) {
-  hours_0 <- nrow(filter(df_giver, HAR_10C == 0))
-  hours_1 <- nrow(filter(df_giver, HAR_10C == 1))
-  hours_2 <- nrow(filter(df_giver, HAR_10C == 2))
-  hours_3 <- nrow(filter(df_giver, HAR_10C == 3))
-  hours_4 <- nrow(filter(df_giver, HAR_10C == 4))
-  hours_5 <- nrow(filter(df_giver, HAR_10C == 5))
-
-  hours_help_provided_freq <- c(hours_0, hours_1, hours_2, hours_3, hours_4, hours_5)
-
-  df_hours_help_provided <- tibble(help_hours, hours_help_provided_freq)
+  df_hours_help_provided <- tab_hours_help_provided(df_giver)
 
   c_hours_help_provided <- ggplot(
     data = df_hours_help_provided, 
     mapping = aes(
-    x = fct_inorder(help_hours), 
-    y = hours_help_provided_freq, 
-    fill = help_hours
+      x = fct_inorder(help_hours),
+      y = count, 
+      fill = help_hours
   )) +
     geom_col() +
-    geom_text(aes(label = hours_help_provided_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Numbers of hours of help provided - Per average week per activity") +
     xlab("Time (hours)") +
     ylab("Count") +
@@ -462,37 +456,19 @@ chart_hours_help_provided <- function(df_giver) {
 
 # ### Distance between the respondent's and the care receiver's dwellings PRD_10
 chart_primary_receiver_distance <- function(df_giver) {
-  primary_receiver_distance_1 <- nrow(filter(df_giver, PRD_10 == 1))
-  primary_receiver_distance_2 <- nrow(filter(df_giver, PRD_10 == 2))
-  primary_receiver_distance_3 <- nrow(filter(df_giver, PRD_10 == 3))
-  primary_receiver_distance_4 <- nrow(filter(df_giver, PRD_10 == 4))
-  primary_receiver_distance_5 <- nrow(filter(df_giver, PRD_10 == 5))
-  primary_receiver_distance_6 <- nrow(filter(df_giver, PRD_10 == 6))
-  primary_receiver_distance_7 <- nrow(filter(df_giver, PRD_10 == 7))
-
-  primary_receiver_distance_freq <- c(
-    primary_receiver_distance_1, 
-    primary_receiver_distance_2,
-    primary_receiver_distance_3,
-    primary_receiver_distance_4, 
-    primary_receiver_distance_5, 
-    primary_receiver_distance_6,
-    primary_receiver_distance_7
-  )
-
-  df_primary_receiver_distance <- tibble(dwelling_distances, primary_receiver_distance_freq)
-
+  df_primary_receiver_distance <- tab_primary_receiver_distance(df_giver)
+  
   c_primary_receiver_distance <- ggplot(
     data = df_primary_receiver_distance, 
     mapping = aes(
       x = fct_inorder(dwelling_distances), 
-      y = primary_receiver_distance_freq, 
+      y = count,
       fill = dwelling_distances
   )) +
     geom_col() +
-    geom_text(aes(label = primary_receiver_distance_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Distance between the respondent's and carereceiver's dwellings") +
-    xlab("Distance (by car)") +
+    xlab("Distance by car") +
     ylab("Count") +
     scale_fill_viridis_d() +
     guides(fill = "none")
@@ -502,27 +478,17 @@ chart_primary_receiver_distance <- function(df_giver) {
 
 ### Helped primary care receiver with banking - Frequency
 chart_give_help_banking_freq <- function(df_giver) {
-  primary_help_banking_1 <- nrow(filter(df_giver, AGB_20 == 1))
-  primary_help_banking_2 <- nrow(filter(df_giver, AGB_20 == 2))
-  primary_help_banking_3 <- nrow(filter(df_giver, AGB_20 == 3))
-  primary_help_banking_4 <- nrow(filter(df_giver, AGB_20 == 4))
-
-  primary_help_banking_freq_y <- c(
-    primary_help_banking_1, primary_help_banking_2, primary_help_banking_3,
-    primary_help_banking_4
-  )
-
-  df_primary_help_banking <- tibble(primary_help_banking_freq, primary_help_banking_freq_y)
+  df_give_help_banking_freq <- tab_give_help_banking_freq(df_giver)
 
   c_give_help_banking_freq <- ggplot(
-    data = df_primary_help_banking, 
+    data = df_give_help_banking_freq,
     mapping = aes(
       x = fct_inorder(primary_help_banking_freq), 
-      y = primary_help_banking_freq_y, 
+      y = count,
       fill = primary_help_banking_freq
   )) +
     geom_col() +
-    geom_text(aes(label = primary_help_banking_freq_y), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Helped primary care receiver with banking - Frequency") +
     xlab("Help Frequency") +
     ylab("Count") +
@@ -534,26 +500,16 @@ chart_give_help_banking_freq <- function(df_giver) {
 
 ### Helped primary care receiver with banking - Number of hours
 chart_give_help_banking_hours <- function(df_giver) {
-  primary_receiver_banking_hours_1 <- nrow(filter(df_giver, ARB_30C == 1))
-  primary_receiver_banking_hours_2 <- nrow(filter(df_giver, ARB_30C == 2))
-  primary_receiver_banking_hours_3 <- nrow(filter(df_giver, ARB_30C == 3))
-  primary_receiver_banking_hours_4 <- nrow(filter(df_giver, ARB_30C == 4))
-
-  primary_receiver_banking_hours_freq <- c(
-    primary_receiver_banking_hours_1, primary_receiver_banking_hours_2,
-    primary_receiver_banking_hours_3, primary_receiver_banking_hours_4
-  )
-
-  df_primary_receiver_banking_hours <- tibble(primary_help_banking_hours, primary_receiver_banking_hours_freq)
+  df_give_help_banking_hours <- tab_give_help_banking_hours(df_giver)
 
   c_give_help_banking_hours <- ggplot(
-    data = df_primary_receiver_banking_hours, 
+    data = df_give_help_banking_hours,
     mapping = aes(
       x = fct_inorder(primary_help_banking_hours), 
-      y = primary_receiver_banking_hours_freq, 
+      y = count,
       fill = primary_help_banking_hours)) +
     geom_col() +
-    geom_text(aes(label = primary_receiver_banking_hours_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Primary caregiver helped with banking - Number of hours") +
     xlab("Hours helped") +
     ylab("Count") +
@@ -566,27 +522,17 @@ chart_give_help_banking_hours <- function(df_giver) {
 ### The following 4 charts show how often the respondent provided help with banking to their primary care receiver and for how many hours each time
 ### daily
 chart_give_help_banking_daily <- function(df_giver) {
-  help_banking_1 <- nrow(filter(df_giver, ARB_30C == 1 & ARB_20 == 1))
-  help_banking_2 <- nrow(filter(df_giver, ARB_30C == 2 & ARB_20 == 1))
-  help_banking_3 <- nrow(filter(df_giver, ARB_30C == 3 & ARB_20 == 1))
-  help_banking_4 <- nrow(filter(df_giver, ARB_30C == 4 & ARB_20 == 1))
-
-  help_banking_freq <- c(
-    help_banking_1, help_banking_2,
-    help_banking_3, help_banking_4
-  )
-
-  df_help_banking <- tibble(primary_help_banking_hours, help_banking_freq)
+  df_give_help_banking_daily <- tab_give_help_banking_daily(df_giver)
 
   c_give_help_banking_daily <- ggplot(
-    data = df_help_banking, 
+    data = df_give_help_banking_daily,
     mapping = aes(
       x = fct_inorder(primary_help_banking_hours), 
-      y = help_banking_freq, 
+      y = count,
       fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Helped primary care receiver with banking - Daily") +
     xlab("Time (hours)") +
     ylab("Count") +
@@ -598,27 +544,17 @@ chart_give_help_banking_daily <- function(df_giver) {
 
 ### weekly
 chart_give_help_banking_weekly <- function(df_giver) {
-  help_banking_1 <- nrow(filter(df_giver, ARB_30C == 1 & ARB_20 == 2))
-  help_banking_2 <- nrow(filter(df_giver, ARB_30C == 2 & ARB_20 == 2))
-  help_banking_3 <- nrow(filter(df_giver, ARB_30C == 3 & ARB_20 == 2))
-  help_banking_4 <- nrow(filter(df_giver, ARB_30C == 4 & ARB_20 == 2))
-
-  help_banking_freq <- c(
-    help_banking_1, help_banking_2,
-    help_banking_3, help_banking_4
-  )
-
-  df_help_banking <- tibble(primary_help_banking_hours, help_banking_freq)
+  df_give_help_banking_weekly <- tab_give_help_banking_weekly(df_giver)
 
   c_give_help_banking_weekly <- ggplot(
-    data = df_help_banking, 
+    data = df_give_help_banking_weekly,
     mapping = aes(
       x = fct_inorder(primary_help_banking_hours), 
-      y = help_banking_freq, 
+      y = count,
       fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Helped primary care receiver with banking - At least once a week") +
     xlab("Time (hours)") +
     ylab("Count") +
@@ -630,27 +566,17 @@ chart_give_help_banking_weekly <- function(df_giver) {
 
 ### monthly
 chart_give_help_banking_monthly <- function(df_giver) {
-  help_banking_1 <- nrow(filter(df_giver, ARB_30C == 1 & ARB_20 == 3))
-  help_banking_2 <- nrow(filter(df_giver, ARB_30C == 2 & ARB_20 == 3))
-  help_banking_3 <- nrow(filter(df_giver, ARB_30C == 3 & ARB_20 == 3))
-  help_banking_4 <- nrow(filter(df_giver, ARB_30C == 4 & ARB_20 == 3))
-
-  help_banking_freq <- c(
-    help_banking_1, help_banking_2,
-    help_banking_3, help_banking_4
-  )
-
-  df_help_banking <- tibble(primary_help_banking_hours, help_banking_freq)
+  df_give_help_banking_monthly <- tab_give_help_banking_monthly(df_giver)
 
   c_give_help_banking_monthly <- ggplot(
-    data = df_help_banking, 
+    data = df_give_help_banking_monthly,
     mapping = aes(
       x = fct_inorder(primary_help_banking_hours), 
-      y = help_banking_freq, 
+      y = count,
       fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Helped primary care receiver with banking - At least once a month") +
     xlab("Time (hours)") +
     ylab("Count") +
@@ -662,27 +588,17 @@ chart_give_help_banking_monthly <- function(df_giver) {
 
 ### less than monthly
 chart_give_help_banking_monthly_less <- function(df_giver) {
-  help_banking_1 <- nrow(filter(df_giver, ARB_30C == 1 & ARB_20 == 4))
-  help_banking_2 <- nrow(filter(df_giver, ARB_30C == 2 & ARB_20 == 4))
-  help_banking_3 <- nrow(filter(df_giver, ARB_30C == 3 & ARB_20 == 4))
-  help_banking_4 <- nrow(filter(df_giver, ARB_30C == 4 & ARB_20 == 4))
-
-  help_banking_freq <- c(
-    help_banking_1, help_banking_2,
-    help_banking_3, help_banking_4
-  )
-
-  df_help_banking <- tibble(primary_help_banking_hours, help_banking_freq)
+  df_give_help_banking_monthly_less <- tab_give_help_banking_monthly_less(df_giver)
 
   c_give_help_banking_monthly_less <- ggplot(
-    data = df_help_banking, 
+    data = df_give_help_banking_monthly_less,
     mapping = aes(
       x = fct_inorder(primary_help_banking_hours), 
-      y = help_banking_freq, 
+      y = count,
       fill = primary_help_banking_hours
   )) +
     geom_col() +
-    geom_text(aes(label = help_banking_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Helped primary care receiver with banking - Less than once a month") +
     xlab("Time (hours)") +
     ylab("Count") +
@@ -696,29 +612,16 @@ chart_give_help_banking_monthly_less <- function(df_giver) {
 
 ### Out-of-pocket expenses because of caregiving responsibilities
 chart_out_of_pocket <- function(df_giver) {
-  out_of_pocket_1 <- nrow(filter(df_giver, ICF_210 == 1))
-  out_of_pocket_2 <- nrow(filter(df_giver, ICF_220 == 1))
-  out_of_pocket_3 <- nrow(filter(df_giver, ICF_230 == 1))
-  out_of_pocket_4 <- nrow(filter(df_giver, ICF_240 == 1))
-  out_of_pocket_5 <- nrow(filter(df_giver, ICF_250 == 1))
-  out_of_pocket_6 <- nrow(filter(df_giver, ICF_260 == 1))
-  out_of_pocket_7 <- nrow(filter(df_giver, ICF2_270 == 1))
-
-  out_of_pocket_freq <- c(
-    out_of_pocket_1, out_of_pocket_2, out_of_pocket_3, out_of_pocket_4, out_of_pocket_5,
-    out_of_pocket_6, out_of_pocket_7
-  )
-  
-  df_out_of_pocket <- tibble(out_of_pocket_expenses, out_of_pocket_freq)
+  df_out_of_pocket <- tab_out_of_pocket(df_giver)
 
   c_out_of_pocket <- ggplot(
     data = df_out_of_pocket, 
     mapping = aes(
       x = fct_inorder(out_of_pocket_expenses), 
-      y = out_of_pocket_freq, 
+      y = count,
       fill = out_of_pocket_expenses)) +
     geom_col() +
-    geom_text(aes(label = out_of_pocket_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Out-of-pocket expenses because of caregiving responsibilities") +
     xlab("Expense categories") +
     ylab("Count") +
@@ -731,30 +634,17 @@ chart_out_of_pocket <- function(df_giver) {
 
 ### Financial hardship
 chart_financial_hardship <- function(df_giver) {
-  financial_hardship_1 <- nrow(filter(df_giver, ICF2_290 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
-  financial_hardship_2 <- nrow(filter(df_giver, ICF2_300 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
-  financial_hardship_3 <- nrow(filter(df_giver, ICF2_310 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
-  financial_hardship_4 <- nrow(filter(df_giver, ICF2_320 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
-  financial_hardship_5 <- nrow(filter(df_giver, ICF2_330 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
-  financial_hardship_6 <- nrow(filter(df_giver, ICF2_340 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
-  financial_hardship_7 <- nrow(filter(df_giver, ICF2_350 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
-
-  financial_hardship_freq <- c(
-    financial_hardship_1, financial_hardship_2, financial_hardship_3, financial_hardship_4,
-    financial_hardship_5, financial_hardship_6, financial_hardship_7
-  )
-
-  df_financial_hardship <- tibble(financial_hardship, financial_hardship_freq)
+  df_financial_hardship <- tab_financial_hardship(df_giver)
 
   c_financial_hardship <- ggplot(
     data = df_financial_hardship, 
     mapping = aes(
       x = fct_inorder(financial_hardship), 
-      y = financial_hardship_freq, 
+      y = count,
       fill = financial_hardship
   )) +
     geom_col() +
-    geom_text(aes(label = financial_hardship_freq), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
     ggtitle("Financial hardship because of caregiving (65+) responsibilities from 735 caregivers") +
     xlab("Expense categories") +
     ylab("Count") +

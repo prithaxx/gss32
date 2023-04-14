@@ -1,9 +1,26 @@
 library(shiny)
+library(shinyjs)
 source("global.R")
 
 general_charts <- list(
   "Respondent groups",
   "Sex of primary caregivers and care receivers"
+)
+
+
+receiver_options <- list(
+  "Health conditions" = 1,
+  "Activity receive help" = 2,
+  "Age of primary giver" = 3,
+  "Activity receive help from professional" = 4,
+  "Hours of help received" = 5,
+  "Primary giver distance" = 6,
+  "Receive help banking - frequency" = 7,
+  "Receive help banking - hours" = 8,
+  "Help banking hours - daily" = 9,
+  "Help banking hours - at least once a week" = 10,
+  "Help banking hours - at least once a month" = 11,
+  "Help banking hours - less than once a month" = 12
 )
 
 receiver_response_charts <- list(
@@ -20,6 +37,7 @@ receiver_response_charts <- list(
   "Help banking hours - at least once a month" = chart_help_banking_monthly,
   "Help banking hours - less than once a month" = chart_help_banking_monthly_less
 )
+
 receiver_charts_percent <- list(
   "Health conditions" = chart_health_conditions_percent,
   "Activity receive help" = chart_activity_receive_help_percent,
@@ -34,6 +52,7 @@ receiver_charts_percent <- list(
   "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
   "Help banking hours - less than once a month" = chart_help_banking_monthly_less_percent
 )
+
 receiver_response_tabs <- list(
   "Health conditions" = tab_health_conditions,
   "Activity receive help" = tab_activity_receive_help,
@@ -47,6 +66,21 @@ receiver_response_tabs <- list(
   "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
   "Help banking hours - at least once a month" = tab_help_banking_hours_monthly,
   "Help banking hours - less than once a month" = tab_help_banking_hours_monthly_less
+)
+
+giver_options <- list(
+  "Activity give help" = 1,
+  "Age of primary receiver" = 2,
+  "Hours of help provided" = 3,
+  "Primary receiver distance" = 4,
+  "Give help banking - frequency" = 5,
+  "Give help banking - hours" = 6,
+  "Give help banking - daily" = 7,
+  "Give help banking - at least once a week" = 8,
+  "Give help banking - at least once a month" = 9,
+  "Give help banking - less than once a month" = 10,
+  "Out of pocket expenses" = 11,
+  "Financial hardship" = 12
 )
 
 giver_response_charts <- list(
@@ -64,21 +98,43 @@ giver_response_charts <- list(
   "Financial hardship" = chart_financial_hardship
 )
 
-# apply_filter(): takes a frame and filter based on option selected
-# df_input (tibble): data frame to be transformed
-# select_option (integer): value mapped to the response category
-# col_name (String): variable to filter by
-apply_filter <- function(df_input, select_option, col_name ) {
-  filtered_df <- if (select_option != -1) {
-    filtered_df <- df_input %>% filter(!!as.symbol(col_name) == select_option) # the value from the list: e.g. both sexes = -1, male = 1, female = 2
-  } else {
-    df_input
-  }
-  
-  return(filtered_df)
-}
+giver_response_percent <- list(
+  "Activity give help" = chart_activity_give_help_percent,
+  "Age of primary receiver" = chart_age_primary_receiver_percent,
+  "Hours of help provided" = chart_hours_help_provided_percent,
+  "Primary receiver distance" = chart_primary_receiver_distance_percent,
+  "Give help banking - frequency" = chart_give_help_banking_freq_percent,
+  "Give help banking - hours" = chart_give_help_banking_hours_percent,
+  "Give help banking - daily" = chart_give_help_banking_daily_percent,
+  "Give help banking - at least once a week" = chart_give_help_banking_weekly_percent,
+  "Give help banking - at least once a month" = chart_give_help_banking_monthly_percent,
+  "Give help banking - less than once a month" = chart_give_help_banking_monthly_less_percent,
+  "Out of pocket expenses" = chart_out_of_pocket_percent,
+  "Financial hardship" = chart_financial_hardship_percent
+)
+
+giver_response_tabs <- list(
+  "Activity give help" = tab_activity_give_help,
+  "Age of primary receiver" = tab_age_primary_receiver,
+  "Hours of help provided" = tab_hours_help_provided,
+  "Primary receiver distance" = tab_primary_receiver_distance,
+  "Give help banking - frequency" = tab_give_help_banking_freq,
+  "Give help banking - hours" = tab_give_help_banking_hours,
+  "Give help banking - daily" = tab_give_help_banking_daily,
+  "Give help banking - at least once a week" = tab_give_help_banking_weekly,
+  "Give help banking - at least once a month" = tab_give_help_banking_monthly,
+  "Give help banking - less than once a month" = tab_give_help_banking_monthly_less,
+  "Out of pocket expenses" = tab_out_of_pocket,
+  "Financial hardship" = tab_financial_hardship
+)
+
+group_by_options <- list("None" = 1, "Sex" = 2, "Age group" = 3, "Living arrangement" = 4, "Visible minority status" = 5)
+show_group <- list("false", "true")
+default <- 0
 
 ui <- fluidPage(
+  useShinyjs(),
+
   titlePanel("Explore the 2018 General Social Survey on Caregiving and Care Receiving"),
   div(
     p("The data represents respondents who are:"),
@@ -96,11 +152,7 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("general_selected_box",
-          "General info:",
-          choices = general_charts,
-          selected = general_charts[1]
-        ),
+        selectInput("general_selected_box", "General info:", choices = general_charts, selected = default),
       ),
       mainPanel(
         tabsetPanel(
@@ -108,10 +160,14 @@ ui <- fluidPage(
             "Counts",
             plotOutput("general_selected_chart")
           ),
-          tabPanel("Percentages", 
-                   plotOutput("general_percentage")),
-          tabPanel("Tables", 
-                    tableOutput("general_table")), #table id
+          tabPanel(
+            "Percentages",
+            plotOutput("general_percentage")
+          ),
+          tabPanel(
+            "Tables",
+            tableOutput("general_table")
+          ), # table id
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -121,17 +177,17 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), selected = names(receiver_response_charts[1])),
-        selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1]),
-  
-        
-        selectInput("receiver_select_box_age", "Age group", filter_age_group, selected = filter_age_group[1]),
-        selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = filter_pop_centre[1]),
-        selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = filter_partner_in_household[1]),
-        selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = filter_partner_in_household[1]),
-        selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = filter_indigenous_status[1]),
-        selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = filter_visible_minority_status[1]),
-        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = filter_group_religious_participation[1])
+        selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), default),
+        selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, default),
+        selectInput("receiver_select_box_age", "Age group", filter_age_group, default),
+        selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, default),
+        selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, default),
+        selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, default),
+        selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = default),
+        selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = default),
+        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = default),
+        radioButtons("receiver_radio", "Group by:", choices = group_by_options, selected = 1),
+        selectInput("radio_select_box", "radio select box", list("hello" = 1, "world" = 2), selected = 1)
       ),
       mainPanel(
         tabsetPanel(
@@ -140,8 +196,10 @@ ui <- fluidPage(
             plotOutput("receiver_selected_chart")
           ),
           tabPanel("Percentages", plotOutput("receiver_percentage")),
-          tabPanel("Tables", 
-                   tableOutput("receiver_table")), # receiver table id
+          tabPanel(
+            "Tables",
+            tableOutput("receiver_table")
+          ), # receiver table id
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -151,8 +209,16 @@ ui <- fluidPage(
   fluidRow(
     sidebarLayout(
       sidebarPanel(
-        selectInput("giver_selected_box", "Questions asked to respondents who provided care to older adults:", choices = names(giver_response_charts), selected = names(giver_response_charts[1])),
-        selectInput("giver_selected_box_sex", "Filter by sex", choices = filter_sex, selected = filter_sex[1])
+        selectInput("giver_select_box", "Questions asked to respondents who provided care to older adults:", choices = names(giver_response_charts), selected = names(giver_response_charts[1])),
+        selectInput("giver_select_box_sex", "Filter by sex", choices = filter_sex, selected = default),
+        selectInput("giver_select_box_age", "Age group", filter_age_group, selected = default),
+        selectInput("giver_select_box_pop_centre", "Population Centre", filter_pop_centre, selected = default),
+        selectInput("giver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, selected = default),
+        selectInput("giver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, selected = default),
+        selectInput("giver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = default),
+        selectInput("giver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = default),
+        selectInput("giver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = default),
+        radioButtons("giver_radio", "Group by:", choices = group_by_options, selected = 1)
       ),
       mainPanel(
         tabsetPanel(
@@ -160,10 +226,14 @@ ui <- fluidPage(
             "Counts",
             plotOutput("giver_selected_chart")
           ),
-          tabPanel("Percentages", 
-                   plotOutput("giver_percentage")),
-          tabPanel("Tables", 
-                   tableOutput("giver_table")), # giver table
+          tabPanel(
+            "Percentages",
+            plotOutput("giver_percentage")
+          ), # giver percentages
+          tabPanel(
+            "Tables",
+            tableOutput("giver_table")
+          ), # giver table
           tabPanel("Statistical Significance", "Statisical significance of data will be displayed here")
         )
       )
@@ -172,32 +242,38 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  output_receiver_df <- df_receiver
-  output_giver_df <- df_giver
+  observeEvent(input$receiver_radio, {
+    if (input$receiver_radio != 1) {
+      disable("radio_select_box")
+    } else {
+      enable("radio_select_box")
+    }
+  },)
   
+  output_receiver_df <- df_receiver
+  df_output_giver <- df_giver
+
   # general counts tab
   output$general_selected_chart <- renderPlot({
     # chart_function <- general_charts[[input$general_selected_box]]
     # general_charts[[input$general_selected_box]]
     if (input$general_selected_box == general_charts[1]) {
-      c_respondent_groups 
+      c_respondent_groups
     } else {
       c_primary_sex
     }
   })
-  
+
   # general percentage
   output$general_percentage <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
       chart_respondent_groups_percent()
     } else {
       # TODO: create primary sex percent chart
-      # print("else")
     }
-    
   })
-  
-  # general table 
+
+  # general table
   output$general_table <- renderTable({
     if (input$general_selected_box == general_charts[1]) {
       tab_pop_freq()
@@ -205,13 +281,13 @@ server <- function(input, output) {
       df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
     }
   })
-  
+
   update_receiver_df <- reactive({
     # filter by sex
     # print(input$receiver_select_box_sex )
     # print(names(filter_sex[2]))
     # print(filter_sex[2])
-    
+
     filtered_df <- apply_filter(df_receiver, strtoi(input$receiver_select_box_sex), "SEX")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_age), "AGEGR10")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_pop_centre), "LUC_RST")
@@ -220,87 +296,138 @@ server <- function(input, output) {
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_indigenous_status), "AMB_01_1")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_visible_minority), "VISMIN")
     filtered_df <- apply_filter(filtered_df, strtoi(input$receiver_select_box_group_religious_participation), "REE_02")
-    
+
     output_receiver_df <<- filtered_df
   })
-  
+
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
-    chart <- receiver_response_charts[[input$receiver_select_box]]
-    update_receiver_df()
-    chart(output_receiver_df)
-  })
-  
-  # receiver percentage tab
-  output$receiver_percentage <- renderPlot({
-    chart <- receiver_charts_percent[[input$receiver_select_box]]
+    index <- receiver_options[[input$receiver_select_box]]
+
+    chart <- receiver_response_charts[[index]]
+    tab <- receiver_response_tabs[[index]]
+    x_lab <- names(receiver_options)[[index]]
+    title_lab <- receiver_group_by_titles[[index]]
+
     update_receiver_df()
 
-    chart(output_receiver_df)
+    if (input$receiver_radio == 2) {
+      group_by_sex(output_receiver_df, tab, x_lab, title_lab)
+    } else if (input$receiver_radio == 3) {
+      group_by_age(output_receiver_df, tab, x_lab, title_lab)
+    } else {
+      chart(output_receiver_df)
+    }
+
   })
-  
+
+  # receiver percentage tab
+  output$receiver_percentage <- renderPlot({
+    index <- receiver_options[[input$receiver_select_box]]
+
+    chart <- receiver_charts_percent[[index]]
+    tab <- receiver_response_tabs[[index]]
+    x_lab <- names(receiver_options)[[index]]
+    title_lab <- receiver_group_by_titles[[index]]
+
+    update_receiver_df()
+
+    if (input$receiver_radio == 2) {
+      group_by_sex_percent(output_receiver_df, tab, x_lab, title_lab)
+    } else if (input$receiver_radio == 3) {
+      group_by_age_percent(output_receiver_df, tab, x_lab, title_lab)
+    } else {
+      chart(output_receiver_df)
+    }
+
+  })
+
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
     tab <- receiver_response_tabs[[input$receiver_select_box]]
-    final_table <- tab(output_receiver_df) 
-    
+    final_table <- tab(output_receiver_df)
+
     for (i in seq_along(receiver_response_charts)) {
       if (input$receiver_select_box == names(receiver_response_charts[i])) {
         final_table <- final_table %>% rename(!!names(receiver_response_charts[i]) := 1, "Count" := 2)
       }
     }
-    
+
     final_table
   })
-  
-  
+
+  ###
+
   update_giver_df <- reactive({
     # filter by sex
-    filtered_df <- if (input$giver_selected_box_sex == filter_sex[2]) {
-      filtered_df <- df_giver %>% filter(SEX == 1)
-      # df_giver_male
-    } else if (input$giver_selected_box_sex == filter_sex[3]) {
-      filtered_df <- df_giver %>% filter(SEX == 2)
-      # df_giver_female
-    } else {
-      df_giver
-    }
+    df_filtered <- apply_filter(df_giver, strtoi(input$giver_select_box_sex), "SEX")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_age), "AGEGR10")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_pop_centre), "LUC_RST")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_partner_in_household), "PHSDFLG")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_living_arrangement_senior_household), "LIVARRSN")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_indigenous_status), "AMB_01_1")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_visible_minority), "VISMIN")
+    df_filtered <- apply_filter(df_filtered, strtoi(input$giver_select_box_group_religious_participation), "REE_02")
 
-    output_giver_df <<- filtered_df
+    df_output_giver <<- df_filtered
   })
-  
+
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
-    # chart <- giver_response_charts[[input$giver_select_box]]
-    # update_giver_df()
-    # chart(output_giver_df)
+    index <- giver_options[[input$giver_select_box]]
     
-    chart_function <- giver_response_charts[[input$giver_selected_box]]
-
-    # filter by sex
-    filtered_df <- if (input$giver_selected_box_sex == filter_sex[2]) {
-      filtered_df <- df_giver %>% filter(SEX == 1)
-      # df_giver_male
-    } else if (input$giver_selected_box_sex == filter_sex[3]) {
-      filtered_df <- df_giver %>% filter(SEX == 2)
-      # df_giver_female
+    chart <- giver_response_charts[[index]]
+    tab <- giver_response_tabs[[index]]
+    x_lab <- names(giver_options)[[index]]
+    title_lab <- giver_group_by_titles[[index]]
+    
+    update_giver_df()
+    
+    if (input$giver_radio == 2) {
+      group_by_sex(df_output_giver, tab, x_lab, title_lab)
+    } else if (input$giver_radio == 3) {
+      group_by_age(df_output_giver, tab, x_lab, title_lab)
     } else {
-      df_giver
+      chart(df_output_giver)
     }
 
-    chart_function(filtered_df)
-    # giver_response_charts[[input$giver_selected_box]]
   })
-  
+
   # giver percentage tab
   output$giver_percentage <- renderPlot({
-    # TODO
-  })
+    index <- giver_options[[input$giver_select_box]]
+
+    chart <- giver_response_percent[[index]]
+    tab <- giver_response_tabs[[index]]
+    x_lab <- names(giver_options)[[index]]
+    title_lab <- giver_group_by_titles[[index]]
+    
+    update_giver_df()
+
+    if (input$giver_radio == 2) {
+      group_by_sex_percent(df_output_giver, tab, x_lab, title_lab)
+    } else if (input$giver_radio == 3) {
+      group_by_age_percent(df_output_giver, tab, x_lab, title_lab)
+    } else {
+      chart(df_output_giver)
+    }
   
-  # receiver table tab
+  })
+
+  # giver table tab
   output$giver_table <- renderTable({
-    # TODO
+    update_giver_df()
+    tab <- giver_response_tabs[[input$giver_select_box]]
+    final_table <- tab(df_output_giver)
+
+    for (i in seq_along(giver_response_charts)) {
+      if (input$giver_select_box == names(giver_response_charts[i])) {
+        final_table <- final_table %>% rename(!!names(giver_response_charts[i]) := 1, "Count" := 2, "Percentage" := 3)
+      }
+    }
+
+    return(final_table)
   })
 }
 

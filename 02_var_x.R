@@ -11,117 +11,129 @@ primary_sex <- c("male", "female")
 
 ###
 
-
 health_conditions <- c(
-  "Arthritis",
-  "Cardiovascular disease",
-  "Back problems",
-  "Cancer",
-  "Mental illness",
-  "Alzheimer's disease or dementia",
-  "Injury resulting from an accident",
-  "Aging or frailty",
-  "Other"
+  "Arthritis" = 1,
+  "Cardiovascular disease" = 2,
+  "Back problems" = 3,
+  "Cancer" = 4,
+  "Mental illness" = 5,
+  "Alzheimer's disease or dementia" = 6,
+  "Injury resulting from an accident" = 7,
+  "Aging or frailty" = 8,
+  "Other" = 9 
 )
 
 help_activities <- c(
-  "transportation",
-  "household chores",
-  "house maintenance",
-  "personal care",
-  "medical treatment",
-  "scheduling",
-  "banking",
-  "other"
+  "Transportation",
+  "Household chores",
+  "House maintenance",
+  "Personal care",
+  "Medical treatment",
+  "Scheduling",
+  "Banking",
+  "Other"
 )
 
 giver_age_group <- c(
-  "<20",
-  "20-24",
-  "25-29",
-  "30-34",
-  "35-39",
-  "40-44",
-  "45-49",
-  "50-54",
-  "55-59",
-  "60-64",
-  "65-69",
-  "70+"
+  "<20" = 1,
+  "20-24" = 2,
+  "25-29" = 3,
+  "30-34" = 4,
+  "35-39" = 5,
+  "40-44" = 6,
+  "45-49" = 7,
+  "50-54" = 8,
+  "55-59" = 9,
+  "60-64" = 10,
+  "65-69" = 11,
+  "70+" = 12
 )
 
 primary_receiver_age_group <- c(
-  "0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", 
-  "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-80", "80-84", 
-  "85-89", "90-94", "95+"
+  "0-4" = 1, 
+  "5-9" = 2, 
+  "10-14" = 3, 
+  "15-19" = 4, 
+  "20-24" = 5, 
+  "25-29" = 6, 
+  "30-34" = 7, 
+  "35-39" = 8, 
+  "40-44" = 9, 
+  "45-49" = 10, 
+  "50-54" = 11, 
+  "55-59" = 12, 
+  "60-64" = 13, 
+  "65-69" = 14,
+  "70-74" = 15, 
+  "75-80" = 16, 
+  "80-84" = 17, 
+  "85-89" = 18, 
+  "90-94" = 19, 
+  "95+" = 20
 )
 
-help_hours <- c("0", "1-9", "10-19", "20-29", "30-39", "40+")
-
-primary_giver_distance <- c(
-  "same household",
-  "same building",
-  "<10 min",
-  "10 to <30 min",
-  "30 min to <1 hour",
-  "1 to <3 hours",
-  ">3 hours"
+help_hours <- c(
+  "0" = 0,
+  "1-9" = 1,
+  "10-19" = 2,
+  "20-29" = 3,
+  "30-39" = 4,
+  "40+" = 5
 )
 
 dwelling_distances <- c(
-  "same household",
-  "same building",
-  "<10 min",
-  "10 to <30 min",
-  "30 min to <1 hour",
-  "1 to <3 hours",
-  ">3 hours"
+  "Same household" = 1,
+  "Same building" = 2,
+  "<10 min by car" = 3,
+  "10 to <30 minutes by car" = 4,
+  "30 min to <1 hour by car" = 5,
+  "1 hour to <3 hours by car" = 6,
+  "3+ hours by car" = 7
 )
 
 primary_help_banking_freq <- c(
-  "daily",
-  "at least once a week",
-  "at least once a month",
-  "less than once a month"
+  "Daily" = 1,
+  "At least once a week" = 2,
+  "At least once a month" = 3,
+  "Less than once a month" = 4
 )
 
-primary_help_banking_hours <- c("<1", "1 to <3", "3 to <5", "5+")
+primary_help_banking_hours <- c(
+  "<1" = 1, 
+  "1 to <3" = 2,
+  "3 to <5" = 3, 
+  "5+" = 4
+)
 
 out_of_pocket_expenses <- c(
-  "home modifications", 
-  "professional service", 
-  "hiring people to help", 
-  "transportation, accommodation", 
-  "specialized aids/devices", 
-  "prescription/non-pres. drugs", 
-  "other"
+  "Home modifications",
+  "Professional service",
+  "Hiring people to help",
+  "Transportation, accommodation",
+  "Specialized aids/devices",
+  "Prescription/non-pres. drugs",
+  "Other"
 )
 
 financial_hardship <- c(
-  "borrowed money from family or friends", 
-  "loans from a bank or financial institution", 
-  "use or defer savings", 
-  "modify spending", 
-  "sell off assets", 
-  "file for bankruptcy", 
-  "other"
+  "Borrowed money from family or friends",
+  "Loans from a bank or financial institution",
+  "Use or defer savings",
+  "Modify spending",
+  "Sell off assets",
+  "File for bankruptcy",
+  "Other"
 )
 
 # Filter lists ####
 
-no_filter = -1
+no_filter <- -1
 
 filter_sex <- list(
   "Both sexes" = no_filter,
   "Male" = 1,
   "Female" = 2
 )
-
-# filter_age_group <- list(
-#   "65 years and over",
-#   "65 to 74 years",
-#   "75 years and over"
-# )
 
 filter_age_group <- list(
   "65 years and over" = no_filter,
@@ -141,40 +153,6 @@ filter_partner_in_household <- list(
   "Yes" = 1,
   "No" = 2
 )
-
-# filter_living_arrangement_senior_household <- list(
-#   "All" ,
-#   "Living alone",
-#   "living with spouse or partner only",
-#   "Living with spouse or partner and child(ren)" ,
-#   "Living with child(ren) only" ,
-#   "Living with other(s)"
-# )
-
-# filter_indigenous_status <- list(
-#   "All",
-#   "Indigenous",
-#   "Non-indigenous"
-# )
-
-# filter_visible_minority_status <- list(
-#   "All",
-#   "Visible minority" ,
-#   "Not a visible minority"
-# )
-# 
-# filter_group_religious_participation <- list(
-#   "All" = no_filter,
-#   "At least once a week",
-#   "At least once a month" ,
-#   "At least 3 times a year" ,
-#   "Once or twice a year",
-#   "Not at all"
-# )
-
-
-###
-
 
 filter_living_arrangement_senior_household <- list(
   "All" = no_filter,
