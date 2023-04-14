@@ -60,7 +60,7 @@ help_activity_codes <- c(
 )
 
 y_age_primary_giver <- function(df_receiver) {
-  age_primary_giver <- count_map(df_receiver, giver_age_group, "AGEGR10")
+  age_primary_giver <- count_map(df_receiver, giver_age_group, "CRGVAGGR")
 }
 
 y_activity_receive_help_pro <- function(df_receiver) {

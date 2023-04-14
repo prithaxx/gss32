@@ -24,14 +24,14 @@ health_conditions <- c(
 )
 
 help_activities <- c(
-  "transportation",
-  "household chores",
-  "house maintenance",
-  "personal care",
-  "medical treatment",
-  "scheduling",
-  "banking",
-  "other"
+  "Transportation",
+  "Household chores",
+  "House maintenance",
+  "Personal care",
+  "Medical treatment",
+  "Scheduling",
+  "Banking",
+  "Other"
 )
 
 giver_age_group <- c(
@@ -92,10 +92,10 @@ dwelling_distances <- c(
 )
 
 primary_help_banking_freq <- c(
-  "daily" = 1,
-  "at least once a week" = 2,
-  "at least once a month" = 3,
-  "less than once a month" = 4
+  "Daily" = 1,
+  "At least once a week" = 2,
+  "At least once a month" = 3,
+  "Less than once a month" = 4
 )
 
 primary_help_banking_hours <- c(
@@ -106,13 +106,13 @@ primary_help_banking_hours <- c(
 )
 
 out_of_pocket_expenses <- c(
-  "home modifications", 
-  "professional service", 
-  "hiring people to help", 
-  "transportation, accommodation", 
-  "specialized aids/devices", 
-  "prescription/non-pres. drugs", 
-  "other"
+  "Home modifications",
+  "Professional service",
+  "Hiring people to help",
+  "Transportation, accommodation",
+  "Specialized aids/devices",
+  "Prescription/non-pres. drugs",
+  "Other"
 )
 
 financial_hardship <- c(

@@ -28,16 +28,6 @@ giver_group_by_titles <- list(
   "who Experienced Financial Hardship Because of Caregiving Responsibilities"
 )
 
-group_by_age <- function(df_input) {
-
-
-
-
-}
-
-group_by_age_percent <- function(df_input) {
-
-}
 
 # group_by_sex(): Returns a chart where the y variable *counts* are grouped by sex
 # df_input (tibble): data frame to be transformed
@@ -56,7 +46,9 @@ group_by_sex <- function(df_input, tab_option, x_lab, title_lab) {
       title = paste("Number", title_lab, "by sex"),
       x = x_lab,
       y = "Number of People"
-    )
+    ) +
+    scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
+    scale_fill_viridis_d(begin = 0.2, end = 0.8)
 
   return(chart_output)
 }
@@ -78,7 +70,45 @@ group_by_sex_percent <- function(df_input, tab_option, x_lab, title_lab) {
       title = paste("Percentage", title_lab, "by sex"),
       x = x_lab,
       y = "Percentage of people"
-    )
+    ) +
+    scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
+    scale_fill_viridis_d(begin = 0.2, end = 0.8)
+
+  return(chart_output)
+}
+
+group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
+  df <- tab_option(df_input)
+  df_long <- pivot_longer(df, cols = c("age_65_74", "age_75"), names_to = "age_group", values_to = "age_count")
+
+  chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = age_count, fill = age_group)) +
+    geom_col(position = "dodge") +
+    labs(
+      title = paste("Number", title_lab, "by age"),
+      x = x_lab,
+      y = "Number of People"
+    ) +
+    scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
+    scale_fill_viridis_d(begin = 0.2, end = 0.8)
+
+  return(chart_output)
+}
+
+group_by_age_percent <- function(df_input, tab_option, x_lab, title_lab) {
+  df <- tab_option(df_input)
+  df_long <- pivot_longer(df, cols = c("age_65_74_percentage", "age_75_percentage"), names_to = "age_group",
+                          values_to = "age_group_percent")
+
+  chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = age_group_percent, fill =
+    age_group)) +
+    geom_col(position = "dodge") +
+    labs(
+      title = paste("Number", title_lab, "by age"),
+      x = x_lab,
+      y = "Percentage of People"
+    ) +
+    scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
+    scale_fill_viridis_d(begin = 0.2, end = 0.8)
 
   return(chart_output)
 }

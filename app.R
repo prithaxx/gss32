@@ -270,7 +270,6 @@ server <- function(input, output) {
       chart_respondent_groups_percent()
     } else {
       # TODO: create primary sex percent chart
-      # print("else")
     }
   })
 
@@ -314,6 +313,8 @@ server <- function(input, output) {
 
     if (input$receiver_radio == 2) {
       group_by_sex(output_receiver_df, tab, x_lab, title_lab)
+    } else if (input$receiver_radio == 3) {
+      group_by_age(output_receiver_df, tab, x_lab, title_lab)
     } else {
       chart(output_receiver_df)
     }
@@ -333,6 +334,8 @@ server <- function(input, output) {
 
     if (input$receiver_radio == 2) {
       group_by_sex_percent(output_receiver_df, tab, x_lab, title_lab)
+    } else if (input$receiver_radio == 3) {
+      group_by_age_percent(output_receiver_df, tab, x_lab, title_lab)
     } else {
       chart(output_receiver_df)
     }
@@ -372,9 +375,6 @@ server <- function(input, output) {
 
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
-    # chart <- giver_response_charts[[input$giver_select_box]]
-    # update_giver_df()
-    
     index <- giver_options[[input$giver_select_box]]
     
     chart <- giver_response_charts[[index]]
@@ -386,6 +386,8 @@ server <- function(input, output) {
     
     if (input$giver_radio == 2) {
       group_by_sex(df_output_giver, tab, x_lab, title_lab)
+    } else if (input$giver_radio == 3) {
+      group_by_age(df_output_giver, tab, x_lab, title_lab)
     } else {
       chart(df_output_giver)
     }
@@ -405,6 +407,8 @@ server <- function(input, output) {
 
     if (input$giver_radio == 2) {
       group_by_sex_percent(df_output_giver, tab, x_lab, title_lab)
+    } else if (input$giver_radio == 3) {
+      group_by_age_percent(df_output_giver, tab, x_lab, title_lab)
     } else {
       chart(df_output_giver)
     }

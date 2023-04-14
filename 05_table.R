@@ -13,6 +13,8 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   total_age_65_74 <- sum(df$AGEGR10 == 6)
   total_age_75 <- sum(df$AGEGR10 == 7)
 
+
+
   tibble(x_options = names(x_options), count) %>%
     mutate(percentage = count / sum(count),
            Male = sapply(start:end, function(i) {
@@ -108,8 +110,6 @@ tab_health_conditions <- function(df) {
   return(df_output)
 }
 
-
-
 ### Types of activities respondents received help with
 tab_activity_receive_help <- function(df) {
   count <- y_activity_receive_help(df)
@@ -122,8 +122,6 @@ tab_activity_receive_help <- function(df) {
   return(df_output)
 }
 
-
-
 ### Age of respondent's primary caregiver
 tab_age_primary_giver <- function(df) {
   count <- y_age_primary_giver(df)
@@ -133,7 +131,6 @@ tab_age_primary_giver <- function(df) {
 
   return(df_output)
 }
-
 
 ### Types of activities respondents received professional help with
 tab_activity_receive_help_pro <- function(df) {

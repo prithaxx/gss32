@@ -79,7 +79,7 @@ c_primary_sex <- ggplot(
   xlab("Sex") +
   ylab("Count") +
   facet_wrap(~type, ncol = 1) +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d(begin = 0.2, end = 0.8) +
   guides(fill = "none") +
   theme(plot.caption = element_text(hjust = 0))
 
