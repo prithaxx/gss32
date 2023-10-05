@@ -3,20 +3,20 @@ library(shinyjs)
 source("global.R")
 
 general_charts <- list(
-  "Respondent groups",
-  "Sex of primary caregivers and care receivers"
+  "Respondent Groups",
+  "Sex of Primary Caregivers and Care Receivers"
 )
 
 
 receiver_options <- list(
-  "Health conditions" = 1,
-  "Activity receive help" = 2,
-  "Age of primary giver" = 3,
-  "Activity receive help from professional" = 4,
-  "Hours of help received" = 5,
-  "Primary giver distance" = 6,
-  "Receive help banking - frequency" = 7,
-  "Receive help banking - hours" = 8,
+  "Health Conditions Experienced" = 1,
+  "Activities Respondent Gets Help With" = 2,
+  "Age of Respondent's Primary Caregiver" = 3,
+  "Activities Assisted by Professionals" = 4,
+  "Hours of Help Received per Week" = 5,
+  "Primary Caregiver Distance Away" = 6,
+  "Banking Help Received - frequency" = 7,
+  "Banking Help Received - hours" = 8,
   "Help banking hours - daily" = 9,
   "Help banking hours - at least once a week" = 10,
   "Help banking hours - at least once a month" = 11,
@@ -24,14 +24,14 @@ receiver_options <- list(
 )
 
 receiver_response_charts <- list(
-  "Health conditions" = chart_health_conditions,
-  "Activity receive help" = chart_activity_receive_help,
-  "Age of primary giver" = chart_age_primary_giver,
-  "Activity receive help from professional" = chart_activity_receive_help_pro,
-  "Hours of help received" = chart_hours_help_received,
-  "Primary giver distance" = chart_primary_giver_distance,
-  "Receive help banking - frequency" = chart_receive_help_banking_freq,
-  "Receive help banking - hours" = chart_receive_help_banking_hours,
+  "Health Conditions Experienced" = chart_health_conditions,
+  "Activities Respondent Gets Help With" = chart_activity_receive_help,
+  "Age of Respondent's Primary Caregiver" = chart_age_primary_giver,
+  "Activities Assisted by Professionals" = chart_activity_receive_help_pro,
+  "Hours of Help Received per Week" = chart_hours_help_received,
+  "Primary Caregiver Distance Away" = chart_primary_giver_distance,
+  "Banking Help Received - frequency" = chart_receive_help_banking_freq,
+  "Banking Help Received - hours" = chart_receive_help_banking_hours,
   "Help banking hours - daily" = chart_help_banking_hours_daily,
   "Help banking hours - at least once a week" = chart_help_banking_weekly,
   "Help banking hours - at least once a month" = chart_help_banking_monthly,
@@ -39,14 +39,14 @@ receiver_response_charts <- list(
 )
 
 receiver_charts_percent <- list(
-  "Health conditions" = chart_health_conditions_percent,
-  "Activity receive help" = chart_activity_receive_help_percent,
-  "Age of primary giver" = chart_age_primary_giver_percent,
-  "Activity receive help from professional" = chart_activity_receive_help_pro_percent,
-  "Hours of help received" = chart_hours_help_received_percent,
-  "Primary giver distance" = chart_primary_giver_distance_percent,
-  "Receive help banking - frequency" = chart_receive_help_banking_freq_percent,
-  "Receive help banking - hours" = chart_receive_help_banking_hours_percent,
+  "Health Conditions Experienced" = chart_health_conditions_percent,
+  "Activities Respondent Gets Help With" = chart_activity_receive_help_percent,
+  "Age of Respondent's Primary Caregiver" = chart_age_primary_giver_percent,
+  "Activities Assisted by Professionals" = chart_activity_receive_help_pro_percent,
+  "Hours of Help Received per Week" = chart_hours_help_received_percent,
+  "Primary Caregiver Distance Away" = chart_primary_giver_distance_percent,
+  "Banking Help Received - frequency" = chart_receive_help_banking_freq_percent,
+  "Banking Help Received - hours" = chart_receive_help_banking_hours_percent,
   "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
   "Help banking hours - at least once a week" = chart_help_banking_weekly_percent,
   "Help banking hours - at least once a month" = chart_help_banking_monthly_percent,
@@ -54,14 +54,14 @@ receiver_charts_percent <- list(
 )
 
 receiver_response_tabs <- list(
-  "Health conditions" = tab_health_conditions,
-  "Activity receive help" = tab_activity_receive_help,
-  "Age of primary giver" = tab_age_primary_giver,
-  "Activity receive help from professional" = tab_activity_receive_help_pro,
-  "Hours of help received" = tab_hours_help_received,
-  "Primary giver distance" = tab_primary_giver_distance,
-  "Receive help banking - frequency" = tab_receive_help_banking_freq,
-  "Receive help banking - hours" = tab_receive_help_banking_hours,
+  "Health Conditions Experienced" = tab_health_conditions,
+  "Activities Respondent Gets Help With" = tab_activity_receive_help,
+  "Age of Respondent's Primary Caregiver" = tab_age_primary_giver,
+  "Activities Assisted by Professionals" = tab_activity_receive_help_pro,
+  "Hours of Help Received per Week" = tab_hours_help_received,
+  "Primary Caregiver Distance Away" = tab_primary_giver_distance,
+  "Banking Help Received - frequency" = tab_receive_help_banking_freq,
+  "Banking Help Received - hours" = tab_receive_help_banking_hours,
   "Help banking hours - daily" = tab_help_banking_hours_daily,
   "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
   "Help banking hours - at least once a month" = tab_help_banking_hours_monthly,
