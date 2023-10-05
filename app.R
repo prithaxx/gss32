@@ -69,63 +69,63 @@ receiver_response_tabs <- list(
 )
 
 giver_options <- list(
-  "Activity give help" = 1,
-  "Age of primary receiver" = 2,
-  "Hours of help provided" = 3,
-  "Primary receiver distance" = 4,
-  "Give help banking - frequency" = 5,
-  "Give help banking - hours" = 6,
+  "Activities Respondent Assists Caree With" = 1,
+  "Age of Caree" = 2,
+  "Hours of Help Respondent Provides to Caree" = 3,
+  "Distance to Caree" = 4,
+  "Banking Help Provided to Caree - frequency" = 5,
+  "Banking Help Provided to Caree - hours" = 6,
   "Give help banking - daily" = 7,
   "Give help banking - at least once a week" = 8,
   "Give help banking - at least once a month" = 9,
   "Give help banking - less than once a month" = 10,
-  "Out of pocket expenses" = 11,
-  "Financial hardship" = 12
+  "Out of Pocket Caregiving Expenses" = 11,
+  "Financial Hardship due to Caregiving" = 12
 )
 
 giver_response_charts <- list(
-  "Activity give help" = chart_activity_give_help,
-  "Age of primary receiver" = chart_age_primary_receiver,
-  "Hours of help provided" = chart_hours_help_provided,
-  "Primary receiver distance" = chart_primary_receiver_distance,
-  "Give help banking - frequency" = chart_give_help_banking_freq,
-  "Give help banking - hours" = chart_give_help_banking_hours,
+  "Activities Respondent Assists Caree With" = chart_activity_give_help,
+  "Age of Caree" = chart_age_primary_receiver,
+  "Hours of Help Respondent Provides to Caree" = chart_hours_help_provided,
+  "Distance to Caree" = chart_primary_receiver_distance,
+  "Banking Help Provided to Caree - frequency" = chart_give_help_banking_freq,
+  "Banking Help Provided to Caree - hours" = chart_give_help_banking_hours,
   "Give help banking - daily" = chart_give_help_banking_daily,
   "Give help banking - at least once a week" = chart_give_help_banking_weekly,
   "Give help banking - at least once a month" = chart_give_help_banking_monthly,
   "Give help banking - less than once a month" = chart_give_help_banking_monthly_less,
-  "Out of pocket expenses" = chart_out_of_pocket,
-  "Financial hardship" = chart_financial_hardship
+  "Out of Pocket Caregiving Expenses" = chart_out_of_pocket,
+  "Financial Hardship due to Caregiving" = chart_financial_hardship
 )
 
 giver_response_percent <- list(
-  "Activity give help" = chart_activity_give_help_percent,
-  "Age of primary receiver" = chart_age_primary_receiver_percent,
-  "Hours of help provided" = chart_hours_help_provided_percent,
-  "Primary receiver distance" = chart_primary_receiver_distance_percent,
-  "Give help banking - frequency" = chart_give_help_banking_freq_percent,
-  "Give help banking - hours" = chart_give_help_banking_hours_percent,
+  "Activities Respondent Assists Caree With" = chart_activity_give_help_percent,
+  "Age of Caree" = chart_age_primary_receiver_percent,
+  "Hours of Help Respondent Provides to Caree" = chart_hours_help_provided_percent,
+  "Distance to Caree" = chart_primary_receiver_distance_percent,
+  "Banking Help Provided to Caree - frequency" = chart_give_help_banking_freq_percent,
+  "Banking Help Provided to Caree - hours" = chart_give_help_banking_hours_percent,
   "Give help banking - daily" = chart_give_help_banking_daily_percent,
   "Give help banking - at least once a week" = chart_give_help_banking_weekly_percent,
   "Give help banking - at least once a month" = chart_give_help_banking_monthly_percent,
   "Give help banking - less than once a month" = chart_give_help_banking_monthly_less_percent,
-  "Out of pocket expenses" = chart_out_of_pocket_percent,
-  "Financial hardship" = chart_financial_hardship_percent
+  "Out of Pocket Caregiving Expenses" = chart_out_of_pocket_percent,
+  "Financial Hardship due to Caregiving" = chart_financial_hardship_percent
 )
 
 giver_response_tabs <- list(
-  "Activity give help" = tab_activity_give_help,
-  "Age of primary receiver" = tab_age_primary_receiver,
-  "Hours of help provided" = tab_hours_help_provided,
-  "Primary receiver distance" = tab_primary_receiver_distance,
-  "Give help banking - frequency" = tab_give_help_banking_freq,
-  "Give help banking - hours" = tab_give_help_banking_hours,
+  "Activities Respondent Assists Caree With" = tab_activity_give_help,
+  "Age of Caree" = tab_age_primary_receiver,
+  "Hours of Help Respondent Provides to Caree" = tab_hours_help_provided,
+  "Distance to Caree" = tab_primary_receiver_distance,
+  "Banking Help Provided to Caree - frequency" = tab_give_help_banking_freq,
+  "Banking Help Provided to Caree - hours" = tab_give_help_banking_hours,
   "Give help banking - daily" = tab_give_help_banking_daily,
   "Give help banking - at least once a week" = tab_give_help_banking_weekly,
   "Give help banking - at least once a month" = tab_give_help_banking_monthly,
   "Give help banking - less than once a month" = tab_give_help_banking_monthly_less,
-  "Out of pocket expenses" = tab_out_of_pocket,
-  "Financial hardship" = tab_financial_hardship
+  "Out of Pocket Caregiving Expenses" = tab_out_of_pocket,
+  "Financial Hardship due to Caregiving" = tab_financial_hardship
 )
 
 group_by_options <- list("None" = 1, "Sex" = 2, "Age group" = 3, "Living arrangement" = 4, "Visible minority status" = 5)
@@ -137,15 +137,15 @@ ui <- fluidPage(
 
   titlePanel("Explore the 2018 General Social Survey on Caregiving and Care Receiving"),
   div(
-    p("The data represents respondents who are:"),
+    p("This data represents a subset of information from the survey. The information here is data from respondents who are:"),
     tags$ol(
-      tags$li("care receivers who are 65 years old or older"),
-      tags$li("caregivers to individuals who are 65 years old or older"),
-      tags$li("Both care receivers who are 65 years old or older and caregivers to care receivers who are 65 years old or older"),
-      tags$li("Needed help and are not receiving care but would like to and are 65 years old or older.")
+      tags$li("Care receivers who are 65 years old or older, or"),
+      tags$li("Caregivers who provide assistance to individuals who are 65 years old or older, or"),
+      tags$li("Both care receivers who are 65 years old or older while simultaneously acting as caregivers to other care receivers who are 65 years old or older"),
+      tags$li("People 65 or older who need help but are not currently receiving care.")
     ),
     p("These groups of respondents are likely providing insights into the experiences and challenges
-      related to receiving or providing care for elderly individuals. The data may include information about their health,
+      related to receiving or providing care for older adults. The data may include information about their health,
       financial situation, quality of life, and other factors relevant to caregiving and care receiving.")
   ),
   # general charts
@@ -178,14 +178,14 @@ ui <- fluidPage(
     sidebarLayout(
       sidebarPanel(
         selectInput("receiver_select_box", "Questions asked to older adults who received care:", choices = names(receiver_response_charts), default),
-        selectInput("receiver_select_box_sex", "Filter by sex", choices = filter_sex, default),
-        selectInput("receiver_select_box_age", "Age group", filter_age_group, default),
-        selectInput("receiver_select_box_pop_centre", "Population Centre", filter_pop_centre, default),
-        selectInput("receiver_select_box_partner_in_household", "Spouse/Partner living in household", filter_partner_in_household, default),
-        selectInput("receiver_select_box_living_arrangement_senior_household", "Living arrangement of senior respondent's household", filter_living_arrangement_senior_household, default),
-        selectInput("receiver_select_box_indigenous_status", "Indigenous status", filter_indigenous_status, selected = default),
-        selectInput("receiver_select_box_visible_minority", "Visible minority status", filter_visible_minority_status, selected = default),
-        selectInput("receiver_select_box_group_religious_participation", "Group religious participation", filter_group_religious_participation, selected = default),
+        selectInput("receiver_select_box_sex", "Filter by sex of older adult:", choices = filter_sex, default),
+        selectInput("receiver_select_box_age", "Filter by age group of older adult:", filter_age_group, default),
+        selectInput("receiver_select_box_pop_centre", "Filter by urban/rural status of older adult:", filter_pop_centre, default),
+        selectInput("receiver_select_box_partner_in_household", "Filter by spouse/partner living with older adult:", filter_partner_in_household, default),
+        selectInput("receiver_select_box_living_arrangement_senior_household", "Filter by living arrangement of older adult:", filter_living_arrangement_senior_household, default),
+        selectInput("receiver_select_box_indigenous_status", "Filter by indigenous status of older adult:", filter_indigenous_status, selected = default),
+        selectInput("receiver_select_box_visible_minority", "Filter by visible minority status of older adult:", filter_visible_minority_status, selected = default),
+        selectInput("receiver_select_box_group_religious_participation", "Filter by religious participation of older adult:", filter_group_religious_participation, selected = default),
         radioButtons("receiver_radio", "Group by:", choices = group_by_options, selected = 1),
         selectInput("radio_select_box", "radio select box", list("hello" = 1, "world" = 2), selected = 1)
       ),
