@@ -1,4 +1,4 @@
-GSS_PUMF_2018 <- read_sas("c32pumfm.sas7bdat")
+GSS_PUMF_2018 <- read_sas("data/c32pumfm.sas7bdat")
 
 # Care Receiving ---
 
