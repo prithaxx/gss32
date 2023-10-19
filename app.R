@@ -8,19 +8,19 @@ library(shinyjs)
 source("global.R")
 
 general_charts <- list(
-  "Respondent groups",
-  "Sex of primary caregivers and care receivers"
+  "Respondent Groups",
+  "Sex of Primary Caregivers and Care Receivers"
 )
 
 receiver_options <- list(
-  "Health conditions" = 1,
-  "Activity receive help" = 2,
-  "Age of primary giver" = 3,
-  "Activity receive help from professional" = 4,
-  "Hours of help received" = 5,
-  "Primary giver distance" = 6,
-  "Receive help banking - frequency" = 7,
-  "Receive help banking - hours" = 8,
+  "Health Conditions Experienced" = 1,
+  "Activities Respondent Gets Help With" = 2,
+  "Age of Respondent's Primary Caregiver" = 3,
+  "Activities Assisted by Professionals" = 4,
+  "Hours of Help Received per Week" = 5,
+  "Primary Caregiver Distance Away" = 6,
+  "Banking Help Received - frequency" = 7,
+  "Banking Help Received - hours" = 8,
   "Help banking hours - daily" = 9,
   "Help banking hours - at least once a week" = 10,
   "Help banking hours - at least once a month" = 11,
@@ -28,14 +28,14 @@ receiver_options <- list(
 )
 
 receiver_response_charts <- list(
-  "Health conditions" = chart_health_conditions,
-  "Activity receive help" = chart_activity_receive_help,
-  "Age of primary giver" = chart_age_primary_giver,
-  "Activity receive help from professional" = chart_activity_receive_help_pro,
-  "Hours of help received" = chart_hours_help_received,
-  "Primary giver distance" = chart_primary_giver_distance,
-  "Receive help banking - frequency" = chart_receive_help_banking_freq,
-  "Receive help banking - hours" = chart_receive_help_banking_hours,
+  "Health Conditions Experienced" = chart_health_conditions,
+  "Activities Respondent Gets Help With" = chart_activity_receive_help,
+  "Age of Respondent's Primary Caregiver" = chart_age_primary_giver,
+  "Activities Assisted by Professionals" = chart_activity_receive_help_pro,
+  "Hours of Help Received per Week" = chart_hours_help_received,
+  "Primary Caregiver Distance Away" = chart_primary_giver_distance,
+  "Banking Help Received - frequency" = chart_receive_help_banking_freq,
+  "Banking Help Received - hours" = chart_receive_help_banking_hours,
   "Help banking hours - daily" = chart_help_banking_hours_daily,
   "Help banking hours - at least once a week" = chart_help_banking_weekly,
   "Help banking hours - at least once a month" = chart_help_banking_monthly,
@@ -44,15 +44,15 @@ receiver_response_charts <- list(
 )
 
 receiver_charts_percent <- list(
-  "Health conditions" = chart_health_conditions_percent,
-  "Activity receive help" = chart_activity_receive_help_percent,
-  "Age of primary giver" = chart_age_primary_giver_percent,
-  "Activity receive help from professional" =
+  "Health Conditions Experienced" = chart_health_conditions_percent,
+  "Activities Respondent Gets Help With" = chart_activity_receive_help_percent,
+  "Age of Respondent's Primary Caregiver" = chart_age_primary_giver_percent,
+  "Activities Assisted by Professionals" =
     chart_activity_receive_help_pro_percent,
-  "Hours of help received" = chart_hours_help_received_percent,
-  "Primary giver distance" = chart_primary_giver_distance_percent,
-  "Receive help banking - frequency" = chart_receive_help_banking_freq_percent,
-  "Receive help banking - hours" = chart_receive_help_banking_hours_percent,
+  "Hours of Help Received per Week" = chart_hours_help_received_percent,
+  "Primary Caregiver Distance Away" = chart_primary_giver_distance_percent,
+  "Banking Help Received - frequency" = chart_receive_help_banking_freq_percent,
+  "Banking Help Received - hours" = chart_receive_help_banking_hours_percent,
   "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
   "Help banking hours - at least once a week" =
     chart_help_banking_weekly_percent,
@@ -63,14 +63,14 @@ receiver_charts_percent <- list(
 )
 
 receiver_response_tabs <- list(
-  "Health conditions" = tab_health_conditions,
-  "Activity receive help" = tab_activity_receive_help,
-  "Age of primary giver" = tab_age_primary_giver,
-  "Activity receive help from professional" = tab_activity_receive_help_pro,
-  "Hours of help received" = tab_hours_help_received,
-  "Primary giver distance" = tab_primary_giver_distance,
-  "Receive help banking - frequency" = tab_receive_help_banking_freq,
-  "Receive help banking - hours" = tab_receive_help_banking_hours,
+  "Health Conditions Experienced" = tab_health_conditions,
+  "Activities Respondent Gets Help With" = tab_activity_receive_help,
+  "Age of Respondent's Primary Caregiver" = tab_age_primary_giver,
+  "Activities Assisted by Professionals" = tab_activity_receive_help_pro,
+  "Hours of Help Received per Week" = tab_hours_help_received,
+  "Primary Caregiver Distance Away" = tab_primary_giver_distance,
+  "Banking Help Received - frequency" = tab_receive_help_banking_freq,
+  "Banking Help Received - hours" = tab_receive_help_banking_hours,
   "Help banking hours - daily" = tab_help_banking_hours_daily,
   "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
   "Help banking hours - at least once a month" =
@@ -80,44 +80,47 @@ receiver_response_tabs <- list(
 )
 
 giver_options <- list(
-  "Activity give help" = 1,
-  "Age of primary receiver" = 2,
-  "Hours of help provided" = 3,
-  "Primary receiver distance" = 4,
-  "Give help banking - frequency" = 5,
-  "Give help banking - hours" = 6,
+  "Activities Respondent Assists Caree With" = 1,
+  "Age of Caree" = 2,
+  "Hours of Help Respondent Provides to Caree" = 3,
+  "Distance to Caree" = 4,
+  "Banking Help Provided to Caree - frequency" = 5,
+  "Banking Help Provided to Caree - hours" = 6,
   "Give help banking - daily" = 7,
   "Give help banking - at least once a week" = 8,
   "Give help banking - at least once a month" = 9,
   "Give help banking - less than once a month" = 10,
-  "Out of pocket expenses" = 11,
-  "Financial hardship" = 12
+  "Out of Pocket Caregiving Expenses" = 11,
+  "Financial Hardship due to Caregiving" = 12
 )
 
 giver_response_charts <- list(
-  "Activity give help" = chart_activity_give_help,
-  "Age of primary receiver" = chart_age_primary_receiver,
-  "Hours of help provided" = chart_hours_help_provided,
-  "Primary receiver distance" = chart_primary_receiver_distance,
-  "Give help banking - frequency" = chart_give_help_banking_freq,
-  "Give help banking - hours" = chart_give_help_banking_hours,
+  "Activities Respondent Assists Caree With" = chart_activity_give_help,
+  "Age of Caree" = chart_age_primary_receiver,
+  "Hours of Help Respondent Provides to Caree" = chart_hours_help_provided,
+  "Distance to Caree" = chart_primary_receiver_distance,
+  "Banking Help Provided to Caree - frequency" = chart_give_help_banking_freq,
+  "Banking Help Provided to Caree - hours" = chart_give_help_banking_hours,
   "Give help banking - daily" = chart_give_help_banking_daily,
   "Give help banking - at least once a week" = chart_give_help_banking_weekly,
   "Give help banking - at least once a month" =
     chart_give_help_banking_monthly,
   "Give help banking - less than once a month" =
     chart_give_help_banking_monthly_less,
-  "Out of pocket expenses" = chart_out_of_pocket,
-  "Financial hardship" = chart_financial_hardship
+  "Out of Pocket Caregiving Expenses" = chart_out_of_pocket,
+  "Financial Hardship due to Caregiving" = chart_financial_hardship
 )
 
 giver_response_percent <- list(
-  "Activity give help" = chart_activity_give_help_percent,
-  "Age of primary receiver" = chart_age_primary_receiver_percent,
-  "Hours of help provided" = chart_hours_help_provided_percent,
-  "Primary receiver distance" = chart_primary_receiver_distance_percent,
-  "Give help banking - frequency" = chart_give_help_banking_freq_percent,
-  "Give help banking - hours" = chart_give_help_banking_hours_percent,
+  "Activities Respondent Assists Caree With" = chart_activity_give_help_percent,
+  "Age of Caree" = chart_age_primary_receiver_percent,
+  "Hours of Help Respondent Provides to Caree" =
+    chart_hours_help_provided_percent,
+  "Distance to Caree" = chart_primary_receiver_distance_percent,
+  "Banking Help Provided to Caree - frequency" =
+    chart_give_help_banking_freq_percent,
+  "Banking Help Provided to Caree - hours" =
+    chart_give_help_banking_hours_percent,
   "Give help banking - daily" = chart_give_help_banking_daily_percent,
   "Give help banking - at least once a week" =
     chart_give_help_banking_weekly_percent,
@@ -125,24 +128,24 @@ giver_response_percent <- list(
     chart_give_help_banking_monthly_percent,
   "Give help banking - less than once a month" =
     chart_give_help_banking_monthly_less_percent,
-  "Out of pocket expenses" = chart_out_of_pocket_percent,
-  "Financial hardship" = chart_financial_hardship_percent
+  "Out of Pocket Caregiving Expenses" = chart_out_of_pocket_percent,
+  "Financial Hardship due to Caregiving" = chart_financial_hardship_percent
 )
 
 giver_response_tabs <- list(
-  "Activity give help" = tab_activity_give_help,
-  "Age of primary receiver" = tab_age_primary_receiver,
-  "Hours of help provided" = tab_hours_help_provided,
-  "Primary receiver distance" = tab_primary_receiver_distance,
-  "Give help banking - frequency" = tab_give_help_banking_freq,
-  "Give help banking - hours" = tab_give_help_banking_hours,
+  "Activities Respondent Assists Caree With" = tab_activity_give_help,
+  "Age of Caree" = tab_age_primary_receiver,
+  "Hours of Help Respondent Provides to Caree" = tab_hours_help_provided,
+  "Distance to Caree" = tab_primary_receiver_distance,
+  "Banking Help Provided to Caree - frequency" = tab_give_help_banking_freq,
+  "Banking Help Provided to Caree - hours" = tab_give_help_banking_hours,
   "Give help banking - daily" = tab_give_help_banking_daily,
   "Give help banking - at least once a week" = tab_give_help_banking_weekly,
   "Give help banking - at least once a month" = tab_give_help_banking_monthly,
   "Give help banking - less than once a month" =
     tab_give_help_banking_monthly_less,
-  "Out of pocket expenses" = tab_out_of_pocket,
-  "Financial hardship" = tab_financial_hardship
+  "Out of Pocket Caregiving Expenses" = tab_out_of_pocket,
+  "Financial Hardship due to Caregiving" = tab_financial_hardship
 )
 
 group_by_options <- list(
@@ -155,235 +158,238 @@ group_by_options <- list(
 show_group <- list("false", "true")
 default <- 0
 
-ui <- function(request) {
-  fluidPage(
-    useShinyjs(),
-    titlePanel(
-      "Explore the 2018 General Social Survey on Caregiving and Care Receiving"
+ui <- fluidPage(
+  useShinyjs(),
+  titlePanel("Explore the 2018 General Social Survey on Caregiving and Care
+    Receiving"),
+  div(
+    p("This data represents a subset of information from the survey. The
+      information here is data from respondents who are:"),
+    tags$ol(
+      tags$li("Care receivers who are 65 years old or older, or"),
+      tags$li("Caregivers who provide assistance to individuals who are 65
+        years old or older, or"),
+      tags$li("Both care receivers who are 65 years old or older while
+        simultaneously acting as caregivers to other care receivers who are 65
+        years old or older"),
+      tags$li("People 65 or older who need help but are not currently receiving
+        care.")
     ),
-    div(
-      p("The data represents respondents who are:"),
-      tags$ol(
-        tags$li("care receivers who are 65 years old or older"),
-        tags$li("caregivers to individuals who are 65 years old or older"),
-        tags$li("Both care receivers who are 65 years old or older and
-          caregivers to care receivers who are 65 years old or older"),
-        tags$li("Needed help and are not receiving care but would like to
-          and are 65 years old or older.")
+    p("These groups of respondents are likely providing insights into the
+      experiences and challenges related to receiving or providing care for
+      older adults. The data may include information about their health,
+      financial situation, quality of life, and other factors relevant to
+      caregiving and care receiving.")
+  ),
+  # general charts
+  fluidRow(
+    sidebarLayout(
+      sidebarPanel(
+        selectInput(
+          "general_selected_box",
+          "General info:",
+          choices = general_charts,
+          selected = default
+        ),
       ),
-      p("These groups of respondents are likely providing insights into the
-        experiences and challenges related to receiving or providing care
-        for elderly individuals. The data may include information about
-        their health, financial situation, quality of life, and other
-        factors relevant to caregiving and care receiving.")
-    ),
-    # general charts
-    fluidRow(
-      sidebarLayout(
-        sidebarPanel(
-          selectInput("general_selected_box", "General info:",
-            choices = general_charts, selected = default
+      mainPanel(
+        tabsetPanel(
+          tabPanel(
+            "Counts",
+            plotOutput("general_selected_chart")
           ),
-        ),
-        mainPanel(
-          tabsetPanel(
-            tabPanel(
-              "Counts",
-              plotOutput("general_selected_chart")
-            ),
-            tabPanel(
-              "Percentages",
-              plotOutput("general_percentage")
-            ),
-            tabPanel(
-              "Tables",
-              tableOutput("general_table")
-            ), # table id
-            tabPanel(
-              "Statistical Significance",
-              "Statisical significance of data will be displayed here"
-            )
+          tabPanel(
+            "Percentages",
+            plotOutput("general_percentage")
+          ),
+          tabPanel(
+            "Tables",
+            tableOutput("general_table")
+          ), # table id
+          tabPanel(
+            "Statistical Significance",
+            "Statisical significance of data will be displayed here"
           )
         )
       )
-    ),
-    # receiver response charts
-    fluidRow(
-      sidebarLayout(
-        sidebarPanel(
-          selectInput(
-            "receiver_select_box",
-            "Questions asked to older adults who received care:",
-            choices = names(receiver_response_charts),
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_sex",
-            "Filter by sex",
-            choices = filter_sex,
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_age",
-            "Age group",
-            choices = filter_age_group,
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_pop_centre",
-            "Population Centre",
-            choices = filter_pop_centre,
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_partner_in_household",
-            "Spouse/Partner living in household",
-            choices = filter_partner_in_household,
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_living_arrangement_senior_household",
-            "Living arrangement of senior respondent's household",
-            choices = filter_living_arrangement_senior_household,
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_indigenous_status",
-            "Indigenous status",
-            choices = filter_indigenous_status,
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_visible_minority",
-            "Visible minority status",
-            choices = filter_visible_minority_status,
-            selected = default
-          ),
-          selectInput(
-            "receiver_select_box_group_religious_participation",
-            "Group religious participation",
-            choices = filter_group_religious_participation,
-            selected = default
-          ),
-          radioButtons(
-            "receiver_radio",
-            "Group by:",
-            choices = group_by_options,
-            selected = 1
-          ),
-          selectInput(
-            "radio_select_box",
-            "radio select box",
-            choices = list("hello" = 1, "world" = 2),
-            selected = 1
-          )
+    )
+  ),
+  # receiver response charts
+  fluidRow(
+    sidebarLayout(
+      sidebarPanel(
+        selectInput(
+          "receiver_select_box",
+          "Questions asked to older adults who received care:",
+          choices = names(receiver_response_charts),
+          selected = default
         ),
-        mainPanel(
-          tabsetPanel(
-            tabPanel(
-              "Counts",
-              plotOutput("receiver_selected_chart")
-            ),
-            tabPanel("Percentages", plotOutput("receiver_percentage")),
-            tabPanel(
-              "Tables",
-              tableOutput("receiver_table")
-            ), # receiver table id
-            tabPanel(
-              "Statistical Significance",
-              "Statisical significance of data will be displayed here"
-            )
+        selectInput(
+          "receiver_select_box_sex",
+          "Filter by sex of older adult:",
+          choices = filter_sex,
+          selected = default
+        ),
+        selectInput(
+          "receiver_select_box_age",
+          "Filter by age group of older adult:",
+          choices = filter_age_group,
+          selected = default
+        ),
+        selectInput(
+          "receiver_select_box_pop_centre",
+          "Filter by urban/rural status of older adult:",
+          choices = filter_pop_centre,
+          selected = default
+        ),
+        selectInput(
+          "receiver_select_box_partner_in_household",
+          "Filter by spouse/partner living with older adult:",
+          choices = filter_partner_in_household,
+          selected = default
+        ),
+        selectInput(
+          "receiver_select_box_living_arrangement_senior_household",
+          "Filter by living arrangement of older adult:",
+          choices = filter_living_arrangement_senior_household,
+          selected = default
+        ),
+        selectInput(
+          "receiver_select_box_indigenous_status",
+          "Filter by indigenous status of older adult:",
+          choices = filter_indigenous_status,
+          selected = default
+        ),
+        selectInput(
+          "receiver_select_box_visible_minority",
+          "Filter by visible minority status of older adult:",
+          choices = filter_visible_minority_status,
+          selected = default
+        ),
+        selectInput(
+          "receiver_select_box_group_religious_participation",
+          "Filter by religious participation of older adult:",
+          choices = filter_group_religious_participation,
+          selected = default
+        ),
+        radioButtons("receiver_radio",
+          "Group by:",
+          choices = group_by_options,
+          selected = 1
+        ),
+        selectInput("radio_select_box",
+          "radio select box",
+          choices = list("hello" = 1, "world" = 2),
+          selected = 1
+        )
+      ),
+      mainPanel(
+        tabsetPanel(
+          tabPanel(
+            "Counts",
+            plotOutput("receiver_selected_chart")
+          ),
+          tabPanel("Percentages", plotOutput("receiver_percentage")),
+          tabPanel(
+            "Tables",
+            tableOutput("receiver_table")
+          ), # receiver table id
+          tabPanel(
+            "Statistical Significance",
+            "Statisical significance of data will be displayed here"
           )
         )
       )
-    ),
-    # giver response charts
-    fluidRow(
-      sidebarLayout(
-        sidebarPanel(
-          selectInput(
-            "giver_select_box",
-            "Questions asked to respondents who provided care to older adults:",
-            choices = names(giver_response_charts),
-            selected = names(giver_response_charts[1])
-          ),
-          selectInput(
-            "giver_select_box_sex",
-            "Filter by sex",
-            choices = filter_sex,
-            selected = default
-          ),
-          selectInput(
-            "giver_select_box_age",
-            "Age group",
-            filter_age_group,
-            selected = default
-          ),
-          selectInput(
-            "giver_select_box_pop_centre",
-            "Population Centre",
-            filter_pop_centre,
-            selected = default
-          ),
-          selectInput(
-            "giver_select_box_partner_in_household",
-            "Spouse/Partner living in household",
-            filter_partner_in_household,
-            selected = default
-          ),
-          selectInput(
-            "giver_select_box_living_arrangement_senior_household",
-            "Living arrangement of senior respondent's household",
-            filter_living_arrangement_senior_household,
-            selected = default
-          ),
-          selectInput(
-            "giver_select_box_indigenous_status",
-            "Indigenous status",
-            filter_indigenous_status,
-            selected = default
-          ),
-          selectInput(
-            "giver_select_box_visible_minority",
-            "Visible minority status",
-            filter_visible_minority_status,
-            selected = default
-          ),
-          selectInput(
-            "giver_select_box_group_religious_participation",
-            "Group religious participation",
-            filter_group_religious_participation,
-            selected = default
-          ),
-          radioButtons(
-            "giver_radio", "Group by:",
-            choices = group_by_options, selected = 1
-          )
+    )
+  ),
+  # giver response charts
+  fluidRow(
+    sidebarLayout(
+      sidebarPanel(
+        selectInput(
+          "giver_select_box",
+          "Questions asked to respondents who provided care to older adults:",
+          choices = names(giver_response_charts),
+          selected = names(giver_response_charts[1])
         ),
-        mainPanel(
-          tabsetPanel(
-            tabPanel(
-              "Counts",
-              plotOutput("giver_selected_chart")
-            ),
-            tabPanel(
-              "Percentages",
-              plotOutput("giver_percentage")
-            ),
-            tabPanel(
-              "Tables",
-              tableOutput("giver_table")
-            ),
-            tabPanel(
-              "Statistical Significance",
-              "Statisical significance of data will be displayed here"
-            )
+        selectInput(
+          "giver_select_box_sex",
+          "Filter by sex",
+          choices = filter_sex,
+          selected = default
+        ),
+        selectInput(
+          "giver_select_box_age",
+          "Age group",
+          filter_age_group,
+          selected = default
+        ),
+        selectInput(
+          "giver_select_box_pop_centre",
+          "Population Centre",
+          filter_pop_centre,
+          selected = default
+        ),
+        selectInput(
+          "giver_select_box_partner_in_household",
+          "Spouse/Partner living in household",
+          filter_partner_in_household,
+          selected = default
+        ),
+        selectInput(
+          "giver_select_box_living_arrangement_senior_household",
+          "Living arrangement of senior respondent's household",
+          filter_living_arrangement_senior_household,
+          selected = default
+        ),
+        selectInput(
+          "giver_select_box_indigenous_status",
+          "Indigenous status",
+          filter_indigenous_status,
+          selected = default
+        ),
+        selectInput(
+          "giver_select_box_visible_minority",
+          "Visible minority status",
+          filter_visible_minority_status,
+          selected = default
+        ),
+        selectInput(
+          "giver_select_box_group_religious_participation",
+          "Group religious participation",
+          filter_group_religious_participation,
+          selected = default
+        ),
+        radioButtons(
+          "giver_radio",
+          "Group by:",
+          choices = group_by_options,
+          selected = 1
+        )
+      ),
+      mainPanel(
+        tabsetPanel(
+          tabPanel(
+            "Counts",
+            plotOutput("giver_selected_chart")
+          ),
+          tabPanel(
+            "Percentages",
+            plotOutput("giver_percentage")
+          ), # giver percentages
+          tabPanel(
+            "Tables",
+            tableOutput("giver_table")
+          ), # giver table
+          tabPanel(
+            "Statistical Significance",
+            "Statisical significance of data will be displayed here"
           )
         )
       )
     )
   )
-}
+)
 
 server <- function(input, output) { # nolint: cyclocomp_linter.
   observeEvent(input$receiver_radio, {
@@ -620,8 +626,8 @@ server <- function(input, output) { # nolint: cyclocomp_linter.
 }
 
 options <- list(
-  "port" = as.integer(Sys.getenv("GSS32_PORT"))
-  "host" = Sys.getenv("GSS32_HOST"),
+  "port" = as.integer(Sys.getenv("GSS32_PORT")),
+  "host" = Sys.getenv("GSS32_HOST")
 )
 
 shinyApp(ui = ui, server = server, options = options)
