@@ -12,101 +12,71 @@ general_charts <- list(
   "Sex of Primary Caregivers and Care Receivers"
 )
 
-receiver_ui_config <- list(
-  "Health Conditions Experienced" = list(
-    index = 1,
-    count_chart = chart_health_conditions,
-    pct_chart = chart_health_conditions_percent,
-    table = tab_health_conditions,
-    title_fragment = strwrap("of People with Health Conditions")
-  ),
-  "Activities Respondent Gets Help With" = list(
-    index = 2,
-    count_chart = chart_activity_receive_help,
-    pct_chart = chart_activity_receive_help_percent,
-    table = tab_activity_receive_help,
-    title_fragment = strwrap("of People who Received Help with an Activity")
-  ),
-  "Age of Respondent's Primary Caregiver" = list(
-    index = 3,
-    count_chart = chart_age_primary_giver,
-    pct_chart = chart_age_primary_giver_percent,
-    table = tab_age_primary_giver,
-    title_fragment = strwrap("of people and the Age of Respondent's Primary Caregiver")
-  ),
-  "Activities Assisted by Professionals" = list(
-    index = 4,
-    count_chart = chart_activity_receive_help_pro,
-    pct_chart = chart_activity_receive_help_pro_percent,
-    table = tab_activity_receive_help_pro,
-    title_fragment = strwrap("of People who Received Professional Help with an
-      Activity")
-  ),
-  "Hours of Help Received per Week" = list(
-    index = 5,
-    count_chart = chart_hours_help_received,
-    pct_chart = chart_hours_help_received_percent,
-    table = tab_hours_help_received,
-    title_fragment = strwrap("of People and the Number of Hours of Help Received - Per
-      Average Week")
-  ),
-  "Primary Caregiver Distance Away" = list(
-    index = 6,
-    count_chart = chart_primary_giver_distance,
-    pct_chart = chart_primary_giver_distance_percent,
-    table = tab_primary_giver_distance,
-    title_fragment =
-      strwrap("of People and the Distance Between the Respondent and the Caregiver's
-      Dwellings")
-  ),
-  "Banking Help Received - frequency" = list(
-    index = 7,
-    count_chart = chart_receive_help_banking_freq,
-    pct_chart = chart_receive_help_banking_freq_percent,
-    table = tab_receive_help_banking_freq,
-    title_fragment = strwrap("of People and the Frequency Their Primary Caregiver Helped
-      with Banking")
-  ),
-  "Banking Help Received - hours" = list(
-    index = 8,
-    count_chart = chart_receive_help_banking_hours,
-    pct_chart = chart_receive_help_banking_hours_percent,
-    table = tab_receive_help_banking_hours,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking")
-  ),
-  "Help banking hours - daily" = list(
-    index = 9,
-    count_chart = chart_help_banking_hours_daily,
-    pct_chart = chart_help_banking_hours_daily_percent,
-    table = tab_help_banking_hours_daily,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Daily")
-  ),
-  "Help banking hours - at least once a week" = list(
-    index = 10,
-    count_chart = chart_help_banking_weekly,
-    pct_chart = chart_help_banking_weekly_percent,
-    table = tab_help_banking_hours_weekly,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Weekly")
-  ),
-  "Help banking hours - at least once a month" = list(
-    index = 11,
-    count_chart = chart_help_banking_monthly,
-    pct_chart = chart_help_banking_monthly_percent,
-    table = tab_help_banking_hours_monthly,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Monthly")
-  ),
-  "Help banking hours - less than once a month" = list(
-    index = 12,
-    count_chart = chart_help_banking_monthly_less,
-    pct_chart = chart_help_banking_monthly_less_percent,
-    table = tab_help_banking_hours_monthly_less,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Less Than Once a Month")
-  )
+receiver_options <- list(
+  "Health Conditions Experienced" = 1,
+  "Activities Respondent Gets Help With" = 2,
+  "Age of Respondent's Primary Caregiver" = 3,
+  "Activities Assisted by Professionals" = 4,
+  "Hours of Help Received per Week" = 5,
+  "Primary Caregiver Distance Away" = 6,
+  "Banking Help Received - frequency" = 7,
+  "Banking Help Received - hours" = 8,
+  "Help banking hours - daily" = 9,
+  "Help banking hours - at least once a week" = 10,
+  "Help banking hours - at least once a month" = 11,
+  "Help banking hours - less than once a month" = 12
+)
+
+receiver_response_charts <- list(
+  "Health Conditions Experienced" = chart_health_conditions,
+  "Activities Respondent Gets Help With" = chart_activity_receive_help,
+  "Age of Respondent's Primary Caregiver" = chart_age_primary_giver,
+  "Activities Assisted by Professionals" = chart_activity_receive_help_pro,
+  "Hours of Help Received per Week" = chart_hours_help_received,
+  "Primary Caregiver Distance Away" = chart_primary_giver_distance,
+  "Banking Help Received - frequency" = chart_receive_help_banking_freq,
+  "Banking Help Received - hours" = chart_receive_help_banking_hours,
+  "Help banking hours - daily" = chart_help_banking_hours_daily,
+  "Help banking hours - at least once a week" = chart_help_banking_weekly,
+  "Help banking hours - at least once a month" = chart_help_banking_monthly,
+  "Help banking hours - less than once a month" =
+    chart_help_banking_monthly_less
+)
+
+receiver_charts_percent <- list(
+  "Health Conditions Experienced" = chart_health_conditions_percent,
+  "Activities Respondent Gets Help With" = chart_activity_receive_help_percent,
+  "Age of Respondent's Primary Caregiver" = chart_age_primary_giver_percent,
+  "Activities Assisted by Professionals" =
+    chart_activity_receive_help_pro_percent,
+  "Hours of Help Received per Week" = chart_hours_help_received_percent,
+  "Primary Caregiver Distance Away" = chart_primary_giver_distance_percent,
+  "Banking Help Received - frequency" = chart_receive_help_banking_freq_percent,
+  "Banking Help Received - hours" = chart_receive_help_banking_hours_percent,
+  "Help banking hours - daily" = chart_help_banking_hours_daily_percent,
+  "Help banking hours - at least once a week" =
+    chart_help_banking_weekly_percent,
+  "Help banking hours - at least once a month" =
+    chart_help_banking_monthly_percent,
+  "Help banking hours - less than once a month" =
+    chart_help_banking_monthly_less_percent
+)
+
+receiver_response_tabs <- list(
+  "Health Conditions Experienced" = tab_health_conditions,
+  "Activities Respondent Gets Help With" = tab_activity_receive_help,
+  "Age of Respondent's Primary Caregiver" = tab_age_primary_giver,
+  "Activities Assisted by Professionals" = tab_activity_receive_help_pro,
+  "Hours of Help Received per Week" = tab_hours_help_received,
+  "Primary Caregiver Distance Away" = tab_primary_giver_distance,
+  "Banking Help Received - frequency" = tab_receive_help_banking_freq,
+  "Banking Help Received - hours" = tab_receive_help_banking_hours,
+  "Help banking hours - daily" = tab_help_banking_hours_daily,
+  "Help banking hours - at least once a week" = tab_help_banking_hours_weekly,
+  "Help banking hours - at least once a month" =
+    tab_help_banking_hours_monthly,
+  "Help banking hours - less than once a month" =
+    tab_help_banking_hours_monthly_less
 )
 
 giver_options <- list(
@@ -160,6 +130,22 @@ giver_response_percent <- list(
     chart_give_help_banking_monthly_less_percent,
   "Out of Pocket Caregiving Expenses" = chart_out_of_pocket_percent,
   "Financial Hardship due to Caregiving" = chart_financial_hardship_percent
+)
+
+giver_response_tabs <- list(
+  "Activities Respondent Assists Caree With" = tab_activity_give_help,
+  "Age of Caree" = tab_age_primary_receiver,
+  "Hours of Help Respondent Provides to Caree" = tab_hours_help_provided,
+  "Distance to Caree" = tab_primary_receiver_distance,
+  "Banking Help Provided to Caree - frequency" = tab_give_help_banking_freq,
+  "Banking Help Provided to Caree - hours" = tab_give_help_banking_hours,
+  "Give help banking - daily" = tab_give_help_banking_daily,
+  "Give help banking - at least once a week" = tab_give_help_banking_weekly,
+  "Give help banking - at least once a month" = tab_give_help_banking_monthly,
+  "Give help banking - less than once a month" =
+    tab_give_help_banking_monthly_less,
+  "Out of Pocket Caregiving Expenses" = tab_out_of_pocket,
+  "Financial Hardship due to Caregiving" = tab_financial_hardship
 )
 
 group_by_options <- list(
@@ -258,7 +244,7 @@ ui <- function(request) {
               selectInput(
                 "receiver_select_box",
                 "Questions asked to older adults who received care:",
-                choices = names(receiver_ui_config),
+                choices = names(receiver_response_charts),
                 selected = default
               ),
               selectInput(
@@ -453,13 +439,13 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     session$doBookmark()
   })
   onBookmark(function(state) {
-    # state$values
+    state.values
   })
   onBookmarked(function(url) {
     # Can instead use `updateQueryString(url)` if we want to just update the
     # window's location. Refreshing would take to the last bookmarked page.
     updateQueryString(url)
-    # showBookmarkUrlModal(url)
+    showBookmarkUrlModal(url)
   })
 
   output_receiver_df <- df_receiver
@@ -532,58 +518,54 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
-    input$receiver_select_box
-    config <- receiver_ui_config[[input$receiver_select_box]]
-    print(config)
+    index <- receiver_options[[input$receiver_select_box]]
 
-    update_receiver_df()
-
-    if (input$receiver_radio == 2) {
-      group_by_sex(
-        output_receiver_df, config$table, selected, config$title_fragment
-      )
-    } else if (input$receiver_radio == 3) {
-      group_by_age(
-        output_receiver_df, config$table, selected, config$title_fragment
-      )
-    } else {
-      config$count_chart(output_receiver_df)
-    }
-  })
-
-  # receiver percentage tab
-  output$receiver_percentage <- renderPlot({
-    selected <- receiver_options[[input$receiver_select_box]]
-    config <- receiver_ui_config[[selected]]
-
-    x_lab <- names(receiver_ui_config)[[index]]
+    chart <- receiver_response_charts[[index]]
+    tab <- receiver_response_tabs[[index]]
+    x_lab <- names(receiver_options)[[index]]
     title_lab <- receiver_group_by_titles[[index]]
 
     update_receiver_df()
 
     if (input$receiver_radio == 2) {
-      group_by_sex_percent(
-        output_receiver_df, config$table, selected, config$title_fragment
-      )
+      group_by_sex(output_receiver_df, tab, x_lab, title_lab)
     } else if (input$receiver_radio == 3) {
-      group_by_age_percent(
-        output_receiver_df, config$table, selected, config$title_fragment
-      )
+      group_by_age(output_receiver_df, tab, x_lab, title_lab)
     } else {
-      config.pct_chart(output_receiver_df)
+      chart(output_receiver_df)
+    }
+  })
+
+  # receiver percentage tab
+  output$receiver_percentage <- renderPlot({
+    index <- receiver_options[[input$receiver_select_box]]
+
+    chart <- receiver_charts_percent[[index]]
+    tab <- receiver_response_tabs[[index]]
+    x_lab <- names(receiver_options)[[index]]
+    title_lab <- receiver_group_by_titles[[index]]
+
+    update_receiver_df()
+
+    if (input$receiver_radio == 2) {
+      group_by_sex_percent(output_receiver_df, tab, x_lab, title_lab)
+    } else if (input$receiver_radio == 3) {
+      group_by_age_percent(output_receiver_df, tab, x_lab, title_lab)
+    } else {
+      chart(output_receiver_df)
     }
   })
 
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
-    tab <- recevier_ui_config[[input$receiver_select_box]]$table
+    tab <- receiver_response_tabs[[input$receiver_select_box]]
     final_table <- tab(output_receiver_df)
 
-    for (i in seq_along(receiver_ui_config)) {
-      if (input$receiver_select_box == names(receiver_ui_config[i])) {
+    for (i in seq_along(receiver_response_charts)) {
+      if (input$receiver_select_box == names(receiver_response_charts[i])) {
         final_table <- final_table %>%
-          rename(!!names(receiver_ui_config[i]) := 1, "count" := 2)
+          rename(!!names(receiver_response_charts[i]) := 1, "count" := 2)
       }
     }
 

@@ -96,11 +96,15 @@ group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
 
 group_by_age_percent <- function(df_input, tab_option, x_lab, title_lab) {
   df <- tab_option(df_input)
-  df_long <- pivot_longer(df, cols = c("age_65_74_percentage", "age_75_percentage"), names_to = "age_group",
-                          values_to = "age_group_percent")
+  df_long <- pivot_longer(df,
+    cols = c("age_65_74_percentage", "age_75_percentage"), names_to = "age_group",
+    values_to = "age_group_percent"
+  )
 
-  chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = age_group_percent, fill =
-    age_group)) +
+  chart_output <- ggplot(df_long, aes(
+    x = fct_inorder(.data[[names(df_long)[1]]]), y = age_group_percent, fill =
+      age_group
+  )) +
     geom_col(position = "dodge") +
     labs(
       title = paste("Number", title_lab, "by age"),
