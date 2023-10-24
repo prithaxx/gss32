@@ -218,6 +218,7 @@ show_group <- list("false", "true")
 default <- 0
 
 ui <- function(request) {
+  print(request)
   fluidPage(
     useShinyjs(),
     titlePanel("Explore the 2018 General Social Survey on Caregiving and Care
@@ -250,7 +251,7 @@ ui <- function(request) {
       )
     ),
     tabsetPanel(
-      id = "main_panel",
+      id = "chart_panel",
       tabPanel(
         "General Charts",
         fluidRow(
@@ -265,6 +266,7 @@ ui <- function(request) {
             ),
             mainPanel(
               tabsetPanel(
+                id = "general_chart_type",
                 tabPanel(
                   "Counts",
                   plotOutput("general_selected_chart")
@@ -358,6 +360,7 @@ ui <- function(request) {
             ),
             mainPanel(
               tabsetPanel(
+                id = "receiver_chart_type",
                 tabPanel(
                   "Counts",
                   plotOutput("receiver_selected_chart")
@@ -445,6 +448,7 @@ ui <- function(request) {
             ),
             mainPanel(
               tabsetPanel(
+                id = "giver_chart_type",
                 tabPanel(
                   "Counts",
                   plotOutput("giver_selected_chart")
