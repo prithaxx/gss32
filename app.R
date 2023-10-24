@@ -18,37 +18,37 @@ receiver_ui_config <- list(
     count_chart = chart_health_conditions,
     pct_chart = chart_health_conditions_percent,
     table = tab_health_conditions,
-    title_fragment = strwrap("of People with Health Conditions")
+    title_fragment = "of People with Health Conditions"
   ),
   "Activities Respondent Gets Help With" = list(
     index = 2,
     count_chart = chart_activity_receive_help,
     pct_chart = chart_activity_receive_help_percent,
     table = tab_activity_receive_help,
-    title_fragment = strwrap("of People who Received Help with an Activity")
+    title_fragment = "of People who Received Help with an Activity"
   ),
   "Age of Respondent's Primary Caregiver" = list(
     index = 3,
     count_chart = chart_age_primary_giver,
     pct_chart = chart_age_primary_giver_percent,
     table = tab_age_primary_giver,
-    title_fragment = strwrap("of people and the Age of Respondent's Primary Caregiver")
+    title_fragment = "of people and the Age of Respondent's Primary Caregiver"
   ),
   "Activities Assisted by Professionals" = list(
     index = 4,
     count_chart = chart_activity_receive_help_pro,
     pct_chart = chart_activity_receive_help_pro_percent,
     table = tab_activity_receive_help_pro,
-    title_fragment = strwrap("of People who Received Professional Help with an
-      Activity")
+    title_fragment = "of People who Received Professional Help with an
+      Activity"
   ),
   "Hours of Help Received per Week" = list(
     index = 5,
     count_chart = chart_hours_help_received,
     pct_chart = chart_hours_help_received_percent,
     table = tab_hours_help_received,
-    title_fragment = strwrap("of People and the Number of Hours of Help Received - Per
-      Average Week")
+    title_fragment = "of People and the Number of Hours of Help Received
+      - Per Average Week"
   ),
   "Primary Caregiver Distance Away" = list(
     index = 6,
@@ -56,110 +56,155 @@ receiver_ui_config <- list(
     pct_chart = chart_primary_giver_distance_percent,
     table = tab_primary_giver_distance,
     title_fragment =
-      strwrap("of People and the Distance Between the Respondent and the Caregiver's
-      Dwellings")
+      "of People and the Distance Between the Respondent and the Caregiver's
+      Dwellings"
   ),
   "Banking Help Received - frequency" = list(
     index = 7,
     count_chart = chart_receive_help_banking_freq,
     pct_chart = chart_receive_help_banking_freq_percent,
     table = tab_receive_help_banking_freq,
-    title_fragment = strwrap("of People and the Frequency Their Primary Caregiver Helped
-      with Banking")
+    title_fragment = "of People and the Frequency Their Primary Caregiver Helped
+      with Banking"
   ),
   "Banking Help Received - hours" = list(
     index = 8,
     count_chart = chart_receive_help_banking_hours,
     pct_chart = chart_receive_help_banking_hours_percent,
     table = tab_receive_help_banking_hours,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking")
+    title_fragment = "of People and Number of Hours their Primary Caregiver
+      Helped with Banking"
   ),
   "Help banking hours - daily" = list(
     index = 9,
     count_chart = chart_help_banking_hours_daily,
     pct_chart = chart_help_banking_hours_daily_percent,
     table = tab_help_banking_hours_daily,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Daily")
+    title_fragment = "of People and Number of Hours their Primary Caregiver
+      Helped with Banking Daily"
   ),
   "Help banking hours - at least once a week" = list(
     index = 10,
     count_chart = chart_help_banking_weekly,
     pct_chart = chart_help_banking_weekly_percent,
     table = tab_help_banking_hours_weekly,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Weekly")
+    title_fragment = "of People and Number of Hours their Primary Caregiver
+      Helped with Banking Weekly"
   ),
   "Help banking hours - at least once a month" = list(
     index = 11,
     count_chart = chart_help_banking_monthly,
     pct_chart = chart_help_banking_monthly_percent,
     table = tab_help_banking_hours_monthly,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Monthly")
+    title_fragment = "of People and Number of Hours their Primary Caregiver
+      Helped with Banking Monthly"
   ),
   "Help banking hours - less than once a month" = list(
     index = 12,
     count_chart = chart_help_banking_monthly_less,
     pct_chart = chart_help_banking_monthly_less_percent,
     table = tab_help_banking_hours_monthly_less,
-    title_fragment = strwrap("of People and Number of Hours their Primary Caregiver
-      Helped with Banking Less Than Once a Month")
+    title_fragment = "of People and Number of Hours their Primary Caregiver
+      Helped with Banking Less Than Once a Month"
   )
 )
 
-giver_options <- list(
-  "Activities Respondent Assists Caree With" = 1,
-  "Age of Caree" = 2,
-  "Hours of Help Respondent Provides to Caree" = 3,
-  "Distance to Caree" = 4,
-  "Banking Help Provided to Caree - frequency" = 5,
-  "Banking Help Provided to Caree - hours" = 6,
-  "Give help banking - daily" = 7,
-  "Give help banking - at least once a week" = 8,
-  "Give help banking - at least once a month" = 9,
-  "Give help banking - less than once a month" = 10,
-  "Out of Pocket Caregiving Expenses" = 11,
-  "Financial Hardship due to Caregiving" = 12
-)
-
-giver_response_charts <- list(
-  "Activities Respondent Assists Caree With" = chart_activity_give_help,
-  "Age of Caree" = chart_age_primary_receiver,
-  "Hours of Help Respondent Provides to Caree" = chart_hours_help_provided,
-  "Distance to Caree" = chart_primary_receiver_distance,
-  "Banking Help Provided to Caree - frequency" = chart_give_help_banking_freq,
-  "Banking Help Provided to Caree - hours" = chart_give_help_banking_hours,
-  "Give help banking - daily" = chart_give_help_banking_daily,
-  "Give help banking - at least once a week" = chart_give_help_banking_weekly,
-  "Give help banking - at least once a month" =
-    chart_give_help_banking_monthly,
-  "Give help banking - less than once a month" =
-    chart_give_help_banking_monthly_less,
-  "Out of Pocket Caregiving Expenses" = chart_out_of_pocket,
-  "Financial Hardship due to Caregiving" = chart_financial_hardship
-)
-
-giver_response_percent <- list(
-  "Activities Respondent Assists Caree With" = chart_activity_give_help_percent,
-  "Age of Caree" = chart_age_primary_receiver_percent,
-  "Hours of Help Respondent Provides to Caree" =
-    chart_hours_help_provided_percent,
-  "Distance to Caree" = chart_primary_receiver_distance_percent,
-  "Banking Help Provided to Caree - frequency" =
-    chart_give_help_banking_freq_percent,
-  "Banking Help Provided to Caree - hours" =
-    chart_give_help_banking_hours_percent,
-  "Give help banking - daily" = chart_give_help_banking_daily_percent,
-  "Give help banking - at least once a week" =
-    chart_give_help_banking_weekly_percent,
-  "Give help banking - at least once a month" =
-    chart_give_help_banking_monthly_percent,
-  "Give help banking - less than once a month" =
-    chart_give_help_banking_monthly_less_percent,
-  "Out of Pocket Caregiving Expenses" = chart_out_of_pocket_percent,
-  "Financial Hardship due to Caregiving" = chart_financial_hardship_percent
+giver_ui_config <- list(
+  "Activities Respondent Assists Caree With" = list(
+    index = 1,
+    count_chart = chart_activity_give_help,
+    pct_chart = chart_activity_give_help_percent,
+    table = tab_activity_give_help,
+    title_fragment = "of People who Provided Help with an Activity"
+  ),
+  "Age of Caree" = list(
+    index = 2,
+    count_chart = chart_age_primary_receiver,
+    pct_chart = chart_age_primary_receiver_percent,
+    table = tab_age_primary_receiver,
+    title_fragment = "of people and the Age of Respondent's Primary Care
+        Receiver"
+  ),
+  "Hours of Help Respondent Provides to Caree" = list(
+    index = 3,
+    count_chart = chart_hours_help_provided,
+    pct_chart = chart_hours_help_provided_percent,
+    table = tab_hours_help_provided,
+    title_fragment = "of People and the Number of Hours of Help Provided -
+        Per Average Week"
+  ),
+  "Distance to Caree" = list(
+    index = 4,
+    count_chart = chart_primary_receiver_distance,
+    pct_chart = chart_primary_receiver_distance_percent,
+    table = tab_primary_receiver_distance,
+    title_fragment = "of People and the Distance Between them and the Care
+        Receiver's Dwellings"
+  ),
+  "Banking Help Provided to Caree - frequency" = list(
+    index = 5,
+    count_chart = chart_give_help_banking_freq,
+    pct_chart = chart_give_help_banking_freq_percent,
+    table = tab_give_help_banking_freq,
+    title_fragment = "of People and the Frequency they Provided Help to Their
+        Primary Care Receiver with Banking"
+  ),
+  "Banking Help Provided to Caree - hours" = list(
+    index = 6,
+    count_chart = chart_give_help_banking_hours,
+    pct_chart = chart_give_help_banking_hours_percent,
+    table = tab_give_help_banking_hours,
+    title_fragment = "of People and Number of Hours they Provided Help with
+        Banking"
+  ),
+  "Give help banking - daily" = list(
+    index = 7,
+    count_chart = chart_give_help_banking_daily,
+    pct_chart = chart_give_help_banking_daily_percent,
+    table = tab_give_help_banking_daily,
+    title_fragment = "of People and Number of Hours they Provided Help with
+        Banking Daily"
+  ),
+  "Give help banking - at least once a week" = list(
+    index = 8,
+    count_chart = chart_give_help_banking_weekly,
+    pct_chart = chart_give_help_banking_weekly_percent,
+    table = tab_give_help_banking_weekly,
+    title_fragment = "of People and Number of Hours they Provided Help with
+        Banking Weekly"
+  ),
+  "Give help banking - at least once a month" = list(
+    index = 9,
+    count_chart = chart_give_help_banking_monthly,
+    pct_chart = chart_give_help_banking_monthly_percent,
+    table = tab_give_help_banking_monthly,
+    title_fragment = "of People and Number of Hours they Provided Help with
+        Banking Monthly"
+  ),
+  "Give help banking - less than once a month" = list(
+    index = 10,
+    count_chart = chart_give_help_banking_monthly_less,
+    pct_chart = chart_give_help_banking_monthly_less_percent,
+    table = tab_give_help_banking_monthly_less,
+    title_fragment = "of People and Number of Hours they Provided Help with
+        Banking Less Than Once a Month"
+  ),
+  "Out of Pocket Caregiving Expenses" = list(
+    index = 11,
+    count_chart = chart_out_of_pocket,
+    pct_chart = chart_out_of_pocket_percent,
+    table = tab_out_of_pocket,
+    title_fragment = "of People who had out-of-pocket Expenses From Caregiving
+        - Past 12 months"
+  ),
+  "Financial Hardship due to Caregiving" = list(
+    index = 12,
+    count_chart = chart_financial_hardship,
+    pct_chart = chart_financial_hardship_percent,
+    table = tab_financial_hardship,
+    title_fragment = "who Experienced Financial Hardship Because of Caregiving
+        Responsibilities"
+  )
 )
 
 group_by_options <- list(
@@ -173,7 +218,6 @@ show_group <- list("false", "true")
 default <- 0
 
 ui <- function(request) {
-  request
   fluidPage(
     useShinyjs(),
     titlePanel("Explore the 2018 General Social Survey on Caregiving and Care
@@ -228,7 +272,6 @@ ui <- function(request) {
             ),
             mainPanel(
               tabsetPanel(
-                type = "pills",
                 tabPanel(
                   "Counts",
                   plotOutput("general_selected_chart")
@@ -322,7 +365,6 @@ ui <- function(request) {
             ),
             mainPanel(
               tabsetPanel(
-                type = "pills",
                 tabPanel(
                   "Counts",
                   plotOutput("receiver_selected_chart")
@@ -350,8 +392,8 @@ ui <- function(request) {
                 "giver_select_box",
                 "Questions asked to respondents who provided care to older
                   adults:",
-                choices = names(giver_response_charts),
-                selected = names(giver_response_charts[1])
+                choices = names(giver_ui_config),
+                selected = names(giver_ui_config[1])
               ),
               selectInput(
                 "giver_select_box_sex",
@@ -410,7 +452,6 @@ ui <- function(request) {
             ),
             mainPanel(
               tabsetPanel(
-                type = "pills",
                 tabPanel(
                   "Counts",
                   plotOutput("giver_selected_chart")
@@ -463,7 +504,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   })
 
   output_receiver_df <- df_receiver
-  df_output_giver <- df_giver
+  output_giver_df <- df_giver
 
   # general counts tab
   output$general_selected_chart <- renderPlot({
@@ -491,6 +532,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
     }
   })
+
+  ### Receiver filters and charts
 
   update_receiver_df <- reactive({
     filtered_df <- apply_filter(
@@ -532,9 +575,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
-    input$receiver_select_box
     config <- receiver_ui_config[[input$receiver_select_box]]
-    print(config)
 
     update_receiver_df()
 
@@ -553,11 +594,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # receiver percentage tab
   output$receiver_percentage <- renderPlot({
-    selected <- receiver_options[[input$receiver_select_box]]
-    config <- receiver_ui_config[[selected]]
+    config <- receiver_ui_config[[input$receiver_select_box]]
 
-    x_lab <- names(receiver_ui_config)[[index]]
-    title_lab <- receiver_group_by_titles[[index]]
+    x_lab <- input$receiver_select_box
+    title_lab <- config$title_fragment
 
     update_receiver_df()
 
@@ -570,27 +610,28 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_receiver_df, config$table, selected, config$title_fragment
       )
     } else {
-      config.pct_chart(output_receiver_df)
+      config$pct_chart(output_receiver_df)
     }
   })
 
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
-    tab <- recevier_ui_config[[input$receiver_select_box]]$table
+    config <- receiver_ui_config[[input$receiver_select_box]]
+    tab <- config$table
     final_table <- tab(output_receiver_df)
 
-    for (i in seq_along(receiver_ui_config)) {
-      if (input$receiver_select_box == names(receiver_ui_config[i])) {
-        final_table <- final_table %>%
-          rename(!!names(receiver_ui_config[i]) := 1, "count" := 2)
-      }
-    }
+    # for (i in seq_along(receiver_ui_config)) {
+    #   if (input$receiver_select_box == names(receiver_ui_config[i])) {
+    final_table <- final_table %>%
+      rename(!!input$receiver_select_box := 1, "count" := 2)
+    #   }
+    # }
 
     final_table
   })
 
-  ###
+  ### Giver filters and charts
 
   update_giver_df <- reactive({
     # filter by sex
@@ -633,61 +674,57 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
-    index <- giver_options[[input$giver_select_box]]
-
-    chart <- giver_response_charts[[index]]
-    tab <- giver_response_tabs[[index]]
-    x_lab <- names(giver_options)[[index]]
-    title_lab <- giver_group_by_titles[[index]]
+    config <- giver_ui_config[[input$giver_select_box]]
+    print(config)
 
     update_giver_df()
 
     if (input$giver_radio == 2) {
-      group_by_sex(df_output_giver, tab, x_lab, title_lab)
+      group_by_sex(
+        output_giver_df, config$table, selected, config$title_fragment
+      )
     } else if (input$giver_radio == 3) {
-      group_by_age(df_output_giver, tab, x_lab, title_lab)
+      group_by_age(
+        output_giver_df, config$table, selected, config$title_fragment
+      )
     } else {
-      chart(df_output_giver)
+      config$count_chart(output_giver_df)
     }
   })
 
   # giver percentage tab
   output$giver_percentage <- renderPlot({
-    index <- giver_options[[input$giver_select_box]]
+    config <- giver_ui_config[[input$giver_select_box]]
 
-    chart <- giver_response_percent[[index]]
-    tab <- giver_response_tabs[[index]]
-    x_lab <- names(giver_options)[[index]]
-    title_lab <- giver_group_by_titles[[index]]
+    x_lab <- input$giver_select_box
+    title_lab <- config$title_fragment
 
     update_giver_df()
 
     if (input$giver_radio == 2) {
-      group_by_sex_percent(df_output_giver, tab, x_lab, title_lab)
+      group_by_sex_percent(
+        output_giver_df, config$table, selected, config$title_fragment
+      )
     } else if (input$giver_radio == 3) {
-      group_by_age_percent(df_output_giver, tab, x_lab, title_lab)
+      group_by_age_percent(
+        output_giver_df, config$table, selected, config$title_fragment
+      )
     } else {
-      chart(df_output_giver)
+      config$pct_chart(output_giver_df)
     }
   })
 
   # giver table tab
   output$giver_table <- renderTable({
     update_giver_df()
-    tab <- giver_response_tabs[[input$giver_select_box]]
-    final_table <- tab(df_output_giver)
+    config <- giver_ui_config[[input$giver_select_box]]
+    tab <- config$table
+    final_table <- tab(output_giver_df)
 
-    for (i in seq_along(giver_response_charts)) {
-      if (input$giver_select_box == names(giver_response_charts[i])) {
-        final_table <- final_table %>%
-          rename(
-            !!names(giver_response_charts[i]) := 1,
-            "count" := 2, "percentage" := 3
-          )
-      }
-    }
+    final_table <- final_table %>%
+      rename(!!input$giver_select_box := 1, "count" := 2)
 
-    return(final_table)
+    final_table
   })
 }
 
