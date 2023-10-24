@@ -206,10 +206,10 @@ ui <- fluidPage(
             "Tables",
             tableOutput("general_table")
           ), # table id
-          tabPanel(
-            "Statistical Significance",
-            "Statisical significance of data will be displayed here"
-          )
+          # tabPanel(
+          #   "Statistical Significance",
+          #   "Statisical significance of data will be displayed here"
+          # )
         )
       )
     )
@@ -294,10 +294,10 @@ ui <- fluidPage(
             "Tables",
             tableOutput("receiver_table")
           ), # receiver table id
-          tabPanel(
-            "Statistical Significance",
-            "Statisical significance of data will be displayed here"
-          )
+          # tabPanel(
+          #   "Statistical Significance",
+          #   "Statisical significance of data will be displayed here"
+          # )
         )
       )
     )
@@ -360,6 +360,12 @@ ui <- fluidPage(
           filter_group_religious_participation,
           selected = default
         ),
+        selectInput(
+          "giver_select_box_receiver_main_health_condition",
+          "Primary receiver's main health condition",
+          filter_receiver_main_health_conditions,
+          selected = default
+        ),
         radioButtons(
           "giver_radio",
           "Group by:",
@@ -381,10 +387,10 @@ ui <- fluidPage(
             "Tables",
             tableOutput("giver_table")
           ), # giver table
-          tabPanel(
-            "Statistical Significance",
-            "Statisical significance of data will be displayed here"
-          )
+          # tabPanel(
+          #   "Statistical Significance",
+          #   "Statisical significance of data will be displayed here"
+          # )
         )
       )
     )
@@ -560,6 +566,10 @@ server <- function(input, output) { # nolint: cyclocomp_linter.
     df_filtered <- apply_filter(
       df_filtered,
       strtoi(input$giver_select_box_group_religious_participation), "REE_02"
+    )
+    df_filtered <- apply_filter(
+      df_filtered,
+      strtoi(input$giver_select_box_receiver_main_health_condition), "PRP10GR"
     )
 
     df_output_giver <<- df_filtered

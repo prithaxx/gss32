@@ -20,7 +20,7 @@ health_conditions <- c(
   "Alzheimer's disease or dementia" = 6,
   "Injury resulting from an accident" = 7,
   "Aging or frailty" = 8,
-  "Other" = 9 
+  "Other" = 9
 )
 
 help_activities <- c(
@@ -50,25 +50,25 @@ giver_age_group <- c(
 )
 
 primary_receiver_age_group <- c(
-  "0-4" = 1, 
-  "5-9" = 2, 
-  "10-14" = 3, 
-  "15-19" = 4, 
-  "20-24" = 5, 
-  "25-29" = 6, 
-  "30-34" = 7, 
-  "35-39" = 8, 
-  "40-44" = 9, 
-  "45-49" = 10, 
-  "50-54" = 11, 
-  "55-59" = 12, 
-  "60-64" = 13, 
+  "0-4" = 1,
+  "5-9" = 2,
+  "10-14" = 3,
+  "15-19" = 4,
+  "20-24" = 5,
+  "25-29" = 6,
+  "30-34" = 7,
+  "35-39" = 8,
+  "40-44" = 9,
+  "45-49" = 10,
+  "50-54" = 11,
+  "55-59" = 12,
+  "60-64" = 13,
   "65-69" = 14,
-  "70-74" = 15, 
-  "75-80" = 16, 
-  "80-84" = 17, 
-  "85-89" = 18, 
-  "90-94" = 19, 
+  "70-74" = 15,
+  "75-80" = 16,
+  "80-84" = 17,
+  "85-89" = 18,
+  "90-94" = 19,
   "95+" = 20
 )
 
@@ -99,9 +99,9 @@ primary_help_banking_freq <- c(
 )
 
 primary_help_banking_hours <- c(
-  "<1" = 1, 
+  "<1" = 1,
   "1 to <3" = 2,
-  "3 to <5" = 3, 
+  "3 to <5" = 3,
   "5+" = 4
 )
 
@@ -182,6 +182,11 @@ filter_group_religious_participation <- list(
   "At least 3 times a year" = 3,
   "Once or twice a year" = 4,
   "Not at all" = 5
+)
+
+filter_receiver_main_health_conditions <- list(
+  "All" = no_filter,
+  "Alzheimer's disease or dementia" = 8
 )
 
 # filter_province <- list(
