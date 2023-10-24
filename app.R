@@ -210,9 +210,9 @@ giver_ui_config <- list(
 group_by_options <- list(
   "None" = 1,
   "Sex" = 2,
-  "Age group" = 3,
-  "Living arrangement" = 4,
-  "Visible minority status" = 5
+  "Age group" = 3
+  # "Living arrangement" = 4,
+  # "Visible minority status" = 5
 )
 show_group <- list("false", "true")
 default <- 0
@@ -351,11 +351,6 @@ ui <- function(request) {
                 "Group by:",
                 choices = group_by_options,
                 selected = 1
-              ),
-              selectInput("radio_select_box",
-                "radio select box",
-                choices = list("hello" = 1, "world" = 2),
-                selected = 1
               )
             ),
             mainPanel(
@@ -484,20 +479,13 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   }, )
 
   observe({
-    # Trigger this observer every time an input changes
+    # This observer triggers every time an input changes
     reactiveValuesToList(input)
-    l <- reactiveValuesToList(input)
-    "trigger"
     session$doBookmark()
   })
-  onBookmark(function(state) {
-    # state$values
-  })
+
   onBookmarked(function(url) {
-    # Can instead use `updateQueryString(url)` if we want to just update the
-    # window's location. Refreshing would take to the last bookmarked page.
     updateQueryString(url)
-    # showBookmarkUrlModal(url)
   })
 
   output_receiver_df <- df_receiver
@@ -572,17 +560,18 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
-    config <- receiver_ui_config[[input$receiver_select_box]]
-
     update_receiver_df()
+
+    dataset_name <- input$receiver_select_box
+    config <- receiver_ui_config[[dataset_name]]
 
     if (input$receiver_radio == 2) {
       group_by_sex(
-        output_receiver_df, config$table, selected, config$title_fragment
+        output_receiver_df, config$table, dataset_name, config$title_fragment
       )
     } else if (input$receiver_radio == 3) {
       group_by_age(
-        output_receiver_df, config$table, selected, config$title_fragment
+        output_receiver_df, config$table, dataset_name, config$title_fragment
       )
     } else {
       config$count_chart(output_receiver_df)
@@ -591,20 +580,18 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # receiver percentage tab
   output$receiver_percentage <- renderPlot({
-    config <- receiver_ui_config[[input$receiver_select_box]]
-
-    x_lab <- input$receiver_select_box
-    title_lab <- config$title_fragment
-
     update_receiver_df()
+
+    dataset_name <- input$receiver_select_box
+    config <- receiver_ui_config[[dataset_name]]
 
     if (input$receiver_radio == 2) {
       group_by_sex_percent(
-        output_receiver_df, config$table, selected, config$title_fragment
+        output_receiver_df, config$table, dataset_name, config$title_fragment
       )
     } else if (input$receiver_radio == 3) {
       group_by_age_percent(
-        output_receiver_df, config$table, selected, config$title_fragment
+        output_receiver_df, config$table, dataset_name, config$title_fragment
       )
     } else {
       config$pct_chart(output_receiver_df)
@@ -614,16 +601,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
-    config <- receiver_ui_config[[input$receiver_select_box]]
-    tab <- config$table
-    final_table <- tab(output_receiver_df)
 
-    # for (i in seq_along(receiver_ui_config)) {
-    #   if (input$receiver_select_box == names(receiver_ui_config[i])) {
+    config <- receiver_ui_config[[input$receiver_select_box]]
+    final_table <- config$table(output_receiver_df)
     final_table <- final_table %>%
       rename(!!input$receiver_select_box := 1, "count" := 2)
-    #   }
-    # }
 
     final_table
   })
@@ -671,17 +653,18 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
-    config <- giver_ui_config[[input$giver_select_box]]
-
     update_giver_df()
+
+    dataset_name <- input$giver_select_box
+    config <- giver_ui_config[[dataset_name]]
 
     if (input$giver_radio == 2) {
       group_by_sex(
-        output_giver_df, config$table, selected, config$title_fragment
+        output_giver_df, config$table, dataset_name, config$title_fragment
       )
     } else if (input$giver_radio == 3) {
       group_by_age(
-        output_giver_df, config$table, selected, config$title_fragment
+        output_giver_df, config$table, dataset_name, config$title_fragment
       )
     } else {
       config$count_chart(output_giver_df)
@@ -690,20 +673,18 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
   # giver percentage tab
   output$giver_percentage <- renderPlot({
-    config <- giver_ui_config[[input$giver_select_box]]
-
-    x_lab <- input$giver_select_box
-    title_lab <- config$title_fragment
-
     update_giver_df()
+
+    dataset_name <- input$giver_select_box
+    config <- giver_ui_config[[dataset_name]]
 
     if (input$giver_radio == 2) {
       group_by_sex_percent(
-        output_giver_df, config$table, selected, config$title_fragment
+        output_giver_df, config$table, dataset_name, config$title_fragment
       )
     } else if (input$giver_radio == 3) {
       group_by_age_percent(
-        output_giver_df, config$table, selected, config$title_fragment
+        output_giver_df, config$table, dataset_name, config$title_fragment
       )
     } else {
       config$pct_chart(output_giver_df)
@@ -714,9 +695,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   output$giver_table <- renderTable({
     update_giver_df()
     config <- giver_ui_config[[input$giver_select_box]]
-    tab <- config$table
-    final_table <- tab(output_giver_df)
-
+    final_table <- config$table(output_giver_df)
     final_table <- final_table %>%
       rename(!!input$giver_select_box := 1, "count" := 2)
 
