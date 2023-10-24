@@ -245,14 +245,7 @@ ui <- function(request) {
           width = 10
         ),
         sidebarPanel(
-          bookmarkButton(
-            label = "Bookmark...",
-            icon = shiny::icon("link", lib = "glyphicon"),
-            title = "Bookmark this application's state and get a URL for
-              sharing.",
-            id = "._bookmark_",
-          ),
-          width = 2
+          # Bookmark button will go here.
         )
       )
     ),
@@ -675,7 +668,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
     config <- giver_ui_config[[input$giver_select_box]]
-    print(config)
 
     update_giver_df()
 
