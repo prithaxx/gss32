@@ -17,7 +17,7 @@ chart_respondent_groups_percent <- function() {
     ylim(0, 1) +
     geom_text(aes(color=pop_name, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
     ggtitle("GSS 2018 repsondent groups") +
-    labs(caption = str_wrap("Percentage of respondents in each grouping: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)) +
+    labs(caption = str_wrap("Percentage of respondents in each grouping: caregiver, care receiver and person with unmet caregiving needs.", width = 115)) +
     xlab("Respondent group") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df$pop_name, width = 15)) +

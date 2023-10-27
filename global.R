@@ -61,7 +61,7 @@ c_respondent_groups <- ggplot(
   ggtitle("GSS 2018 repsondent groups") +
   labs(x = "Respondent group", 
        y = "Count", 
-       caption = str_wrap("Count for respondent groupings: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)) +
+       caption = str_wrap("Count for respondent groupings: caregiver, care receiver and persons with unmet caregiving needs.", width = 115)) +
   scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
   scale_fill_viridis_d() +
   guides(fill = "none") +
