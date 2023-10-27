@@ -88,7 +88,9 @@ tab_helper_multi_var <- function(df, count, x_options, cols) {
 
 # General data ####
 tab_pop_freq <- function() {
-  count <- y_pop_freq(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help)
+  # removing the sub-age groups, b/c this is overcounting
+  #count <- y_pop_freq(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help)
+  count <- y_pop_freq(df_giver, df_receiver, df_need_help)
   df_pops <- tibble(pop_name, count) %>%
     mutate(percentage = count / sum(count))
 

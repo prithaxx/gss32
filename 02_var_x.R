@@ -1,9 +1,9 @@
 pop_name <- c(
   "Giver",
   "Receiver",
-  "Receiver - 65 to 74 years",
-  "Receiver - 75 years and over",
-  "Receiver and Giver",
+#  "Receiver - 65 to 74 years",
+#  "Receiver - 75 years and over",
+#  "Receiver and Giver",
   "Unmet Needs"
 )
 
@@ -186,6 +186,7 @@ filter_group_religious_participation <- list(
 
 filter_receiver_main_health_conditions <- list(
   "All" = no_filter,
+  #"Anything other than Alzheimer's or dementia" = !8
   "Alzheimer's disease or dementia" = 8
 )
 

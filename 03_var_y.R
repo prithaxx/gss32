@@ -3,19 +3,20 @@
 pop_freq <- c(
   giver_pop <- nrow(df_giver),
   receiver_pop <- nrow(df_receiver),
-  receiver_65_74_pop <- nrow(df_receiver_65_74),
-  receiver_75_pop <- nrow(df_receiver_75),
-  receiver_giver_pop <- nrow(df_giver_receiver),
+#  receiver_65_74_pop <- nrow(df_receiver_65_74),
+#  receiver_75_pop <- nrow(df_receiver_75),
+#  receiver_giver_pop <- nrow(df_giver_receiver),
   unmet_pop <- nrow(df_need_help)
 )
 
-y_pop_freq <- function(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help) {
+y_pop_freq <- function(df_giver, df_receiver, df_need_help) {
+#y_pop_freq <- function(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help) {
   pop_freq <- c(
     giver_pop <- nrow(df_giver),
     receiver_pop <- nrow(df_receiver),
-    receiver_65_74_pop <- nrow(df_receiver_65_74),
-    receiver_75_pop <- nrow(df_receiver_75),
-    receiver_giver_pop <- nrow(df_giver_receiver),
+#    receiver_65_74_pop <- nrow(df_receiver_65_74),
+#    receiver_75_pop <- nrow(df_receiver_75),
+#    receiver_giver_pop <- nrow(df_giver_receiver),
     unmet_pop <- nrow(df_need_help)
   )
 }
