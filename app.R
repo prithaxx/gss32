@@ -388,55 +388,55 @@ ui <- function(request) {
               ),
               selectInput(
                 "giver_select_box_sex",
-                "Filter by sex",
+                "Filter by sex of caree",
                 choices = filter_sex,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_age",
-                "Age group",
+                "Filter by age of caree",
                 filter_age_group,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_pop_centre",
-                "Population Centre",
+                "Filter by urban/rural status of caree",
                 filter_pop_centre,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_partner_in_household",
-                "Spouse/Partner living in household",
+                "Filter by Spouse/Partner living with caree",
                 filter_partner_in_household,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_living_arrangement_senior_household",
-                "Living arrangement of senior respondent's household",
+                "Filter by living arrangement of caree",
                 filter_living_arrangement_senior_household,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_indigenous_status",
-                "Indigenous status",
+                "Filter by indigenous status of caree",
                 filter_indigenous_status,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_visible_minority",
-                "Visible minority status",
+                "Filter by visible minority status of caree",
                 filter_visible_minority_status,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_group_religious_participation",
-                "Group religious participation",
+                "Filter by religious participation of caree",
                 filter_group_religious_participation,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_receiver_main_health_condition",
-                "Primary receiver's main health condition",
+                "Filter by caree's main health condition",
                 filter_receiver_main_health_conditions,
                 selected = default
               ),
@@ -658,7 +658,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       strtoi(input$giver_select_box_receiver_main_health_condition), "PRP10GR"
     )
 
-    df_output_giver <<- df_filtered
+    #df_output_giver <<- df_filtered
+    output_giver_df <<- df_filtered
   })
 
   # giver counts tab
