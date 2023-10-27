@@ -74,38 +74,38 @@ receiver_ui_config <- list(
     table = tab_receive_help_banking_hours,
     title_fragment = "of People and Number of Hours their Primary Caregiver
       Helped with Banking"
-  ),
-  "Help banking hours - daily" = list(
-    index = 9,
-    count_chart = chart_help_banking_hours_daily,
-    pct_chart = chart_help_banking_hours_daily_percent,
-    table = tab_help_banking_hours_daily,
-    title_fragment = "of People and Number of Hours their Primary Caregiver
-      Helped with Banking Daily"
-  ),
-  "Help banking hours - at least once a week" = list(
-    index = 10,
-    count_chart = chart_help_banking_weekly,
-    pct_chart = chart_help_banking_weekly_percent,
-    table = tab_help_banking_hours_weekly,
-    title_fragment = "of People and Number of Hours their Primary Caregiver
-      Helped with Banking Weekly"
-  ),
-  "Help banking hours - at least once a month" = list(
-    index = 11,
-    count_chart = chart_help_banking_monthly,
-    pct_chart = chart_help_banking_monthly_percent,
-    table = tab_help_banking_hours_monthly,
-    title_fragment = "of People and Number of Hours their Primary Caregiver
-      Helped with Banking Monthly"
-  ),
-  "Help banking hours - less than once a month" = list(
-    index = 12,
-    count_chart = chart_help_banking_monthly_less,
-    pct_chart = chart_help_banking_monthly_less_percent,
-    table = tab_help_banking_hours_monthly_less,
-    title_fragment = "of People and Number of Hours their Primary Caregiver
-      Helped with Banking Less Than Once a Month"
+  # ),
+  # "Help banking hours - daily" = list(
+  #   index = 9,
+  #   count_chart = chart_help_banking_hours_daily,
+  #   pct_chart = chart_help_banking_hours_daily_percent,
+  #   table = tab_help_banking_hours_daily,
+  #   title_fragment = "of People and Number of Hours their Primary Caregiver
+  #     Helped with Banking Daily"
+  # ),
+  # "Help banking hours - at least once a week" = list(
+  #   index = 10,
+  #   count_chart = chart_help_banking_weekly,
+  #   pct_chart = chart_help_banking_weekly_percent,
+  #   table = tab_help_banking_hours_weekly,
+  #   title_fragment = "of People and Number of Hours their Primary Caregiver
+  #     Helped with Banking Weekly"
+  # ),
+  # "Help banking hours - at least once a month" = list(
+  #   index = 11,
+  #   count_chart = chart_help_banking_monthly,
+  #   pct_chart = chart_help_banking_monthly_percent,
+  #   table = tab_help_banking_hours_monthly,
+  #   title_fragment = "of People and Number of Hours their Primary Caregiver
+  #     Helped with Banking Monthly"
+  # ),
+  # "Help banking hours - less than once a month" = list(
+  #   index = 12,
+  #   count_chart = chart_help_banking_monthly_less,
+  #   pct_chart = chart_help_banking_monthly_less_percent,
+  #   table = tab_help_banking_hours_monthly_less,
+  #   title_fragment = "of People and Number of Hours their Primary Caregiver
+  #     Helped with Banking Less Than Once a Month"
   )
 )
 
@@ -157,38 +157,38 @@ giver_ui_config <- list(
     title_fragment = "of People and Number of Hours they Provided Help with
         Banking"
   ),
-  "Give help banking - daily" = list(
-    index = 7,
-    count_chart = chart_give_help_banking_daily,
-    pct_chart = chart_give_help_banking_daily_percent,
-    table = tab_give_help_banking_daily,
-    title_fragment = "of People and Number of Hours they Provided Help with
-        Banking Daily"
-  ),
-  "Give help banking - at least once a week" = list(
-    index = 8,
-    count_chart = chart_give_help_banking_weekly,
-    pct_chart = chart_give_help_banking_weekly_percent,
-    table = tab_give_help_banking_weekly,
-    title_fragment = "of People and Number of Hours they Provided Help with
-        Banking Weekly"
-  ),
-  "Give help banking - at least once a month" = list(
-    index = 9,
-    count_chart = chart_give_help_banking_monthly,
-    pct_chart = chart_give_help_banking_monthly_percent,
-    table = tab_give_help_banking_monthly,
-    title_fragment = "of People and Number of Hours they Provided Help with
-        Banking Monthly"
-  ),
-  "Give help banking - less than once a month" = list(
-    index = 10,
-    count_chart = chart_give_help_banking_monthly_less,
-    pct_chart = chart_give_help_banking_monthly_less_percent,
-    table = tab_give_help_banking_monthly_less,
-    title_fragment = "of People and Number of Hours they Provided Help with
-        Banking Less Than Once a Month"
-  ),
+  # "Give help banking - daily" = list(
+  #   index = 7,
+  #   count_chart = chart_give_help_banking_daily,
+  #   pct_chart = chart_give_help_banking_daily_percent,
+  #   table = tab_give_help_banking_daily,
+  #   title_fragment = "of People and Number of Hours they Provided Help with
+  #       Banking Daily"
+  # ),
+  # "Give help banking - at least once a week" = list(
+  #   index = 8,
+  #   count_chart = chart_give_help_banking_weekly,
+  #   pct_chart = chart_give_help_banking_weekly_percent,
+  #   table = tab_give_help_banking_weekly,
+  #   title_fragment = "of People and Number of Hours they Provided Help with
+  #       Banking Weekly"
+  # ),
+  # "Give help banking - at least once a month" = list(
+  #   index = 9,
+  #   count_chart = chart_give_help_banking_monthly,
+  #   pct_chart = chart_give_help_banking_monthly_percent,
+  #   table = tab_give_help_banking_monthly,
+  #   title_fragment = "of People and Number of Hours they Provided Help with
+  #       Banking Monthly"
+  # ),
+  # "Give help banking - less than once a month" = list(
+  #   index = 10,
+  #   count_chart = chart_give_help_banking_monthly_less,
+  #   pct_chart = chart_give_help_banking_monthly_less_percent,
+  #   table = tab_give_help_banking_monthly_less,
+  #   title_fragment = "of People and Number of Hours they Provided Help with
+  #       Banking Less Than Once a Month"
+  # ),
   "Out of Pocket Caregiving Expenses" = list(
     index = 11,
     count_chart = chart_out_of_pocket,

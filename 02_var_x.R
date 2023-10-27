@@ -91,6 +91,7 @@ dwelling_distances <- c(
   "3+ hours by car" = 7
 )
 
+#TODO: check this - there must be a never option? B/c percentage table is off... (for now I have edited caption to reflect)
 primary_help_banking_freq <- c(
   "Daily" = 1,
   "At least once a week" = 2,

@@ -76,7 +76,7 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=help_activities, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received help with - Past 12 months") +
-    labs(caption = str_wrap("Proportion of care receiver respondents reporting reporting they receive help with each type of activities from family, friends or neighbours in the past 12 months.", width = 120)) +
+    labs(caption = str_wrap("Proportion of care receiver respondents who report receiving help from family, friends or neighbours in the past 12 months with each type of activity.", width = 120)) +
     xlab("Activity") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
@@ -127,7 +127,7 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
     data = df,
     mapping = aes(
       x = fct_inorder(help_activities),
-      y = percentage,
+      y = percentage, #TODO - fix - denominator should be number of receiver respondents (not total counts of activities)
       fill = help_activities
     )
   ) +
@@ -166,7 +166,7 @@ chart_hours_help_received_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=help_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Numbers of hours of help received - Per average week per activity") +
-    labs(caption = str_wrap("Count for the number of hours of help received, per average week per activity (transportation, house maintenance, household chores, scheduling, banking, medical treatment, personal care, other) for respondents considered to be a care receiver and 65 years of age or older from family, friends or neighbours in the past 12 months.", width = 115)) +
+    labs(caption = str_wrap("Proportion of care receiver respondents reporting average number of hours of help received, per week across all activities (transportation, house maintenance, household chores, scheduling, banking, medical treatment, personal care, other) from family, friends or neighbours.", width = 115)) +
     xlab("Time (hour)") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
@@ -195,7 +195,7 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=dwelling_distances, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Distance between the respondent's and caregiver's dwellings") +
-    labs(caption = str_wrap("Counts for the distance by car between respondents considered to be a care receiver and 65 years of age or older, and their primary caregiver during the time they were receiving help in the past 12 months.", width = 115)) +
+    labs(caption = str_wrap("Proportion of care receiver respondents reporting distance by car between themselves and their primary caregiver.", width = 115)) +
     xlab("Distance (time)") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$dwelling_distances, width = 13)) +
@@ -225,7 +225,7 @@ chart_receive_help_banking_freq_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=primary_help_banking_freq, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Primary caregiver helped with banking - Frequency") +
-    labs(caption = str_wrap("Count for how often respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 120)) +
+    labs(caption = str_wrap("Of care receiver respondents reporting that they did receive help with managing their finances in the past 12 months, proportion reporting each frequency level of help.", width = 120)) +
     xlab("Help Frequency") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
@@ -254,7 +254,7 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Primary caregiver helped with banking - Number of hours") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 115)) +
+    labs(caption = str_wrap("Of care receiver respondents reporting that they did receive help with managing their finances in the past 12 months, proportion reporting number of hours of banking assistance received.", width = 115)) +
     xlab("Time (hours)") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
@@ -266,6 +266,7 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
 }
 
 ### The following 4 charts show How often and number of hours a respondent received help from with banking
+### Have been hidden from interface for now, so not updated
 
 ### daily
 chart_help_banking_hours_daily_percent <- function(df_receiver) {
@@ -396,7 +397,7 @@ chart_activity_give_help_percent <- function(df) {
     data = df,
     mapping = aes(
       x = fct_inorder(help_activities),
-      y = percentage,
+      y = percentage, #help_activities/4677, #TODO: denominator here is wrong. It should be 4677 (number of caregiver respondents)
       fill = help_activities
     )
   ) +
@@ -404,7 +405,7 @@ chart_activity_give_help_percent <- function(df) {
     ylim(0, 1) +
     geom_text(aes(color=help_activities, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received help with - Past 12 months") +
-    labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
+    labs(caption = str_wrap("Proportion of caregiver respondents who report providing help to caree in the past 12 months with each type of activity.", width = 120)) +
     xlab("Activity") +
     ylab("Proportion of Carees (65+)") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
@@ -430,7 +431,7 @@ chart_age_primary_receiver_percent <- function(df_giver) {
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=primary_receiver_age_group, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Age of primary care receiver") +
+    ggtitle("Proportion of caregiver respondents providing assistance to caree of each age category") +
     xlab("Age Group (years)") +
     ylab("Proportion of Carees") +
     scale_color_manual(values = label_col) + 
@@ -455,7 +456,7 @@ chart_hours_help_provided_percent <- function(df_giver) {
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=help_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Numbers of hours of help provided - Per average week per activity") +
+    ggtitle("Proportion of caregiver respondents who report providing their caree with specific hours of help per week over the past 12 months.") +
     xlab("Time (hours)") +
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
@@ -480,7 +481,7 @@ chart_primary_receiver_distance_percent <- function(df_giver) {
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=dwelling_distances, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Distance between the respondent's and carereceiver's dwellings") +
+    ggtitle("Proportion of caregiver respondents who report living specific distances from their caree's dwelling") +
     xlab("Distance by car") +
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
@@ -500,14 +501,14 @@ chart_give_help_banking_freq_percent <- function(df_giver) {
     data = df_give_help_banking_freq,
     mapping = aes(
       x = fct_inorder(primary_help_banking_freq),
-      y = percentage,
+      y = percentage, #TODO: denominator here is wrong. It should be 4677 (number of caregiver respondents)
       fill = primary_help_banking_freq
     )) +
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=primary_help_banking_freq, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Helped primary care receiver with banking - Frequency") +
-    xlab("Help Frequency") +
+    ggtitle("Of caregiver respondents reporting that they provided caree help with banking in the past 12 months, proportion reporting each frequency level of help.") +
+    xlab("Frequency of Providing Caree Assistance with Banking Tasks") +
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -526,13 +527,13 @@ chart_give_help_banking_hours_percent <- function(df_giver) {
     data = df_give_help_banking_hours,
     mapping = aes(
       x = fct_inorder(primary_help_banking_hours),
-      y = percentage,
+      y = percentage, #TODO: denominator here is wrong. It should be 4677 (number of caregiver respondents)
       fill = primary_help_banking_hours)) +
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Primary caregiver helped with banking - Number of hours") +
-    xlab("Hours helped") +
+    ggtitle("Of caregiver respondents reporting that they provided caree help with banking in the past 12 months, proportion reporting each weekly number of hours of help.") +
+    xlab("Hours per Week Spent Providing Banking Task Assistance to Caree") +
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -543,6 +544,7 @@ chart_give_help_banking_hours_percent <- function(df_giver) {
 
 ### The following 4 charts show how often the respondent provided help with banking to their primary care receiver and for how many hours each time
 ### daily
+### The four charts below are not showing
 chart_give_help_banking_daily_percent <- function(df_giver) {
   df_give_help_banking_daily <- tab_give_help_banking_daily(df_giver)
   hcl <- farver::decode_colour(viridisLite::magma(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
@@ -658,12 +660,12 @@ chart_out_of_pocket_percent <- function(df_giver) {
     data = df_out_of_pocket,
     mapping = aes(
       x = fct_inorder(out_of_pocket_expenses),
-      y = percentage,
+      y = percentage, #TODO: denominator here is wrong. It should be 4677 (number of caregiver respondents)
       fill = out_of_pocket_expenses)) +
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=out_of_pocket_expenses, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Out-of-pocket expenses because of caregiving responsibilities") +
+    ggtitle("Proportion of caregiver respondents who report out-of-pocket expenses due to each category of caregiving responsibilities.") +
     xlab("Expense categories") +
     ylab("Proportion of Caregiver Respondents") +
     scale_x_discrete(labels = str_wrap(df_out_of_pocket$out_of_pocket_expenses, width = 13)) +
@@ -684,13 +686,13 @@ chart_financial_hardship_percent <- function(df_giver) {
     data = df_financial_hardship,
     mapping = aes(
       x = fct_inorder(financial_hardship),
-      y = percentage,
+      y = percentage, #TODO: denominator here is wrong. It should be 4677 (number of caregiver respondents) tried: ..count../4677, #
       fill = financial_hardship
     )) +
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=financial_hardship, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Financial hardship because of caregiving (65+) responsibilities from 735 caregivers") +
+    ggtitle("Proportion of caregiver respondents who report experiencing various forms of financial hardship because of caregiving (65+) responsibilities. Denominator: 735 caregiver respondents who report experiencing financial hardship.") +
     xlab("Expense categories") +
     ylab("Proportion of Caregiver Respondents") +
     scale_x_discrete(labels = str_wrap(df_financial_hardship$financial_hardship, width = 13)) +
