@@ -713,11 +713,15 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   })
 }
 
-options <- list(
-  port = as.integer(Sys.getenv("GSS32_PORT")),
-  host = Sys.getenv("GSS32_HOST")
-)
-if (grepl("TRUE", Sys.getenv("GSS32_DEVMODE"))) {
+options <- list()
+
+if (Sys.getenv("GSS32_PORT") != "") {
+  options <- c(options, port = as.integer(Sys.getenv("GSS32_PORT")))
+}
+if (Sys.getenv("GSS32_HOST") != "") {
+  options <- c(options, host = Sys.getenv("GSS32_HOST"))
+}
+if (toupper(Sys.getenv("GSS32_DEVMODE")) == "TRUE") {
   options <- c(options, list(
     shiny.autoreload = TRUE,
     shiny.autoreload.pattern = glob2rx("*.R")
