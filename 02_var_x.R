@@ -1,9 +1,9 @@
 pop_name <- c(
   "Giver",
   "Receiver",
-#  "Receiver - 65 to 74 years",
-#  "Receiver - 75 years and over",
-#  "Receiver and Giver",
+  #  "Receiver - 65 to 74 years",
+  #  "Receiver - 75 years and over",
+  #  "Receiver and Giver",
   "Unmet Needs"
 )
 
@@ -91,7 +91,7 @@ dwelling_distances <- c(
   "3+ hours by car" = 7
 )
 
-#TODO: check this - there must be a never option? B/c percentage table is off... (for now I have edited caption to reflect)
+# TODO: check this - there must be a never option? B/c percentage table is off... (for now I have edited caption to reflect)
 primary_help_banking_freq <- c(
   "Daily" = 1,
   "At least once a week" = 2,
@@ -185,22 +185,24 @@ filter_group_religious_participation <- list(
   "Not at all" = 5
 )
 
-#TODO: is there a way to have the options be: All, Alzheimer's/Dementia, Others
 filter_receiver_main_health_conditions <- list(
   "All" = no_filter,
-  "Arthritis" = 1,
-  "Cardiovascular disease" = 2, 
-  "Chronic bronchitis, emphysema or COPD" = 3,
-  "Diabetes" = 4,
-  "Back problems" = 5,
-  "Cancer" = 6,
-  "Mental illness" = 7,
-  "Alzheimer’s disease or dementia" = 8,
-  "All other neurological diseases" = 9,
-#  "Developmental disability or disorder" = 10, #removing due to very small #s
-  "Injury resulting from an accident" = 11, 
-  "Aging or frailty" = 12,
-  "Other" = 13
+  "Alzheimer’s/Dementia" = "8",
+  "Aging/Frailty" = "1,2,3,7,12",
+  "All Other Conditions" = "4,5,6,8,9,10,11,13"
+  # "Arthritis" = 1,
+  # "Cardiovascular disease" = 2,
+  # "Chronic bronchitis, emphysema or COPD" = 3,
+  # "Diabetes" = 4,
+  # "Back problems" = 5,
+  # "Cancer" = 6,
+  # "Mental illness" = 7,
+  # "Alzheimer’s disease or dementia" = 8,
+  # "All other neurological diseases" = 9,
+  # #  "Developmental disability or disorder" = 10, #removing due to very small #s
+  # "Injury resulting from an accident" = 11,
+  # "Aging or frailty" = 12,
+  # "Other" = 13
 )
 
 # filter_province <- list(

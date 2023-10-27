@@ -679,7 +679,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     )
     df_filtered <- apply_filter(
       df_filtered,
-      strtoi(input$giver_select_box_receiver_main_health_condition), "PRP10GR"
+      input$giver_select_box_receiver_main_health_condition, "PRP10GR"
     )
 
     output_giver_df <<- df_filtered
