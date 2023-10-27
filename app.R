@@ -468,14 +468,14 @@ ui <- function(request) {
         )
       )
     ),
-    fluidRow(
-      h3("Highlighted Charts/Tables"),
-      em("Below are some interesting views chosen by our research team. Click
-          to take a look, and start your own investigation from that point!")
-    ),
     withTags(
       fluidRow(
-        style = "text-align: center; padding-top: 10px;",
+        h3("Highlighted Charts/Tables"),
+        em("Below are some interesting views chosen by our research team. Click
+          to take a look, and start your own investigation from that point!")
+      ),
+      fluidRow(
+        style = "text-align: center;",
         div(
           class = "col-xs-6 col-md-3",
           a(
@@ -495,7 +495,6 @@ ui <- function(request) {
       )
     )
   )
-  # )
 }
 
 server <- function(input, output, session) { # nolint: cyclocomp_linter.
