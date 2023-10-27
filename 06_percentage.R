@@ -2,7 +2,6 @@
 
 chart_respondent_groups_percent <- function() {
   df <- tab_pop_freq()
-  # Trick from scales::show_col 
   hcl <- farver::decode_colour(viridisLite::magma(length(unique(pop_name))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   
@@ -25,7 +24,7 @@ chart_respondent_groups_percent <- function() {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(chart)
 }
@@ -47,14 +46,14 @@ chart_health_conditions_percent <- function(df_receiver) {
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=health_conditions, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    labs(caption = str_wrap("Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.", width = 115)) +
+    labs(caption = str_wrap("Count for main health conditions of care receivers aged 65 years of age or older.", width = 115)) +
     xlab("Health Condition") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df$health_conditions, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(chart)
 }
@@ -84,7 +83,7 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(chart)
 }
@@ -113,7 +112,7 @@ chart_age_primary_giver_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_age_primary_giver)
 }
@@ -143,7 +142,7 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_activity_receive_help_pro)
 }
@@ -173,7 +172,7 @@ chart_hours_help_received_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_hours_help_received)
 }
@@ -203,7 +202,7 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_primary_giver_distance)
 }
@@ -232,7 +231,7 @@ chart_receive_help_banking_freq_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_receive_help_banking_freq)
 }
@@ -261,7 +260,7 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_receive_help_banking_hours)
 }
@@ -292,7 +291,7 @@ chart_help_banking_hours_daily_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_hours_daily)
 }
@@ -321,7 +320,7 @@ chart_help_banking_weekly_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_weekly)
 }
@@ -351,7 +350,7 @@ chart_help_banking_monthly_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_monthly)
 }
@@ -380,7 +379,7 @@ chart_help_banking_monthly_less_percent <- function(df_receiver) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_monthly_less)
 }
@@ -412,7 +411,7 @@ chart_activity_give_help_percent <- function(df) {
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
   
   return(chart)
 }

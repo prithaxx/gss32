@@ -65,7 +65,7 @@ c_respondent_groups <- ggplot(
   scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
   scale_fill_viridis_d() +
   guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0))
+  theme(plot.caption = element_text(hjust = 0, size = 14))
 
 ## Sex of primary caregiver and primary care receiver ####
 c_primary_sex <- ggplot(
@@ -81,7 +81,7 @@ c_primary_sex <- ggplot(
   facet_wrap(~type, ncol = 1) +
   scale_fill_viridis_d(begin = 0.2, end = 0.8) +
   guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0))
+  theme(plot.caption = element_text(hjust = 0, size = 14))
 
 
 # Care receiver responses #####
@@ -105,7 +105,7 @@ chart_health_conditions <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df_health_conditions$health_conditions, width = 12)) +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_health_conditions)
 }
@@ -134,7 +134,7 @@ chart_activity_receive_help <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df_activity_receive_help$help_activities, width = 12)) +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_activity_receive_help)
 }
@@ -161,7 +161,7 @@ chart_age_primary_giver <- function(df_receiver) {
     ylab("Count") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
   return(c_age_primary_giver)
 }
 
@@ -188,7 +188,7 @@ chart_activity_receive_help_pro <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$help_activities, width = 12)) +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
   return(c_activity_receive_help_pro)
 }
 
@@ -215,7 +215,7 @@ chart_hours_help_received <- function(df_receiver) {
     ylab("Count") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_hours_help_received)
 }
@@ -243,7 +243,7 @@ chart_primary_giver_distance <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df_primary_giver_distance$dwelling_distances, width = 13)) +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_primary_giver_distance)
 }
@@ -270,7 +270,7 @@ chart_receive_help_banking_freq <- function(df_receiver) {
     ylab("Count") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_receive_help_banking_freq)
 }
@@ -296,7 +296,7 @@ chart_receive_help_banking_hours <- function(df_receiver) {
     ylab("Count") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_receive_help_banking_hours)
 }
@@ -324,7 +324,7 @@ chart_help_banking_hours_daily <- function(df_receiver) {
     ylab("Count") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_hours_daily)
 }
@@ -350,7 +350,7 @@ chart_help_banking_weekly <- function(df_receiver) {
     ylab("Count") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_weekly)
 }
@@ -377,7 +377,7 @@ chart_help_banking_monthly <- function(df_receiver) {
     ylab("Count") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_monthly)
 }
@@ -403,7 +403,7 @@ chart_help_banking_monthly_less <- function(df_receiver) {
     ylab("Frequencyt") +
     scale_color_manual(values = label_col) +      scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_monthly_less)
 }
