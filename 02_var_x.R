@@ -184,10 +184,22 @@ filter_group_religious_participation <- list(
   "Not at all" = 5
 )
 
+#TODO: is there a way to have the options be: All, Alzheimer's/Dementia, Others
 filter_receiver_main_health_conditions <- list(
   "All" = no_filter,
-  #"Anything other than Alzheimer's or dementia" = !8
-  "Alzheimer's disease or dementia" = 8
+  "Arthritis" = 1,
+  "Cardiovascular disease" = 2, 
+  "Chronic bronchitis, emphysema or COPD" = 3,
+  "Diabetes" = 4,
+  "Back problems" = 5,
+  "Cancer" = 6,
+  "Mental illness" = 7,
+  "Alzheimer’s disease or dementia" = 8,
+  "All other neurological diseases" = 9,
+#  "Developmental disability or disorder" = 10, #removing due to very small #s
+  "Injury resulting from an accident" = 11, 
+  "Aging or frailty" = 12,
+  "Other" = 13
 )
 
 # filter_province <- list(
