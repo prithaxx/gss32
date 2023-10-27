@@ -221,33 +221,29 @@ ui <- function(request) {
   print(request)
   fluidPage(
     useShinyjs(),
+    includeCSS("www/app.css"),
     titlePanel("Explore the 2018 General Social Survey on Caregiving and Care
       Receiving"),
-    fluidRow(
-      sidebarLayout(
-        mainPanel(
-          p("This data represents a subset of information from the survey. The
-          information here is data from respondents who are:"),
-          tags$ol(
-            tags$li("Care receivers who are 65 years old or older, or"),
-            tags$li("Caregivers who provide assistance to individuals who are 65
-            years old or older, or"),
-            tags$li("Both care receivers who are 65 years old or older while
-            simultaneously acting as caregivers to other care receivers who are
-            65 years old or older"),
-            tags$li("People 65 or older who need help but are not currently
-            receiving care.")
-          ),
-          p("These groups of respondents are likely providing insights into the
-          experiences and challenges related to receiving or providing care for
-          older adults. The data may include information about their health,
-          financial situation, quality of life, and other factors relevant to
-          caregiving and care receiving."),
-          width = 10
+    withTags(
+      fluidRow(
+        p("This data represents a subset of information from the survey. The
+            information here is data from respondents who are:"),
+        ol(
+          li("Care receivers who are 65 years old or older, or"),
+          li("Caregivers who provide assistance to individuals who are 65
+              years old or older, or"),
+          li("Both care receivers who are 65 years old or older while
+              simultaneously acting as caregivers to other care receivers who are
+              65 years old or older"),
+          li("People 65 or older who need help but are not currently
+              receiving care.")
         ),
-        sidebarPanel(
-          # Bookmark button will go here.
-        )
+        p("These groups of respondents are likely providing insights into the
+            experiences and challenges related to receiving or providing care for
+            older adults. The data may include information about their health,
+            financial situation, quality of life, and other factors relevant to
+            caregiving and care receiving."),
+        width = 10
       )
     ),
     tabsetPanel(
@@ -471,8 +467,35 @@ ui <- function(request) {
           )
         )
       )
+    ),
+    fluidRow(
+      h3("Highlighted Charts/Tables"),
+      em("Below are some interesting views chosen by our research team. Click
+          to take a look, and start your own investigation from that point!")
+    ),
+    withTags(
+      fluidRow(
+        style = "text-align: center; padding-top: 10px;",
+        div(
+          class = "col-xs-6 col-md-3",
+          a(
+            class = "thumbnail",
+            href = "#",
+            p("Content 1")
+          )
+        ),
+        div(
+          class = "col-xs-6 col-md-3",
+          a(
+            class = "thumbnail",
+            href = "#",
+            p("Content 2")
+          )
+        )
+      )
     )
   )
+  # )
 }
 
 server <- function(input, output, session) { # nolint: cyclocomp_linter.
