@@ -222,6 +222,7 @@ ui <- function(request) {
   fluidPage(
     useShinyjs(),
     includeCSS("www/app.css"),
+    includeCSS("www/app.css"),
     titlePanel("Explore the 2018 General Social Survey on Caregiving and Care
       Receiving"),
     withTags(
@@ -465,6 +466,32 @@ ui <- function(request) {
                 # )
               )
             )
+          )
+        )
+      )
+    ),
+    withTags(
+      fluidRow(
+        h3("Highlighted Charts/Tables"),
+        em("Below are some interesting views chosen by our research team. Click
+          to take a look, and start your own investigation from that point!")
+      ),
+      fluidRow(
+        style = "text-align: center;",
+        div(
+          class = "col-xs-6 col-md-3",
+          a(
+            class = "thumbnail",
+            href = "#",
+            p("Content 1")
+          )
+        ),
+        div(
+          class = "col-xs-6 col-md-3",
+          a(
+            class = "thumbnail",
+            href = "#",
+            p("Content 2")
           )
         )
       )
