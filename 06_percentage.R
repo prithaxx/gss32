@@ -17,9 +17,9 @@ chart_respondent_groups_percent <- function() {
     ylim(0, 1) +
     geom_text(aes(color=pop_name, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
     ggtitle("GSS 2018 repsondent groups") +
-    labs(caption = str_wrap("Percentage of respondents in each grouping: caregiver, care receiver and person with unmet caregiving needs.", width = 115)) +
+    labs(caption = str_wrap("Proportion of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.", width = 115)) +
     xlab("Respondent group") +
-    ylab("Count") +
+    ylab("Proportion of Respondents") +
     scale_x_discrete(labels = str_wrap(df$pop_name, width = 15)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -46,9 +46,9 @@ chart_health_conditions_percent <- function(df_receiver) {
     geom_col() +
     ylim(0, 1) +
     geom_text(aes(color=health_conditions, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    labs(caption = str_wrap("Count for main health conditions of care receivers aged 65 years of age or older.", width = 115)) +
+    labs(caption = str_wrap("Proportion of care receiver respondents reporting item as their main health condition.", width = 115)) +
     xlab("Health Condition") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$health_conditions, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -68,7 +68,7 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     data = df,
     mapping = aes(
       x = fct_inorder(help_activities),
-      y = percentage,
+      y = percentage, #TODO - fix - denominator should be number of receiver respondents (not total counts of activities)
       fill = help_activities
     )
   ) +
@@ -76,9 +76,9 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=help_activities, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received help with - Past 12 months") +
-    labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
+    labs(caption = str_wrap("Proportion of care receiver respondents reporting reporting they receive help with each type of activities from family, friends or neighbours in the past 12 months.", width = 120)) +
     xlab("Activity") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -106,9 +106,9 @@ chart_age_primary_giver_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=giver_age_group, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Age of respondent's primary caregivers") +
-    labs(caption = str_wrap("Count of the age (groups of 5) of primary caregivers for respondents considered to be a care receiver and 65 years of age or older.", width = 120)) +
+    labs(caption = str_wrap("Proportion of care receiver respondents reporting their primary caregiver's age.", width = 120)) +
     xlab("Age (years)") +
-    ylab("Count") +
+    ylab("Proportion") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -135,9 +135,9 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
     ylim(0, 1) +
     geom_text(aes(color=help_activities, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received professional help with - Past 12 months") +
-    labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
+    labs(caption = str_wrap("Proportion of care receiver respondents reporting they received help from a professional in the past 12 months with each activity.", width = 120)) +
     xlab("Activity") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -168,7 +168,7 @@ chart_hours_help_received_percent <- function(df_receiver) {
     ggtitle("Numbers of hours of help received - Per average week per activity") +
     labs(caption = str_wrap("Count for the number of hours of help received, per average week per activity (transportation, house maintenance, household chores, scheduling, banking, medical treatment, personal care, other) for respondents considered to be a care receiver and 65 years of age or older from family, friends or neighbours in the past 12 months.", width = 115)) +
     xlab("Time (hour)") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -197,7 +197,7 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
     ggtitle("Distance between the respondent's and caregiver's dwellings") +
     labs(caption = str_wrap("Counts for the distance by car between respondents considered to be a care receiver and 65 years of age or older, and their primary caregiver during the time they were receiving help in the past 12 months.", width = 115)) +
     xlab("Distance (time)") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$dwelling_distances, width = 13)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -227,7 +227,7 @@ chart_receive_help_banking_freq_percent <- function(df_receiver) {
     ggtitle("Primary caregiver helped with banking - Frequency") +
     labs(caption = str_wrap("Count for how often respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 120)) +
     xlab("Help Frequency") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -256,7 +256,7 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
     ggtitle("Primary caregiver helped with banking - Number of hours") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 115)) +
     xlab("Time (hours)") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -287,7 +287,7 @@ chart_help_banking_hours_daily_percent <- function(df_receiver) {
     ggtitle("Hours primary caregiver helped with banking - Daily") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances daily", width = 115)) +
     xlab("Time (hours)") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -316,7 +316,7 @@ chart_help_banking_weekly_percent <- function(df_receiver) {
     ggtitle("Hours primary caregiver helped with banking - At least once a week") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a week", width = 115)) +
     xlab("Time (hours)") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -346,7 +346,7 @@ chart_help_banking_monthly_percent <- function(df_receiver) {
     ggtitle("Hours primary caregiver helped with banking - At least once a month") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a month", width = 115)) +
     xlab("Time (hours)") +
-    ylab("Count") +
+    ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -375,7 +375,7 @@ chart_help_banking_monthly_less_percent <- function(df_receiver) {
     ggtitle("Hours primary caregiver helped with banking - Less than once a month") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances less than once a month", width = 115)) +
     xlab("Time (hours)") +
-    ylab("Frequencyt") +
+    ylab("Frequency") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none") +
@@ -406,7 +406,7 @@ chart_activity_give_help_percent <- function(df) {
     ggtitle("Activities received help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
     xlab("Activity") +
-    ylab("Percentage") +
+    ylab("Proportion of Carees (65+)") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -432,7 +432,7 @@ chart_age_primary_receiver_percent <- function(df_giver) {
     geom_text(aes(color=primary_receiver_age_group, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Age of primary care receiver") +
     xlab("Age Group (years)") +
-    ylab("percentage") +
+    ylab("Proportion of Carees") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -457,7 +457,7 @@ chart_hours_help_provided_percent <- function(df_giver) {
     geom_text(aes(color=help_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Numbers of hours of help provided - Per average week per activity") +
     xlab("Time (hours)") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -482,7 +482,7 @@ chart_primary_receiver_distance_percent <- function(df_giver) {
     geom_text(aes(color=dwelling_distances, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Distance between the respondent's and carereceiver's dwellings") +
     xlab("Distance by car") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -508,7 +508,7 @@ chart_give_help_banking_freq_percent <- function(df_giver) {
     geom_text(aes(color=primary_help_banking_freq, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Helped primary care receiver with banking - Frequency") +
     xlab("Help Frequency") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -533,7 +533,7 @@ chart_give_help_banking_hours_percent <- function(df_giver) {
     geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Primary caregiver helped with banking - Number of hours") +
     xlab("Hours helped") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -560,7 +560,7 @@ chart_give_help_banking_daily_percent <- function(df_giver) {
     geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Helped primary care receiver with banking - Daily") +
     xlab("Time (hours)") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -586,7 +586,7 @@ chart_give_help_banking_weekly_percent <- function(df_giver) {
     geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Helped primary care receiver with banking - At least once a week") +
     xlab("Time (hours)") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -612,7 +612,7 @@ chart_give_help_banking_monthly_percent <- function(df_giver) {
     geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Helped primary care receiver with banking - At least once a month") +
     xlab("Time (hours)") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -638,7 +638,7 @@ chart_give_help_banking_monthly_less_percent <- function(df_giver) {
     geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Helped primary care receiver with banking - Less than once a month") +
     xlab("Time (hours)") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
     guides(fill = "none")
@@ -665,7 +665,7 @@ chart_out_of_pocket_percent <- function(df_giver) {
     geom_text(aes(color=out_of_pocket_expenses, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Out-of-pocket expenses because of caregiving responsibilities") +
     xlab("Expense categories") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_x_discrete(labels = str_wrap(df_out_of_pocket$out_of_pocket_expenses, width = 13)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
@@ -692,7 +692,7 @@ chart_financial_hardship_percent <- function(df_giver) {
     geom_text(aes(color=financial_hardship, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Financial hardship because of caregiving (65+) responsibilities from 735 caregivers") +
     xlab("Expense categories") +
-    ylab("percentage") +
+    ylab("Proportion of Caregiver Respondents") +
     scale_x_discrete(labels = str_wrap(df_financial_hardship$financial_hardship, width = 13)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +

@@ -232,10 +232,11 @@ ui <- function(request) {
             tags$li("Care receivers who are 65 years old or older, or"),
             tags$li("Caregivers who provide assistance to individuals who are 65
             years old or older, or"),
-            tags$li("Both care receivers who are 65 years old or older while
-            simultaneously acting as caregivers to other care receivers who are
-            65 years old or older"),
-            tags$li("People 65 or older who need help but are not currently
+            # removing this from the text header
+            #tags$li("Both care receivers who are 65 years old or older while
+            #simultaneously acting as caregivers to other care receivers who are
+            #65 years old or older"),
+            tags$li("People 65 or older who need assistance/care but are not currently
             receiving care.")
           ),
           p("These groups of respondents are likely providing insights into the

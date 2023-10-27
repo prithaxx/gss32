@@ -61,7 +61,7 @@ c_respondent_groups <- ggplot(
   ggtitle("GSS 2018 repsondent groups") +
   labs(x = "Respondent group", 
        y = "Count", 
-       caption = str_wrap("Count for respondent groupings: caregiver, care receiver and persons with unmet caregiving needs.", width = 115)) +
+       caption = str_wrap("Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.", width = 115)) +
   scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
   scale_fill_viridis_d() +
   guides(fill = "none") +
@@ -74,8 +74,8 @@ c_primary_sex <- ggplot(
 ) +
   geom_col() +
   geom_text(aes(label = freq), position = position_stack(vjust = 0.5)) +
-  ggtitle("Primary Care Giver and Receiver by Sex (age 65+)") +
-  labs(caption = str_wrap("Top row. Sex count for individuals that received care and are 65 years of age or older from respondents considered to be a caregiver. Bottom row. Sex count of individuals who provided care to respondents considered to be a care receiver that are 65 years of age or older", width = 115)) +
+  ggtitle("Primary Care Giver and Receiver by Sex") +
+  labs(caption = str_wrap("Top row. Caree sex, as reported by caregiver respondents. Bottom row. Caregiver Sex as reported by care receiver respondents", width = 115)) +
   xlab("Sex") +
   ylab("Count") +
   facet_wrap(~type, ncol = 1) +
