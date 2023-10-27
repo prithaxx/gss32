@@ -658,7 +658,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       strtoi(input$giver_select_box_receiver_main_health_condition), "PRP10GR"
     )
 
-    #df_output_giver <<- df_filtered
     output_giver_df <<- df_filtered
   })
 
