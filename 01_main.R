@@ -23,6 +23,7 @@ df_receiver_65_74 <- df_receiver %>%
 df_receiver_75 <- df_receiver %>%
   filter(AGEGR10 == 7)
 
+
 # Care giving ---
 
 # Care givers with primary care receiver 65+
@@ -46,3 +47,6 @@ df_giver_receiver <- intersect(df_receiver, df_giver)
 df_need_help <- GSS_PUMF_2018 %>%
   filter(NFA_10 == 1 & (AGEGR10 == 6 | AGEGR10 == 7))
 
+df_giver_alzheimers <- df_giver %>% filter(PRP10GR == 8)
+
+df_giver_no_alzheimers <- df_giver %>% filter(PRP10GR != 8)

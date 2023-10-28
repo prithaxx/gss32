@@ -57,7 +57,8 @@ group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
       x = x_lab,
       y = "Number of People"
     ) +
-    scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
+    P
+  scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
     scale_fill_viridis_d(begin = 0.2, end = 0.8)
 
   return(chart_output)
@@ -79,6 +80,44 @@ group_by_age_percent <- function(df_input, tab_option, x_lab, title_lab) {
       title = paste("Number", title_lab, "by age"),
       x = x_lab,
       y = "Percentage of People"
+    ) +
+    scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
+    scale_fill_viridis_d(begin = 0.2, end = 0.8)
+
+  return(chart_output)
+}
+
+group_by_alzheimers <- function(df_input, tab_option, x_lab, title_lab) {
+  df <- tab_option(df_input)
+
+  # convert the data from wide to long format
+  df_long <- pivot_longer(df, cols = c(alzheimers, non_alzheimers), names_to = "alzheimers_count", values_to = "Count")
+
+  chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = Count, fill = alzheimers_count)) +
+    geom_col(position = "dodge") +
+    labs(
+      title = paste("Number", title_lab, "by whether or not the care recipient has Alzheimer's/dementia"),
+      x = x_lab,
+      y = "Number of People"
+    ) +
+    scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
+    scale_fill_viridis_d(begin = 0.2, end = 0.8)
+
+  return(chart_output)
+}
+
+group_by_alzheimers_percent <- function(df_input, tab_option, x_lab, title_lab) {
+  df <- tab_option(df_input)
+
+  # convert the data from wide to long format
+  df_long <- pivot_longer(df, cols = c(alzheimers_percentage, non_alzheimers_percentage), names_to = "alzheimers_group", values_to = "alzheimers_group_percent")
+
+  chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = alzheimers_group_percent, fill = alzheimers_group)) +
+    geom_col(position = "dodge") +
+    labs(
+      title = paste("Percentage", title_lab, "by whether or not the care recipient has Alzheimer's/dementia"),
+      x = x_lab,
+      y = "Percentage of people"
     ) +
     scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
     scale_fill_viridis_d(begin = 0.2, end = 0.8)

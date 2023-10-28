@@ -12,44 +12,61 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   total_female <- sum(df$SEX == 2)
   total_age_65_74 <- sum(df$AGEGR10 == 6)
   total_age_75 <- sum(df$AGEGR10 == 7)
-
-
+  total_alzheimers <- sum(df$PRP10GR == 8)
+  total_non_alzheimers <- sum(df$PRP10GR != 8)
 
   tibble(x_options = names(x_options), count) %>%
-    mutate(percentage = count / sum(count),
-           Male = sapply(start:end, function(i) {
-             if (!is.null(col2)) {
-               sum(df$SEX == 1 & df[[cols]] == i & df[[col2]] == response_code)
-             } else {
-               sum(df$SEX == 1 & df[[cols]] == i)
-             }
-           }),
-           Female = sapply(start:end, function(i) {
-             if (!is.null(col2)) {
-               sum(df$SEX == 2 & df[[cols]] == i & df[[col2]] == response_code)
-             } else {
-               sum(df$SEX == 2 & df[[cols]] == i)
-             }
-           }),
-           male_percentage = round(Male/total_male, 2),
-           female_percentage = round(Female/total_female, 2),
-           age_65_74 = sapply(start:end, function(i) {
-             if (!is.null(col2)) {
-               sum(df$AGEGR10 == 6 & df[[cols]] == i & df[[col2]] == response_code)
-             } else {
-               sum(df$AGEGR10 == 6 & df[[cols]] == i)
-             }
-           }),
-           age_75 = sapply(start:end, function(i) {
-             if (!is.null(col2)) {
-               sum(df$AGEGR10 == 7 & df[[cols]] == i & df[[col2]] == response_code)
-             } else {
-               sum(df$AGEGR10 == 7 & df[[cols]] == i)
-             }
-           }),
-           age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
-           age_75_percentage = round(age_75 / total_age_75, 2)
-
+    mutate(
+      percentage = count / sum(count),
+      Male = sapply(start:end, function(i) {
+        if (!is.null(col2)) {
+          sum(df$SEX == 1 & df[[cols]] == i & df[[col2]] == response_code)
+        } else {
+          sum(df$SEX == 1 & df[[cols]] == i)
+        }
+      }),
+      Female = sapply(start:end, function(i) {
+        if (!is.null(col2)) {
+          sum(df$SEX == 2 & df[[cols]] == i & df[[col2]] == response_code)
+        } else {
+          sum(df$SEX == 2 & df[[cols]] == i)
+        }
+      }),
+      male_percentage = round(Male / total_male, 2),
+      female_percentage = round(Female / total_female, 2),
+      age_65_74 = sapply(start:end, function(i) {
+        if (!is.null(col2)) {
+          sum(df$AGEGR10 == 6 & df[[cols]] == i & df[[col2]] == response_code)
+        } else {
+          sum(df$AGEGR10 == 6 & df[[cols]] == i)
+        }
+      }),
+      age_75 = sapply(start:end, function(i) {
+        if (!is.null(col2)) {
+          sum(df$AGEGR10 == 7 & df[[cols]] == i & df[[col2]] == response_code)
+        } else {
+          sum(df$AGEGR10 == 7 & df[[cols]] == i)
+        }
+      }),
+      age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
+      age_75_percentage = round(age_75 / total_age_75, 2),
+      alzheimers = sapply(start:end, function(i) {
+        if (!is.null(col2)) {
+          sum(df$PRP10GR == 8 & df[[cols]] == i & df[[col2]] == response_code)
+        } else {
+          sum(df$AGEGR10 == 6 & df[[cols]] == i)
+        }
+      }),
+      non_alzheimers = sapply(start:end, function(i) {
+        if (!is.null(col2)) {
+          sum(df$PRP10GR != 8 & df[[cols]] == i & df[[col2]] == response_code)
+        } else {
+          sum(df$AGEGR10 != 6 & df[[cols]] == i)
+        }
+      }),
+      alzheimers_percentage = round(alzheimers / total_alzheimers, 2),
+      non_alzheimers_percentage =
+        round(non_alzheimers / total_non_alzheimers, 2),
     )
 }
 
@@ -64,32 +81,44 @@ tab_helper_multi_var <- function(df, count, x_options, cols) {
   total_female <- sum(df$SEX == 2)
   total_age_65_74 <- sum(df$AGEGR10 == 6)
   total_age_75 <- sum(df$AGEGR10 == 7)
+  total_alzheimers <- sum(df$PRP10GR == 8)
+  total_non_alzheimers <- sum(df$PRP10GR != 8)
 
   tibble(x_options, count) %>%
-    mutate(percentage = count / sum(count),
-           Male = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 1 & df[[cols[i]]] == 1)
-           }),
-           Female = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 2 & df[[cols[i]]] == 1)
-           }),
-           male_percentage = round(Male/total_male, 2),
-           female_percentage = round(Female/total_female, 2),
-           age_65_74 = sapply(seq_along(x_options), function(i) {
-             sum(df$AGEGR10 == 6 & df[[cols[i]]] == 1)
-           }),
-           age_75 = sapply(seq_along(x_options), function(i) {
-             sum(df$AGEGR10 == 7 & df[[cols[i]]] == 1)
-           }),
-           age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
-           age_75_percentage = round(age_75 / total_age_75, 2)
+    mutate(
+      percentage = count / sum(count),
+      Male = sapply(seq_along(x_options), function(i) {
+        sum(df$SEX == 1 & df[[cols[i]]] == 1)
+      }),
+      Female = sapply(seq_along(x_options), function(i) {
+        sum(df$SEX == 2 & df[[cols[i]]] == 1)
+      }),
+      male_percentage = round(Male / total_male, 2),
+      female_percentage = round(Female / total_female, 2),
+      age_65_74 = sapply(seq_along(x_options), function(i) {
+        sum(df$AGEGR10 == 6 & df[[cols[i]]] == 1)
+      }),
+      age_75 = sapply(seq_along(x_options), function(i) {
+        sum(df$AGEGR10 == 7 & df[[cols[i]]] == 1)
+      }),
+      age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
+      age_75_percentage = round(age_75 / total_age_75, 2),
+      alzheimers = sapply(seq_along(x_options), function(i) {
+        sum(df$PRP10GR == 8 & df[[cols[i]]] == 1)
+      }),
+      non_alzheimers = sapply(seq_along(x_options), function(i) {
+        sum(df$PRP10GR != 8 & df[[cols[i]]] == 1)
+      }),
+      alzheimers_percentage = round(alzheimers / total_alzheimers, 2),
+      non_alzheimers_percentage =
+        round(non_alzheimers / total_non_alzheimers, 2),
     )
 }
 
 # General data ####
 tab_pop_freq <- function() {
   # removing the sub-age groups, b/c this is overcounting
-  #count <- y_pop_freq(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help)
+  # count <- y_pop_freq(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help)
   count <- y_pop_freq(df_giver, df_receiver, df_need_help)
   df_pops <- tibble(pop_name, count) %>%
     mutate(percentage = count / sum(count))
@@ -148,7 +177,7 @@ tab_activity_receive_help_pro <- function(df) {
 tab_hours_help_received <- function(df) {
   count <- y_hours_help_received(df)
 
-  df_output <- tab_helper(df, count, help_hours,"HAR_10C") %>%
+  df_output <- tab_helper(df, count, help_hours, "HAR_10C") %>%
     rename(help_hours = x_options)
 
   return(df_output)
@@ -158,7 +187,7 @@ tab_hours_help_received <- function(df) {
 tab_primary_giver_distance <- function(df) {
   count <- y_primary_giver_distance(df)
 
-  df_output <- tab_helper(df, count, dwelling_distances,"PGD_10") %>%
+  df_output <- tab_helper(df, count, dwelling_distances, "PGD_10") %>%
     rename(dwelling_distances = x_options)
 
   return(df_output)
@@ -168,7 +197,7 @@ tab_primary_giver_distance <- function(df) {
 tab_receive_help_banking_freq <- function(df) {
   count <- y_receive_help_banking_freq(df)
 
-  df_output <- tab_helper(df, count, primary_help_banking_freq,"AGB_20") %>%
+  df_output <- tab_helper(df, count, primary_help_banking_freq, "ARB_20") %>%
     rename(primary_help_banking_freq = x_options)
 
   return(df_output)
@@ -178,7 +207,7 @@ tab_receive_help_banking_freq <- function(df) {
 tab_receive_help_banking_hours <- function(df) {
   count <- y_receive_help_banking_hours(df)
 
-  df_output <- tab_helper(df, count, primary_help_banking_hours,"AGB_30C") %>%
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C") %>%
     rename(primary_help_banking_hours = x_options)
 
   return(df_output)
@@ -190,7 +219,7 @@ tab_help_banking_hours_daily <- function(df) {
   response_code <- 1
   count <- y_receive_help_banking_hours_freq(df, response_code)
 
-  df_output <- tab_helper(df, count, primary_help_banking_hours,"AGB_30C", "AGB_20", response_code) %>%
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
     rename(primary_help_banking_hours = x_options)
 
   return(df_output)
@@ -201,7 +230,7 @@ tab_help_banking_hours_weekly <- function(df) {
   response_code <- 2
   count <- y_receive_help_banking_hours_freq(df, response_code)
 
-  df_output <- tab_helper(df, count, primary_help_banking_hours,"AGB_30C", "AGB_20", response_code) %>%
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
     rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
@@ -211,7 +240,7 @@ tab_help_banking_hours_monthly <- function(df) {
   response_code <- 3
   count <- y_receive_help_banking_hours_freq(df, response_code)
 
-  df_output <- tab_helper(df, count, primary_help_banking_hours,"AGB_30C", "AGB_20", response_code) %>%
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
     rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
@@ -221,7 +250,7 @@ tab_help_banking_hours_monthly_less <- function(df) {
   response_code <- 4
   count <- y_receive_help_banking_hours_freq(df, response_code)
 
-  df_output <- tab_helper(df, count, primary_help_banking_hours,"AGB_30C", "AGB_20", response_code) %>%
+  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
     rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
@@ -268,7 +297,7 @@ tab_primary_receiver_distance <- function(df) {
 tab_give_help_banking_freq <- function(df) {
   count <- y_give_help_banking_freq(df)
 
-  df_output <- tab_helper(df, count, primary_help_banking_freq, "AGB_20") %>%
+  df_output <- tab_helper(df, count, primary_help_banking_freq, "ARB_20") %>%
     rename(primary_help_banking_freq = x_options)
 
   return(df_output)
@@ -337,15 +366,16 @@ tab_financial_hardship <- function(df) {
   cols2 <- "CRRCPAGR"
 
   df_output <- tibble(x_options, count) %>%
-    mutate(percentage = count / sum(count),
-           Male = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 1 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
-           }),
-           Female = sapply(seq_along(x_options), function(i) {
-             sum(df$SEX == 2 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
-           }),
-           male_percentage = round(Male/total_male, 2),
-           female_percentage = round(Female/total_female, 2),
+    mutate(
+      percentage = count / sum(count),
+      Male = sapply(seq_along(x_options), function(i) {
+        sum(df$SEX == 1 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
+      }),
+      Female = sapply(seq_along(x_options), function(i) {
+        sum(df$SEX == 2 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
+      }),
+      male_percentage = round(Male / total_male, 2),
+      female_percentage = round(Female / total_female, 2),
     ) %>%
     rename(financial_hardship = x_options)
 
