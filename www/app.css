@@ -3,3 +3,15 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+
+.thumbnail {
+    padding: 1em;
+}
+
+.thumbnail,
+.thumbnail:hover,
+.thumbnail:visited,
+.thumbnail:active {
+    text-decoration: none;
+    color: black;
+}

@@ -481,17 +481,25 @@ ui <- function(request) {
         div(
           class = "col-xs-6 col-md-3",
           a(
-            class = "thumbnail",
-            href = "#",
-            p("Content 1")
+            class = "thumbnail bg-info",
+            href = "/?_inputs_&chart_panel=%22Giver%20Response%20Charts%22&general_chart_type=%22Counts%22&receiver_chart_type=%22Counts%22&giver_chart_type=%22Percentages%22&general_selected_box=%22Respondent%20Groups%22&receiver_select_box=%22Health%20Conditions%20Experienced%22&receiver_select_box_sex=%22-1%22&receiver_select_box_age=%22-1%22&receiver_select_box_pop_centre=%22-1%22&receiver_select_box_partner_in_household=%22-1%22&receiver_select_box_living_arrangement_senior_household=%22-1%22&receiver_select_box_indigenous_status=%22-1%22&receiver_select_box_visible_minority=%22-1%22&receiver_select_box_group_religious_participation=%22-1%22&giver_select_box=%22Distance%20to%20Caree%22&giver_select_box_sex=%22-1%22&giver_select_box_age=%22-1%22&giver_select_box_pop_centre=%22-1%22&giver_select_box_partner_in_household=%22-1%22&giver_select_box_living_arrangement_senior_household=%22-1%22&giver_select_box_indigenous_status=%22-1%22&giver_select_box_visible_minority=%221%22&giver_select_box_group_religious_participation=%22-1%22&giver_select_box_receiver_main_health_condition=%22-1%22&receiver_radio=%221%22&giver_radio=%221%22",
+            p(
+              class = "h4 text-center",
+              "Caregivers of visible minority are much more likely to live with
+              the older adult they provide care for."
+            )
           )
         ),
         div(
           class = "col-xs-6 col-md-3",
           a(
-            class = "thumbnail",
-            href = "#",
-            p("Content 2")
+            class = "thumbnail bg-info",
+            href = "http://hypocolius.cs.umanitoba.ca:4085/?_inputs_&chart_panel=%22Receiver%20Response%20Charts%22&general_chart_type=%22Counts%22&receiver_chart_type=%22Percentages%22&giver_chart_type=%22Counts%22&general_selected_box=%22Sex%20of%20Primary%20Caregivers%20and%20Care%20Receivers%22&receiver_select_box=%22Banking%20Help%20Received%20-%20frequency%22&receiver_select_box_sex=%22-1%22&receiver_select_box_age=%22-1%22&receiver_select_box_pop_centre=%22-1%22&receiver_select_box_partner_in_household=%22-1%22&receiver_select_box_living_arrangement_senior_household=%22-1%22&receiver_select_box_indigenous_status=%22-1%22&receiver_select_box_visible_minority=%22-1%22&receiver_select_box_group_religious_participation=%22-1%22&giver_select_box=%22Activities%20Respondent%20Assists%20Caree%20With%22&giver_select_box_sex=%22-1%22&giver_select_box_age=%22-1%22&giver_select_box_pop_centre=%22-1%22&giver_select_box_partner_in_household=%22-1%22&giver_select_box_living_arrangement_senior_household=%22-1%22&giver_select_box_indigenous_status=%22-1%22&giver_select_box_visible_minority=%22-1%22&giver_select_box_group_religious_participation=%22-1%22&giver_select_box_receiver_main_health_condition=%22-1%22&receiver_radio=%222%22&giver_radio=%221%22",
+            p(
+              class = "h4 text-center",
+              "Male respondents were much more likely to be receiving help with
+              banking daily than female respondents."
+            )
           )
         )
       )
@@ -753,5 +761,6 @@ if (toupper(Sys.getenv("GSS32_DEVMODE")) == "TRUE") {
   devmode(TRUE)
 }
 enableBookmarking("url")
+addResourcePath("img", "www/images")
 
 shinyApp(ui = ui, server = server, options = options)
