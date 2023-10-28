@@ -498,8 +498,8 @@ ui <- function(request) {
             href = "/?_inputs_&chart_panel=%22Receiver%20Response%20Charts%22&general_chart_type=%22Counts%22&receiver_chart_type=%22Percentages%22&giver_chart_type=%22Counts%22&general_selected_box=%22Sex%20of%20Primary%20Caregivers%20and%20Care%20Receivers%22&receiver_select_box=%22Banking%20Help%20Received%20-%20frequency%22&receiver_select_box_sex=%22-1%22&receiver_select_box_age=%22-1%22&receiver_select_box_pop_centre=%22-1%22&receiver_select_box_partner_in_household=%22-1%22&receiver_select_box_living_arrangement_senior_household=%22-1%22&receiver_select_box_indigenous_status=%22-1%22&receiver_select_box_visible_minority=%22-1%22&receiver_select_box_group_religious_participation=%22-1%22&giver_select_box=%22Activities%20Respondent%20Assists%20Caree%20With%22&giver_select_box_sex=%22-1%22&giver_select_box_age=%22-1%22&giver_select_box_pop_centre=%22-1%22&giver_select_box_partner_in_household=%22-1%22&giver_select_box_living_arrangement_senior_household=%22-1%22&giver_select_box_indigenous_status=%22-1%22&giver_select_box_visible_minority=%22-1%22&giver_select_box_group_religious_participation=%22-1%22&giver_select_box_receiver_main_health_condition=%22-1%22&receiver_radio=%222%22&giver_radio=%221%22",
             p(
               class = "h4 text-center",
-              "Female respondents were much more likely to be receiving help with
-              banking daily than male respondents."
+              "Male care receivers were much more likely to receive help with
+              banking daily than female care receivers."
             )
           )
         ),

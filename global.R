@@ -73,44 +73,55 @@ total_giver_female <- nrow(apply_filter(df_giver, 2, "SEX"))
 # General Charts ####
 
 ## Respondent groups ####
+phcl <- farver::decode_colour(viridisLite::magma(length(unique(df_pops$pop_name))), "rgb", "hcl") 
+plabel_col <- ifelse(phcl[, "l"] > 50, "black", "white") 
 c_respondent_groups <- ggplot(
   data = df_pops,
   mapping = aes(x = fct_inorder(pop_name), y = pop_freq, fill = pop_name)
 ) +
   geom_col() +
-  geom_text(aes(label = pop_freq), position = position_stack(vjust = 0.5)) +
+  geom_text(aes(color=pop_name, label = pop_freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
   ggtitle("GSS 2018 repsondent groups") +
   labs(
     x = "Respondent group",
     y = "Count",
-    caption = str_wrap("Count for respondent groupings: caregiver, care receivers 65 years and over, care receivers 65 to 74 years, care receivers 75 years and over, care receiver and caregiver, and unmet needs for GSS 2018.", width = 115)
+    caption = str_wrap("Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.", width = 115)
   ) +
   scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
-  scale_fill_viridis_d() +
+  scale_color_manual(values = plabel_col) + 
+  scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "magma") +
+  theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
   guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0))
+  theme(plot.caption = element_text(hjust = 0, size = 14)) 
 
 ## Sex of primary caregiver and primary care receiver ####
+shcl <- farver::decode_colour(viridisLite::magma(length(unique(df_primary_sex$sex))), "rgb", "hcl") 
+slabel_col <- ifelse(shcl[, "l"] > 50, "black", "white") 
+
 c_primary_sex <- ggplot(
   data = df_primary_sex,
   mapping = aes(x = sex, y = freq, fill = sex)
 ) +
   geom_col() +
-  geom_text(aes(label = freq), position = position_stack(vjust = 0.5)) +
+  geom_text(aes(color=sex,label = freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
   ggtitle("Primary Care Giver and Receiver by Sex (age 65+)") +
   labs(caption = str_wrap("Top row. Sex count for individuals that received care and are 65 years of age or older from respondents considered to be a caregiver. Bottom row. Sex count of individuals who provided care to respondents considered to be a care receiver that are 65 years of age or older", width = 115)) +
   xlab("Sex") +
   ylab("Count") +
   facet_wrap(~type, ncol = 1) +
-  scale_fill_viridis_d(begin = 0.2, end = 0.8) +
+#  scale_fill_viridis_d(begin = 0.2, end = 0.8) +    
+  scale_color_manual(values = slabel_col) + 
+  scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "magma") +
+  theme(axis.text.x = element_text(size=13)) +
   guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0))
+  theme(plot.caption = element_text(hjust = 0, size = 14))
 
 
 # Care receiver responses #####
 chart_health_conditions <- function(df_receiver) {
   df_health_conditions <- tab_health_conditions(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(health_conditions))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_health_conditions <- ggplot(
     data = df_health_conditions,
     mapping = aes(
@@ -120,14 +131,16 @@ chart_health_conditions <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=health_conditions, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     labs(caption = str_wrap("Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.", width = 115)) +
     xlab("Health Condition") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df_health_conditions$health_conditions, width = 12)) +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_health_conditions)
 }
@@ -136,7 +149,8 @@ chart_health_conditions <- function(df_receiver) {
 ### Types of activities respondents received help with
 chart_activity_receive_help <- function(df_receiver) {
   df_activity_receive_help <- tab_activity_receive_help(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(help_activities))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_activity_receive_help <- ggplot(
     data = df_activity_receive_help,
     mapping = aes(
@@ -146,15 +160,17 @@ chart_activity_receive_help <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=help_activities, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df_activity_receive_help$help_activities, width = 12)) +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_activity_receive_help)
 }
@@ -162,7 +178,8 @@ chart_activity_receive_help <- function(df_receiver) {
 ### Age of respondent's primary caregiver
 chart_age_primary_giver <- function(df_receiver) {
   df_age_primary_giver <- tab_age_primary_giver(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(giver_age_group))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_age_primary_giver <- ggplot(
     data = df_age_primary_giver,
     mapping = aes(
@@ -172,21 +189,24 @@ chart_age_primary_giver <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=giver_age_group,label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Age of respondent's primary caregivers") +
     labs(caption = str_wrap("Count of the age (groups of 5) of primary caregivers for respondents considered to be a care receiver and 65 years of age or older.", width = 120)) +
     xlab("Age (years)") +
     ylab("Count") +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
   return(c_age_primary_giver)
 }
 
 ### Types of activities respondents received professional help with
 chart_activity_receive_help_pro <- function(df_receiver) {
   df_activity_receive_help_pro <- tab_activity_receive_help_pro(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(help_activities))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_activity_receive_help_pro <- ggplot(
     data = df_activity_receive_help_pro,
     mapping = aes(
@@ -196,15 +216,17 @@ chart_activity_receive_help_pro <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=help_activities, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received professional help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$help_activities, width = 12)) +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
   return(c_activity_receive_help_pro)
 }
 
@@ -212,7 +234,8 @@ chart_activity_receive_help_pro <- function(df_receiver) {
 ### Numbers of hours of help received - Per average week per activity
 chart_hours_help_received <- function(df_receiver) {
   df_hours_help_received <- tab_hours_help_received(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(help_hours))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_hours_help_received <- ggplot(
     data = df_hours_help_received,
     mapping = aes(
@@ -222,14 +245,16 @@ chart_hours_help_received <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=help_hours, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Numbers of hours of help received - Per average week per activity") +
     labs(caption = str_wrap("Count for the number of hours of help received, per average week per activity (transportation, house maintenance, household chores, scheduling, banking, medical treatment, personal care, other) for respondents considered to be a care receiver and 65 years of age or older from family, friends or neighbours in the past 12 months.", width = 115)) +
     xlab("Time (hour)") +
     ylab("Count") +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_hours_help_received)
 }
@@ -237,7 +262,8 @@ chart_hours_help_received <- function(df_receiver) {
 ### Distance between the respondent's and the caregiver's dwellings
 chart_primary_giver_distance <- function(df_receiver) {
   df_primary_giver_distance <- tab_primary_giver_distance(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(dwelling_distances))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_primary_giver_distance <- ggplot(
     data = df_primary_giver_distance,
     mapping = aes(
@@ -247,15 +273,17 @@ chart_primary_giver_distance <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=dwelling_distances, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Distance between the respondent's and caregiver's dwellings") +
     labs(caption = str_wrap("Counts for the distance by car between respondents considered to be a care receiver and 65 years of age or older, and their primary caregiver during the time they were receiving help in the past 12 months.", width = 115)) +
     xlab("Distance (time)") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df_primary_giver_distance$dwelling_distances, width = 13)) +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_primary_giver_distance)
 }
@@ -263,7 +291,8 @@ chart_primary_giver_distance <- function(df_receiver) {
 ### Primary caregiver helped with banking - Frequency
 chart_receive_help_banking_freq <- function(df_receiver) {
   df_receive_help_banking_freq <- tab_receive_help_banking_freq(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(primary_help_banking_freq))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_receive_help_banking_freq <- ggplot(
     data = df_receive_help_banking_freq,
     mapping = aes(
@@ -273,14 +302,16 @@ chart_receive_help_banking_freq <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=primary_help_banking_freq, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Primary caregiver helped with banking - Frequency") +
     labs(caption = str_wrap("Count for how often respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 120)) +
     xlab("Help Frequency") +
     ylab("Count") +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_receive_help_banking_freq)
 }
@@ -288,7 +319,8 @@ chart_receive_help_banking_freq <- function(df_receiver) {
 ### Primary caregiver helped with banking - Number of hours
 chart_receive_help_banking_hours <- function(df_receiver) {
   df_receive_help_banking_hours <- tab_receive_help_banking_hours(df_receiver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_receive_help_banking_hours <- ggplot(
     data = df_receive_help_banking_hours,
     mapping = aes(
@@ -298,14 +330,16 @@ chart_receive_help_banking_hours <- function(df_receiver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=primary_help_banking_hours, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Primary caregiver helped with banking - Number of hours") +
     labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.", width = 115)) +
     xlab("Time (hours)") +
     ylab("Count") +
-    scale_fill_viridis_d() +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_receive_help_banking_hours)
 }
@@ -332,7 +366,7 @@ chart_help_banking_hours_daily <- function(df_receiver) {
     ylab("Count") +
     scale_fill_viridis_d() +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_hours_daily)
 }
@@ -357,7 +391,7 @@ chart_help_banking_weekly <- function(df_receiver) {
     ylab("Count") +
     scale_fill_viridis_d() +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_weekly)
 }
@@ -383,7 +417,7 @@ chart_help_banking_monthly <- function(df_receiver) {
     ylab("Count") +
     scale_fill_viridis_d() +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_monthly)
 }
@@ -408,7 +442,7 @@ chart_help_banking_monthly_less <- function(df_receiver) {
     ylab("Frequencyt") +
     scale_fill_viridis_d() +
     guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0))
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_help_banking_monthly_less)
 }
@@ -419,20 +453,24 @@ chart_help_banking_monthly_less <- function(df_receiver) {
 ### Types of activities respondents provided help with
 chart_activity_give_help <- function(df_giver) {
   df_activity_give_help <- tab_activity_give_help(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(help_activities))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_activity_give_help <- ggplot(data = df_activity_give_help, mapping = aes(
     x = fct_inorder(help_activities),
     y = count,
     fill = help_activities
   )) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=help_activities, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Types of activities respondents provided help with - Past 12 months") +
     xlab("Activity") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df_activity_give_help$help_activities, width = 12)) +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_activity_give_help)
 }
@@ -441,7 +479,8 @@ chart_activity_give_help <- function(df_giver) {
 ### Age of respondent's care receiver
 chart_age_primary_receiver <- function(df_giver) {
   df_age_primary_receiver <- tab_age_primary_receiver(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(primary_receiver_age_group))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_age_primary_receiver <- ggplot(
     data = df_age_primary_receiver,
     mapping = aes(
@@ -451,12 +490,15 @@ chart_age_primary_receiver <- function(df_giver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=primary_receiver_age_group, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Age of primary care receiver") +
     xlab("Age Group (years)") +
     ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_age_primary_receiver)
 }
@@ -465,7 +507,8 @@ chart_age_primary_receiver <- function(df_giver) {
 # ### Number of hours are or help provided by respondent - Per average week
 chart_hours_help_provided <- function(df_giver) {
   df_hours_help_provided <- tab_hours_help_provided(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(help_hours))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_hours_help_provided <- ggplot(
     data = df_hours_help_provided,
     mapping = aes(
@@ -475,12 +518,15 @@ chart_hours_help_provided <- function(df_giver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=help_hours, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Numbers of hours of help provided - Per average week per activity") +
     xlab("Time (hours)") +
     ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_hours_help_provided)
 }
@@ -488,7 +534,8 @@ chart_hours_help_provided <- function(df_giver) {
 # ### Distance between the respondent's and the care receiver's dwellings PRD_10
 chart_primary_receiver_distance <- function(df_giver) {
   df_primary_receiver_distance <- tab_primary_receiver_distance(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(dwelling_distances))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_primary_receiver_distance <- ggplot(
     data = df_primary_receiver_distance,
     mapping = aes(
@@ -498,12 +545,15 @@ chart_primary_receiver_distance <- function(df_giver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=dwelling_distances, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Distance between the respondent's and carereceiver's dwellings") +
     xlab("Distance by car") +
     ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_primary_receiver_distance)
 }
@@ -511,7 +561,8 @@ chart_primary_receiver_distance <- function(df_giver) {
 ### Helped primary care receiver with banking - Frequency
 chart_give_help_banking_freq <- function(df_giver) {
   df_give_help_banking_freq <- tab_give_help_banking_freq(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(primary_help_banking_freq))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_give_help_banking_freq <- ggplot(
     data = df_give_help_banking_freq,
     mapping = aes(
@@ -521,12 +572,15 @@ chart_give_help_banking_freq <- function(df_giver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=primary_help_banking_freq, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Helped primary care receiver with banking - Frequency") +
     xlab("Help Frequency") +
     ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_give_help_banking_freq)
 }
@@ -534,7 +588,8 @@ chart_give_help_banking_freq <- function(df_giver) {
 ### Helped primary care receiver with banking - Number of hours
 chart_give_help_banking_hours <- function(df_giver) {
   df_give_help_banking_hours <- tab_give_help_banking_hours(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_give_help_banking_hours <- ggplot(
     data = df_give_help_banking_hours,
     mapping = aes(
@@ -544,12 +599,15 @@ chart_give_help_banking_hours <- function(df_giver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=primary_help_banking_hours, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Primary caregiver helped with banking - Number of hours") +
     xlab("Hours helped") +
     ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_give_help_banking_hours)
 }
@@ -642,7 +700,8 @@ chart_give_help_banking_monthly_less <- function(df_giver) {
     xlab("Time (hours)") +
     ylab("Count") +
     scale_fill_viridis_d() +
-    guides(fill = "none")
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_give_help_banking_monthly_less)
 }
@@ -652,7 +711,8 @@ chart_give_help_banking_monthly_less <- function(df_giver) {
 ### Out-of-pocket expenses because of caregiving responsibilities
 chart_out_of_pocket <- function(df_giver) {
   df_out_of_pocket <- tab_out_of_pocket(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(out_of_pocket_expenses))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_out_of_pocket <- ggplot(
     data = df_out_of_pocket,
     mapping = aes(
@@ -662,13 +722,16 @@ chart_out_of_pocket <- function(df_giver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=out_of_pocket_expenses, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Out-of-pocket expenses because of caregiving responsibilities") +
     xlab("Expense categories") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df_out_of_pocket$out_of_pocket_expenses, width = 13)) +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none")+
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_out_of_pocket)
 }
@@ -676,7 +739,8 @@ chart_out_of_pocket <- function(df_giver) {
 ### Financial hardship
 chart_financial_hardship <- function(df_giver) {
   df_financial_hardship <- tab_financial_hardship(df_giver)
-
+  hcl <- farver::decode_colour(viridisLite::magma(length(unique(financial_hardship))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_financial_hardship <- ggplot(
     data = df_financial_hardship,
     mapping = aes(
@@ -686,13 +750,16 @@ chart_financial_hardship <- function(df_giver) {
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
+    geom_text(aes(color=financial_hardship, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Financial hardship because of caregiving (65+) responsibilities from 735 caregivers") +
     xlab("Expense categories") +
     ylab("Count") +
     scale_x_discrete(labels = str_wrap(df_financial_hardship$financial_hardship, width = 13)) +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_financial_hardship)
 }

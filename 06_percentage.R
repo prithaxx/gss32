@@ -23,6 +23,7 @@ chart_respondent_groups_percent <- function() {
     scale_x_discrete(labels = str_wrap(df$pop_name, width = 15)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -52,6 +53,7 @@ chart_health_conditions_percent <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df$health_conditions, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -82,6 +84,7 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -111,6 +114,7 @@ chart_age_primary_giver_percent <- function(df_receiver) {
     ylab("Proportion") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -141,6 +145,7 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -171,6 +176,7 @@ chart_hours_help_received_percent <- function(df_receiver) {
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -201,6 +207,7 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
     scale_x_discrete(labels = str_wrap(df$dwelling_distances, width = 13)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -230,6 +237,7 @@ chart_receive_help_banking_freq_percent <- function(df_receiver) {
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -259,6 +267,7 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
@@ -411,6 +420,7 @@ chart_activity_give_help_percent <- function(df) {
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
   
@@ -436,7 +446,9 @@ chart_age_primary_receiver_percent <- function(df_giver) {
     ylab("Proportion of Carees") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
-    guides(fill = "none")
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_age_primary_receiver)
 }
@@ -461,7 +473,9 @@ chart_hours_help_provided_percent <- function(df_giver) {
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
-    guides(fill = "none")
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_hours_help_provided)
 }
@@ -486,7 +500,9 @@ chart_primary_receiver_distance_percent <- function(df_giver) {
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
-    guides(fill = "none")
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_primary_receiver_distance)
 }
@@ -512,7 +528,9 @@ chart_give_help_banking_freq_percent <- function(df_giver) {
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
-    guides(fill = "none")
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_give_help_banking_freq)
 }
@@ -537,7 +555,9 @@ chart_give_help_banking_hours_percent <- function(df_giver) {
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
-    guides(fill = "none")
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_give_help_banking_hours)
 }
@@ -565,6 +585,7 @@ chart_give_help_banking_daily_percent <- function(df_giver) {
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none")
 
   return(c_give_help_banking_daily)
@@ -591,6 +612,7 @@ chart_give_help_banking_weekly_percent <- function(df_giver) {
     ylab("Proportion of Caregiver Respondents") +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none")
 
   return(c_give_help_banking_weekly)
@@ -671,7 +693,9 @@ chart_out_of_pocket_percent <- function(df_giver) {
     scale_x_discrete(labels = str_wrap(df_out_of_pocket$out_of_pocket_expenses, width = 13)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
-    guides(fill = "none")
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_out_of_pocket)
 }
@@ -698,7 +722,9 @@ chart_financial_hardship_percent <- function(df_giver) {
     scale_x_discrete(labels = str_wrap(df_financial_hardship$financial_hardship, width = 13)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "magma") +
-    guides(fill = "none")
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_financial_hardship)
 }
