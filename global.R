@@ -344,6 +344,32 @@ chart_receive_help_banking_hours <- function(df_receiver) {
   return(c_receive_help_banking_hours)
 }
 
+### Respondent did not receive the care needed - Reasons
+chart_nohelp_received <- function(df_receiver){
+  df_nohelp_reasons <- tab_received_nohelp(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(received_nohelp_reasons))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+  c_nohelp_reasons <- ggplot(
+    data = df_nohelp_reasons,
+    mapping = aes(
+      x = factor(received_nohelp_reasons),
+      y = count,
+      fill = factor(received_nohelp_reasons)
+    )
+  ) +
+    geom_col() +
+    geom_text(aes(color=received_nohelp_reasons, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    labs(caption = str_wrap("Count for the main reasons why respondents do not receive the care they need", width = 115)) +
+    xlab("Reasons") +
+    ylab("Count") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+
+  return(c_nohelp_reasons)
+
+}
+
 ### The following 4 charts show How often and number of hours a respondent received help from with banking
 
 ### daily

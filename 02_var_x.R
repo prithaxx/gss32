@@ -126,6 +126,14 @@ financial_hardship <- c(
   "Other"
 )
 
+received_nohelp_reasons <- c(
+  "Financial reasons (cannot afford it, help too expensive)" = 1,
+  "Family reasons (availability, too bussy to help)" = 2,
+  "Professional help not available" = 3,
+  "Need more help (more hours, or more tasks)" = 4,
+  "Reasons related to the health system/ eligibility to pr" = 5,
+  "Other reasons" = 6
+)
 # Filter lists ####
 
 no_filter <- -1

@@ -74,7 +74,17 @@ receiver_ui_config <- list(
     table = tab_receive_help_banking_hours,
     title_fragment = "of People and Number of Hours their Primary Caregiver
       Helped with Banking"
-    # ),
+  ),
+  #TODO
+  "Did not receive the care needed" = list(
+    index = 9,
+    count_chart = chart_nohelp_received
+    # pct_chart = chart_receive_help_banking_hours_percent,
+    # table = tab_receive_help_banking_hours,
+    # title_fragment = "of People and Number of Hours their Primary Caregiver
+    #   Helped with Banking"
+  )
+  
     # "Help banking hours - daily" = list(
     #   index = 9,
     #   count_chart = chart_help_banking_hours_daily,
@@ -106,7 +116,6 @@ receiver_ui_config <- list(
     #   table = tab_help_banking_hours_monthly_less,
     #   title_fragment = "of People and Number of Hours their Primary Caregiver
     #     Helped with Banking Less Than Once a Month"
-  )
 )
 
 giver_ui_config <- list(

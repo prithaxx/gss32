@@ -107,6 +107,21 @@ y_receive_help_banking_hours_freq <- function(df, response_code) {
   receive_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code)
 }
 
+# y_receive_nohelp <- function(df_receiver) {
+#   receive_nohelp <- c(
+#     financial_reasons <- nrow(filter(df_receiver, DVCNR20 == 1)),
+#     family_reasons <- nrow(filter(df_receiver, DVCNR20 == 3)),
+#     professional <- nrow(filter(df_receiver, DVCNR20 == 4)),
+#     more_help <- nrow(filter(df_receiver, DVCNR20 == 5)),
+#     health_system <- nrow(filter(df_receiver, DVCNR20 == 6)),
+#     other <- nrow(filter(df_receiver, DVCNR20 == 7))
+#   )
+# }
+
+y_receive_nohelp <- function(df_receiver) {
+  nohelp_reasons_freq <- count_map(df_receiver, received_nohelp_reasons, "PRA_10GR")
+}
+
 # Care giver response y variables ####
 
 activity_give_help_codes <- c(

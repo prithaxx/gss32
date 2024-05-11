@@ -255,6 +255,17 @@ tab_help_banking_hours_monthly_less <- function(df) {
   return(df_output)
 }
 
+# Respondent did not receive the care needed
+tab_received_nohelp <- function(df){
+  count <- count_map(df, received_nohelp_reasons, "DVCNR20")
+  x_options <- received_nohelp_reasons
+  cols <- "DVCNR20"
+
+  df_output <- tab_helper(df, count, x_options, cols) %>%
+    rename(reasons = x_options)
+  return(df_output)
+}
+
 
 # giver tables ####
 
