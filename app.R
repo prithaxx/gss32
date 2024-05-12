@@ -76,13 +76,12 @@ receiver_ui_config <- list(
       Helped with Banking"
   ),
   #TODO
-  "Did not receive the care needed" = list(
+  "Respondent did not receive the care needed" = list(
     index = 9,
-    count_chart = chart_nohelp_received
-    # pct_chart = chart_receive_help_banking_hours_percent,
-    # table = tab_receive_help_banking_hours,
-    # title_fragment = "of People and Number of Hours their Primary Caregiver
-    #   Helped with Banking"
+    count_chart = chart_nohelp_received,
+    pct_chart = chart_nohelp_received_percent,
+    table = tab_received_nohelp,
+    title_fragment = "of Respondents and the reasons why they did not receive help"
   )
   
     # "Help banking hours - daily" = list(

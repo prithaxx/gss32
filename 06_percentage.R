@@ -274,6 +274,37 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
   return(c_receive_help_banking_hours)
 }
 
+### Respondent did not receive the care needed - reasons
+chart_nohelp_received_percent <- function(df_receiver) {
+  df <- tab_received_nohelp(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(received_nohelp_reasons))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df,
+    mapping = aes(
+      x = factor(received_nohelp_reasons),
+      y = percentage,
+      fill = factor(received_nohelp_reasons)
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=received_nohelp_reasons, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Proportion of respondent who did not receive the care needed due to specific reasons") +
+    labs(caption = str_wrap("Proportion of respondents who did not receive care needed with by reasons.", width = 115)) +
+    xlab("Health Condition") +
+    ylab("Proportion of Respondents (65+) not receiving care") +
+    scale_x_discrete(labels = str_wrap(factor(received_nohelp_reasons), width = 12)) +
+    # scale_color_manual(values = label_col) +
+    # scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(chart)
+}
+
 ### The following 4 charts show How often and number of hours a respondent received help from with banking
 ### Have been hidden from interface for now, so not updated
 

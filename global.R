@@ -348,7 +348,7 @@ chart_receive_help_banking_hours <- function(df_receiver) {
 chart_nohelp_received <- function(df_receiver){
   df_nohelp_reasons <- tab_received_nohelp(df_receiver)
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(received_nohelp_reasons))), "rgb", "hcl")
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_nohelp_reasons <- ggplot(
     data = df_nohelp_reasons,
     mapping = aes(
@@ -359,9 +359,12 @@ chart_nohelp_received <- function(df_receiver){
   ) +
     geom_col() +
     geom_text(aes(color=received_nohelp_reasons, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondent did not receive the care they needed - Reasons") +
     labs(caption = str_wrap("Count for the main reasons why respondents do not receive the care they need", width = 115)) +
     xlab("Reasons") +
     ylab("Count") +
+    # scale_color_manual(values = label_col) +
+    scale_x_discrete(labels = str_wrap(received_nohelp_reasons, width = 13))+
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
