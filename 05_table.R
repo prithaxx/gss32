@@ -130,8 +130,7 @@ tab_pop_freq <- function() {
 # Care receiver responses #####
 
 tab_health_conditions <- function(df) {
-  # count <- y_health_condition(df)
-  count <- count_map(df, health_conditions, "PRA_10GR")
+  count <- y_variable(df, health_conditions, "PRA_10GR")
   x_options <- health_conditions
   cols <- "PRA_10GR"
 
@@ -260,9 +259,10 @@ tab_received_nohelp <- function(df){
   count <- y_variable(df, received_nohelp_reasons, "DVCNR20")
   x_options <- received_nohelp_reasons
   cols <- "DVCNR20"
-
-  df_output <- tab_helper(df, count, x_options, cols) %>%
-    rename(reasons = x_options)
+  
+  df_output <- tab_helper(df, count, x_options, "DVCNR20") %>%
+    rename(received_nohelp_reasons = x_options)
+  
   return(df_output)
 }
 

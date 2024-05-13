@@ -283,9 +283,9 @@ chart_nohelp_received_percent <- function(df_receiver) {
   chart <- ggplot(
     data = df,
     mapping = aes(
-      x = factor(received_nohelp_reasons),
+      x = fct_inorder(received_nohelp_reasons),
       y = percentage,
-      fill = factor(received_nohelp_reasons)
+      fill = received_nohelp_reasons
     )
   ) +
     geom_col() +
@@ -295,9 +295,9 @@ chart_nohelp_received_percent <- function(df_receiver) {
     labs(caption = str_wrap("Proportion of respondents who did not receive care needed with by reasons.", width = 115)) +
     xlab("Health Condition") +
     ylab("Proportion of Respondents (65+) not receiving care") +
-    scale_x_discrete(labels = str_wrap(factor(received_nohelp_reasons), width = 12)) +
-    # scale_color_manual(values = label_col) +
-    # scale_fill_viridis_d(option  = "viridis") +
+    scale_x_discrete(labels = str_wrap(df$received_nohelp_reasons, width = 12)) +
+    scale_color_manual(values = label_col) +
+    scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))

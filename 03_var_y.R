@@ -130,7 +130,6 @@ y_age_primary_receiver <- function(df) {
 }
 
 y_hours_help_provided <- function(df) {
-
   hours_help_provided <- count_map(df, help_hours, "HAP_10C")
 }
 

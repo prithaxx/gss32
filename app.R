@@ -76,7 +76,7 @@ receiver_ui_config <- list(
       Helped with Banking"
   ),
   #TODO
-  "Respondent did not receive the care needed" = list(
+  "Respondent Didn't Receive Care" = list(
     index = 9,
     count_chart = chart_nohelp_received,
     pct_chart = chart_nohelp_received_percent,
