@@ -83,29 +83,6 @@ help_activity_pro_codes <- c(
   "PAA_80"
 )
 
-# y_hours_help_received <- function(df_receiver) {
-#   hours_help_received <- count_map(df_receiver, help_hours, "HAR_10C")
-# }
-# 
-# y_primary_giver_distance <- function(df) {
-#   hours_help_received <- count_map(df, dwelling_distances, "PGD_10")
-# }
-# 
-# y_receive_help_banking_freq <- function(df) {
-#   receive_help_freq <- count_map(df, primary_help_banking_freq, "AGB_20")
-# }
-# 
-# y_receive_help_banking_hours <- function(df) {
-#   receive_help_banking_hours <- count_map(df, primary_help_banking_hours, "AGB_30C")
-# }
-
-y_receive_help_banking_hours_freq <- function(df, response_code) {
-  receive_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code)
-}
-
-# y_receive_nohelp <- function(df) {
-#   nohelp_reasons_freq <- count_map(df, received_nohelp_reasons, "DVCNR20")
-# }
 
 # Care giver response y variables ####
 
@@ -145,9 +122,6 @@ y_give_help_banking_hours <- function(df) {
   give_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "ARB_30C")
 }
 
-y_give_help_banking_hours_freq <- function(df, response_code) {
-  give_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code)
-}
 
 out_of_pocket_codes <- c(
   "ICF_210",
