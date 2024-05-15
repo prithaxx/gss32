@@ -150,6 +150,18 @@ tab_activity_receive_help <- function(df) {
   return(df_output)
 }
 
+### Respondents with disability indicators
+tab_disability_indicator <- function(df){
+  count <- y_disability_indicator(df)
+  x_options <- disability_indicators
+  cols <- disability_codes
+  
+  df_output <- tab_helper_multi_var(df, count, x_options, cols) |>
+    rename(disability_indicators = x_options)
+  
+  return(df_output)
+}
+
 ### Age of respondent's primary caregiver
 tab_age_primary_giver <- function(df) {
   count <- y_variable(df, giver_age_group, "CRGVAGGR")

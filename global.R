@@ -175,6 +175,36 @@ chart_activity_receive_help <- function(df_receiver) {
   return(c_activity_receive_help)
 }
 
+### Respondents with disability indicators 
+chart_receiver_disability_indicator <- function(df_receiver) {
+  df_disability_indicator <- tab_disability_indicator(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  c_disability_indicator <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = count,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    geom_text(aes(color=disability_indicators, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Frequency of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Count") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(c_disability_indicator)
+}
+
+
 ### Age of respondent's primary caregiver
 chart_age_primary_giver <- function(df_receiver) {
   df_age_primary_giver <- tab_age_primary_giver(df_receiver)
@@ -593,4 +623,32 @@ chart_financial_hardship <- function(df_giver) {
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_financial_hardship)
+}
+
+chart_giver_disability_indicator <- function(df_giver) {
+  df_disability_indicator <- tab_disability_indicator(df_giver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  c_disability_indicator <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = count,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    geom_text(aes(color=disability_indicators, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Frequency of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Count") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(c_disability_indicator)
 }

@@ -75,13 +75,19 @@ receiver_ui_config <- list(
     title_fragment = "of People and Number of Hours their Primary Caregiver
       Helped with Banking"
   ),
-  #TODO
   "Respondent Didn't Receive Care" = list(
     index = 9,
     count_chart = chart_nohelp_received,
     pct_chart = chart_nohelp_received_percent,
     table = tab_received_nohelp,
     title_fragment = "of Respondents and the reasons why they did not receive help"
+  ),
+  "Respondent has a Disability Indicator" = list(
+    index = 10,
+    count_chart = chart_receiver_disability_indicator,
+    pct_chart = chart_disability_indicator_percent,
+    table = tab_disability_indicator,
+    title_fragment = "of Respondents who have a Disability indicator"
   )
 )
 
@@ -148,6 +154,13 @@ giver_ui_config <- list(
     table = tab_financial_hardship,
     title_fragment = "who Experienced Financial Hardship Because of Caregiving
         Responsibilities"
+  ),
+  "Respondent has a Diability Indicator" = list(
+    index = 13,
+    count_chart = chart_giver_disability_indicator,
+    pct_chart = chart_giver_disability_indicator_percent,
+    table = tab_disability_indicator,
+    title_fragment = "of Respondents who have a Disability indicator"
   )
 )
 

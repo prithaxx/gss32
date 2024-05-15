@@ -34,6 +34,20 @@ help_activities <- c(
   "Other"
 )
 
+disability_indicators <- c(
+  "Seeing",
+  "Hearing",
+  "Mobility",
+  "Flexibility",
+  "Dexterity",
+  "Pain-related",
+  "Learning",
+  "Developmental",
+  "Memory",
+  "Mental Health-related",
+  "Unknown"
+)
+
 giver_age_group <- c(
   "<20" = 1,
   "20-24" = 2,

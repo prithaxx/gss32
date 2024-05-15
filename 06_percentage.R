@@ -1,5 +1,4 @@
 # Percentage charts
-
 chart_respondent_groups_percent <- function() {
   df <- tab_pop_freq()
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(pop_name))), "rgb", "hcl") 
@@ -88,6 +87,37 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
+  return(chart)
+}
+
+### Respondents with disability indicators 
+chart_receiver_disability_indicator_percent <- function(df_receiver) {
+  df_disability_indicator <- tab_disability_indicator(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = percentage,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=disability_indicators, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Proportion of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Proportion of Care Receivers with a type of Disability") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
   return(chart)
 }
 
@@ -530,4 +560,35 @@ chart_financial_hardship_percent <- function(df_giver) {
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_financial_hardship)
+}
+
+### Respondents with disability indicators 
+chart_giver_disability_indicator_percent <- function(df_giver) {
+  df_disability_indicator <- tab_disability_indicator(df_giver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = percentage,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=disability_indicators, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Proportion of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Proportion of Care Receivers with a type of Disability") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(chart)
 }

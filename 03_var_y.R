@@ -60,6 +60,36 @@ help_activity_codes <- c(
   "ARE_80"
 )
 
+y_disability_indicator <- function(df_receiver){
+  disability <- c(
+    seeing <- nrow(filter(df_receiver, DVIS_FL == 1)),
+    hearing <- nrow(filter(df_receiver, DHEAR_FL == 1)),
+    mobility <- nrow(filter(df_receiver, DMOB_FL == 1)),
+    flexibility <- nrow(filter(df_receiver, DFLEX_FL == 1)),
+    dexterity <- nrow(filter(df_receiver, DDEX_FL == 1)),
+    pain <- nrow(filter(df_receiver, DPAIN_FL == 1)),
+    learning <- nrow(filter(df_receiver, DLRN_FL == 1)),
+    developmental <- nrow(filter(df_receiver, DDEV_FL == 1)),
+    memory <- nrow(filter(df_receiver, DMEM_FL == 1)),
+    mental_health <- nrow(filter(df_receiver, DMENT_FL == 1)),
+    unknown <- nrow(filter(df_receiver, DUNK_FL == 1))
+  )
+}
+
+disability_codes <- c(
+  "DVIS_FL",
+  "DHEAR_FL",
+  "DMOB_FL",
+  "DFLEX_FL",
+  "DDEX_FL",
+  "DPAIN_FL",
+  "DLRN_FL",
+  "DDEV_FL",
+  "DMEM_FL",
+  "DMENT_FL",
+  "DUNL_FL"
+)
+
 y_activity_receive_help_pro <- function(df_receiver) {
   activity_receive_help_pro <- c(
     transportation <- nrow(filter(df_receiver, PAA_10 == 1)),
