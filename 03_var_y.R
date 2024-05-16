@@ -1,5 +1,3 @@
-
-
 pop_freq <- c(
   giver_pop <- nrow(df_giver),
   receiver_pop <- nrow(df_receiver),
@@ -115,7 +113,6 @@ help_activity_pro_codes <- c(
 
 
 # Care giver response y variables ####
-
 activity_give_help_codes <- c(
   "APR_10", # transportation
   "APR_20", # household chores
@@ -131,27 +128,6 @@ y_activity_give_help <- function(df) {
     nrow(filter(df, !!sym(code) == 1))
   }))
 }
-
-y_age_primary_receiver <- function(df) {
-  age_receiever_freq <- count_map(df, primary_receiver_age_group, "CRRCPAGR")
-}
-
-y_hours_help_provided <- function(df) {
-  hours_help_provided <- count_map(df, help_hours, "HAP_10C")
-}
-
-y_primary_receiver_distance <- function(df) {
-  primary_receiver_distance <- count_map(df, dwelling_distances, "PRD_10")
-}
-
-y_give_help_banking_freq <- function(df) {
-  give_help_banking_freq <- count_map(df, primary_help_banking_freq, "ARB_20")
-}
-
-y_give_help_banking_hours <- function(df) {
-  give_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "ARB_30C")
-}
-
 
 out_of_pocket_codes <- c(
   "ICF_210",

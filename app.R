@@ -85,7 +85,7 @@ receiver_ui_config <- list(
   "Respondent has a Disability Indicator" = list(
     index = 10,
     count_chart = chart_receiver_disability_indicator,
-    pct_chart = chart_disability_indicator_percent,
+    pct_chart = chart_giver_disability_indicator_percent,
     table = tab_disability_indicator,
     title_fragment = "of Respondents who have a Disability indicator"
   )
