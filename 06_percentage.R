@@ -90,37 +90,6 @@ chart_activity_receive_help_percent <- function(df_receiver) {
   return(chart)
 }
 
-### Respondents with disability indicators 
-chart_receiver_disability_indicator_percent <- function(df_receiver) {
-  df_disability_indicator <- tab_disability_indicator(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
-  chart <- ggplot(
-    data = df_disability_indicator,
-    mapping = aes(
-      x = fct_inorder(disability_indicators),
-      y = percentage,
-      fill = disability_indicators
-    )
-  ) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=disability_indicators, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Respondents with Disability Indicators") +
-    labs(caption = str_wrap("Proportion of the type of Disability Indicators within Respondents", width = 120)) +
-    xlab("Types of Disability Indicators") +
-    ylab("Proportion of Care Receivers with a type of Disability") +
-    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    theme(axis.text.x = element_text(size=13)) +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-  
-  return(chart)
-}
-
 ### Age of respondent's primary caregiver
 chart_age_primary_giver_percent <- function(df_receiver) {
   df <- tab_age_primary_giver(df_receiver)
@@ -327,6 +296,68 @@ chart_nohelp_received_percent <- function(df_receiver) {
     ylab("Proportion of Respondents (65+) not receiving care") +
     scale_x_discrete(labels = str_wrap(df$received_nohelp_reasons, width = 12)) +
     scale_color_manual(values = label_col) +
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(chart)
+}
+
+### Respondents with disability indicators 
+chart_receiver_disability_indicator_percent <- function(df_receiver) {
+  df_disability_indicator <- tab_disability_indicator(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = percentage,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=disability_indicators, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Proportion of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Proportion of Care Receivers with a type of Disability") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(chart)
+}
+
+### Services/People who cared for the respondent
+chart_caree_type_percent <- function(df_receiver) {
+  df_caree_type <- tab_caree_type(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_type))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df_caree_type,
+    mapping = aes(
+      x = fct_inorder(caree_type),
+      y = percentage,
+      fill = caree_type
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=caree_type, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Services/ People who cared for the Respondent's health condition") +
+    labs(caption = str_wrap("Proportion of types of caree of the respondent", width = 120)) +
+    xlab("Types of Caree") +
+    ylab("Proportion of Carees") +
+    scale_x_discrete(labels = str_wrap(df_caree_type$caree_type, width = 12)) +
+    scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +

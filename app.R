@@ -88,6 +88,13 @@ receiver_ui_config <- list(
     pct_chart = chart_giver_disability_indicator_percent,
     table = tab_disability_indicator,
     title_fragment = "of Respondents who have a Disability indicator"
+  ),
+  "Services/ People who cared for Respondent" = list(
+    index = 11,
+    count_chart = chart_caree_type,
+    pct_chart = chart_caree_type_percent,
+    table = tab_caree_type,
+    title_fragment = "of Respondents who have a type of Caree"
   )
 )
 

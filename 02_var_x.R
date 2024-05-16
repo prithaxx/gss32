@@ -48,6 +48,12 @@ disability_indicators <- c(
   "Unknown"
 )
 
+caree_type <- c(
+  "Friends/ Family",
+  "Professionals",
+  "Both"
+)
+
 giver_age_group <- c(
   "<20" = 1,
   "20-24" = 2,

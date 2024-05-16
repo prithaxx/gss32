@@ -88,6 +88,20 @@ disability_codes <- c(
   "DUNL_FL"
 )
 
+y_caree_type <- function(df_receiver){
+  caree <- c(
+    friends_family <- nrow(filter(df_receiver, CARUNPAI == 1)),
+    professional <- nrow(filter(df_receiver, CARPAID == 1)),
+    both <- nrow(filter(df_receiver, CARBOTH == 1))
+  )
+}
+
+caree_codes <- c(
+  "CARUNPAI",
+  "CARPAID",
+  "CARBOTH"
+)
+
 y_activity_receive_help_pro <- function(df_receiver) {
   activity_receive_help_pro <- c(
     transportation <- nrow(filter(df_receiver, PAA_10 == 1)),
