@@ -1,5 +1,4 @@
 # Percentage charts
-
 chart_respondent_groups_percent <- function() {
   df <- tab_pop_freq()
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(pop_name))), "rgb", "hcl") 
@@ -88,6 +87,37 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
+  return(chart)
+}
+
+### Respondents with disability indicators 
+chart_receiver_disability_indicator_percent <- function(df_receiver) {
+  df_disability_indicator <- tab_disability_indicator(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = percentage,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=disability_indicators, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Proportion of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Proportion of Care Receivers with a type of Disability") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
   return(chart)
 }
 
@@ -274,126 +304,36 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
   return(c_receive_help_banking_hours)
 }
 
-### The following 4 charts show How often and number of hours a respondent received help from with banking
-### Have been hidden from interface for now, so not updated
-
-### daily
-chart_help_banking_hours_daily_percent <- function(df_receiver) {
-  df <- tab_help_banking_hours_daily(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
+### Respondent did not receive the care needed - reasons
+chart_nohelp_received_percent <- function(df_receiver) {
+  df <- tab_received_nohelp(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(received_nohelp_reasons))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_help_banking_hours_daily <- ggplot(
+  
+  chart <- ggplot(
     data = df,
     mapping = aes(
-      x = primary_help_banking_hours,
+      x = fct_inorder(received_nohelp_reasons),
       y = percentage,
-      fill = primary_help_banking_hours
+      fill = received_nohelp_reasons
     )
   ) +
     geom_col() +
     ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Hours primary caregiver helped with banking - Daily") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances daily", width = 115)) +
-    xlab("Time (hours)") +
-    ylab("Proportion of Care Receiver Respondents (65+)") +
-    scale_color_manual(values = label_col) + 
+    geom_text(aes(color=received_nohelp_reasons, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Proportion of respondent who did not receive the care needed due to specific reasons") +
+    labs(caption = str_wrap("Proportion of respondents who did not receive care needed with by reasons.", width = 115)) +
+    xlab("Health Condition") +
+    ylab("Proportion of Respondents (65+) not receiving care") +
+    scale_x_discrete(labels = str_wrap(df$received_nohelp_reasons, width = 12)) +
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_help_banking_hours_daily)
+  
+  return(chart)
 }
-
-### at least once a week
-chart_help_banking_weekly_percent <- function(df_receiver) {
-  df <- tab_help_banking_hours_weekly(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_help_banking_weekly <- ggplot(
-    data = df,
-    mapping = aes(
-      x = primary_help_banking_hours,
-      y = percentage,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Hours primary caregiver helped with banking - At least once a week") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a week", width = 115)) +
-    xlab("Time (hours)") +
-    ylab("Proportion of Care Receiver Respondents (65+)") +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_help_banking_weekly)
-}
-
-### monthly
-
-chart_help_banking_monthly_percent <- function(df_receiver) {
-  df <- tab_help_banking_hours_monthly(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_help_banking_monthly <- ggplot(
-    data = df,
-    mapping = aes(
-      x = primary_help_banking_hours,
-      y = percentage,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Hours primary caregiver helped with banking - At least once a month") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a month", width = 115)) +
-    xlab("Time (hours)") +
-    ylab("Proportion of Care Receiver Respondents (65+)") +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_help_banking_monthly)
-}
-
-# less than monthly
-chart_help_banking_monthly_less_percent <- function(df_receiver) {
-  df <- tab_help_banking_hours_monthly_less(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_help_banking_monthly_less <- ggplot(
-    data = df,
-    mapping = aes(
-      x = primary_help_banking_hours,
-      y = percentage,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Hours primary caregiver helped with banking - Less than once a month") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances less than once a month", width = 115)) +
-    xlab("Time (hours)") +
-    ylab("Frequency") +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_help_banking_monthly_less)
-}
-
 
 # giver percent charts ####
 
@@ -562,113 +502,6 @@ chart_give_help_banking_hours_percent <- function(df_giver) {
   return(c_give_help_banking_hours)
 }
 
-### The following 4 charts show how often the respondent provided help with banking to their primary care receiver and for how many hours each time
-### daily
-### The four charts below are not showing
-chart_give_help_banking_daily_percent <- function(df_giver) {
-  df_give_help_banking_daily <- tab_give_help_banking_daily(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_give_help_banking_daily <- ggplot(
-    data = df_give_help_banking_daily,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = percentage,
-      fill = primary_help_banking_hours
-    )) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Helped primary care receiver with banking - Daily") +
-    xlab("Time (hours)") +
-    ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    theme(axis.text.x = element_text(size=13)) +
-    guides(fill = "none")
-
-  return(c_give_help_banking_daily)
-}
-
-### weekly
-chart_give_help_banking_weekly_percent <- function(df_giver) {
-  df_give_help_banking_weekly <- tab_give_help_banking_weekly(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_give_help_banking_weekly <- ggplot(
-    data = df_give_help_banking_weekly,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = percentage,
-      fill = primary_help_banking_hours
-    )) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Helped primary care receiver with banking - At least once a week") +
-    xlab("Time (hours)") +
-    ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    theme(axis.text.x = element_text(size=13)) +
-    guides(fill = "none")
-
-  return(c_give_help_banking_weekly)
-}
-
-### monthly
-chart_give_help_banking_monthly_percent <- function(df_giver) {
-  df_give_help_banking_monthly <- tab_give_help_banking_monthly(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_give_help_banking_monthly <- ggplot(
-    data = df_give_help_banking_monthly,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = percentage,
-      fill = primary_help_banking_hours
-    )) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Helped primary care receiver with banking - At least once a month") +
-    xlab("Time (hours)") +
-    ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    guides(fill = "none")
-
-  return(c_give_help_banking_monthly)
-}
-
-### less than monthly
-chart_give_help_banking_monthly_less_percent <- function(df_giver) {
-  df_give_help_banking_monthly_less <- tab_give_help_banking_monthly_less(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-
-  c_give_help_banking_monthly_less <- ggplot(
-    data = df_give_help_banking_monthly_less,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = percentage,
-      fill = primary_help_banking_hours
-    )) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=primary_help_banking_hours, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Helped primary care receiver with banking - Less than once a month") +
-    xlab("Time (hours)") +
-    ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    guides(fill = "none")
-
-  return(c_give_help_banking_monthly_less)
-}
 
 ## Consequences of caregiving on the caregiver
 
@@ -727,4 +560,35 @@ chart_financial_hardship_percent <- function(df_giver) {
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_financial_hardship)
+}
+
+### Respondents with disability indicators 
+chart_giver_disability_indicator_percent <- function(df_giver) {
+  df_disability_indicator <- tab_disability_indicator(df_giver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = percentage,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=disability_indicators, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Proportion of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Proportion of Care Receivers with a type of Disability") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(chart)
 }

@@ -126,16 +126,13 @@ tab_pop_freq <- function() {
   return(df_pops)
 }
 
-
 # Care receiver responses #####
-
 tab_health_conditions <- function(df) {
-  # count <- y_health_condition(df)
-  count <- count_map(df, health_conditions, "PRA_10GR")
+  count <- y_variable(df, health_conditions, "PRA_10GR")
   x_options <- health_conditions
   cols <- "PRA_10GR"
 
-  df_output <- tab_helper(df, count, x_options, cols) %>%
+  df_output <- tab_helper(df, count, x_options, cols) |>
     rename(health_conditions = x_options)
 
   return(df_output)
@@ -153,9 +150,21 @@ tab_activity_receive_help <- function(df) {
   return(df_output)
 }
 
+### Respondents with disability indicators
+tab_disability_indicator <- function(df){
+  count <- y_disability_indicator(df)
+  x_options <- disability_indicators
+  cols <- disability_codes
+  
+  df_output <- tab_helper_multi_var(df, count, x_options, cols) |>
+    rename(disability_indicators = x_options)
+  
+  return(df_output)
+}
+
 ### Age of respondent's primary caregiver
 tab_age_primary_giver <- function(df) {
-  count <- y_age_primary_giver(df)
+  count <- y_variable(df, giver_age_group, "CRGVAGGR")
 
   df_output <- tab_helper(df, count, giver_age_group, "CRGVAGGR") %>%
     rename(giver_age_group = x_options)
@@ -175,7 +184,7 @@ tab_activity_receive_help_pro <- function(df) {
 
 ### Numbers of hours of help received - Per average week per activity
 tab_hours_help_received <- function(df) {
-  count <- y_hours_help_received(df)
+  count <- y_variable(df, help_hours, "HAR_10C")
 
   df_output <- tab_helper(df, count, help_hours, "HAR_10C") %>%
     rename(help_hours = x_options)
@@ -185,7 +194,7 @@ tab_hours_help_received <- function(df) {
 
 ### Distance between the respondent's and the caregiver's dwellings
 tab_primary_giver_distance <- function(df) {
-  count <- y_primary_giver_distance(df)
+  count <- y_variable(df, dwelling_distances, "PGD_10")
 
   df_output <- tab_helper(df, count, dwelling_distances, "PGD_10") %>%
     rename(dwelling_distances = x_options)
@@ -195,7 +204,7 @@ tab_primary_giver_distance <- function(df) {
 
 ### Primary caregiver helped with banking - Frequency
 tab_receive_help_banking_freq <- function(df) {
-  count <- y_receive_help_banking_freq(df)
+  count <- y_variable(df, primary_help_banking_freq, "ARB_20")
 
   df_output <- tab_helper(df, count, primary_help_banking_freq, "ARB_20") %>%
     rename(primary_help_banking_freq = x_options)
@@ -205,7 +214,7 @@ tab_receive_help_banking_freq <- function(df) {
 
 ### Primary caregiver helped with banking - Number of hours
 tab_receive_help_banking_hours <- function(df) {
-  count <- y_receive_help_banking_hours(df)
+  count <- y_variable(df, primary_help_banking_hours, "ARB_30C")
 
   df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C") %>%
     rename(primary_help_banking_hours = x_options)
@@ -213,48 +222,17 @@ tab_receive_help_banking_hours <- function(df) {
   return(df_output)
 }
 
-### How often and number of hours a respondent received help from with banking
-### daily
-tab_help_banking_hours_daily <- function(df) {
-  response_code <- 1
-  count <- y_receive_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
-
+# Respondent did not receive the care needed
+tab_received_nohelp <- function(df){
+  count <- y_variable(df, received_nohelp_reasons, "DVCNR20")
+  x_options <- received_nohelp_reasons
+  cols <- "DVCNR20"
+  
+  df_output <- tab_helper(df, count, x_options, "DVCNR20") %>%
+    rename(received_nohelp_reasons = x_options)
+  
   return(df_output)
 }
-
-### at least once a week
-tab_help_banking_hours_weekly <- function(df) {
-  response_code <- 2
-  count <- y_receive_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
-  return(df_output)
-}
-
-### monthly
-tab_help_banking_hours_monthly <- function(df) {
-  response_code <- 3
-  count <- y_receive_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
-  return(df_output)
-}
-
-# less than monthly
-tab_help_banking_hours_monthly_less <- function(df) {
-  response_code <- 4
-  count <- y_receive_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
-  return(df_output)
-}
-
 
 # giver tables ####
 
@@ -309,42 +287,6 @@ tab_give_help_banking_hours <- function(df) {
   df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C") %>%
     rename(primary_help_banking_hours = x_options)
 
-  return(df_output)
-}
-
-tab_give_help_banking_daily <- function(df) {
-  response_code <- 1
-  count <- y_give_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
-  return(df_output)
-}
-
-tab_give_help_banking_weekly <- function(df) {
-  response_code <- 2
-  count <- y_give_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
-  return(df_output)
-}
-
-tab_give_help_banking_monthly <- function(df) {
-  response_code <- 3
-  count <- y_give_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
-  return(df_output)
-}
-
-tab_give_help_banking_monthly_less <- function(df) {
-  response_code <- 4
-  count <- y_give_help_banking_hours_freq(df, response_code)
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code) %>%
-    rename(primary_help_banking_hours = x_options)
   return(df_output)
 }
 

@@ -34,6 +34,20 @@ help_activities <- c(
   "Other"
 )
 
+disability_indicators <- c(
+  "Seeing",
+  "Hearing",
+  "Mobility",
+  "Flexibility",
+  "Dexterity",
+  "Pain-related",
+  "Learning",
+  "Developmental",
+  "Memory",
+  "Mental Health-related",
+  "Unknown"
+)
+
 giver_age_group <- c(
   "<20" = 1,
   "20-24" = 2,
@@ -104,6 +118,15 @@ primary_help_banking_hours <- c(
   "1 to <3" = 2,
   "3 to <5" = 3,
   "5+" = 4
+)
+
+received_nohelp_reasons <- c(
+  "Financial reasons (cannot afford it, help too expensive)" = 1,
+  "Family reasons (availability, too bussy to help)" = 2,
+  "Professional help not available" = 3,
+  "Need more help (more hours, or more tasks)" = 4,
+  "Reasons related to the health system/ eligibility to pr" = 5,
+  "Other reasons" = 6
 )
 
 out_of_pocket_expenses <- c(

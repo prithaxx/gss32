@@ -175,6 +175,36 @@ chart_activity_receive_help <- function(df_receiver) {
   return(c_activity_receive_help)
 }
 
+### Respondents with disability indicators 
+chart_receiver_disability_indicator <- function(df_receiver) {
+  df_disability_indicator <- tab_disability_indicator(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  c_disability_indicator <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = count,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    geom_text(aes(color=disability_indicators, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Frequency of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Count") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(c_disability_indicator)
+}
+
+
 ### Age of respondent's primary caregiver
 chart_age_primary_giver <- function(df_receiver) {
   df_age_primary_giver <- tab_age_primary_giver(df_receiver)
@@ -344,109 +374,34 @@ chart_receive_help_banking_hours <- function(df_receiver) {
   return(c_receive_help_banking_hours)
 }
 
-### The following 4 charts show How often and number of hours a respondent received help from with banking
-
-### daily
-chart_help_banking_hours_daily <- function(df_receiver) {
-  df_help_banking_hours_freq <- tab_help_banking_hours_daily(df_receiver)
-
-  c_help_banking_hours_daily <- ggplot(
-    data = df_help_banking_hours_freq,
+### Respondent did not receive the care needed - Reasons
+chart_nohelp_received <- function(df_receiver){
+  df_nohelp_reasons <- tab_received_nohelp(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(received_nohelp_reasons))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  c_nohelp_reasons <- ggplot(
+    data = df_nohelp_reasons,
     mapping = aes(
-      x = primary_help_banking_hours,
+      x = fct_inorder(received_nohelp_reasons),
       y = count,
-      fill = primary_help_banking_hours
+      fill = received_nohelp_reasons
     )
   ) +
     geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Hours primary caregiver helped with banking - Daily") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances daily", width = 115)) +
-    xlab("Time (hours)") +
+    geom_text(aes(color=received_nohelp_reasons, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondent did not receive the care they needed - Reasons") +
+    labs(caption = str_wrap("Count for the main reasons why respondents do not receive the care they need", width = 115)) +
+    xlab("Reasons") +
     ylab("Count") +
-    scale_fill_viridis_d() +
+    scale_x_discrete(labels = str_wrap(df_nohelp_reasons$received_nohelp_reasons, width = 12)) +
+    scale_color_manual(values = label_col) +
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
-  return(c_help_banking_hours_daily)
+  return(c_nohelp_reasons)
 }
-
-### at least once a week
-chart_help_banking_weekly <- function(df_receiver) {
-  df_help_banking_hours_weekly <- tab_help_banking_hours_weekly(df_receiver)
-
-  c_help_banking_weekly <- ggplot(
-    data = df_help_banking_hours_weekly,
-    mapping = aes(
-      x = primary_help_banking_hours,
-      y = count,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Hours primary caregiver helped with banking - At least once a week") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a week", width = 115)) +
-    xlab("Time (hours)") +
-    ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_help_banking_weekly)
-}
-
-### monthly
-
-chart_help_banking_monthly <- function(df_receiver) {
-  df_help_banking_hours_monthly <- tab_help_banking_hours_monthly(df_receiver)
-
-  c_help_banking_monthly <- ggplot(
-    data = df_help_banking_hours_monthly,
-    mapping = aes(
-      x = primary_help_banking_hours,
-      y = count,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Hours primary caregiver helped with banking - At least once a month") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances at least once a month", width = 115)) +
-    xlab("Time (hours)") +
-    ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_help_banking_monthly)
-}
-
-# less than monthly
-chart_help_banking_monthly_less <- function(df_receiver) {
-  df_help_banking_hours_monthly_less <- tab_help_banking_hours_monthly_less(df_receiver)
-
-  c_help_banking_monthly_less <- ggplot(
-    data = df_help_banking_hours_monthly_less,
-    mapping = aes(
-      x = primary_help_banking_hours,
-      y = count,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Hours primary caregiver helped with banking - Less than once a month") +
-    labs(caption = str_wrap("Count for the number of hours respondents considered to be a care receiver and 65 years of age or older who received help with managing their finances less than once a month", width = 115)) +
-    xlab("Time (hours)") +
-    ylab("Frequencyt") +
-    scale_fill_viridis_d() +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_help_banking_monthly_less)
-}
-
 
 # Caregiver responses ####
 
@@ -612,100 +567,6 @@ chart_give_help_banking_hours <- function(df_giver) {
   return(c_give_help_banking_hours)
 }
 
-### The following 4 charts show how often the respondent provided help with banking to their primary care receiver and for how many hours each time
-### daily
-chart_give_help_banking_daily <- function(df_giver) {
-  df_give_help_banking_daily <- tab_give_help_banking_daily(df_giver)
-
-  c_give_help_banking_daily <- ggplot(
-    data = df_give_help_banking_daily,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = count,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Helped primary care receiver with banking - Daily") +
-    xlab("Time (hours)") +
-    ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
-
-  return(c_give_help_banking_daily)
-}
-
-### weekly
-chart_give_help_banking_weekly <- function(df_giver) {
-  df_give_help_banking_weekly <- tab_give_help_banking_weekly(df_giver)
-
-  c_give_help_banking_weekly <- ggplot(
-    data = df_give_help_banking_weekly,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = count,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Helped primary care receiver with banking - At least once a week") +
-    xlab("Time (hours)") +
-    ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
-
-  return(c_give_help_banking_weekly)
-}
-
-### monthly
-chart_give_help_banking_monthly <- function(df_giver) {
-  df_give_help_banking_monthly <- tab_give_help_banking_monthly(df_giver)
-
-  c_give_help_banking_monthly <- ggplot(
-    data = df_give_help_banking_monthly,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = count,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Helped primary care receiver with banking - At least once a month") +
-    xlab("Time (hours)") +
-    ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")
-
-  return(c_give_help_banking_monthly)
-}
-
-### less than monthly
-chart_give_help_banking_monthly_less <- function(df_giver) {
-  df_give_help_banking_monthly_less <- tab_give_help_banking_monthly_less(df_giver)
-
-  c_give_help_banking_monthly_less <- ggplot(
-    data = df_give_help_banking_monthly_less,
-    mapping = aes(
-      x = fct_inorder(primary_help_banking_hours),
-      y = count,
-      fill = primary_help_banking_hours
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(label = count), position = position_stack(vjust = 0.5)) +
-    ggtitle("Helped primary care receiver with banking - Less than once a month") +
-    xlab("Time (hours)") +
-    ylab("Count") +
-    scale_fill_viridis_d() +
-    guides(fill = "none")+
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_give_help_banking_monthly_less)
-}
-
 ## Consequences of caregiving on the caregiver
 
 ### Out-of-pocket expenses because of caregiving responsibilities
@@ -762,4 +623,32 @@ chart_financial_hardship <- function(df_giver) {
     theme(plot.caption = element_text(hjust = 0, size = 14))
 
   return(c_financial_hardship)
+}
+
+chart_giver_disability_indicator <- function(df_giver) {
+  df_disability_indicator <- tab_disability_indicator(df_giver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  c_disability_indicator <- ggplot(
+    data = df_disability_indicator,
+    mapping = aes(
+      x = fct_inorder(disability_indicators),
+      y = count,
+      fill = disability_indicators
+    )
+  ) +
+    geom_col() +
+    geom_text(aes(color=disability_indicators, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Respondents with Disability Indicators") +
+    labs(caption = str_wrap("Frequency of the type of Disability Indicators within Respondents", width = 120)) +
+    xlab("Types of Disability Indicators") +
+    ylab("Count") +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(c_disability_indicator)
 }

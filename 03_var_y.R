@@ -1,5 +1,3 @@
-
-
 pop_freq <- c(
   giver_pop <- nrow(df_giver),
   receiver_pop <- nrow(df_receiver),
@@ -60,9 +58,35 @@ help_activity_codes <- c(
   "ARE_80"
 )
 
-y_age_primary_giver <- function(df_receiver) {
-  age_primary_giver <- count_map(df_receiver, giver_age_group, "CRGVAGGR")
+y_disability_indicator <- function(df_receiver){
+  disability <- c(
+    seeing <- nrow(filter(df_receiver, DVIS_FL == 1)),
+    hearing <- nrow(filter(df_receiver, DHEAR_FL == 1)),
+    mobility <- nrow(filter(df_receiver, DMOB_FL == 1)),
+    flexibility <- nrow(filter(df_receiver, DFLEX_FL == 1)),
+    dexterity <- nrow(filter(df_receiver, DDEX_FL == 1)),
+    pain <- nrow(filter(df_receiver, DPAIN_FL == 1)),
+    learning <- nrow(filter(df_receiver, DLRN_FL == 1)),
+    developmental <- nrow(filter(df_receiver, DDEV_FL == 1)),
+    memory <- nrow(filter(df_receiver, DMEM_FL == 1)),
+    mental_health <- nrow(filter(df_receiver, DMENT_FL == 1)),
+    unknown <- nrow(filter(df_receiver, DUNK_FL == 1))
+  )
 }
+
+disability_codes <- c(
+  "DVIS_FL",
+  "DHEAR_FL",
+  "DMOB_FL",
+  "DFLEX_FL",
+  "DDEX_FL",
+  "DPAIN_FL",
+  "DLRN_FL",
+  "DDEV_FL",
+  "DMEM_FL",
+  "DMENT_FL",
+  "DUNL_FL"
+)
 
 y_activity_receive_help_pro <- function(df_receiver) {
   activity_receive_help_pro <- c(
@@ -87,28 +111,8 @@ help_activity_pro_codes <- c(
   "PAA_80"
 )
 
-y_hours_help_received <- function(df_receiver) {
-  hours_help_received <- count_map(df_receiver, help_hours, "HAR_10C")
-}
-
-y_primary_giver_distance <- function(df) {
-  hours_help_received <- count_map(df, dwelling_distances, "PGD_10")
-}
-
-y_receive_help_banking_freq <- function(df) {
-  receive_help_freq <- count_map(df, primary_help_banking_freq, "AGB_20")
-}
-
-y_receive_help_banking_hours <- function(df) {
-  receive_help_banking_hours <- count_map(df, primary_help_banking_hours, "AGB_30C")
-}
-
-y_receive_help_banking_hours_freq <- function(df, response_code) {
-  receive_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "AGB_30C", "AGB_20", response_code)
-}
 
 # Care giver response y variables ####
-
 activity_give_help_codes <- c(
   "APR_10", # transportation
   "APR_20", # household chores
@@ -123,31 +127,6 @@ y_activity_give_help <- function(df) {
   activity_give_help_freq <- unlist(lapply(activity_give_help_codes, function(code) {
     nrow(filter(df, !!sym(code) == 1))
   }))
-}
-
-y_age_primary_receiver <- function(df) {
-  age_receiever_freq <- count_map(df, primary_receiver_age_group, "CRRCPAGR")
-}
-
-y_hours_help_provided <- function(df) {
-
-  hours_help_provided <- count_map(df, help_hours, "HAP_10C")
-}
-
-y_primary_receiver_distance <- function(df) {
-  primary_receiver_distance <- count_map(df, dwelling_distances, "PRD_10")
-}
-
-y_give_help_banking_freq <- function(df) {
-  give_help_banking_freq <- count_map(df, primary_help_banking_freq, "ARB_20")
-}
-
-y_give_help_banking_hours <- function(df) {
-  give_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "ARB_30C")
-}
-
-y_give_help_banking_hours_freq <- function(df, response_code) {
-  give_help_banking_hours_freq <- count_map(df, primary_help_banking_hours, "ARB_30C", "ARB_20", response_code)
 }
 
 out_of_pocket_codes <- c(
@@ -190,4 +169,12 @@ y_financial_hardship <- function(df) {
     financial_hardship_6 <- nrow(filter(df, ICF2_340 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
     financial_hardship_7 <- nrow(filter(df, ICF2_350 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
   )
+}
+
+### Generic function for calculating y-variables
+# df <- dataframe
+# x <- vector
+# input <- string code 
+y_variable <- function(df, x, input){
+  result <- count_map(df, x, input)
 }
