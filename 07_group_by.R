@@ -57,7 +57,6 @@ group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
       x = x_lab,
       y = "Number of People"
     ) +
-    P
   scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
     scale_fill_viridis_d(begin = 0.2, end = 0.8)
 
