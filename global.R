@@ -431,6 +431,35 @@ chart_caree_type <- function(df_receiver) {
   return(c_caree_type)
 }
 
+### Relationship between Caree and Respondent
+chart_caree_relationship <- function(df_receiver) {
+  df_caree_relationship <- tab_caree_relationship(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_relationship))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  c_caree_relationship <- ggplot(
+    data = df_caree_relationship,
+    mapping = aes(
+      x = fct_inorder(caree_relationship),
+      y = count,
+      fill = caree_relationship
+    )
+  ) +
+    geom_col() +
+    geom_text(aes(color=caree_relationship, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Relationship between Caree and Respondent") +
+    labs(caption = str_wrap("Frequency of Carees who have a certain type of relationship with the respondent", width = 120)) +
+    xlab("Caree Relationships") +
+    ylab("Count") +
+    scale_x_discrete(labels = str_wrap(df_caree_relationship$caree_relationship, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(c_caree_relationship)
+}
+
 
 # Caregiver responses ####
 

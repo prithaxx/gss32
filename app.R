@@ -95,6 +95,13 @@ receiver_ui_config <- list(
     pct_chart = chart_caree_type_percent,
     table = tab_caree_type,
     title_fragment = "of Respondents who have a type of Caree"
+  ),
+  "Relationship between Caree and Respondent" = list(
+    index = 12,
+    count_chart = chart_caree_relationship,
+    pct_chart = chart_caree_relationship_percent,
+    table = tab_caree_relationship,
+    title_fragment = "of Relationship between the Caree and the Respondent"
   )
 )
 

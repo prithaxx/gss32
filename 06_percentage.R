@@ -366,6 +366,37 @@ chart_caree_type_percent <- function(df_receiver) {
   return(chart)
 }
 
+### Relationship between Caree and Respondent
+chart_caree_relationship_percent <- function(df_receiver) {
+  df_caree_relationship <- tab_caree_relationship(df_receiver)
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_relationship))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df_caree_relationship,
+    mapping = aes(
+      x = fct_inorder(caree_relationship),
+      y = percentage,
+      fill = caree_relationship
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=caree_relationship, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    ggtitle("Relationship between Caree and Respondent") +
+    labs(caption = str_wrap("Proportion of types of relationships that the caree and the respondent has", width = 120)) +
+    xlab("Relationship type") +
+    ylab("Proportion of Carees") +
+    scale_x_discrete(labels = str_wrap(df_caree_relationship$caree_relationship, width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(chart)
+}
+
 # giver percent charts ####
 
 chart_activity_give_help_percent <- function(df) {

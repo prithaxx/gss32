@@ -246,6 +246,18 @@ tab_caree_type <- function(df){
   return(df_output)
 }
 
+### Relationship between the Caree and the Respondent
+tab_caree_relationship <- function(df){
+  count <- y_variable(df, caree_relationship, "PGG10GR")
+  x_options <- caree_relationship
+  cols <- "PGG10GR"
+  
+  df_output <- tab_helper(df, count, x_options, cols) |>
+    rename(caree_relationship = x_options)
+  
+  return(df_output)
+}
+
 # giver tables ####
 tab_activity_give_help <- function(df) {
   count <- y_activity_give_help(df)

@@ -54,6 +54,15 @@ caree_type <- c(
   "Both"
 )
 
+caree_relationship <- c(
+  "Spouse/ Partner" = 1,
+  "Son" = 2,
+  "Daughter" = 3,
+  "Parent" = 4,
+  "Other family members" = 5,
+  "Other" = 6
+)
+
 giver_age_group <- c(
   "<20" = 1,
   "20-24" = 2,
