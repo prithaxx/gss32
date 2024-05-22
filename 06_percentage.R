@@ -29,6 +29,36 @@ chart_respondent_groups_percent <- function() {
   return(chart)
 }
 
+chart_caree_relationship_percent <- function() {
+  df <- tab_caree_freq()
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_relationship))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  chart <- ggplot(
+    data = df,
+    mapping = aes(
+      x = fct_inorder(caree_relationship),
+      y = percentage,
+      fill = caree_relationship
+    )
+  ) +
+    geom_col() +
+    ylim(0, 1) +
+    geom_text(aes(color=caree_relationship, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
+    ggtitle("GSS 2018 Relationship between Carees and Receivers") +
+    labs(caption = str_wrap("Proportion of respondents in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.", width = 115)) +
+    xlab("Respondent group") +
+    ylab("Proportion of Respondents") +
+    scale_x_discrete(labels = str_wrap(df$caree_relationship, width = 15)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(option  = "viridis") +
+    theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return(chart)
+}
+
 
 chart_health_conditions_percent <- function(df_receiver) {
   df <- tab_health_conditions(df_receiver)

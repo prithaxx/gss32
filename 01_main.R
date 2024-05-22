@@ -1,7 +1,6 @@
 GSS_PUMF_2018 <- read_sas("data/c32pumfm.sas7bdat")
 
 # Care Receiving ---
-
 # Care receivers 65+ and have a primary caregiver
 df_receiver <- GSS_PUMF_2018 %>%
   filter(CAR_110 == 1 | CAR_115 == 1)%>%
@@ -17,7 +16,6 @@ df_receiver_75 <- df_receiver %>%
 
 
 # Care giving ---
-
 # Care givers with primary care receiver 65+
 df_giver <- GSS_PUMF_2018 %>%
   filter(ICG_110 == 1 | ICG_115 == 1) %>%
@@ -33,3 +31,7 @@ df_need_help <- GSS_PUMF_2018 %>%
 # Alzheimer's
 df_giver_alzheimers <- df_giver %>% filter(PRP10GR == 8)
 df_giver_no_alzheimers <- df_giver %>% filter(PRP10GR != 8)
+
+# Giver-Receiver Relationship
+df_caree_relations <- df_giver |>
+  filter(PGG10GR >= 1 & PGG10GR <= 6)

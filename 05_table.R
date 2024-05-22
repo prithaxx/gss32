@@ -126,6 +126,14 @@ tab_pop_freq <- function() {
   return(df_pops)
 }
 
+tab_caree_freq <- function(){
+  count <- y_caree_freq(df_caree_relations)
+  df_caree_relationship_pops <- tibble(caree_relationship, caree_freq) |>
+    mutate(percentage = count/sum(count))
+  
+  return(df_caree_relationship_pops)
+}
+
 # Care receiver responses #####
 tab_health_conditions <- function(df) {
   count <- y_variable(df, health_conditions, "PRA_10GR")
@@ -242,6 +250,18 @@ tab_caree_type <- function(df){
   
   df_output <- tab_helper_multi_var(df, count, x_options, cols)|>
     rename(caree_type = x_options)
+  
+  return(df_output)
+}
+
+### Relationship between the Caree and the Respondent
+tab_caree_relationship <- function(df){
+  count <- y_variable(df, caree_relationship, "PGG10GR")
+  x_options <- caree_relationship
+  cols <- "PGG10GR"
+  
+  df_output <- tab_helper(df, count, x_options, cols) |>
+    rename(caree_relationship = x_options)
   
   return(df_output)
 }

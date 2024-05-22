@@ -117,6 +117,30 @@ c_primary_sex <- ggplot(
   theme(plot.caption = element_text(hjust = 0, size = 14))
 
 
+### Relationship between Caree and Receiver
+rhcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_caree_relationship_pops$caree_relationship))), "rgb", "hcl") 
+rlabel_col <- ifelse(rhcl[, "l"] > 50, "black", "white") 
+c_caree_groups <- ggplot(
+  data = df_caree_relationship_pops,
+  mapping = aes(x = fct_inorder(caree_relationship), y = y_caree_freq(df_caree_relations), fill = caree_relationship)
+) +
+  geom_col() +
+  geom_text(aes(color=caree_relationship, label = y_caree_freq(df_caree_relations)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
+  ggtitle("GSS 2018 Relationship between Caree and Receiver") +
+  labs(
+    x = "Caree Relationships",
+    y = "Count",
+    caption = str_wrap("Count of respondents in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.", width = 115)
+  ) +
+  scale_x_discrete(labels = str_wrap(df_caree_relationship_pops$caree_relationship, width = 15)) +
+  scale_color_manual(values = rlabel_col) + 
+  scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "viridis") +
+  theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
+  guides(fill = "none") +
+  theme(plot.caption = element_text(hjust = 0, size = 14)) 
+
+
+
 # Care receiver responses #####
 chart_health_conditions <- function(df_receiver) {
   df_health_conditions <- tab_health_conditions(df_receiver)
@@ -430,7 +454,6 @@ chart_caree_type <- function(df_receiver) {
   
   return(c_caree_type)
 }
-
 
 # Caregiver responses ####
 
