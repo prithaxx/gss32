@@ -10,7 +10,8 @@ source("global.R")
 general_charts <- list(
   "Respondent Groups",
   "Sex of Primary Caregivers and Care Receivers",
-  "Relationship between Caree and Receiver"
+  "Relationship between Caree and Receiver",
+  "Number of Disability Types in Respondents"
 )
 
 receiver_ui_config <- list(
@@ -528,6 +529,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       c_primary_sex
     } else if(input$general_selected_box == general_charts[3]){
       c_caree_groups
+    } else if (input$general_selected_box == general_charts[4]){
+      c_disability_groups
     }
   })
 
@@ -539,6 +542,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       # TODO: create primary sex percent chart
     } else if(input$general_selected_box == general_charts[3]){
       chart_caree_relationship_percent()
+    } else if(input$general_selected_box == general_charts[4]){
+      chart_disability_counter_percent()
     }
   })
 
@@ -550,6 +555,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
     } else if(input$general_selected_box == general_charts[3]){
       tab_caree_freq()
+    } else if(input$general_selected_box == general_charts[4]){
+      tab_disability_counter()
     }
   })
 

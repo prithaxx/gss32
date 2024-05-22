@@ -21,8 +21,11 @@ df_giver <- GSS_PUMF_2018 %>%
   filter(ICG_110 == 1 | ICG_115 == 1) %>%
     filter(CRRCPAGR >= 14 & CRRCPAGR <= 20)
 
-# Care giver and care receiver
+# People who are both Care giver and care receiver
 df_giver_receiver <- intersect(df_receiver, df_giver)
+
+# People who are either Care receiver (65+) or care giver of someone (65+)
+df_union <- union(df_receiver, df_giver)
 
 # TODO: Need help (did not receive) -- [Asked for help?]
 df_need_help <- GSS_PUMF_2018 %>%

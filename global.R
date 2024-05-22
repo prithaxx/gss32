@@ -140,6 +140,27 @@ c_caree_groups <- ggplot(
   theme(plot.caption = element_text(hjust = 0, size = 14)) 
 
 
+# Disability Counter
+dhcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_disability_counter$disability_counter))), "rgb", "hcl") 
+dlabel_col <- ifelse(dhcl[, "l"] > 50, "black", "white") 
+c_disability_groups <- ggplot(
+  data = df_disability_counter,
+  mapping = aes(x = fct_inorder(disability_counter), y = y_disability_counter(df_union), fill = disability_counter)
+) +
+  geom_col() +
+  geom_text(aes(color=disability_counter, label =  y_disability_counter(df_union)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
+  ggtitle("GSS 2018 Number of Disability Types- Grouped") +
+  labs(
+    x = "Groups of Disability Counts",
+    y = "Count",
+    caption = str_wrap("Count of respondents in each grouping: None, 1, 2 or 3, > 3.", width = 115)
+  ) +
+  scale_x_discrete(labels = str_wrap(df_disability_counter$disability_counter, width = 15)) +
+  scale_color_manual(values = dlabel_col) + 
+  scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "viridis") +
+  theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
+  guides(fill = "none") +
+  theme(plot.caption = element_text(hjust = 0, size = 14)) 
 
 # Care receiver responses #####
 chart_health_conditions <- function(df_receiver) {
