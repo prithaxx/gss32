@@ -17,6 +17,10 @@ caree_relationship <- c(
   "Other"
 )
 
+disability_counter <- c(
+  "none", "1", "2 or 3", ">3"
+)
+
 # Receiver Charts ----
 
 health_conditions <- c(

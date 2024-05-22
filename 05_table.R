@@ -126,12 +126,22 @@ tab_pop_freq <- function() {
   return(df_pops)
 }
 
+# Relationship between Caree and Receiver
 tab_caree_freq <- function(){
   count <- y_caree_freq(df_caree_relations)
   df_caree_relationship_pops <- tibble(caree_relationship, caree_freq) |>
     mutate(percentage = count/sum(count))
   
   return(df_caree_relationship_pops)
+}
+
+# The number of disability types a respondent has reported
+tab_disability_counter <- function(){
+  count <- y_disability_counter(df_union)
+  df_disability_counter <- tibble(disability_counter, disability_freq) |>
+    mutate(percentage = count/sum(count))
+  
+  return(df_disability_counter)
 }
 
 # Care receiver responses #####

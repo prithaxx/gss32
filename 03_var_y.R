@@ -23,6 +23,15 @@ y_caree_freq <- function(df_caree_relations){
   )
 }
 
+y_disability_counter <- function(df_union){
+  disability_freq <- c(
+    none_pop <- nrow(filter(df_union, DTYPER == 0)),
+    one_pop <- nrow(filter(df_union, DTYPER == 1)),
+    two_three_pop <- nrow(filter(df_union, DTYPER == 2)),
+    more_three_pop <- nrow(filter(df_union, DTYPER == 3))
+  )
+}
+
 primary_giver_sex_freq <- c(
   primary_giver_male <- nrow(filter(df_receiver, PGN_25 == 1)),
   primary_giver_female <- nrow(filter(df_receiver, PGN_25 == 2))
