@@ -1,15 +1,23 @@
+# General Charts ---
+
 pop_name <- c(
   "Giver",
   "Receiver",
-  #  "Receiver - 65 to 74 years",
-  #  "Receiver - 75 years and over",
-  #  "Receiver and Giver",
   "Unmet Needs"
 )
 
 primary_sex <- c("male", "female")
 
-###
+caree_relationship <- c(
+  "Spouse/ Partner",
+  "Son",
+  "Daughter",
+  "Parent",
+  "Other family members",
+  "Other"
+)
+
+# Receiver Charts ----
 
 health_conditions <- c(
   "Arthritis" = 1,
@@ -54,14 +62,6 @@ caree_type <- c(
   "Both"
 )
 
-caree_relationship <- c(
-  "Spouse/ Partner" = 1,
-  "Son" = 2,
-  "Daughter" = 3,
-  "Parent" = 4,
-  "Other family members" = 5,
-  "Other" = 6
-)
 
 giver_age_group <- c(
   "<20" = 1,

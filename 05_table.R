@@ -126,6 +126,14 @@ tab_pop_freq <- function() {
   return(df_pops)
 }
 
+tab_caree_freq <- function(){
+  count <- y_caree_freq(df_caree_relations)
+  df_caree_relationship_pops <- tibble(caree_relationship, caree_freq) |>
+    mutate(percentage = count/sum(count))
+  
+  return(df_caree_relationship_pops)
+}
+
 # Care receiver responses #####
 tab_health_conditions <- function(df) {
   count <- y_variable(df, health_conditions, "PRA_10GR")

@@ -9,7 +9,8 @@ source("global.R")
 
 general_charts <- list(
   "Respondent Groups",
-  "Sex of Primary Caregivers and Care Receivers"
+  "Sex of Primary Caregivers and Care Receivers",
+  "Relationship between Caree and Receiver"
 )
 
 receiver_ui_config <- list(
@@ -95,13 +96,6 @@ receiver_ui_config <- list(
     pct_chart = chart_caree_type_percent,
     table = tab_caree_type,
     title_fragment = "of Respondents who have a type of Caree"
-  ),
-  "Relationship between Caree and Respondent" = list(
-    index = 12,
-    count_chart = chart_caree_relationship,
-    pct_chart = chart_caree_relationship_percent,
-    table = tab_caree_relationship,
-    title_fragment = "of Relationship between the Caree and the Respondent"
   )
 )
 
@@ -530,8 +524,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   output$general_selected_chart <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
       c_respondent_groups
-    } else {
+    } else if(input$general_selected_box == general_charts[2]) {
       c_primary_sex
+    } else if(input$general_selected_box == general_charts[3]){
+      c_caree_groups
     }
   })
 
@@ -539,8 +535,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   output$general_percentage <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
       chart_respondent_groups_percent()
-    } else {
+    } else if(input$general_selected_box == general_charts[2]){
       # TODO: create primary sex percent chart
+    } else if(input$general_selected_box == general_charts[3]){
+      chart_caree_relationship_percent()
     }
   })
 
@@ -548,8 +546,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   output$general_table <- renderTable({
     if (input$general_selected_box == general_charts[1]) {
       tab_pop_freq()
-    } else {
+    } else if(input$general_selected_box == general_charts[2]){
       df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
+    } else if(input$general_selected_box == general_charts[3]){
+      tab_caree_freq()
     }
   })
 
