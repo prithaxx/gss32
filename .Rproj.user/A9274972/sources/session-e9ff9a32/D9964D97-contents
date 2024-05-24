@@ -122,10 +122,10 @@ rhcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_caree_relati
 rlabel_col <- ifelse(rhcl[, "l"] > 50, "black", "white") 
 c_caree_groups <- ggplot(
   data = df_caree_relationship_pops,
-  mapping = aes(x = fct_inorder(caree_relationship), y = caree_freq, fill = caree_relationship)
+  mapping = aes(x = fct_inorder(caree_relationship), y = y_caree_freq(df_caree_relations), fill = caree_relationship)
 ) +
   geom_col() +
-  geom_text(aes(color=caree_relationship, label = caree_freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
+  geom_text(aes(color=caree_relationship, label = y_caree_freq(df_caree_relations)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
   ggtitle("GSS 2018 Relationship between Caree and Receiver") +
   labs(
     x = "Caree Relationships",
@@ -145,10 +145,10 @@ dhcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_disability_c
 dlabel_col <- ifelse(dhcl[, "l"] > 50, "black", "white") 
 c_disability_groups <- ggplot(
   data = df_disability_counter,
-  mapping = aes(x = fct_inorder(disability_counter), y = disability_freq, fill = disability_counter)
+  mapping = aes(x = fct_inorder(disability_counter), y = y_disability_counter(df_union), fill = disability_counter)
 ) +
   geom_col() +
-  geom_text(aes(color=disability_counter, label =  disability_freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
+  geom_text(aes(color=disability_counter, label =  y_disability_counter(df_union)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
   ggtitle("GSS 2018 Number of Disability Types- Grouped") +
   labs(
     x = "Groups of Disability Counts",
