@@ -144,6 +144,23 @@ tab_disability_counter <- function(){
   return(df_disability_counter)
 }
 
+# --------- GENERAL TABLE MAKER - RECEIVER GROUP --------------
+# df : data-frame
+# input : vector in var_x
+# code : column id in the dataset
+# string : new name of the column
+# -------------------------------------------------------------
+tab_maker <- function(df, input, code, string){
+  count <- y_variable(df, input, code)
+  x_options <- input
+  cols <- code
+  
+  df_output <- tab_helper(df, count, x_options, cols) |>
+    rename(string = x_options)
+  
+  return(df_output)
+}
+
 # Care receiver responses #####
 tab_health_conditions <- function(df) {
   count <- y_variable(df, health_conditions, "PRA_10GR")
