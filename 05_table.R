@@ -128,7 +128,7 @@ tab_pop_freq <- function() {
 
 # Relationship between Caree and Receiver
 tab_caree_freq <- function(){
-  count <- y_caree_freq(df_caree_relations)
+  count <- caree_freq
   df_caree_relationship_pops <- tibble(caree_relationship, caree_freq) |>
     mutate(percentage = count/sum(count))
   
@@ -137,7 +137,7 @@ tab_caree_freq <- function(){
 
 # The number of disability types a respondent has reported
 tab_disability_counter <- function(){
-  count <- y_disability_counter(df_union)
+  count <- disability_freq
   df_disability_counter <- tibble(disability_counter, disability_freq) |>
     mutate(percentage = count/sum(count))
   
