@@ -146,28 +146,12 @@ tab_disability_counter <- function(){
 
 # --------- GENERAL TABLE MAKER - RECEIVER GROUP --------------
 # df : data-frame
-# input : vector in var_x
+# input : vector in var_x (NOTE: This gets renamed to x-options by default)
 # code : column id in the dataset
-# string : new name of the column
 # -------------------------------------------------------------
-tab_maker <- function(df, input, code, string){
-  # print("tab_maker function")
-  # print(df)
-  # print(class(input))
-  # print(input)
-  # print(code)
-  # print(string)
+tab_maker <- function(df, input, code){
   count <- y_variable(df, input, code)
-  # print("back from y_variable")
-  # print(count)
-
-  x_options <- input
-  #print(x_options)
-  
-  df_output <- tab_helper(df, count, x_options, code) |>
-    rename(string = x_options)
-  #head(df_output)
-  
+  df_output <- tab_helper(df, count, input, code)
   return(df_output)
 }
 

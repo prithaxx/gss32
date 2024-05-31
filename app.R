@@ -1,5 +1,4 @@
-# The main Shiny application.
-#
+#The main Shiny application.
 # Defines the interface for the application, and ties the UI elements to the
 # various charts that are defined across the other modules.
 
