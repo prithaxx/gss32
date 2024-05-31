@@ -647,7 +647,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_receiver_df()
     
     config <- receiver_ui_config[[input$receiver_select_box]]
-    final_table <- config$table  # This should already be the output from tab_maker
+    #final_table <- config$table  # This only works for charts that run with tab_maker
+    final_table <- config$table(output_receiver_df) # This only works for charts without tab_maker
     
     final_table <- final_table %>%
       rename(!!input$receiver_select_box := 1, "count" := 2)
@@ -755,7 +756,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_giver_df()
     
     config <- giver_ui_config[[input$giver_select_box]]
-    final_table <- config$table  # This should already be the output from tab_maker
+    final_table <- config$table  # This only works for charts that run with tab_maker
+    #final_table <- config$table(output_giver_df) # This only works for charts that run withour tab_maker
     
     final_table <- final_table %>%
       rename(!!input$giver_select_box := 1, "count" := 2)
