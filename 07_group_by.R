@@ -4,11 +4,13 @@
 # x_lab (string): x-axis label
 # title_lab (string): title for the chart that is returned
 group_by_sex <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option(df_input)
-
+  # Assuming tab_option is a precomputed data frame
+  #df <- tab_option  # Only works for charts that uses tab_maker
+  df <- tab_option(df_input) # Only works for charts that does not use tab_maker
+  
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = names(filter_sex[2:3]), names_to = "sex", values_to = "Count")
-
+  
   chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = Count, fill = sex)) +
     geom_col(position = "dodge") +
     labs(
@@ -18,9 +20,10 @@ group_by_sex <- function(df_input, tab_option, x_lab, title_lab) {
     ) +
     scale_x_discrete(labels = str_wrap(df[[1]], width = 12)) +
     scale_fill_viridis_d(begin = 0.2, end = 0.8)
-
+  
   return(chart_output)
 }
+
 
 # group_by_sex_percent(): Returns a chart where the y variable as a *percentage* are grouped by sex
 # df_input (tibble): data frame to be transformed
@@ -47,7 +50,9 @@ group_by_sex_percent <- function(df_input, tab_option, x_lab, title_lab) {
 }
 
 group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option(df_input)
+  df <- tab_option # Only works for charts that use tab_maker
+  #df <- tab_option(df_input) # Only works for charts that do not use tab_maker
+  
   df_long <- pivot_longer(df, cols = c("age_65_74", "age_75"), names_to = "age_group", values_to = "age_count")
 
   chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = age_count, fill = age_group)) +
