@@ -5,8 +5,8 @@
 # title_lab (string): title for the chart that is returned
 group_by_sex <- function(df_input, tab_option, x_lab, title_lab) {
   # Assuming tab_option is a precomputed data frame
-  #df <- tab_option  # Only works for charts that uses tab_maker
-  df <- tab_option(df_input) # Only works for charts that does not use tab_maker
+  df <- tab_option  # Only works for charts that uses tab_maker
+  #df <- tab_option(df_input) # Only works for charts that does not use tab_maker
   
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = names(filter_sex[2:3]), names_to = "sex", values_to = "Count")
