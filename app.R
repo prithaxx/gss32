@@ -621,7 +621,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     }
   })
 
-  # receiver percentage tab
+  # TODO : FIX receiver percentage tab
   output$receiver_percentage <- renderPlot({
     update_receiver_df()
 

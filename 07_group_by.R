@@ -49,7 +49,7 @@ group_by_sex_percent <- function(df_input, tab_option, x_lab, title_lab) {
 }
 
 group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option(df_input)
+  df <- tab_option
   df_long <- pivot_longer(df, cols = c("age_65_74", "age_75"), names_to = "age_group", values_to = "age_count")
 
   chart_output <- ggplot(df_long, aes(x = fct_inorder(.data[[names(df_long)[1]]]), y = age_count, fill = age_group)) +
