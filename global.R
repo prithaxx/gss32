@@ -164,23 +164,30 @@ c_disability_groups <- ggplot(
 
 # Care receiver responses #####
 chart_health_conditions <- function(df_receiver) {
-  df_health_conditions <- tab_health_conditions(df_receiver)
+  #df_health_conditions <- tab_health_conditions(df_receiver)
+  df_health_conditions <- tab_maker(df_receiver, health_conditions, "PRA_10GR", "health_conditions")
+  print(df_health_conditions)
+  print("Class of health_con")
+  print(class(health_conditions))
+  print("Factor of health_con")
+  print(class(factor(health_conditions)))
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(health_conditions))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  print("before ggplot")
   c_health_conditions <- ggplot(
     data = df_health_conditions,
     mapping = aes(
-      x = fct_inorder(health_conditions),
+      x = fct_inorder(factor(health_conditions)),
       y = count,
-      fill = health_conditions
+      fill = fct_inorder(factor(health_conditions)),
     )
   ) +
     geom_col() +
-    geom_text(aes(color=health_conditions, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    geom_text(aes(color=fct_inorder(factor(health_conditions)), label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     labs(caption = str_wrap("Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.", width = 115)) +
     xlab("Health Condition") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_health_conditions$health_conditions, width = 12)) +
+    scale_x_discrete(labels = str_wrap(factor(df_health_conditions$health_conditions), width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d() +
     theme(axis.text.x = element_text(size=13)) +
@@ -194,6 +201,7 @@ chart_health_conditions <- function(df_receiver) {
 ### Types of activities respondents received help with
 chart_activity_receive_help <- function(df_receiver) {
   df_activity_receive_help <- tab_activity_receive_help(df_receiver)
+  
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_activity_receive_help <- ggplot(

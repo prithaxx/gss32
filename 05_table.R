@@ -151,12 +151,22 @@ tab_disability_counter <- function(){
 # string : new name of the column
 # -------------------------------------------------------------
 tab_maker <- function(df, input, code, string){
+  # print("tab_maker function")
+  # print(df)
+  # print(class(input))
+  # print(input)
+  # print(code)
+  # print(string)
   count <- y_variable(df, input, code)
+  # print("back from y_variable")
+  # print(count)
+
   x_options <- input
-  cols <- code
+  #print(x_options)
   
-  df_output <- tab_helper(df, count, x_options, cols) |>
+  df_output <- tab_helper(df, count, x_options, code) |>
     rename(string = x_options)
+  #head(df_output)
   
   return(df_output)
 }
@@ -188,6 +198,10 @@ tab_activity_receive_help <- function(df) {
 ### Age of respondent's primary caregiver
 tab_age_primary_giver <- function(df) {
   count <- y_variable(df, giver_age_group, "CRGVAGGR")
+  print("type of giver_age_group is")
+  print(class(giver_age_group))
+  print("age count")
+  print(count)
 
   df_output <- tab_helper(df, count, giver_age_group, "CRGVAGGR") %>%
     rename(giver_age_group = x_options)
