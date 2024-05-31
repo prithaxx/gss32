@@ -5,6 +5,8 @@
 library(shiny)
 library(shinyjs)
 source("global.R")
+source("01_main.R")
+source("02_var_x.R")
 
 general_charts <- list(
   "Respondent Groups",
@@ -18,7 +20,7 @@ receiver_ui_config <- list(
     index = 1,
     count_chart = chart_health_conditions,
     pct_chart = chart_health_conditions_percent,
-    #table = tab_maker(df, health_conditions, "PRA_10GR"),
+    table = tab_maker(df_receiver, health_conditions, "PRA_10GR"),
     title_fragment = "of People with Health Conditions"
   ),
   "Activities Respondent Gets Help With" = list(
@@ -32,7 +34,7 @@ receiver_ui_config <- list(
     index = 3,
     count_chart = chart_age_primary_giver,
     pct_chart = chart_age_primary_giver_percent,
-    #table = tab_maker,
+    table = tab_maker(df_receiver, giver_age_group, "CRGVAGGR"),
     title_fragment = "of people and the Age of Respondent's Primary Caregiver"
   ),
   "Activities Assisted by Professionals" = list(
@@ -47,7 +49,7 @@ receiver_ui_config <- list(
     index = 5,
     count_chart = chart_hours_help_received,
     pct_chart = chart_hours_help_received_percent,
-    #table = tab_hours_help_received,
+    table = tab_maker(df_receiver, help_hours, "HAR_10C"),
     title_fragment = "of People and the Number of Hours of Help Received
       - Per Average Week"
   ),
@@ -55,7 +57,7 @@ receiver_ui_config <- list(
     index = 6,
     count_chart = chart_primary_giver_distance,
     pct_chart = chart_primary_giver_distance_percent,
-    #table = tab_primary_giver_distance,
+    table = tab_maker(df_receiver, dwelling_distances, "PGD_10"),
     title_fragment =
       "of People and the Distance Between the Respondent and the Caregiver's
       Dwellings"
@@ -64,7 +66,7 @@ receiver_ui_config <- list(
     index = 7,
     count_chart = chart_receive_help_banking_freq,
     pct_chart = chart_receive_help_banking_freq_percent,
-    #table = tab_receive_help_banking_freq,
+    table = tab_maker(df_receiver, primary_help_banking_freq, "ARB_20"),
     title_fragment = "of People and the Frequency Their Primary Caregiver Helped
       with Banking"
   ),
@@ -72,7 +74,7 @@ receiver_ui_config <- list(
     index = 8,
     count_chart = chart_receive_help_banking_hours,
     pct_chart = chart_receive_help_banking_hours_percent,
-    #table = tab_receive_help_banking_hours,
+    table = tab_maker(df_receiver, primary_help_banking_hours, "ARB_30C"),
     title_fragment = "of People and Number of Hours their Primary Caregiver
       Helped with Banking"
   ),
@@ -80,7 +82,7 @@ receiver_ui_config <- list(
     index = 9,
     count_chart = chart_nohelp_received,
     pct_chart = chart_nohelp_received_percent,
-    #table = tab_received_nohelp,
+    table = tab_maker(df_receiver, received_nohelp_reasons, "DVCNR20"),
     title_fragment = "of Respondents and the reasons why they did not receive help"
   ),
   "Respondent has a Disability Indicator" = list(
@@ -111,7 +113,7 @@ giver_ui_config <- list(
     index = 2,
     count_chart = chart_age_primary_receiver,
     pct_chart = chart_age_primary_receiver_percent,
-    #table = tab_age_primary_receiver,
+    table = tab_maker(df_giver, primary_receiver_age_group, "CRRCPAGR"),
     title_fragment = "of people and the Age of Respondent's Primary Care
         Receiver"
   ),
@@ -119,7 +121,7 @@ giver_ui_config <- list(
     index = 3,
     count_chart = chart_hours_help_provided,
     pct_chart = chart_hours_help_provided_percent,
-    #table = tab_hours_help_provided,
+    table = tab_maker(df_giver, help_hours, "HAP_10C"),
     title_fragment = "of People and the Number of Hours of Help Provided -
         Per Average Week"
   ),
@@ -127,7 +129,7 @@ giver_ui_config <- list(
     index = 4,
     count_chart = chart_primary_receiver_distance,
     pct_chart = chart_primary_receiver_distance_percent,
-    #table = tab_primary_receiver_distance,
+    table = tab_maker(df_giver, dwelling_distances, "PRD_10"),
     title_fragment = "of People and the Distance Between them and the Care
         Receiver's Dwellings"
   ),
@@ -135,7 +137,7 @@ giver_ui_config <- list(
     index = 5,
     count_chart = chart_give_help_banking_freq,
     pct_chart = chart_give_help_banking_freq_percent,
-    #table = tab_give_help_banking_freq,
+    table = tab_maker(df_giver, primary_help_banking_freq, "ARB_20"),
     title_fragment = "of People and the Frequency they Provided Help to Their
         Primary Care Receiver with Banking"
   ),
@@ -143,7 +145,7 @@ giver_ui_config <- list(
     index = 6,
     count_chart = chart_give_help_banking_hours,
     pct_chart = chart_give_help_banking_hours_percent,
-   # table = tab_give_help_banking_hours,
+    table = tab_maker(df_giver, primary_help_banking_hours, "ARB_30C"),
     title_fragment = "of People and Number of Hours they Provided Help with
         Banking"
   ),
@@ -639,17 +641,21 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     }
   })
 
+
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
-
+    
     config <- receiver_ui_config[[input$receiver_select_box]]
-    final_table <- config$table(output_receiver_df)
+    final_table <- config$table  # This should already be the output from tab_maker
+    
     final_table <- final_table %>%
       rename(!!input$receiver_select_box := 1, "count" := 2)
-
+    
     final_table
   })
+  
+
 
   ### Giver filters and charts
 
@@ -747,11 +753,13 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # giver table tab
   output$giver_table <- renderTable({
     update_giver_df()
+    
     config <- giver_ui_config[[input$giver_select_box]]
-    final_table <- config$table(output_giver_df)
+    final_table <- config$table  # This should already be the output from tab_maker
+    
     final_table <- final_table %>%
       rename(!!input$giver_select_box := 1, "count" := 2)
-
+    
     final_table
   })
 }
