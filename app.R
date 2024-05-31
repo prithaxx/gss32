@@ -604,10 +604,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
     update_receiver_df()
-
+    
     dataset_name <- input$receiver_select_box
     config <- receiver_ui_config[[dataset_name]]
-
+    
     if (input$receiver_radio == 2) {
       group_by_sex(
         output_receiver_df, config$table, dataset_name, config$title_fragment
