@@ -144,7 +144,7 @@ tab_disability_counter <- function(){
   return(df_disability_counter)
 }
 
-# --------- GENERAL TABLE MAKER - RECEIVER GROUP --------------
+# --------- GENERAL TABLE MAKER - SINGLE VAR ------------------
 # df : data-frame
 # input : vector in var_x (NOTE: This gets renamed to x-options by default)
 # code : column id in the dataset
@@ -155,17 +155,6 @@ tab_maker <- function(df, input, code){
   return(df_output)
 }
 
-# Care receiver responses #####
-tab_health_conditions <- function(df) {
-  count <- y_variable(df, health_conditions, "PRA_10GR")
-  x_options <- health_conditions
-  cols <- "PRA_10GR"
-
-  df_output <- tab_helper(df, count, x_options, cols) |>
-    rename(health_conditions = x_options)
-
-  return(df_output)
-}
 
 ### Types of activities respondents received help with
 tab_activity_receive_help <- function(df) {
@@ -179,19 +168,6 @@ tab_activity_receive_help <- function(df) {
   return(df_output)
 }
 
-### Age of respondent's primary caregiver
-tab_age_primary_giver <- function(df) {
-  count <- y_variable(df, giver_age_group, "CRGVAGGR")
-  print("type of giver_age_group is")
-  print(class(giver_age_group))
-  print("age count")
-  print(count)
-
-  df_output <- tab_helper(df, count, giver_age_group, "CRGVAGGR") %>%
-    rename(giver_age_group = x_options)
-
-  return(df_output)
-}
 
 ### Types of activities respondents received professional help with
 tab_activity_receive_help_pro <- function(df) {
@@ -203,57 +179,6 @@ tab_activity_receive_help_pro <- function(df) {
   return(df_output)
 }
 
-### Numbers of hours of help received - Per average week per activity
-tab_hours_help_received <- function(df) {
-  count <- y_variable(df, help_hours, "HAR_10C")
-
-  df_output <- tab_helper(df, count, help_hours, "HAR_10C") %>%
-    rename(help_hours = x_options)
-
-  return(df_output)
-}
-
-### Distance between the respondent's and the caregiver's dwellings
-tab_primary_giver_distance <- function(df) {
-  count <- y_variable(df, dwelling_distances, "PGD_10")
-
-  df_output <- tab_helper(df, count, dwelling_distances, "PGD_10") %>%
-    rename(dwelling_distances = x_options)
-
-  return(df_output)
-}
-
-### Primary caregiver helped with banking - Frequency
-tab_receive_help_banking_freq <- function(df) {
-  count <- y_variable(df, primary_help_banking_freq, "ARB_20")
-
-  df_output <- tab_helper(df, count, primary_help_banking_freq, "ARB_20") %>%
-    rename(primary_help_banking_freq = x_options)
-
-  return(df_output)
-}
-
-### Primary caregiver helped with banking - Number of hours
-tab_receive_help_banking_hours <- function(df) {
-  count <- y_variable(df, primary_help_banking_hours, "ARB_30C")
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C") %>%
-    rename(primary_help_banking_hours = x_options)
-
-  return(df_output)
-}
-
-# Respondent did not receive the care needed
-tab_received_nohelp <- function(df){
-  count <- y_variable(df, received_nohelp_reasons, "DVCNR20")
-  x_options <- received_nohelp_reasons
-  cols <- "DVCNR20"
-  
-  df_output <- tab_helper(df, count, x_options, "DVCNR20") %>%
-    rename(received_nohelp_reasons = x_options)
-  
-  return(df_output)
-}
 
 ### Respondents with disability indicators
 tab_disability_indicator <- function(df){
@@ -297,51 +222,6 @@ tab_activity_give_help <- function(df) {
 
   df_output <- tab_helper_multi_var(df, count, help_activities, activity_give_help_codes) %>%
     rename(help_activities = x_options)
-
-  return(df_output)
-}
-
-tab_age_primary_receiver <- function(df) {
-  count <- y_variable(df, primary_receiver_age_group, "CRRCPAGR")
-
-  df_output <- tab_helper(df, count, primary_receiver_age_group, "CRRCPAGR") %>%
-    rename(primary_receiver_age_group = x_options)
-
-  return(df_output)
-}
-
-tab_hours_help_provided <- function(df) {
-  count <- y_variable(df, help_hours, "HAP_10C")
-
-  df_output <- tab_helper(df, count, help_hours, "HAP_10C") %>%
-    rename(help_hours = x_options)
-
-  return(df_output)
-}
-
-tab_primary_receiver_distance <- function(df) {
-  count <- y_variable(df, dwelling_distances, "PRD_10")
-
-  df_output <- tab_helper(df, count, dwelling_distances, "PRD_10") %>%
-    rename(dwelling_distances = x_options)
-
-  return(df_output)
-}
-
-tab_give_help_banking_freq <- function(df) {
-  count <- y_variable(df, primary_help_banking_freq, "ARB_20")
-
-  df_output <- tab_helper(df, count, primary_help_banking_freq, "ARB_20") %>%
-    rename(primary_help_banking_freq = x_options)
-
-  return(df_output)
-}
-
-tab_give_help_banking_hours <- function(df) {
-  count <- y_variable(df, primary_help_banking_hours, "ARB_30C")
-
-  df_output <- tab_helper(df, count, primary_help_banking_hours, "ARB_30C") %>%
-    rename(primary_help_banking_hours = x_options)
 
   return(df_output)
 }
