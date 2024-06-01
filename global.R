@@ -196,25 +196,26 @@ chart_health_conditions <- function(df_receiver) {
 
 ### Types of activities respondents received help with
 chart_activity_receive_help <- function(df_receiver) {
-  df_activity_receive_help <- tab_activity_receive_help(df_receiver)
+  df_activity_receive_help <- tab_multi_var_maker(df_receiver, help_activities, help_activity_codes, y_activity_receive_help)
+  f <- fct_inorder(factor(help_activities))
   
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_activity_receive_help <- ggplot(
     data = df_activity_receive_help,
     mapping = aes(
-      x = fct_inorder(help_activities),
+      x = f,
       y = count,
-      fill = help_activities
+      fill = f
     )
   ) +
     geom_col() +
-    geom_text(aes(color=help_activities, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    geom_text(aes(color=f, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_receive_help$help_activities, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_activity_receive_help$x_options, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
@@ -256,24 +257,26 @@ chart_age_primary_giver <- function(df_receiver) {
 
 ### Types of activities respondents received professional help with
 chart_activity_receive_help_pro <- function(df_receiver) {
-  df_activity_receive_help_pro <- tab_activity_receive_help_pro(df_receiver)
+  df_activity_receive_help_pro <- tab_multi_var_maker(df_receiver, help_activities, help_activity_pro_codes, y_activity_receive_help_pro)
+  f <- fct_inorder(factor(help_activities))
+  
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_activity_receive_help_pro <- ggplot(
     data = df_activity_receive_help_pro,
     mapping = aes(
-      x = fct_inorder(help_activities),
+      x = f,
       y = count,
-      fill = help_activities
+      fill = f
     )
   ) +
     geom_col() +
-    geom_text(aes(color=help_activities, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    geom_text(aes(color=f, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Activities received professional help with - Past 12 months") +
     labs(caption = str_wrap("Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.", width = 120)) +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$help_activities, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_activity_receive_help_pro$x_options, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
@@ -440,24 +443,26 @@ chart_nohelp_received <- function(df_receiver){
 
 ### Respondents with disability indicators 
 chart_receiver_disability_indicator <- function(df_receiver) {
-  df_disability_indicator <- tab_disability_indicator(df_receiver)
+  df_disability_indicator <- tab_multi_var_maker(df_receiver, disability_indicators, disability_codes, y_disability_indicator)
+  f <- fct_inorder(factor(disability_indicators))
+  
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_disability_indicator <- ggplot(
     data = df_disability_indicator,
     mapping = aes(
-      x = fct_inorder(disability_indicators),
+      x = f,
       y = count,
-      fill = disability_indicators
+      fill = f
     )
   ) +
     geom_col() +
-    geom_text(aes(color=disability_indicators, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    geom_text(aes(color=f, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Respondents with Disability Indicators") +
     labs(caption = str_wrap("Frequency of the type of Disability Indicators within Respondents", width = 120)) +
     xlab("Types of Disability Indicators") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_disability_indicator$x_options, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
@@ -469,24 +474,26 @@ chart_receiver_disability_indicator <- function(df_receiver) {
 
 ### Services/ People who cared for the Respondent
 chart_caree_type <- function(df_receiver) {
-  df_caree_type <- tab_caree_type(df_receiver)
+  df_caree_type <- tab_multi_var_maker(df_receiver, caree_type, caree_codes, y_caree_type)
+  f <- fct_inorder(factor(caree_type))
+  
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_type))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_caree_type <- ggplot(
     data = df_caree_type,
     mapping = aes(
-      x = fct_inorder(caree_type),
+      x = f,
       y = count,
-      fill = caree_type
+      fill = f
     )
   ) +
     geom_col() +
-    geom_text(aes(color=caree_type, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    geom_text(aes(color=f, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Services/ people who cared for the Respondent's health condition") +
     labs(caption = str_wrap("Frequency of the type of caree (Friends/Family, Professionals or Both) ", width = 120)) +
     xlab("Types of Caree") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_caree_type$caree_type, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_caree_type$x_options, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
@@ -500,20 +507,22 @@ chart_caree_type <- function(df_receiver) {
 
 ### Types of activities respondents provided help with
 chart_activity_give_help <- function(df_giver) {
-  df_activity_give_help <- tab_activity_give_help(df_giver)
+  df_activity_give_help <- tab_multi_var_maker(df_giver, help_activities, help_activity_codes, y_activity_give_help)
+  f <- fct_inorder(factor(help_activities))
+  
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_activity_give_help <- ggplot(data = df_activity_give_help, mapping = aes(
-    x = fct_inorder(help_activities),
+    x = f,
     y = count,
-    fill = help_activities
+    fill = f
   )) +
     geom_col() +
-    geom_text(aes(color=help_activities, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    geom_text(aes(color=f, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Types of activities respondents provided help with - Past 12 months") +
     xlab("Activity") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_activity_give_help$help_activities, width = 12)) +
+    scale_x_discrete(labels = str_wrap(df_activity_give_help$x_options, width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
@@ -679,23 +688,25 @@ chart_give_help_banking_hours <- function(df_giver) {
 
 ### Out-of-pocket expenses because of caregiving responsibilities
 chart_out_of_pocket <- function(df_giver) {
-  df_out_of_pocket <- tab_out_of_pocket(df_giver)
+  df_out_of_pocket <- tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket)
+  f <- fct_inorder(factor(out_of_pocket_expenses))
+  
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(out_of_pocket_expenses))), "rgb", "hcl") 
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
   c_out_of_pocket <- ggplot(
     data = df_out_of_pocket,
     mapping = aes(
-      x = fct_inorder(out_of_pocket_expenses),
+      x = f,
       y = count,
-      fill = out_of_pocket_expenses
+      fill = f
     )
   ) +
     geom_col() +
-    geom_text(aes(color=out_of_pocket_expenses, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
+    geom_text(aes(color=f, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
     ggtitle("Out-of-pocket expenses because of caregiving responsibilities") +
     xlab("Expense categories") +
     ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_out_of_pocket$out_of_pocket_expenses, width = 13)) +
+    scale_x_discrete(labels = str_wrap(df_out_of_pocket$x_options, width = 13)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +

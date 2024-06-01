@@ -1,9 +1,9 @@
 # Percentage charts
 chart_respondent_groups_percent <- function() {
   df <- tab_pop_freq()
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(pop_name))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(pop_name))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df,
     mapping = aes(
@@ -20,7 +20,7 @@ chart_respondent_groups_percent <- function() {
     xlab("Respondent group") +
     ylab("Proportion of Respondents") +
     scale_x_discrete(labels = str_wrap(df$pop_name, width = 15)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
     guides(fill = "none") +
@@ -32,9 +32,9 @@ chart_respondent_groups_percent <- function() {
 # Relationship between caree and receiver
 chart_caree_relationship_percent <- function() {
   df <- tab_caree_freq()
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_relationship))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_relationship))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df,
     mapping = aes(
@@ -51,21 +51,21 @@ chart_caree_relationship_percent <- function() {
     xlab("Respondent group") +
     ylab("Proportion of Respondents") +
     scale_x_discrete(labels = str_wrap(df$caree_relationship, width = 15)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-  
+
   return(chart)
 }
 
 # Disability Counter
 chart_disability_counter_percent <- function() {
   df <- tab_disability_counter()
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_counter))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_counter))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df,
     mapping = aes(
@@ -82,21 +82,21 @@ chart_disability_counter_percent <- function() {
     xlab("Groups of Disability Counts") +
     ylab("Proportion of Respondents") +
     scale_x_discrete(labels = str_wrap(df$disability_counter, width = 15)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-  
+
   return(chart)
 }
 
 
 chart_health_conditions_percent <- function(df_receiver) {
   df <- tab_health_conditions(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(health_conditions))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(health_conditions))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df,
     mapping = aes(
@@ -112,7 +112,7 @@ chart_health_conditions_percent <- function(df_receiver) {
     xlab("Health Condition") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$health_conditions, width = 12)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -124,8 +124,8 @@ chart_health_conditions_percent <- function(df_receiver) {
 ### Types of activities respondents received help with
 chart_activity_receive_help_percent <- function(df_receiver) {
   df <- tab_activity_receive_help(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   chart <- ggplot(
     data = df,
@@ -143,7 +143,7 @@ chart_activity_receive_help_percent <- function(df_receiver) {
     xlab("Activity") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -155,8 +155,8 @@ chart_activity_receive_help_percent <- function(df_receiver) {
 ### Age of respondent's primary caregiver
 chart_age_primary_giver_percent <- function(df_receiver) {
   df <- tab_age_primary_giver(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(giver_age_group))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(giver_age_group))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_age_primary_giver <- ggplot(
     data = df,
@@ -173,7 +173,7 @@ chart_age_primary_giver_percent <- function(df_receiver) {
     labs(caption = str_wrap("Proportion of care receiver respondents reporting their primary caregiver's age.", width = 120)) +
     xlab("Age (years)") +
     ylab("Proportion") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -185,8 +185,8 @@ chart_age_primary_giver_percent <- function(df_receiver) {
 # ### Types of activities respondents received professional help with
 chart_activity_receive_help_pro_percent <- function(df_receiver) {
   df <- tab_activity_receive_help_pro(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_activity_receive_help_pro <- ggplot(
     data = df,
@@ -204,7 +204,7 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
     xlab("Activity") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -217,8 +217,8 @@ chart_activity_receive_help_pro_percent <- function(df_receiver) {
 ### Numbers of hours of help received - Per average week per activity
 chart_hours_help_received_percent <- function(df_receiver) {
   df <- tab_hours_help_received(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_hours))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_hours_help_received <- ggplot(
     data = df,
@@ -235,7 +235,7 @@ chart_hours_help_received_percent <- function(df_receiver) {
     labs(caption = str_wrap("Proportion of care receiver respondents reporting average number of hours of help received, per week from family, friends or neighbours.", width = 115)) +
     xlab("Time (hour)") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -247,8 +247,8 @@ chart_hours_help_received_percent <- function(df_receiver) {
 ### Distance between the respondent's and the caregiver's dwellings
 chart_primary_giver_distance_percent <- function(df_receiver) {
   df <- tab_primary_giver_distance(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(dwelling_distances))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(dwelling_distances))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_primary_giver_distance <- ggplot(
     data = df,
@@ -266,7 +266,7 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
     xlab("Distance (time)") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
     scale_x_discrete(labels = str_wrap(df$dwelling_distances, width = 13)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -278,8 +278,8 @@ chart_primary_giver_distance_percent <- function(df_receiver) {
 ### Primary caregiver helped with banking - Frequency
 chart_receive_help_banking_freq_percent <- function(df_receiver) {
   df <- tab_receive_help_banking_freq(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_freq))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_freq))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_receive_help_banking_freq <- ggplot(
     data = df,
@@ -296,7 +296,7 @@ chart_receive_help_banking_freq_percent <- function(df_receiver) {
     labs(caption = str_wrap("Of care receiver respondents reporting that they did receive help with managing their finances in the past 12 months, proportion reporting each frequency level of help.", width = 120)) +
     xlab("Help Frequency") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -308,8 +308,8 @@ chart_receive_help_banking_freq_percent <- function(df_receiver) {
 ### Primary caregiver helped with banking - Number of hours
 chart_receive_help_banking_hours_percent <- function(df_receiver) {
   df <- tab_receive_help_banking_hours(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_receive_help_banking_hours <- ggplot(
     data = df,
@@ -326,7 +326,7 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
     labs(caption = str_wrap("Of care receiver respondents reporting that they did receive help with managing their finances in the past 12 months, proportion reporting number of hours of banking assistance received.", width = 115)) +
     xlab("Time (hours)") +
     ylab("Proportion of Care Receiver Respondents (65+)") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -338,9 +338,9 @@ chart_receive_help_banking_hours_percent <- function(df_receiver) {
 ### Respondent did not receive the care needed - reasons
 chart_nohelp_received_percent <- function(df_receiver) {
   df <- tab_received_nohelp(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(received_nohelp_reasons))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(received_nohelp_reasons))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df,
     mapping = aes(
@@ -362,16 +362,16 @@ chart_nohelp_received_percent <- function(df_receiver) {
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-  
+
   return(chart)
 }
 
-### Respondents with disability indicators 
+### Respondents with disability indicators
 chart_receiver_disability_indicator_percent <- function(df_receiver) {
   df_disability_indicator <- tab_disability_indicator(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df_disability_indicator,
     mapping = aes(
@@ -388,21 +388,21 @@ chart_receiver_disability_indicator_percent <- function(df_receiver) {
     xlab("Types of Disability Indicators") +
     ylab("Proportion of Care Receivers with a type of Disability") +
     scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-  
+
   return(chart)
 }
 
 ### Services/People who cared for the respondent
 chart_caree_type_percent <- function(df_receiver) {
   df_caree_type <- tab_caree_type(df_receiver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_type))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_type))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df_caree_type,
     mapping = aes(
@@ -419,12 +419,12 @@ chart_caree_type_percent <- function(df_receiver) {
     xlab("Types of Caree") +
     ylab("Proportion of Carees") +
     scale_x_discrete(labels = str_wrap(df_caree_type$caree_type, width = 12)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-  
+
   return(chart)
 }
 
@@ -432,9 +432,9 @@ chart_caree_type_percent <- function(df_receiver) {
 
 chart_activity_give_help_percent <- function(df) {
   df <- tab_activity_give_help(df)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_activities))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df,
     mapping = aes(
@@ -451,19 +451,19 @@ chart_activity_give_help_percent <- function(df) {
     xlab("Activity") +
     ylab("Proportion of Respondents") +
     scale_x_discrete(labels = str_wrap(df$help_activities, width = 12)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-  
+
   return(chart)
 }
 
 chart_age_primary_receiver_percent <- function(df_giver) {
   df_age_primary_receiver <- tab_age_primary_receiver(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_receiver_age_group))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_receiver_age_group))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_age_primary_receiver <- ggplot(
     data = df_age_primary_receiver,
@@ -477,7 +477,7 @@ chart_age_primary_receiver_percent <- function(df_giver) {
     ggtitle("Proportion of caregiver respondents providing assistance to caree of each age category") +
     xlab("Age Group (years)") +
     ylab("Proportion of Carees") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -488,8 +488,8 @@ chart_age_primary_receiver_percent <- function(df_giver) {
 
 chart_hours_help_provided_percent <- function(df_giver) {
   df_hours_help_provided <- tab_hours_help_provided(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(help_hours))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_hours_help_provided <- ggplot(
     data = df_hours_help_provided,
@@ -504,7 +504,7 @@ chart_hours_help_provided_percent <- function(df_giver) {
     ggtitle("Proportion of caregiver respondents who report providing their caree with specific hours of help per week over the past 12 months.") +
     xlab("Time (hours)") +
     ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -515,8 +515,8 @@ chart_hours_help_provided_percent <- function(df_giver) {
 
 chart_primary_receiver_distance_percent <- function(df_giver) {
   df_primary_receiver_distance <- tab_primary_receiver_distance(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(dwelling_distances))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(dwelling_distances))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_primary_receiver_distance <- ggplot(
     data = df_primary_receiver_distance,
@@ -531,7 +531,7 @@ chart_primary_receiver_distance_percent <- function(df_giver) {
     ggtitle("Proportion of caregiver respondents who report living specific distances from their caree's dwelling") +
     xlab("Distance by car") +
     ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -543,8 +543,8 @@ chart_primary_receiver_distance_percent <- function(df_giver) {
 ### Helped primary care receiver with banking - Frequency
 chart_give_help_banking_freq_percent <- function(df_giver) {
   df_give_help_banking_freq <- tab_give_help_banking_freq(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_freq))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_freq))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_give_help_banking_freq <- ggplot(
     data = df_give_help_banking_freq,
@@ -559,7 +559,7 @@ chart_give_help_banking_freq_percent <- function(df_giver) {
     ggtitle("Of caregiver respondents reporting that they provided caree help with banking in the past 12 months, proportion reporting each frequency level of help.") +
     xlab("Frequency of Providing Caree Assistance with Banking Tasks") +
     ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -571,8 +571,8 @@ chart_give_help_banking_freq_percent <- function(df_giver) {
 ### Helped primary care receiver with banking - Number of hours
 chart_give_help_banking_hours_percent <- function(df_giver) {
   df_give_help_banking_hours <- tab_give_help_banking_hours(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(primary_help_banking_hours))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_give_help_banking_hours <- ggplot(
     data = df_give_help_banking_hours,
@@ -586,7 +586,7 @@ chart_give_help_banking_hours_percent <- function(df_giver) {
     ggtitle("Of caregiver respondents reporting that they provided caree help with banking in the past 12 months, proportion reporting each weekly number of hours of help.") +
     xlab("Hours per Week Spent Providing Banking Task Assistance to Caree") +
     ylab("Proportion of Caregiver Respondents") +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -601,8 +601,8 @@ chart_give_help_banking_hours_percent <- function(df_giver) {
 ### Out-of-pocket expenses because of caregiving responsibilities
 chart_out_of_pocket_percent <- function(df_giver) {
   df_out_of_pocket <- tab_out_of_pocket(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(out_of_pocket_expenses))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(out_of_pocket_expenses))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_out_of_pocket <- ggplot(
     data = df_out_of_pocket,
@@ -617,7 +617,7 @@ chart_out_of_pocket_percent <- function(df_giver) {
     xlab("Expense categories") +
     ylab("Proportion of Caregiver Respondents") +
     scale_x_discrete(labels = str_wrap(df_out_of_pocket$out_of_pocket_expenses, width = 13)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -629,8 +629,8 @@ chart_out_of_pocket_percent <- function(df_giver) {
 ### Financial hardship
 chart_financial_hardship_percent <- function(df_giver) {
   df_financial_hardship <- tab_financial_hardship(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(financial_hardship))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(financial_hardship))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
 
   c_financial_hardship <- ggplot(
     data = df_financial_hardship,
@@ -646,7 +646,7 @@ chart_financial_hardship_percent <- function(df_giver) {
     xlab("Expense categories") +
     ylab("Proportion of Caregiver Respondents") +
     scale_x_discrete(labels = str_wrap(df_financial_hardship$financial_hardship, width = 13)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
@@ -655,12 +655,12 @@ chart_financial_hardship_percent <- function(df_giver) {
   return(c_financial_hardship)
 }
 
-### Respondents with disability indicators 
+### Respondents with disability indicators
 chart_giver_disability_indicator_percent <- function(df_giver) {
   df_disability_indicator <- tab_disability_indicator(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_indicators))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
   chart <- ggplot(
     data = df_disability_indicator,
     mapping = aes(
@@ -677,11 +677,11 @@ chart_giver_disability_indicator_percent <- function(df_giver) {
     xlab("Types of Disability Indicators") +
     ylab("Proportion of Care Receivers with a type of Disability") +
     scale_x_discrete(labels = str_wrap(df_disability_indicator$disability_indicators, width = 12)) +
-    scale_color_manual(values = label_col) + 
+    scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13)) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-  
+
   return(chart)
 }

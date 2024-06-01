@@ -92,7 +92,7 @@ group_by_age_percent <- function(df_input, tab_option, x_lab, title_lab) {
 }
 
 group_by_alzheimers <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option(df_input)
+  df <- tab_option
 
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = c(alzheimers, non_alzheimers), names_to = "alzheimers_count", values_to = "Count")
