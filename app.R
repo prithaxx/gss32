@@ -19,7 +19,10 @@ general_charts <- list(
 receiver_ui_config <- list(
   "Health Conditions Experienced" = list(
     index = 1,
-    count_chart = chart_health_conditions,
+    count_chart = chart(df_receiver, health_conditions, "PRA_10GR", 
+                        "Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.",
+                        "Health Condition",
+                        "Count"),
     pct_chart = chart_health_conditions_percent,
     table = tab_maker(df_receiver, health_conditions, "PRA_10GR"),
     title_fragment = "of People with Health Conditions"
@@ -618,7 +621,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_receiver_df, config$table, dataset_name, config$title_fragment
       )
     } else {
-      config$count_chart(output_receiver_df)
+      config$count_chart  # Call the chart function with df
     }
   })
 

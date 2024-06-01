@@ -180,7 +180,7 @@ tab_multi_var_maker <- function(df, input, codes, y_function){
 }
 
 
-
+# TODO: Special table function, try to fix this later if possible.
 tab_financial_hardship <- function(df) {
   count <- y_financial_hardship(df)
 
