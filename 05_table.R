@@ -155,6 +155,17 @@ tab_maker <- function(df, input, code){
   return(df_output)
 }
 
+# --------- GENERAL TABLE MAKER - MULTI VAR ------------------
+# df : data-frame
+# input : vector in var_x (NOTE: This gets renamed to x-options by default)
+# code : column id in the dataset
+# -------------------------------------------------------------
+tab_multi_var_maker <- function(df, input, codes, y_function){
+  count <- y_function(df)
+  df_output <- tab_helper_multi_var(df, count, input, codes)
+  return (df_output)
+}
+
 
 ### Types of activities respondents received help with
 tab_activity_receive_help <- function(df) {
