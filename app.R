@@ -7,6 +7,7 @@ library(shinyjs)
 source("global.R")
 source("01_main.R")
 source("02_var_x.R")
+source("03_var_y.R")
 
 general_charts <- list(
   "Respondent Groups",
@@ -27,7 +28,7 @@ receiver_ui_config <- list(
     index = 2,
     count_chart = chart_activity_receive_help,
     pct_chart = chart_activity_receive_help_percent,
-    table = tab_activity_receive_help,
+    table = tab_multi_var_maker(df_receiver, help_activities, help_activity_codes, y_activity_receive_help),
     title_fragment = "of People who Received Help with an Activity"
   ),
   "Age of Respondent's Primary Caregiver" = list(
@@ -41,7 +42,7 @@ receiver_ui_config <- list(
     index = 4,
     count_chart = chart_activity_receive_help_pro,
     pct_chart = chart_activity_receive_help_pro_percent,
-    table = tab_activity_receive_help_pro,
+    table = tab_multi_var_maker(df_receiver, help_activities, help_activity_pro_codes, y_activity_receive_help_pro),
     title_fragment = "of People who Received Professional Help with an
       Activity"
   ),
@@ -89,14 +90,14 @@ receiver_ui_config <- list(
     index = 10,
     count_chart = chart_receiver_disability_indicator,
     pct_chart = chart_giver_disability_indicator_percent,
-    table = tab_disability_indicator,
+    table = tab_multi_var_maker(df_receiver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
   ),
   "Services/ People who cared for Respondent" = list(
     index = 11,
     count_chart = chart_caree_type,
     pct_chart = chart_caree_type_percent,
-    table = tab_caree_type,
+    table = tab_multi_var_maker(df_receiver, caree_type, caree_codes, y_caree_type),
     title_fragment = "of Respondents who have a type of Caree"
   )
 )
@@ -106,7 +107,7 @@ giver_ui_config <- list(
     index = 1,
     count_chart = chart_activity_give_help,
     pct_chart = chart_activity_give_help_percent,
-    table = tab_activity_give_help,
+    table = tab_multi_var_maker(df_giver, help_activities, help_activity_codes, y_activity_give_help),
     title_fragment = "of People who Provided Help with an Activity"
   ),
   "Age of Caree" = list(
@@ -153,7 +154,7 @@ giver_ui_config <- list(
     index = 11,
     count_chart = chart_out_of_pocket,
     pct_chart = chart_out_of_pocket_percent,
-    table = tab_out_of_pocket,
+    table = tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket),
     title_fragment = "of People who had out-of-pocket Expenses From Caregiving
         - Past 12 months"
   ),
@@ -169,7 +170,7 @@ giver_ui_config <- list(
     index = 13,
     count_chart = chart_giver_disability_indicator,
     pct_chart = chart_giver_disability_indicator_percent,
-    table = tab_disability_indicator,
+    table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
   )
 )

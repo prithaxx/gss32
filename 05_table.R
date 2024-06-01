@@ -144,6 +144,19 @@ tab_disability_counter <- function(){
   return(df_disability_counter)
 }
 
+### Relationship between the Caree and the Respondent
+tab_caree_relationship <- function(df){
+  count <- y_variable(df, caree_relationship, "PGG10GR")
+  x_options <- caree_relationship
+  cols <- "PGG10GR"
+  
+  df_output <- tab_helper(df, count, x_options, cols) |>
+    rename(caree_relationship = x_options)
+  
+  return(df_output)
+}
+
+
 # --------- GENERAL TABLE MAKER - SINGLE VAR ------------------
 # df : data-frame
 # input : vector in var_x (NOTE: This gets renamed to x-options by default)
@@ -167,83 +180,6 @@ tab_multi_var_maker <- function(df, input, codes, y_function){
 }
 
 
-### Types of activities respondents received help with
-tab_activity_receive_help <- function(df) {
-  count <- y_activity_receive_help(df)
-  x_options <- help_activities
-  cols <- help_activity_codes
-
-  df_output <- tab_helper_multi_var(df, count, x_options, cols) %>%
-    rename(help_activities = x_options)
-
-  return(df_output)
-}
-
-
-### Types of activities respondents received professional help with
-tab_activity_receive_help_pro <- function(df) {
-  count <- y_activity_receive_help_pro(df)
-
-  df_output <- tab_helper_multi_var(df, count, help_activities, help_activity_pro_codes) %>%
-    rename(help_activities = x_options)
-
-  return(df_output)
-}
-
-
-### Respondents with disability indicators
-tab_disability_indicator <- function(df){
-  count <- y_disability_indicator(df)
-  x_options <- disability_indicators
-  cols <- disability_codes
-  
-  df_output <- tab_helper_multi_var(df, count, x_options, cols) |>
-    rename(disability_indicators = x_options)
-  
-  return(df_output)
-}
-
-### Services/People who cared for the respondent
-tab_caree_type <- function(df){
-  count <- y_caree_type(df)
-  x_options <- caree_type
-  cols <- caree_codes
-  
-  df_output <- tab_helper_multi_var(df, count, x_options, cols)|>
-    rename(caree_type = x_options)
-  
-  return(df_output)
-}
-
-### Relationship between the Caree and the Respondent
-tab_caree_relationship <- function(df){
-  count <- y_variable(df, caree_relationship, "PGG10GR")
-  x_options <- caree_relationship
-  cols <- "PGG10GR"
-  
-  df_output <- tab_helper(df, count, x_options, cols) |>
-    rename(caree_relationship = x_options)
-  
-  return(df_output)
-}
-
-# giver tables ####
-tab_activity_give_help <- function(df) {
-  count <- y_activity_give_help(df)
-
-  df_output <- tab_helper_multi_var(df, count, help_activities, activity_give_help_codes) %>%
-    rename(help_activities = x_options)
-
-  return(df_output)
-}
-
-tab_out_of_pocket <- function(df) {
-  count <- y_out_of_pocket(df)
-
-  df_output <- tab_helper_multi_var(df, count, out_of_pocket_expenses, out_of_pocket_codes) %>%
-    rename(out_of_pocket_expenses = x_options)
-  return(df_output)
-}
 
 tab_financial_hardship <- function(df) {
   count <- y_financial_hardship(df)
