@@ -1,12 +1,18 @@
 # group_by_sex(): Returns a chart where the y variable *counts* are grouped by sex
 # df_input (tibble): data frame to be transformed
-# tab_option (function): the function from the receiver_tabs list to transform df_input
+# y (function): checks which function from 03_var_y.R is to be used
+# input: the vector on which table is made
+# code: column code
 # x_lab (string): x-axis label
 # title_lab (string): title for the chart that is returned
-group_by_sex <- function(df_input, tab_option, x_lab, title_lab) {
-  # Assuming tab_option is a precomputed data frame
-  df <- tab_option  # Only works for charts that uses tab_maker
-  #df <- tab_option(df_input) # Only works for charts that does not use tab_maker
+group_by_sex <- function(df_input, y, input, code, x_lab, title_lab) {
+  
+  # if y is null then we are using a single table maker or else we are using multi-var table maker
+  if(is.null(y)){
+    df <- tab_maker(df_input, input, code)
+  } else{
+    df <- tab_multi_var_maker(df_input, input, code, y)
+  }
   
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = names(filter_sex[2:3]), names_to = "sex", values_to = "Count")
@@ -30,8 +36,12 @@ group_by_sex <- function(df_input, tab_option, x_lab, title_lab) {
 # tab_option (function): the function from the receiver_tabs list to transform df_input
 # x_lab (string): x-axis label
 # title_lab (string): title for the chart that is returned
-group_by_sex_percent <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option(df_input)
+group_by_sex_percent <- function(df_input, y, input, code, x_lab, title_lab) {
+  if(is.null(y)){
+    df <- tab_maker(df_input, input, code)
+  } else{
+    df <- tab_multi_var_maker(df_input, input, code, y)
+  }
 
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = c(male_percentage, female_percentage), names_to = "sex", values_to = "sex_percent")
@@ -49,9 +59,12 @@ group_by_sex_percent <- function(df_input, tab_option, x_lab, title_lab) {
   return(chart_output)
 }
 
-group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option # Only works for charts that use tab_maker
-  #df <- tab_option(df_input) # Only works for charts that do not use tab_maker
+group_by_age <- function(df_input, y, input, code, x_lab, title_lab) {
+  if(is.null(y)){
+    df <- tab_maker(df_input, input, code)
+  } else{
+    df <- tab_multi_var_maker(df_input, input, code, y)
+  }
   
   df_long <- pivot_longer(df, cols = c("age_65_74", "age_75"), names_to = "age_group", values_to = "age_count")
 
@@ -68,8 +81,13 @@ group_by_age <- function(df_input, tab_option, x_lab, title_lab) {
   return(chart_output)
 }
 
-group_by_age_percent <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option(df_input)
+group_by_age_percent <- function(df_input, y, input, code, x_lab, title_lab) {
+  if(is.null(y)){
+    df <- tab_maker(df_input, input, code)
+  } else{
+    df <- tab_multi_var_maker(df_input, input, code, y)
+  }
+  
   df_long <- pivot_longer(df,
     cols = c("age_65_74_percentage", "age_75_percentage"), names_to = "age_group",
     values_to = "age_group_percent"
@@ -91,8 +109,12 @@ group_by_age_percent <- function(df_input, tab_option, x_lab, title_lab) {
   return(chart_output)
 }
 
-group_by_alzheimers <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option
+group_by_alzheimers <- function(df_input, y, input, code, x_lab, title_lab) {
+  if(is.null(y)){
+    df <- tab_maker(df_input, input, code)
+  } else{
+    df <- tab_multi_var_maker(df_input, input, code, y)
+  }
 
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = c(alzheimers, non_alzheimers), names_to = "alzheimers_count", values_to = "Count")
@@ -110,8 +132,12 @@ group_by_alzheimers <- function(df_input, tab_option, x_lab, title_lab) {
   return(chart_output)
 }
 
-group_by_alzheimers_percent <- function(df_input, tab_option, x_lab, title_lab) {
-  df <- tab_option(df_input)
+group_by_alzheimers_percent <- function(df_input, y, input, code, x_lab, title_lab) {
+  if(is.null(y)){
+    df <- tab_maker(df_input, input, code)
+  } else{
+    df <- tab_multi_var_maker(df_input, input, code, y)
+  }
 
   # convert the data from wide to long format
   df_long <- pivot_longer(df, cols = c(alzheimers_percentage, non_alzheimers_percentage), names_to = "alzheimers_group", values_to = "alzheimers_group_percent")
