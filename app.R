@@ -19,7 +19,7 @@ general_charts <- list(
 receiver_ui_config <- list(
   "Health Conditions Experienced" = list(
     index = 1,
-    count_chart = chart_health_conditions,
+    count_chart = chart(df_receiver, health_conditions, "PRA_10GR", NULL),
     pct_chart = chart_health_conditions_percent,
     input_vector = health_conditions,
     y = NULL,
@@ -29,7 +29,7 @@ receiver_ui_config <- list(
   ),
   "Activities Respondent Gets Help With" = list(
     index = 2,
-    count_chart = chart_activity_receive_help,
+    count_chart = chart(df_receiver, help_activities, help_activity_codes, y_activity_give_help),
     pct_chart = chart_activity_receive_help_percent,
     input_vector = help_activities,
     code = help_activity_codes,
@@ -556,7 +556,7 @@ ui <- function(request) {
   )
 }
 
-server <- function(input, output, session, input_vector, code) { # nolint: cyclocomp_linter.
+server <- function(input, output, session) { # nolint: cyclocomp_linter.
   observeEvent(input$receiver_radio, {
     if (input$receiver_radio != 1) {
       disable("radio_select_box")
@@ -673,7 +673,7 @@ server <- function(input, output, session, input_vector, code) { # nolint: cyclo
         output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$count_chart(output_receiver_df)
+      config$count_chart(output_receiver_df, config$input_vector, config$code, config$y)
     }
   })
 
@@ -693,7 +693,7 @@ server <- function(input, output, session, input_vector, code) { # nolint: cyclo
         output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$pct_chart(output_receiver_df)
+      config$pct_chart
     }
   })
 
