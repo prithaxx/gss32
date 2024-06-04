@@ -115,39 +115,13 @@ tab_helper_multi_var <- function(df, count, x_options, cols) {
     )
 }
 
-# General data ####
-# tab_pop_freq <- function() {
-#   # removing the sub-age groups, b/c this is overcounting
-#   # count <- y_pop_freq(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help)
-#   count <- pop_freq
-#   df_pops <- tibble(pop_name, count) %>%
-#     mutate(percentage = count / sum(count))
-# 
-#   return(df_pops)
-# }
-# 
-# # Relationship between Caree and Receiver
-# tab_caree_freq <- function(){
-#   count <- caree_freq
-#   df_caree_relationship_pops <- tibble(caree_relationship, caree_freq) |>
-#     mutate(percentage = count/sum(count))
-#   
-#   return(df_caree_relationship_pops)
-# }
-# 
-# # The number of disability types a respondent has reported
-# tab_disability_counter <- function(){
-#   count <- disability_freq
-#   df_disability_counter <- tibble(disability_counter, disability_freq) |>
-#     mutate(percentage = count/sum(count))
-#   
-#   return(df_disability_counter)
-# }
-
 # --------- GENERAL TABLE MAKER - GENERAL CHARTS ---------------
+# input : The main data we are working on
+# frequency : vector caluclated in var_y
+#---------------------------------------------------------------
 tab_general <- function(input, frequency){
   count <- frequency
-  df <- tibble(input, frequency) |>
+  df <- df_general(input, frequency) |>
     mutate(percentage = count/sum(count))
   
   return (df)
@@ -155,7 +129,7 @@ tab_general <- function(input, frequency){
 
 # --------- GENERAL TABLE MAKER - SINGLE VAR ------------------
 # df : data-frame
-# input : vector in var_x (NOTE: This gets renamed to x-options by default)
+# input : vector in var_x (NOTE: This gets renamed to x-options)
 # code : column id in the dataset
 # -------------------------------------------------------------
 tab_maker <- function(df, input, code){
@@ -164,9 +138,9 @@ tab_maker <- function(df, input, code){
   return (df_output)
 }
 
-# --------- GENERAL TABLE MAKER - MULTI VAR ------------------
+# --------- GENERAL TABLE MAKER - MULTI VAR -------------------
 # df : data-frame
-# input : vector in var_x (NOTE: This gets renamed to x-options by default)
+# input : vector in var_x (NOTE: This gets renamed to x-options)
 # code : column id in the dataset
 # -------------------------------------------------------------
 tab_multi_var_maker <- function(df, input, codes, y_function){
