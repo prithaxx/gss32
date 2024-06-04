@@ -19,7 +19,7 @@ general_charts <- list(
 receiver_ui_config <- list(
   "Health Conditions Experienced" = list(
     index = 1,
-    count_chart = chart(df_receiver, health_conditions, "PRA_10GR", NULL),
+    count_chart = chart,
     pct_chart = chart_health_conditions_percent,
     input_vector = health_conditions,
     y = NULL,
@@ -29,7 +29,7 @@ receiver_ui_config <- list(
   ),
   "Activities Respondent Gets Help With" = list(
     index = 2,
-    count_chart = chart(df_receiver, help_activities, help_activity_codes, y_activity_give_help),
+    count_chart = chart,
     pct_chart = chart_activity_receive_help_percent,
     input_vector = help_activities,
     code = help_activity_codes,
@@ -39,7 +39,7 @@ receiver_ui_config <- list(
   ),
   "Age of Respondent's Primary Caregiver" = list(
     index = 3,
-    count_chart = chart_age_primary_giver,
+    count_chart = chart,
     pct_chart = chart_age_primary_giver_percent,
     input_vector = giver_age_group,
     code = "CRGVAGGR",
@@ -49,7 +49,7 @@ receiver_ui_config <- list(
   ),
   "Activities Assisted by Professionals" = list(
     index = 4,
-    count_chart = chart_activity_receive_help_pro,
+    count_chart = chart,
     pct_chart = chart_activity_receive_help_pro_percent,
     input_vector = help_activities,
     code = help_activity_pro_codes,
@@ -60,7 +60,7 @@ receiver_ui_config <- list(
   ),
   "Hours of Help Received per Week" = list(
     index = 5,
-    count_chart = chart_hours_help_received,
+    count_chart = chart,
     pct_chart = chart_hours_help_received_percent,
     input_vector = help_hours,
     code = "HAR_10C",
@@ -71,7 +71,7 @@ receiver_ui_config <- list(
   ),
   "Primary Caregiver Distance Away" = list(
     index = 6,
-    count_chart = chart_primary_giver_distance,
+    count_chart = chart,
     pct_chart = chart_primary_giver_distance_percent,
     input_vector = dwelling_distances,
     code = "PGD_10",
@@ -82,7 +82,7 @@ receiver_ui_config <- list(
   ),
   "Banking Help Received - frequency" = list(
     index = 7,
-    count_chart = chart_receive_help_banking_freq,
+    count_chart = chart,
     pct_chart = chart_receive_help_banking_freq_percent,
     input_vector = primary_help_banking_freq,
     code = "ARB_20",
@@ -93,7 +93,7 @@ receiver_ui_config <- list(
   ),
   "Banking Help Received - hours" = list(
     index = 8,
-    count_chart = chart_receive_help_banking_hours,
+    count_chart = chart,
     pct_chart = chart_receive_help_banking_hours_percent,
     input_vector = primary_help_banking_hours,
     code = "ARB_30C",
@@ -104,7 +104,7 @@ receiver_ui_config <- list(
   ),
   "Respondent Didn't Receive Care" = list(
     index = 9,
-    count_chart = chart_nohelp_received,
+    count_chart = chart,
     pct_chart = chart_nohelp_received_percent,
     input_vector = received_nohelp_reasons,
     code = "DVCNR20",
@@ -114,7 +114,7 @@ receiver_ui_config <- list(
   ),
   "Respondent has a Disability Indicator" = list(
     index = 10,
-    count_chart = chart_receiver_disability_indicator,
+    count_chart = chart,
     pct_chart = chart_giver_disability_indicator_percent,
     input_vector = disability_indicators,
     code = disability_codes,
@@ -124,7 +124,7 @@ receiver_ui_config <- list(
   ),
   "Services/ People who cared for Respondent" = list(
     index = 11,
-    count_chart = chart_caree_type,
+    count_chart = chart,
     pct_chart = chart_caree_type_percent,
     input_vector = caree_type,
     code = caree_codes,
@@ -137,7 +137,7 @@ receiver_ui_config <- list(
 giver_ui_config <- list(
   "Activities Respondent Assists Caree With" = list(
     index = 1,
-    count_chart = chart_activity_give_help,
+    count_chart = chart,
     pct_chart = chart_activity_give_help_percent,
     input_vector = help_activities,
     code = help_activity_codes,
@@ -147,7 +147,7 @@ giver_ui_config <- list(
   ),
   "Age of Caree" = list(
     index = 2,
-    count_chart = chart_age_primary_receiver,
+    count_chart = chart,
     pct_chart = chart_age_primary_receiver_percent,
     input_vector = primary_receiver_age_group,
     code = "CRRCPAGR",
@@ -158,7 +158,7 @@ giver_ui_config <- list(
   ),
   "Hours of Help Respondent Provides to Caree" = list(
     index = 3,
-    count_chart = chart_hours_help_provided,
+    count_chart = chart,
     pct_chart = chart_hours_help_provided_percent,
     input_vector = help_hours,
     code = "HAP_10C",
@@ -169,7 +169,7 @@ giver_ui_config <- list(
   ),
   "Distance to Caree" = list(
     index = 4,
-    count_chart = chart_primary_receiver_distance,
+    count_chart = chart,
     pct_chart = chart_primary_receiver_distance_percent,
     input_vector = dwelling_distances,
     code = "PRD_10",
@@ -180,7 +180,7 @@ giver_ui_config <- list(
   ),
   "Banking Help Provided to Caree - frequency" = list(
     index = 5,
-    count_chart = chart_give_help_banking_freq,
+    count_chart = chart,
     pct_chart = chart_give_help_banking_freq_percent,
     input_vector = primary_help_banking_freq,
     code = "ARB_20",
@@ -191,7 +191,7 @@ giver_ui_config <- list(
   ),
   "Banking Help Provided to Caree - hours" = list(
     index = 6,
-    count_chart = chart_give_help_banking_hours,
+    count_chart = chart,
     pct_chart = chart_give_help_banking_hours_percent,
     input_vector = primary_help_banking_hours,
     code = "ARB_30C",
@@ -202,7 +202,7 @@ giver_ui_config <- list(
   ),
   "Out of Pocket Caregiving Expenses" = list(
     index = 11,
-    count_chart = chart_out_of_pocket,
+    count_chart = chart,
     pct_chart = chart_out_of_pocket_percent,
     input_vector = out_of_pocket_expenses,
     code = out_of_pocket_codes,
@@ -221,7 +221,7 @@ giver_ui_config <- list(
   ),
   "Respondent has a Diability Indicator" = list(
     index = 13,
-    count_chart = chart_giver_disability_indicator,
+    count_chart = chart,
     pct_chart = chart_giver_disability_indicator_percent,
     input_vector = disability_indicators,
     code = disability_codes,
@@ -693,7 +693,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$pct_chart
+      config$pct_chart(output_receiver_df, config$input_vector, config$code, config$y)
     }
   })
 
@@ -779,7 +779,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$count_chart(output_giver_df)
+      config$count_chart(output_giver_df, config$input_vector, config$code, config$y)
     }
   })
 
@@ -803,7 +803,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$pct_chart(output_giver_df)
+      config$pct_chart(output_giver_df, config$input_vector, config$code, config$y)
     }
   })
 

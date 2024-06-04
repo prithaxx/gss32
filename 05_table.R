@@ -156,7 +156,6 @@ tab_caree_relationship <- function(df){
   return(df_output)
 }
 
-
 # --------- GENERAL TABLE MAKER - SINGLE VAR ------------------
 # df : data-frame
 # input : vector in var_x (NOTE: This gets renamed to x-options by default)
@@ -178,6 +177,22 @@ tab_multi_var_maker <- function(df, input, codes, y_function){
   count <- y_function(df)
   df_output <- tab_helper_multi_var(df, count, input, codes)
   return (df_output)
+}
+
+
+# --------- TABLE MAKER CHOOSER -----------------
+# df : data-frame
+# input : vector in var_x
+# code : column id in the dataset
+# y : function used from var_y
+# -----------------------------------------------
+tab_chooser <- function(df, input, code, y){
+  if(is.null(y)){
+    df <- tab_maker(df, input, code)
+  } else{
+    df <- tab_multi_var_maker(df, input, code, y)
+  }
+  return (df)
 }
 
 
