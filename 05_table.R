@@ -144,18 +144,6 @@ tab_disability_counter <- function(){
   return(df_disability_counter)
 }
 
-### Relationship between the Caree and the Respondent
-tab_caree_relationship <- function(df){
-  count <- y_variable(df, caree_relationship, "PGG10GR")
-  x_options <- caree_relationship
-  cols <- "PGG10GR"
-  
-  df_output <- tab_helper(df, count, x_options, cols) |>
-    rename(caree_relationship = x_options)
-  
-  return(df_output)
-}
-
 # --------- GENERAL TABLE MAKER - SINGLE VAR ------------------
 # df : data-frame
 # input : vector in var_x (NOTE: This gets renamed to x-options by default)
@@ -167,7 +155,6 @@ tab_maker <- function(df, input, code){
   return (df_output)
 }
 
-
 # --------- GENERAL TABLE MAKER - MULTI VAR ------------------
 # df : data-frame
 # input : vector in var_x (NOTE: This gets renamed to x-options by default)
@@ -178,7 +165,6 @@ tab_multi_var_maker <- function(df, input, codes, y_function){
   df_output <- tab_helper_multi_var(df, count, input, codes)
   return (df_output)
 }
-
 
 # --------- TABLE MAKER CHOOSER -----------------
 # df : data-frame

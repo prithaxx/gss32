@@ -128,7 +128,7 @@ receiver_ui_config <- list(
     pct_chart = chart_caree_type_percent,
     input_vector = caree_type,
     code = caree_codes,
-    y = y_caree_type(df_receiver),
+    y = y_caree_type,
     table = tab_multi_var_maker(df_receiver, caree_type, caree_codes, y_caree_type),
     title_fragment = "of Respondents who have a type of Caree"
   )
