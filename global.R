@@ -162,10 +162,46 @@ c_disability_groups <- ggplot(
   guides(fill = "none") +
   theme(plot.caption = element_text(hjust = 0, size = 14)) 
 
-###--------------GENERAL CHART FUNCTION - SINGLE VAR-------------------
-chart <- function(df, input, code, chart_caption, x_axis, y_axis){
-  df <- tab_maker(df, input, code)
+
+### -------------------- GENERAL CHART FUNCTION ------------------------
+chart <- function(df, input, code, y){
+  if(is.null(y)){
+    df <- tab_maker(df, input, code)
+  } else{
+    df <- tab_multi_var_maker(df, input, code, y)
+  }
+  
   f <- fct_inorder(factor(input))
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(input))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+  
+  c <- ggplot(
+    data = df,
+    mapping = aes(
+      x = f,
+      y = count,
+      fill = f,
+    )
+  ) +
+    geom_col() +
+    geom_text(aes(color=f, label=count), position = position_stack(vjust=0.5), show.legend=FALSE) +
+    labs(caption = str_wrap("Example caption", width = 115)) +
+    xlab("x-axis") +
+    ylab("y-axis") +
+    scale_x_discrete(labels = str_wrap(factor(df$x_options), width = 12)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d() +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return (c)
+}
+
+# Care receiver responses #####
+chart_health_conditions <- function(df_receiver) {
+  df_health_conditions <- tab_maker(df_receiver, health_conditions, "PRA_10GR") 
+  f <- fct_inorder(factor(health_conditions)) # changes the vector to a factor
   
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(input))), "rgb", "hcl")
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white")

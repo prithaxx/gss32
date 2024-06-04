@@ -165,8 +165,9 @@ tab_caree_relationship <- function(df){
 tab_maker <- function(df, input, code){
   count <- y_variable(df, input, code)
   df_output <- tab_helper(df, count, input, code)
-  return(df_output)
+  return (df_output)
 }
+
 
 # --------- GENERAL TABLE MAKER - MULTI VAR ------------------
 # df : data-frame

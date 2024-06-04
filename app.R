@@ -19,18 +19,21 @@ general_charts <- list(
 receiver_ui_config <- list(
   "Health Conditions Experienced" = list(
     index = 1,
-    count_chart = chart(df_receiver, health_conditions, "PRA_10GR", 
-                        "Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.",
-                        "Health Condition",
-                        "Count"),
+    count_chart = chart(df_receiver, health_conditions, "PRA_10GR", NULL),
     pct_chart = chart_health_conditions_percent,
+    input_vector = health_conditions,
+    y = NULL,
+    code = "PRA_10GR",
     table = tab_maker(df_receiver, health_conditions, "PRA_10GR"),
     title_fragment = "of People with Health Conditions"
   ),
   "Activities Respondent Gets Help With" = list(
     index = 2,
-    count_chart = chart_activity_receive_help,
+    count_chart = chart(df_receiver, help_activities, help_activity_codes, y_activity_give_help),
     pct_chart = chart_activity_receive_help_percent,
+    input_vector = help_activities,
+    code = help_activity_codes,
+    y = y_activity_receive_help,
     table = tab_multi_var_maker(df_receiver, help_activities, help_activity_codes, y_activity_receive_help),
     title_fragment = "of People who Received Help with an Activity"
   ),
@@ -38,6 +41,9 @@ receiver_ui_config <- list(
     index = 3,
     count_chart = chart_age_primary_giver,
     pct_chart = chart_age_primary_giver_percent,
+    input_vector = giver_age_group,
+    code = "CRGVAGGR",
+    y = NULL,
     table = tab_maker(df_receiver, giver_age_group, "CRGVAGGR"),
     title_fragment = "of people and the Age of Respondent's Primary Caregiver"
   ),
@@ -45,6 +51,9 @@ receiver_ui_config <- list(
     index = 4,
     count_chart = chart_activity_receive_help_pro,
     pct_chart = chart_activity_receive_help_pro_percent,
+    input_vector = help_activities,
+    code = help_activity_pro_codes,
+    y = y_activity_receive_help_pro,
     table = tab_multi_var_maker(df_receiver, help_activities, help_activity_pro_codes, y_activity_receive_help_pro),
     title_fragment = "of People who Received Professional Help with an
       Activity"
@@ -53,6 +62,9 @@ receiver_ui_config <- list(
     index = 5,
     count_chart = chart_hours_help_received,
     pct_chart = chart_hours_help_received_percent,
+    input_vector = help_hours,
+    code = "HAR_10C",
+    y = NULL,
     table = tab_maker(df_receiver, help_hours, "HAR_10C"),
     title_fragment = "of People and the Number of Hours of Help Received
       - Per Average Week"
@@ -61,15 +73,20 @@ receiver_ui_config <- list(
     index = 6,
     count_chart = chart_primary_giver_distance,
     pct_chart = chart_primary_giver_distance_percent,
+    input_vector = dwelling_distances,
+    code = "PGD_10",
+    y = NULL,
     table = tab_maker(df_receiver, dwelling_distances, "PGD_10"),
-    title_fragment =
-      "of People and the Distance Between the Respondent and the Caregiver's
+    title_fragment ="of People and the Distance Between the Respondent and the Caregiver's
       Dwellings"
   ),
   "Banking Help Received - frequency" = list(
     index = 7,
     count_chart = chart_receive_help_banking_freq,
     pct_chart = chart_receive_help_banking_freq_percent,
+    input_vector = primary_help_banking_freq,
+    code = "ARB_20",
+    y = NULL,
     table = tab_maker(df_receiver, primary_help_banking_freq, "ARB_20"),
     title_fragment = "of People and the Frequency Their Primary Caregiver Helped
       with Banking"
@@ -78,6 +95,9 @@ receiver_ui_config <- list(
     index = 8,
     count_chart = chart_receive_help_banking_hours,
     pct_chart = chart_receive_help_banking_hours_percent,
+    input_vector = primary_help_banking_hours,
+    code = "ARB_30C",
+    y = NULL,
     table = tab_maker(df_receiver, primary_help_banking_hours, "ARB_30C"),
     title_fragment = "of People and Number of Hours their Primary Caregiver
       Helped with Banking"
@@ -86,6 +106,9 @@ receiver_ui_config <- list(
     index = 9,
     count_chart = chart_nohelp_received,
     pct_chart = chart_nohelp_received_percent,
+    input_vector = received_nohelp_reasons,
+    code = "DVCNR20",
+    y = NULL,
     table = tab_maker(df_receiver, received_nohelp_reasons, "DVCNR20"),
     title_fragment = "of Respondents and the reasons why they did not receive help"
   ),
@@ -93,6 +116,9 @@ receiver_ui_config <- list(
     index = 10,
     count_chart = chart_receiver_disability_indicator,
     pct_chart = chart_giver_disability_indicator_percent,
+    input_vector = disability_indicators,
+    code = disability_codes,
+    y = y_disability_indicator,
     table = tab_multi_var_maker(df_receiver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
   ),
@@ -100,6 +126,9 @@ receiver_ui_config <- list(
     index = 11,
     count_chart = chart_caree_type,
     pct_chart = chart_caree_type_percent,
+    input_vector = caree_type,
+    code = caree_codes,
+    y = y_caree_type(df_receiver),
     table = tab_multi_var_maker(df_receiver, caree_type, caree_codes, y_caree_type),
     title_fragment = "of Respondents who have a type of Caree"
   )
@@ -110,6 +139,9 @@ giver_ui_config <- list(
     index = 1,
     count_chart = chart_activity_give_help,
     pct_chart = chart_activity_give_help_percent,
+    input_vector = help_activities,
+    code = help_activity_codes,
+    y = y_activity_give_help,
     table = tab_multi_var_maker(df_giver, help_activities, help_activity_codes, y_activity_give_help),
     title_fragment = "of People who Provided Help with an Activity"
   ),
@@ -117,6 +149,9 @@ giver_ui_config <- list(
     index = 2,
     count_chart = chart_age_primary_receiver,
     pct_chart = chart_age_primary_receiver_percent,
+    input_vector = primary_receiver_age_group,
+    code = "CRRCPAGR",
+    y = NULL,
     table = tab_maker(df_giver, primary_receiver_age_group, "CRRCPAGR"),
     title_fragment = "of people and the Age of Respondent's Primary Care
         Receiver"
@@ -125,6 +160,9 @@ giver_ui_config <- list(
     index = 3,
     count_chart = chart_hours_help_provided,
     pct_chart = chart_hours_help_provided_percent,
+    input_vector = help_hours,
+    code = "HAP_10C",
+    y = NULL,
     table = tab_maker(df_giver, help_hours, "HAP_10C"),
     title_fragment = "of People and the Number of Hours of Help Provided -
         Per Average Week"
@@ -133,6 +171,9 @@ giver_ui_config <- list(
     index = 4,
     count_chart = chart_primary_receiver_distance,
     pct_chart = chart_primary_receiver_distance_percent,
+    input_vector = dwelling_distances,
+    code = "PRD_10",
+    y = NULL,
     table = tab_maker(df_giver, dwelling_distances, "PRD_10"),
     title_fragment = "of People and the Distance Between them and the Care
         Receiver's Dwellings"
@@ -141,6 +182,9 @@ giver_ui_config <- list(
     index = 5,
     count_chart = chart_give_help_banking_freq,
     pct_chart = chart_give_help_banking_freq_percent,
+    input_vector = primary_help_banking_freq,
+    code = "ARB_20",
+    y = NULL,
     table = tab_maker(df_giver, primary_help_banking_freq, "ARB_20"),
     title_fragment = "of People and the Frequency they Provided Help to Their
         Primary Care Receiver with Banking"
@@ -149,6 +193,9 @@ giver_ui_config <- list(
     index = 6,
     count_chart = chart_give_help_banking_hours,
     pct_chart = chart_give_help_banking_hours_percent,
+    input_vector = primary_help_banking_hours,
+    code = "ARB_30C",
+    y = NULL,
     table = tab_maker(df_giver, primary_help_banking_hours, "ARB_30C"),
     title_fragment = "of People and Number of Hours they Provided Help with
         Banking"
@@ -157,6 +204,9 @@ giver_ui_config <- list(
     index = 11,
     count_chart = chart_out_of_pocket,
     pct_chart = chart_out_of_pocket_percent,
+    input_vector = out_of_pocket_expenses,
+    code = out_of_pocket_codes,
+    y = y_out_of_pocket,
     table = tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket),
     title_fragment = "of People who had out-of-pocket Expenses From Caregiving
         - Past 12 months"
@@ -173,6 +223,8 @@ giver_ui_config <- list(
     index = 13,
     count_chart = chart_giver_disability_indicator,
     pct_chart = chart_giver_disability_indicator_percent,
+    input_vector = disability_indicators,
+    code = disability_codes,
     table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
   )
@@ -614,14 +666,14 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     
     if (input$receiver_radio == 2) {
       group_by_sex(
-        output_receiver_df, config$table, dataset_name, config$title_fragment
+        output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else if (input$receiver_radio == 3) {
       group_by_age(
-        output_receiver_df, config$table, dataset_name, config$title_fragment
+        output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$count_chart  # Call the chart function with df
+      config$count_chart(output_receiver_df, config$input_vector, config$code, config$y)
     }
   })
 
@@ -634,14 +686,14 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
     if (input$receiver_radio == 2) {
       group_by_sex_percent(
-        output_receiver_df, config$table, dataset_name, config$title_fragment
+        output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else if (input$receiver_radio == 3) {
       group_by_age_percent(
-        output_receiver_df, config$table, dataset_name, config$title_fragment
+        output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$pct_chart(output_receiver_df)
+      config$pct_chart
     }
   })
 
@@ -716,15 +768,15 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
     if (input$giver_radio == 2) {
       group_by_sex(
-        output_giver_df, config$table, dataset_name, config$title_fragment
+        output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else if (input$giver_radio == 3) {
       group_by_age(
-        output_giver_df, config$table, dataset_name, config$title_fragment
+        output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else if (input$giver_radio == 4) {
       group_by_alzheimers(
-        output_giver_df, config$table, dataset_name, config$title_fragment
+        output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
       config$count_chart(output_giver_df)
@@ -740,15 +792,15 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
 
     if (input$giver_radio == 2) {
       group_by_sex_percent(
-        output_giver_df, config$table, dataset_name, config$title_fragment
+        output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else if (input$giver_radio == 3) {
       group_by_age_percent(
-        output_giver_df, config$table, dataset_name, config$title_fragment
+        output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else if (input$giver_radio == 4) {
       group_by_alzheimers_percent(
-        output_giver_df, config$table, dataset_name, config$title_fragment
+        output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
       config$pct_chart(output_giver_df)
