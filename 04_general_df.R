@@ -8,3 +8,8 @@ df_primary_sex <- tibble(
 
 df_caree_relationship_pops <- tibble(caree_relationship, caree_freq)
 df_disability_counter <- tibble(disability_counter, disability_freq)
+
+df_general <- function(input, frequency){
+  df <- tibble(input, frequency)
+  return (df)
+}

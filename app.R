@@ -607,18 +607,17 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # general table
   output$general_table <- renderTable({
     if (input$general_selected_box == general_charts[1]) {
-      tab_pop_freq()
+      tab_general(pop_name, pop_freq)
     } else if(input$general_selected_box == general_charts[2]){
       df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
     } else if(input$general_selected_box == general_charts[3]){
-      tab_caree_freq()
+      tab_general(caree_relationship, caree_freq)
     } else if(input$general_selected_box == general_charts[4]){
-      tab_disability_counter()
+      tab_general(disability_counter, disability_freq)
     }
   })
 
   ### Receiver filters and charts
-
   update_receiver_df <- reactive({
     filtered_df <- apply_filter(
       df_receiver,
