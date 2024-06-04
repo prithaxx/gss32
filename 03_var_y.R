@@ -219,15 +219,5 @@ y_financial_hardship <- function(df) {
 # x <- vector
 # input <- string code 
 y_variable <- function(df, x, y_input){
-  # print("in y_variable")
-  # print(df)
-  # print("x type is")
-  # print(class(x))
-  # print("X is")
-  # print(x)
-  # print("y_input is")
-  # print(y_input)
   result <- count_map(df, x, y_input)
-  # print("result is:")
-  # print(result)
 }
