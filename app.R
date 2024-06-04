@@ -635,13 +635,13 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # general counts tab
   output$general_selected_chart <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
-      c_respondent_groups
+      chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Respondent groups", "Count")
     } else if(input$general_selected_box == general_charts[2]) {
       c_primary_sex
     } else if(input$general_selected_box == general_charts[3]){
-      c_caree_groups
+      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Caree Relationships", "Count")
     } else if (input$general_selected_box == general_charts[4]){
-      c_disability_groups
+      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })
 
