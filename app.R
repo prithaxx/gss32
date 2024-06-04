@@ -832,7 +832,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$count_chart(output_giver_df, config$input_vector, config$code, config$y)
+      config$count_chart(output_giver_df, config$input_vector, config$code, config$y, config$caption, config$x_axis, config$y_axis)
     }
   })
 
