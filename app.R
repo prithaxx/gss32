@@ -24,6 +24,9 @@ receiver_ui_config <- list(
     input_vector = health_conditions,
     y = NULL,
     code = "PRA_10GR",
+    caption = "Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.",
+    x_axis = "Health Condition",
+    y_axis = "Count",
     table = tab_maker(df_receiver, health_conditions, "PRA_10GR"),
     title_fragment = "of People with Health Conditions"
   ),
@@ -34,6 +37,9 @@ receiver_ui_config <- list(
     input_vector = help_activities,
     code = help_activity_codes,
     y = y_activity_receive_help,
+    caption = "Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received with from family, friends or neighbours in the past 12 months.",
+    x_axis = "Acitivty",
+    y_axis = "Count",
     table = tab_multi_var_maker(df_receiver, help_activities, help_activity_codes, y_activity_receive_help),
     title_fragment = "of People who Received Help with an Activity"
   ),
@@ -44,6 +50,9 @@ receiver_ui_config <- list(
     input_vector = giver_age_group,
     code = "CRGVAGGR",
     y = NULL,
+    caption = "Count of the age (groups of 5) of primary caregivers for respondents considered to be a care receiver and 65 years of age or older.",
+    x_axis = "Age (years)",
+    y_axis = "Count",
     table = tab_maker(df_receiver, giver_age_group, "CRGVAGGR"),
     title_fragment = "of people and the Age of Respondent's Primary Caregiver"
   ),
@@ -54,6 +63,9 @@ receiver_ui_config <- list(
     input_vector = help_activities,
     code = help_activity_pro_codes,
     y = y_activity_receive_help_pro,
+    caption = "Count for the type of activities for which respondents considered to be a care receiver and 65 years of age or older received help from a professional in the past 12 months.",
+    x_axis = "Activity",
+    y_axis = "Count",
     table = tab_multi_var_maker(df_receiver, help_activities, help_activity_pro_codes, y_activity_receive_help_pro),
     title_fragment = "of People who Received Professional Help with an
       Activity"
@@ -65,6 +77,9 @@ receiver_ui_config <- list(
     input_vector = help_hours,
     code = "HAR_10C",
     y = NULL,
+    caption = "Count for the number of hours of help received, average per week, from family, friends or neighbours in the past 12 months.",
+    x_axis = "Time (hour)",
+    y_axis = "Count",
     table = tab_maker(df_receiver, help_hours, "HAR_10C"),
     title_fragment = "of People and the Number of Hours of Help Received
       - Per Average Week"
@@ -76,6 +91,9 @@ receiver_ui_config <- list(
     input_vector = dwelling_distances,
     code = "PGD_10",
     y = NULL,
+    caption = "Counts for the distance bycar between respondents considered to be a care receiver and 65 years of age or older, amd their primary caregiver during the time they were receiving help in the past 12 months.",
+    x_axis = "Distane (time)",
+    y_axis = "Count",
     table = tab_maker(df_receiver, dwelling_distances, "PGD_10"),
     title_fragment ="of People and the Distance Between the Respondent and the Caregiver's
       Dwellings"
@@ -87,6 +105,9 @@ receiver_ui_config <- list(
     input_vector = primary_help_banking_freq,
     code = "ARB_20",
     y = NULL,
+    caption = "Count for how often respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.",
+    x_axis = "Help Frequency",
+    y_axis = "Count",
     table = tab_maker(df_receiver, primary_help_banking_freq, "ARB_20"),
     title_fragment = "of People and the Frequency Their Primary Caregiver Helped
       with Banking"
@@ -98,6 +119,9 @@ receiver_ui_config <- list(
     input_vector = primary_help_banking_hours,
     code = "ARB_30C",
     y = NULL,
+    caption = "Count for the number of hours respondents considered to be a care receiver and 65 years of age or older received help with managing their finances in the past 12 months.",
+    x_axis = "Time (hours)",
+    y_axis = "Count",
     table = tab_maker(df_receiver, primary_help_banking_hours, "ARB_30C"),
     title_fragment = "of People and Number of Hours their Primary Caregiver
       Helped with Banking"
@@ -109,6 +133,9 @@ receiver_ui_config <- list(
     input_vector = received_nohelp_reasons,
     code = "DVCNR20",
     y = NULL,
+    caption = "Count for the main reasons why respondents do no receive the care they need.",
+    x_axis = "Reasons",
+    y_axis = "Count",
     table = tab_maker(df_receiver, received_nohelp_reasons, "DVCNR20"),
     title_fragment = "of Respondents and the reasons why they did not receive help"
   ),
@@ -119,6 +146,9 @@ receiver_ui_config <- list(
     input_vector = disability_indicators,
     code = disability_codes,
     y = y_disability_indicator,
+    caption = "Frequency of the type of disability indicators within respondents.",
+    x_axis = "Types of Disability Indicators",
+    y_axis = "Count",
     table = tab_multi_var_maker(df_receiver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
   ),
@@ -129,6 +159,9 @@ receiver_ui_config <- list(
     input_vector = caree_type,
     code = caree_codes,
     y = y_caree_type,
+    caption = "Frequency of the type of caree (Friends/ Family, Professional or Both).",
+    x_axis = "Types of Caree",
+    y_axis = "Count",
     table = tab_multi_var_maker(df_receiver, caree_type, caree_codes, y_caree_type),
     title_fragment = "of Respondents who have a type of Caree"
   )
@@ -142,6 +175,9 @@ giver_ui_config <- list(
     input_vector = help_activities,
     code = help_activity_codes,
     y = y_activity_give_help,
+    caption = "Types of activities respondents provided help with - Past 12 months",
+    x_axis = "Activity",
+    y_axis = "Count",
     table = tab_multi_var_maker(df_giver, help_activities, help_activity_codes, y_activity_give_help),
     title_fragment = "of People who Provided Help with an Activity"
   ),
@@ -152,6 +188,9 @@ giver_ui_config <- list(
     input_vector = primary_receiver_age_group,
     code = "CRRCPAGR",
     y = NULL,
+    caption = "Age of primary care receiver",
+    x_axis = "Age Group (years)",
+    y_axis = "Count",
     table = tab_maker(df_giver, primary_receiver_age_group, "CRRCPAGR"),
     title_fragment = "of people and the Age of Respondent's Primary Care
         Receiver"
@@ -163,6 +202,9 @@ giver_ui_config <- list(
     input_vector = help_hours,
     code = "HAP_10C",
     y = NULL,
+    caption = "Number of hours of help provided - Per average week per activity.",
+    x_axis = "Time (hours)",
+    y_axis = "Count",
     table = tab_maker(df_giver, help_hours, "HAP_10C"),
     title_fragment = "of People and the Number of Hours of Help Provided -
         Per Average Week"
@@ -174,6 +216,9 @@ giver_ui_config <- list(
     input_vector = dwelling_distances,
     code = "PRD_10",
     y = NULL,
+    caption = "Distance betweeb the respondents's and care-receiver's dwellings.",
+    x_axis = "Distance by car",
+    y_axis = "Count",
     table = tab_maker(df_giver, dwelling_distances, "PRD_10"),
     title_fragment = "of People and the Distance Between them and the Care
         Receiver's Dwellings"
@@ -185,6 +230,9 @@ giver_ui_config <- list(
     input_vector = primary_help_banking_freq,
     code = "ARB_20",
     y = NULL,
+    caption = "Helped primary care receiver with banking - Frequency.",
+    x_axis = "Help Frequency",
+    y_axis = "Count",
     table = tab_maker(df_giver, primary_help_banking_freq, "ARB_20"),
     title_fragment = "of People and the Frequency they Provided Help to Their
         Primary Care Receiver with Banking"
@@ -196,6 +244,9 @@ giver_ui_config <- list(
     input_vector = primary_help_banking_hours,
     code = "ARB_30C",
     y = NULL,
+    caption = "Primary caregiver helped with banking - Number of hours.",
+    x_axis = "Hours helped",
+    y_axis = "Count",
     table = tab_maker(df_giver, primary_help_banking_hours, "ARB_30C"),
     title_fragment = "of People and Number of Hours they Provided Help with
         Banking"
@@ -207,6 +258,9 @@ giver_ui_config <- list(
     input_vector = out_of_pocket_expenses,
     code = out_of_pocket_codes,
     y = y_out_of_pocket,
+    caption = "Out-of-pocket expenses because of caregiving responsibilities.",
+    x_axis = "Expense categories",
+    y_axis = "Count",
     table = tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket),
     title_fragment = "of People who had out-of-pocket Expenses From Caregiving
         - Past 12 months"
@@ -672,7 +726,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$count_chart(output_receiver_df, config$input_vector, config$code, config$y)
+      config$count_chart(output_receiver_df, config$input_vector, config$code, config$y, config$caption, config$x_axis, config$y_axis)
     }
   })
 

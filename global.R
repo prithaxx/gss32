@@ -169,7 +169,7 @@ c_disability_groups <- ggplot(
 # code : The column code from the original dataset
 # y : Which y function is being used from 03_var_y.R
 ### --------------------------------------------------------------------
-chart <- function(df, input, code, y){
+chart <- function(df, input, code, y, caption, x_axis, y_axis){
   df <- tab_chooser(df, input, code, y)
   f <- fct_inorder(factor(input))
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(input))), "rgb", "hcl")
@@ -185,9 +185,9 @@ chart <- function(df, input, code, y){
   ) +
     geom_col() +
     geom_text(aes(color=f, label=count), position = position_stack(vjust=0.5), show.legend=FALSE) +
-    labs(caption = str_wrap("Example caption", width = 115)) +
-    xlab("x-axis") +
-    ylab("y-axis") +
+    labs(caption = str_wrap(caption, width = 115)) +
+    xlab(x_axis) +
+    ylab(y_axis) +
     scale_x_discrete(labels = str_wrap(factor(df$x_options), width = 12)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d() +
