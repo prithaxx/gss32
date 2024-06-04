@@ -4,13 +4,11 @@ pop_freq <- c(
   unmet_pop <- nrow(df_need_help)
 )
 
-y_pop_freq <- function(df_giver, df_receiver, df_need_help) {
-  pop_freq <- c(
-    giver_pop <- nrow(df_giver),
-    receiver_pop <- nrow(df_receiver),
-    unmet_pop <- nrow(df_need_help)
-  )
-}
+pop_freq <- c(
+  giver_pop <- nrow(df_giver),
+  receiver_pop <- nrow(df_receiver),
+  unmet_pop <- nrow(df_need_help)
+)
 
 caree_freq <- c(
   spouse_pop <- nrow(filter(df_caree_relations, PGG10GR == 1)),
