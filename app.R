@@ -20,7 +20,7 @@ receiver_ui_config <- list(
   "Health Conditions Experienced" = list(
     index = 1,
     count_chart = chart,
-    pct_chart = chart_health_conditions_percent,
+    pct_chart = chart_pct,
     input_vector = health_conditions,
     y = NULL,
     code = "PRA_10GR",
@@ -28,6 +28,8 @@ receiver_ui_config <- list(
     title = "Health Conditions Experienced by Respondents",
     x_axis = "Health Condition",
     y_axis = "Count",
+    caption_pct = "Proportion of care receiver respondents reporting item as their main health condition.",
+    y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_maker(df_receiver, health_conditions, "PRA_10GR"),
     title_fragment = "of People with Health Conditions"
   ),
@@ -769,7 +771,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
       )
     } else {
-      config$pct_chart(output_receiver_df, config$input_vector, config$code, config$y)
+      config$pct_chart(output_receiver_df, config$input_vector, config$code, config$y, config$title, config$caption_pct, config$x_axis, config$y_axis_pct)
     }
   })
 
