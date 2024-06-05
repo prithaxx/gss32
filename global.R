@@ -100,7 +100,7 @@ c_primary_sex <- ggplot(
 # x_axis : labels the x axis
 # y_axis : labels the y_axis
 # ----------------------------------------------------------------------
-chart_general <- function(input, frequency, title, x_axis, y_axis){
+chart_general <- function(input, frequency, title, caption, x_axis, y_axis){
   df <- df_general(input, frequency)
   f <- fct_inorder(factor(input))
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(df$input))), "rgb", "hcl")
@@ -115,6 +115,7 @@ chart_general <- function(input, frequency, title, x_axis, y_axis){
     geom_col() +
     geom_text(aes(color = f, label = frequency), position = position_stack(vjust = 0.5), show.legend = FALSE) +
     ggtitle(title) +
+    labs(caption = str_wrap(caption, width = 115)) +
     xlab(x_axis) +
     ylab(y_axis) +
     scale_x_discrete(labels = str_wrap(df$input, width = 15)) +

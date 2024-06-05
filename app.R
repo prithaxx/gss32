@@ -658,13 +658,13 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # general counts tab
   output$general_selected_chart <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
-      chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Respondent groups", "Count")
+      chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.","Respondent groups", "Count")
     } else if(input$general_selected_box == general_charts[2]) {
       c_primary_sex
     } else if(input$general_selected_box == general_charts[3]){
-      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Caree Relationships", "Count")
+      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Count of respondents in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.","Caree Relationships", "Count")
     } else if (input$general_selected_box == general_charts[4]){
-      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
+      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })
 
