@@ -94,7 +94,13 @@ c_primary_sex <- ggplot(
   theme(plot.caption = element_text(hjust = 0, size = 14))
 
 # ---------------------- "GENERAL" CHART FUNCTION ----------------------
-chart_general <- function(input, frequency, caption, x_axis, y_axis){
+# input : vector on which we are working. 
+# frequency : vector of counts from var_y
+# caption : title of the chart
+# x_axis : labels the x axis
+# y_axis : labels the y_axis
+# ----------------------------------------------------------------------
+chart_general <- function(input, frequency, title, x_axis, y_axis){
   df <- df_general(input, frequency)
   f <- fct_inorder(factor(input))
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(df$input))), "rgb", "hcl")
@@ -108,8 +114,9 @@ chart_general <- function(input, frequency, caption, x_axis, y_axis){
     )) +
     geom_col() +
     geom_text(aes(color = f, label = frequency), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-    ggtitle(caption) +
-    labs(x = x_axis, y = y_axis) +
+    ggtitle(title) +
+    xlab(x_axis) +
+    ylab(y_axis) +
     scale_x_discrete(labels = str_wrap(df$input, width = 15)) +
     scale_color_manual(values = label_col) + 
     scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "viridis") +
@@ -126,13 +133,15 @@ chart_general <- function(input, frequency, caption, x_axis, y_axis){
 # input : the vector from 02_var_x.R
 # code : The column code from the original dataset
 # y : Which y function is being used from 03_var_y.R
+# caption : title of the chart
+# x_axis : labels the x axis
+# y_axis : labels the y_axis
 ### --------------------------------------------------------------------
-chart <- function(df, input, code, y, caption, x_axis, y_axis){
+chart <- function(df, input, code, y, title, caption, x_axis, y_axis){
   df <- tab_chooser(df, input, code, y)
   f <- fct_inorder(factor(input))
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(input))), "rgb", "hcl")
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
-  
   c <- ggplot(
     data = df,
     mapping = aes(
@@ -143,6 +152,7 @@ chart <- function(df, input, code, y, caption, x_axis, y_axis){
   ) +
     geom_col() +
     geom_text(aes(color=f, label=count), position = position_stack(vjust=0.5), show.legend=FALSE) +
+    ggtitle(title) +
     labs(caption = str_wrap(caption, width = 115)) +
     xlab(x_axis) +
     ylab(y_axis) +
