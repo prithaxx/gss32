@@ -115,51 +115,21 @@ tab_helper_multi_var <- function(df, count, x_options, cols) {
     )
 }
 
-# General data ####
-tab_pop_freq <- function() {
-  # removing the sub-age groups, b/c this is overcounting
-  # count <- y_pop_freq(df_giver, df_receiver, df_receiver_65_74, df_receiver_75, df_need_help)
-  count <- y_pop_freq(df_giver, df_receiver, df_need_help)
-  df_pops <- tibble(pop_name, count) %>%
-    mutate(percentage = count / sum(count))
-
-  return(df_pops)
-}
-
-# Relationship between Caree and Receiver
-tab_caree_freq <- function(){
-  count <- caree_freq
-  df_caree_relationship_pops <- tibble(caree_relationship, caree_freq) |>
+# --------- GENERAL TABLE MAKER - GENERAL CHARTS ---------------
+# input : The main data we are working on
+# frequency : vector caluclated in var_y
+#---------------------------------------------------------------
+tab_general <- function(input, frequency){
+  count <- frequency
+  df <- df_general(input, frequency) |>
     mutate(percentage = count/sum(count))
   
-  return(df_caree_relationship_pops)
+  return (df)
 }
-
-# The number of disability types a respondent has reported
-tab_disability_counter <- function(){
-  count <- disability_freq
-  df_disability_counter <- tibble(disability_counter, disability_freq) |>
-    mutate(percentage = count/sum(count))
-  
-  return(df_disability_counter)
-}
-
-### Relationship between the Caree and the Respondent
-tab_caree_relationship <- function(df){
-  count <- y_variable(df, caree_relationship, "PGG10GR")
-  x_options <- caree_relationship
-  cols <- "PGG10GR"
-  
-  df_output <- tab_helper(df, count, x_options, cols) |>
-    rename(caree_relationship = x_options)
-  
-  return(df_output)
-}
-
 
 # --------- GENERAL TABLE MAKER - SINGLE VAR ------------------
 # df : data-frame
-# input : vector in var_x (NOTE: This gets renamed to x-options by default)
+# input : vector in var_x (NOTE: This gets renamed to x-options)
 # code : column id in the dataset
 # -------------------------------------------------------------
 tab_maker <- function(df, input, code){
@@ -168,10 +138,9 @@ tab_maker <- function(df, input, code){
   return (df_output)
 }
 
-
-# --------- GENERAL TABLE MAKER - MULTI VAR ------------------
+# --------- GENERAL TABLE MAKER - MULTI VAR -------------------
 # df : data-frame
-# input : vector in var_x (NOTE: This gets renamed to x-options by default)
+# input : vector in var_x (NOTE: This gets renamed to x-options)
 # code : column id in the dataset
 # -------------------------------------------------------------
 tab_multi_var_maker <- function(df, input, codes, y_function){
@@ -180,8 +149,23 @@ tab_multi_var_maker <- function(df, input, codes, y_function){
   return (df_output)
 }
 
+# --------- TABLE MAKER CHOOSER -----------------
+# df : data-frame
+# input : vector in var_x
+# code : column id in the dataset
+# y : function used from var_y
+# -----------------------------------------------
+tab_chooser <- function(df, input, code, y){
+  if(is.null(y)){
+    df <- tab_maker(df, input, code)
+  } else{
+    df <- tab_multi_var_maker(df, input, code, y)
+  }
+  return (df)
+}
 
 
+# TODO: Special table function, try to fix this later if possible.
 tab_financial_hardship <- function(df) {
   count <- y_financial_hardship(df)
 

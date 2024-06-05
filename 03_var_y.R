@@ -4,13 +4,11 @@ pop_freq <- c(
   unmet_pop <- nrow(df_need_help)
 )
 
-y_pop_freq <- function(df_giver, df_receiver, df_need_help) {
-  pop_freq <- c(
-    giver_pop <- nrow(df_giver),
-    receiver_pop <- nrow(df_receiver),
-    unmet_pop <- nrow(df_need_help)
-  )
-}
+pop_freq <- c(
+  giver_pop <- nrow(df_giver),
+  receiver_pop <- nrow(df_receiver),
+  unmet_pop <- nrow(df_need_help)
+)
 
 caree_freq <- c(
   spouse_pop <- nrow(filter(df_caree_relations, PGG10GR == 1)),
@@ -27,26 +25,6 @@ disability_freq <- c(
   two_three_pop <- nrow(filter(df_union, DTYPER == 2)),
   more_three_pop <- nrow(filter(df_union, DTYPER == 3))
 )
-
-# y_caree_freq <- function(df_caree_relations){
-#   caree_freq <- c(
-#     spouse_pop <- nrow(filter(df_caree_relations, PGG10GR == 1)),
-#     son_pop <- nrow(filter(df_caree_relations, PGG10GR == 2)),
-#     daughter_pop <- nrow(filter(df_caree_relations, PGG10GR == 3)),
-#     parent_pop <- nrow(filter(df_caree_relations, PGG10GR == 4)),
-#     family_pop <- nrow(filter(df_caree_relations, PGG10GR == 5)),
-#     other_pop <- nrow(filter(df_caree_relations, PGG10GR == 6))
-#   )
-# }
-
-# y_disability_counter <- function(df_union){
-#   disability_freq <- c(
-#     none_pop <- nrow(filter(df_union, DTYPER == 0)),
-#     one_pop <- nrow(filter(df_union, DTYPER == 1)),
-#     two_three_pop <- nrow(filter(df_union, DTYPER == 2)),
-#     more_three_pop <- nrow(filter(df_union, DTYPER == 3))
-#   )
-# }
 
 primary_giver_sex_freq <- c(
   primary_giver_male <- nrow(filter(df_receiver, PGN_25 == 1)),
@@ -219,15 +197,5 @@ y_financial_hardship <- function(df) {
 # x <- vector
 # input <- string code 
 y_variable <- function(df, x, y_input){
-  # print("in y_variable")
-  # print(df)
-  # print("x type is")
-  # print(class(x))
-  # print("X is")
-  # print(x)
-  # print("y_input is")
-  # print(y_input)
   result <- count_map(df, x, y_input)
-  # print("result is:")
-  # print(result)
 }
