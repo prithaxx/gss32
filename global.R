@@ -71,29 +71,6 @@ total_giver_male <- nrow(apply_filter(df_giver, 1, "SEX"))
 total_giver_female <- nrow(apply_filter(df_giver, 2, "SEX"))
 
 # General Charts ####
-
-## Respondent groups ####
-phcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_pops$pop_name))), "rgb", "hcl") 
-plabel_col <- ifelse(phcl[, "l"] > 50, "black", "white") 
-c_respondent_groups <- ggplot(
-  data = df_pops,
-  mapping = aes(x = fct_inorder(pop_name), y = pop_freq, fill = pop_name)
-) +
-  geom_col() +
-  geom_text(aes(color=pop_name, label = pop_freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-  ggtitle("GSS 2018 repsondent groups") +
-  labs(
-    x = "Respondent group",
-    y = "Count",
-    caption = str_wrap("Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.", width = 115)
-  ) +
-  scale_x_discrete(labels = str_wrap(df_pops$pop_name, width = 15)) +
-  scale_color_manual(values = plabel_col) + 
-  scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "viridis") +
-  theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
-  guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0, size = 14)) 
-
 ## Sex of primary caregiver and primary care receiver ####
 shcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_primary_sex$sex))), "rgb", "hcl") 
 slabel_col <- ifelse(shcl[, "l"] > 50, "black", "white") 
@@ -116,51 +93,39 @@ c_primary_sex <- ggplot(
   guides(fill = "none") +
   theme(plot.caption = element_text(hjust = 0, size = 14))
 
-
-### Relationship between Caree and Receiver
-rhcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_caree_relationship_pops$caree_relationship))), "rgb", "hcl") 
-rlabel_col <- ifelse(rhcl[, "l"] > 50, "black", "white") 
-c_caree_groups <- ggplot(
-  data = df_caree_relationship_pops,
-  mapping = aes(x = fct_inorder(caree_relationship), y = caree_freq, fill = caree_relationship)
-) +
-  geom_col() +
-  geom_text(aes(color=caree_relationship, label = caree_freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-  ggtitle("GSS 2018 Relationship between Caree and Receiver") +
-  labs(
-    x = "Caree Relationships",
-    y = "Count",
-    caption = str_wrap("Count of respondents in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.", width = 115)
-  ) +
-  scale_x_discrete(labels = str_wrap(df_caree_relationship_pops$caree_relationship, width = 15)) +
-  scale_color_manual(values = rlabel_col) + 
-  scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "viridis") +
-  theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
-  guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0, size = 14)) 
-
-
-# Disability Counter
-dhcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_disability_counter$disability_counter))), "rgb", "hcl") 
-dlabel_col <- ifelse(dhcl[, "l"] > 50, "black", "white") 
-c_disability_groups <- ggplot(
-  data = df_disability_counter,
-  mapping = aes(x = fct_inorder(disability_counter), y = disability_freq, fill = disability_counter)
-) +
-  geom_col() +
-  geom_text(aes(color=disability_counter, label =  disability_freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-  ggtitle("GSS 2018 Number of Disability Types- Grouped") +
-  labs(
-    x = "Groups of Disability Counts",
-    y = "Count",
-    caption = str_wrap("Count of respondents in each grouping: None, 1, 2 or 3, > 3.", width = 115)
-  ) +
-  scale_x_discrete(labels = str_wrap(df_disability_counter$disability_counter, width = 15)) +
-  scale_color_manual(values = dlabel_col) + 
-  scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "viridis") +
-  theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
-  guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0, size = 14)) 
+# ---------------------- "GENERAL" CHART FUNCTION ----------------------
+# input : vector on which we are working. 
+# frequency : vector of counts from var_y
+# caption : title of the chart
+# x_axis : labels the x axis
+# y_axis : labels the y_axis
+# ----------------------------------------------------------------------
+chart_general <- function(input, frequency, title, x_axis, y_axis){
+  df <- df_general(input, frequency)
+  f <- fct_inorder(factor(input))
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(df$input))), "rgb", "hcl")
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+  c <- ggplot(
+    data = df,
+    mapping = aes(
+      x = f,
+      y = frequency,
+      fill = f
+    )) +
+    geom_col() +
+    geom_text(aes(color = f, label = frequency), position = position_stack(vjust = 0.5), show.legend = FALSE) +
+    ggtitle(title) +
+    xlab(x_axis) +
+    ylab(y_axis) +
+    scale_x_discrete(labels = str_wrap(df$input, width = 15)) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(begin = 0.2, end = 0.8, option  = "viridis") +
+    theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14)) 
+  
+  return (c)
+}
 
 
 ### -------------------- GENERAL CHART FUNCTION ------------------------
@@ -168,13 +133,15 @@ c_disability_groups <- ggplot(
 # input : the vector from 02_var_x.R
 # code : The column code from the original dataset
 # y : Which y function is being used from 03_var_y.R
+# caption : title of the chart
+# x_axis : labels the x axis
+# y_axis : labels the y_axis
 ### --------------------------------------------------------------------
-chart <- function(df, input, code, y, caption, x_axis, y_axis){
+chart <- function(df, input, code, y, title, caption, x_axis, y_axis){
   df <- tab_chooser(df, input, code, y)
   f <- fct_inorder(factor(input))
   hcl <- farver::decode_colour(viridisLite::viridis(length(unique(input))), "rgb", "hcl")
   label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
-  
   c <- ggplot(
     data = df,
     mapping = aes(
@@ -185,6 +152,7 @@ chart <- function(df, input, code, y, caption, x_axis, y_axis){
   ) +
     geom_col() +
     geom_text(aes(color=f, label=count), position = position_stack(vjust=0.5), show.legend=FALSE) +
+    ggtitle(title) +
     labs(caption = str_wrap(caption, width = 115)) +
     xlab(x_axis) +
     ylab(y_axis) +
