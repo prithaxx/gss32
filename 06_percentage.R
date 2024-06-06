@@ -1,94 +1,39 @@
-# Percentage charts
-chart_respondent_groups_percent <- function() {
-  df <- tab_pop_freq()
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(pop_name))), "rgb", "hcl")
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
-
-  chart <- ggplot(
+# -------- "GENERAL" PERCENTAGE CHART FUNCTION -----------------
+# input : vector on which we are working. 
+# frequency : vector of counts from var_y
+# caption : title of the chart
+# x_axis : labels the x axis
+# y_axis : labels the y_axis
+# --------------------------------------------------------------
+chart_general_pct <- function(input, frequency, title, caption, x_axis, y_axis){
+  df <- tab_general(input, frequency)
+  f <- fct_inorder(factor(input))
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(df$input))), "rgb", "hcl")
+  label_col <- ifelse(hcl[,"l"] > 50, "black", "white")
+  
+  c <- ggplot(
     data = df,
     mapping = aes(
-      x = fct_inorder(pop_name),
+      x = f,
       y = percentage,
-      fill = pop_name
+      fill = f
     )
   ) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=pop_name, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-    ggtitle("GSS 2018 repsondent groups") +
-    labs(caption = str_wrap("Proportion of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.", width = 115)) +
-    xlab("Respondent group") +
-    ylab("Proportion of Respondents") +
-    scale_x_discrete(labels = str_wrap(df$pop_name, width = 15)) +
+    geom_col()+
+    ylim(0,1)+
+    geom_text(aes(color=f, label=round(percentage,2)), position=position_stack(vjust=0.5), show.legend = FALSE) +
+    ggtitle(title) +
+    labs(caption = str_wrap(caption, width = 115)) +
+    xlab(x_axis) +
+    ylab(y_axis) +
+    scale_x_discrete(labels = str_wrap(df$input, width = 15)) +
     scale_color_manual(values = label_col) +
     scale_fill_viridis_d(option  = "viridis") +
     theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
     guides(fill = "none") +
     theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(chart)
-}
-
-# Relationship between caree and receiver
-chart_caree_relationship_percent <- function() {
-  df <- tab_caree_freq()
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(caree_relationship))), "rgb", "hcl")
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
-
-  chart <- ggplot(
-    data = df,
-    mapping = aes(
-      x = fct_inorder(caree_relationship),
-      y = percentage,
-      fill = caree_relationship
-    )
-  ) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=caree_relationship, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-    ggtitle("GSS 2018 Relationship between Carees and Receivers") +
-    labs(caption = str_wrap("Proportion of respondents in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.", width = 115)) +
-    xlab("Respondent group") +
-    ylab("Proportion of Respondents") +
-    scale_x_discrete(labels = str_wrap(df$caree_relationship, width = 15)) +
-    scale_color_manual(values = label_col) +
-    scale_fill_viridis_d(option  = "viridis") +
-    theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(chart)
-}
-
-# Disability Counter
-chart_disability_counter_percent <- function() {
-  df <- tab_disability_counter()
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(disability_counter))), "rgb", "hcl")
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
-
-  chart <- ggplot(
-    data = df,
-    mapping = aes(
-      x = fct_inorder(disability_counter),
-      y = percentage,
-      fill = disability_counter
-    )
-  ) +
-    geom_col() +
-    ylim(0, 1) +
-    geom_text(aes(color=disability_counter, label = round(percentage, 2)), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-    ggtitle("GSS 2018 Number of Disability Types- Grouped") +
-    labs(caption = str_wrap("Proportion of respondents in each grouping: None, 1, 2 or 3, > 3.", width = 115)) +
-    xlab("Groups of Disability Counts") +
-    ylab("Proportion of Respondents") +
-    scale_x_discrete(labels = str_wrap(df$disability_counter, width = 15)) +
-    scale_color_manual(values = label_col) +
-    scale_fill_viridis_d(option  = "viridis") +
-    theme(axis.text.x = element_text(size=13), axis.title.x = element_blank()) +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(chart)
+  
+  return(c)
 }
 
 #-----------GENERAL PERCENTAGE CHART FUNCTION-------------

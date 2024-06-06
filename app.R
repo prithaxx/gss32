@@ -709,13 +709,13 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # general percentage
   output$general_percentage <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
-      chart_respondent_groups_percent()
+      chart_general_pct(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Proportion of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs", "Respondent groups", "Proportion")
     } else if(input$general_selected_box == general_charts[2]){
       # TODO: create primary sex percent chart
     } else if(input$general_selected_box == general_charts[3]){
-      chart_caree_relationship_percent()
+      chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Proportion of respondents in each grouping: Spuse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
     } else if(input$general_selected_box == general_charts[4]){
-      chart_disability_counter_percent()
+      chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Proportion of respondents in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
     }
   })
 
