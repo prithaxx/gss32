@@ -13,10 +13,6 @@ source("05_table.R")
 source("06_percentage.R")
 source("07_group_by.R")
 
-or_filter <- function(filters) {
-
-}
-
 # apply_filter(): takes a frame and filter based on option selected
 # df_input (tibble): data frame to be transformed
 # select_option (integer, character): filter value mapped to the response
