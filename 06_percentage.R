@@ -1,6 +1,7 @@
 # -------- "GENERAL" PERCENTAGE CHART FUNCTION -----------------
 # input : vector on which we are working. 
 # frequency : vector of counts from var_y
+# title : Title of the chart
 # caption : title of the chart
 # x_axis : labels the x axis
 # y_axis : labels the y_axis
