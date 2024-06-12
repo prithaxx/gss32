@@ -399,7 +399,7 @@ ui <- function(request) {
                 "General info:",
                 choices = general_charts,
                 selected = default
-              ),
+              )
             ),
             mainPanel(
               tabsetPanel(
@@ -415,7 +415,7 @@ ui <- function(request) {
                 tabPanel(
                   "Tables",
                   tableOutput("general_table")
-                ), # table id
+                ) # table id
                 # tabPanel(
                 #   "Statistical Significance",
                 #   "Statisical significance of data will be displayed here"
@@ -501,7 +501,7 @@ ui <- function(request) {
                 tabPanel(
                   "Tables",
                   tableOutput("receiver_table")
-                ), # receiver table id
+                ) # receiver table id
                 # tabPanel(
                 #   "Statistical Significance",
                 #   "Statisical significance of data will be displayed here"
@@ -598,7 +598,7 @@ ui <- function(request) {
                 tabPanel(
                   "Tables",
                   tableOutput("giver_table")
-                ), # giver table
+                ) # giver table
                 # tabPanel(
                 #   "Statistical Significance",
                 #   "Statisical significance of data will be displayed here"
@@ -678,7 +678,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     } else {
       enable("radio_select_box")
     }
-  }, )
+  } )
 
   observe({
     # This observer triggers every time an input changes
