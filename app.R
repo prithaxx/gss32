@@ -497,13 +497,19 @@ ui <- function(request) {
                   "Counts",
                   plotOutput("receiver_selected_chart"),
                   hr(),
-                  actionButton("resetReceiverCount", "Reset")
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetReceiverCount", "Reset"))
+                  )
                 ),
                 tabPanel(
                   "Percentages", 
                   plotOutput("receiver_percentage"),
                   hr(),
-                  actionButton("resetReceiverPercentage", "Reset")
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetReceiverPercentage", "Reset"))
+                  )
                   ),
                 tabPanel(
                   "Tables",
@@ -598,13 +604,19 @@ ui <- function(request) {
                   "Counts",
                   plotOutput("giver_selected_chart"),
                   hr(),
-                  actionButton("resetGiverCount", "Reset")
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetGiverCount", "Reset"))
+                  )
                 ),
                 tabPanel(
                   "Percentages",
                   plotOutput("giver_percentage"),
                   hr(),
-                  actionButton("resetGiverPercentage", "Reset")
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetGiverPercentage", "Reset"))
+                  )
                 ), # giver percentages
                 tabPanel(
                   "Tables",
@@ -839,6 +851,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   observeEvent(input$resetReceiverCount, {
     reset("receiver_select_box_sex")
     reset("receiver_select_box_age")
+    reset("receiver_select_box_pop_centre")
     reset("receiver_select_box_partner_in_household")
     reset("receiver_select_box_living_arrangement_senior_household")
     reset("receiver_select_box_indigenous_status")
@@ -851,6 +864,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   observeEvent(input$resetReceiverPercentage, {
     reset("receiver_select_box_sex")
     reset("receiver_select_box_age")
+    reset("receiver_select_box_pop_centre")
     reset("receiver_select_box_partner_in_household")
     reset("receiver_select_box_living_arrangement_senior_household")
     reset("receiver_select_box_indigenous_status")
@@ -973,7 +987,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     reset("giver_select_box_pop_centre")
     reset("giver_select_box_partner_in_household")
     reset("giver_select_box_living_arrangement_senior_household")
-    reset("giver_select_box_indigenous status")
+    reset("giver_select_box_indigenous_status")
     reset("giver_select_box_visible_minority")
     reset("giver_select_box_religious_participation")
     reset("giver_select_box_receiver_main_health_condition")
@@ -987,7 +1001,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     reset("giver_select_box_pop_centre")
     reset("giver_select_box_partner_in_household")
     reset("giver_select_box_living_arrangement_senior_household")
-    reset("giver_select_box_indigenous status")
+    reset("giver_select_box_indigenous_status")
     reset("giver_select_box_visible_minority")
     reset("giver_select_box_religious_participation")
     reset("giver_select_box_receiver_main_health_condition")
