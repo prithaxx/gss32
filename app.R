@@ -495,7 +495,9 @@ ui <- function(request) {
                 id = "receiver_chart_type",
                 tabPanel(
                   "Counts",
-                  plotOutput("receiver_selected_chart")
+                  plotOutput("receiver_selected_chart"),
+                  hr(),
+                  actionButton("reset", "Reset")
                 ),
                 tabPanel("Percentages", plotOutput("receiver_percentage")),
                 tabPanel(
@@ -672,27 +674,51 @@ ui <- function(request) {
 }
 
 server <- function(input, output, session) { # nolint: cyclocomp_linter.
+  
+  observeEvent(input$reset, {
+    # Reset all inputs to their default values
+    updateRadioButtons(session, "receiver_radio", selected = "1")
+    updateSelectInput(session, "receiver_select_box_sex", selected = "default")
+    updateSelectInput(session, "receiver_select_box_age", selected = "default")
+    updateSelectInput(session, "receiver_select_box_pop_centre", selected = "default")
+    updateSelectInput(session, "receiver_select_box_partner_in_household", selected = "default")
+    updateSelectInput(session, "receiver_select_box_living_arrangement_senior_household", selected = "default")
+    updateSelectInput(session, "receiver_select_box_indigenous_status", selected = "default")
+    updateSelectInput(session, "receiver_select_box_visible_minority", selected = "default")
+    updateSelectInput(session, "receiver_select_box_group_religious_participation", selected = "default")
+    updateSelectInput(session, "giver_select_box_sex", selected = "default")
+    updateSelectInput(session, "giver_select_box_age", selected = "default")
+    updateSelectInput(session, "giver_select_box_pop_centre", selected = "default")
+    updateSelectInput(session, "giver_select_box_partner_in_household", selected = "default")
+    updateSelectInput(session, "giver_select_box_living_arrangement_senior_household", selected = "default")
+    updateSelectInput(session, "giver_select_box_indigenous_status", selected = "default")
+    updateSelectInput(session, "giver_select_box_visible_minority", selected = "default")
+    updateSelectInput(session, "giver_select_box_group_religious_participation", selected = "default")
+    updateSelectInput(session, "giver_select_box_receiver_main_health_condition", selected = "default")
+    updateSelectInput(session, "general_selected_box", selected = "default")
+  })
+  
   observeEvent(input$receiver_radio, {
     if (input$receiver_radio != 1) {
       disable("radio_select_box")
     } else {
       enable("radio_select_box")
     }
-  } )
-
+  })
+  
   observe({
     # This observer triggers every time an input changes
     reactiveValuesToList(input)
     session$doBookmark()
   })
-
+  
   onBookmarked(function(url) {
     updateQueryString(url)
   })
-
+  
   output_receiver_df <- df_receiver
   output_giver_df <- df_giver
-
+  
   # general counts tab
   output$general_selected_chart <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
@@ -705,7 +731,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })
-
+  
   # general percentage
   output$general_percentage <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
@@ -718,7 +744,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Proportion of respondents in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
     }
   })
-
+  
   # general table
   output$general_table <- renderTable({
     if (input$general_selected_box == general_charts[1]) {
@@ -731,7 +757,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       tab_general(disability_counter, disability_freq)
     }
   })
-
+  
   ### Receiver filters and charts
   update_receiver_df <- reactive({
     filtered_df <- apply_filter(
@@ -767,10 +793,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       filtered_df,
       strtoi(input$receiver_select_box_group_religious_participation), "REE_02"
     )
-
+    
     output_receiver_df <<- filtered_df
   })
-
+  
   # receiver counts tab
   output$receiver_selected_chart <- renderPlot({
     update_receiver_df()
@@ -790,14 +816,14 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       config$count_chart(output_receiver_df, config$input_vector, config$code, config$y, config$title, config$caption, config$x_axis, config$y_axis)
     }
   })
-
+  
   # TODO : FIX receiver percentage tab
   output$receiver_percentage <- renderPlot({
     update_receiver_df()
-
+    
     dataset_name <- input$receiver_select_box
     config <- receiver_ui_config[[dataset_name]]
-
+    
     if (input$receiver_radio == 2) {
       group_by_sex_percent(
         output_receiver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
@@ -810,8 +836,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       config$pct_chart(output_receiver_df, config$input_vector, config$code, config$y, config$title, config$caption_pct, config$x_axis, config$y_axis_pct)
     }
   })
-
-
+  
+  
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
@@ -824,8 +850,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     final_table
   })
   
-
-
+  
+  
   ### Giver filters and charts
   update_giver_df <- reactive({
     # filter by sex
@@ -866,17 +892,17 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       df_filtered,
       input$giver_select_box_receiver_main_health_condition, "PRP10GR"
     )
-
+    
     output_giver_df <<- df_filtered
   })
-
+  
   # giver counts tab
   output$giver_selected_chart <- renderPlot({
     update_giver_df()
-
+    
     dataset_name <- input$giver_select_box
     config <- giver_ui_config[[dataset_name]]
-
+    
     if (input$giver_radio == 2) {
       group_by_sex(
         output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
@@ -893,14 +919,14 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       config$count_chart(output_giver_df, config$input_vector, config$code, config$y, config$title, config$caption, config$x_axis, config$y_axis)
     }
   })
-
+  
   # giver percentage tab
   output$giver_percentage <- renderPlot({
     update_giver_df()
-
+    
     dataset_name <- input$giver_select_box
     config <- giver_ui_config[[dataset_name]]
-
+    
     if (input$giver_radio == 2) {
       group_by_sex_percent(
         output_giver_df, config$y, config$input_vector, config$code, dataset_name, config$title_fragment
@@ -917,7 +943,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       config$pct_chart(output_giver_df, config$input_vector, config$code, config$y, config$title, config$caption_pct, config$x_axis, config$y_axis_pct)
     }
   })
-
+  
   # giver table tab
   output$giver_table <- renderTable({
     update_giver_df()
