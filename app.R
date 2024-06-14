@@ -497,13 +497,13 @@ ui <- function(request) {
                   "Counts",
                   plotOutput("receiver_selected_chart"),
                   hr(),
-                  actionButton("reset", "Reset")
+                  actionButton("resetReceiverCount", "Reset")
                 ),
                 tabPanel(
                   "Percentages", 
                   plotOutput("receiver_percentage"),
                   hr(),
-                  actionButton("reset", "Reset")
+                  actionButton("resetReceiverPercentage", "Reset")
                   ),
                 tabPanel(
                   "Tables",
@@ -598,13 +598,13 @@ ui <- function(request) {
                   "Counts",
                   plotOutput("giver_selected_chart"),
                   hr(),
-                  actionButton("reset", "Reset")
+                  actionButton("resetGiverCount", "Reset")
                 ),
                 tabPanel(
                   "Percentages",
                   plotOutput("giver_percentage"),
                   hr(),
-                  actionButton("reset", "Reset")
+                  actionButton("resetGiverPercentage", "Reset")
                 ), # giver percentages
                 tabPanel(
                   "Tables",
@@ -836,8 +836,19 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     final_table
   })
   
-  observeEvent(input$reset, {
-    # receiver chart reset
+  observeEvent(input$resetReceiverCount, {
+    reset("receiver_select_box_sex")
+    reset("receiver_select_box_age")
+    reset("receiver_select_box_partner_in_household")
+    reset("receiver_select_box_living_arrangement_senior_household")
+    reset("receiver_select_box_indigenous_status")
+    reset("receiver_select_box_visible_minority")
+    reset("receiver_select_box_group_religious_participation")
+    update_receiver_df()
+    update_giver_df()
+  })
+  
+  observeEvent(input$resetReceiverPercentage, {
     reset("receiver_select_box_sex")
     reset("receiver_select_box_age")
     reset("receiver_select_box_partner_in_household")
@@ -956,18 +967,32 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     final_table
   })
   
-  observeEvent(input$reset, {
-    # giver chart reset
+  observeEvent(input$resetGiverCount, {
     reset("giver_select_box_sex")
     reset("giver_select_box_age")
     reset("giver_select_box_pop_centre")
     reset("giver_select_box_partner_in_household")
+    reset("giver_select_box_living_arrangement_senior_household")
     reset("giver_select_box_indigenous status")
     reset("giver_select_box_visible_minority")
     reset("giver_select_box_religious_participation")
     reset("giver_select_box_receiver_main_health_condition")
-    update_giver_df()
     update_receiver_df()
+    update_giver_df()
+  })
+  
+  observeEvent(input$resetGiverPercentage, {
+    reset("giver_select_box_sex")
+    reset("giver_select_box_age")
+    reset("giver_select_box_pop_centre")
+    reset("giver_select_box_partner_in_household")
+    reset("giver_select_box_living_arrangement_senior_household")
+    reset("giver_select_box_indigenous status")
+    reset("giver_select_box_visible_minority")
+    reset("giver_select_box_religious_participation")
+    reset("giver_select_box_receiver_main_health_condition")
+    update_receiver_df()
+    update_giver_df()
   })
 }
 
