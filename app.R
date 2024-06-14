@@ -499,7 +499,12 @@ ui <- function(request) {
                   hr(),
                   actionButton("reset", "Reset")
                 ),
-                tabPanel("Percentages", plotOutput("receiver_percentage")),
+                tabPanel(
+                  "Percentages", 
+                  plotOutput("receiver_percentage"),
+                  hr(),
+                  actionButton("reset", "Reset")
+                  ),
                 tabPanel(
                   "Tables",
                   tableOutput("receiver_table")
@@ -591,11 +596,15 @@ ui <- function(request) {
                 id = "giver_chart_type",
                 tabPanel(
                   "Counts",
-                  plotOutput("giver_selected_chart")
+                  plotOutput("giver_selected_chart"),
+                  hr(),
+                  actionButton("reset", "Reset")
                 ),
                 tabPanel(
                   "Percentages",
-                  plotOutput("giver_percentage")
+                  plotOutput("giver_percentage"),
+                  hr(),
+                  actionButton("reset", "Reset")
                 ), # giver percentages
                 tabPanel(
                   "Tables",
@@ -674,29 +683,6 @@ ui <- function(request) {
 }
 
 server <- function(input, output, session) { # nolint: cyclocomp_linter.
-  
-  observeEvent(input$reset, {
-    # Reset all inputs to their default values
-    updateRadioButtons(session, "receiver_radio", selected = "1")
-    updateSelectInput(session, "receiver_select_box_sex", selected = "default")
-    updateSelectInput(session, "receiver_select_box_age", selected = "default")
-    updateSelectInput(session, "receiver_select_box_pop_centre", selected = "default")
-    updateSelectInput(session, "receiver_select_box_partner_in_household", selected = "default")
-    updateSelectInput(session, "receiver_select_box_living_arrangement_senior_household", selected = "default")
-    updateSelectInput(session, "receiver_select_box_indigenous_status", selected = "default")
-    updateSelectInput(session, "receiver_select_box_visible_minority", selected = "default")
-    updateSelectInput(session, "receiver_select_box_group_religious_participation", selected = "default")
-    updateSelectInput(session, "giver_select_box_sex", selected = "default")
-    updateSelectInput(session, "giver_select_box_age", selected = "default")
-    updateSelectInput(session, "giver_select_box_pop_centre", selected = "default")
-    updateSelectInput(session, "giver_select_box_partner_in_household", selected = "default")
-    updateSelectInput(session, "giver_select_box_living_arrangement_senior_household", selected = "default")
-    updateSelectInput(session, "giver_select_box_indigenous_status", selected = "default")
-    updateSelectInput(session, "giver_select_box_visible_minority", selected = "default")
-    updateSelectInput(session, "giver_select_box_group_religious_participation", selected = "default")
-    updateSelectInput(session, "giver_select_box_receiver_main_health_condition", selected = "default")
-    updateSelectInput(session, "general_selected_box", selected = "default")
-  })
   
   observeEvent(input$receiver_radio, {
     if (input$receiver_radio != 1) {
@@ -850,6 +836,18 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     final_table
   })
   
+  observeEvent(input$reset, {
+    # receiver chart reset
+    reset("receiver_select_box_sex")
+    reset("receiver_select_box_age")
+    reset("receiver_select_box_partner_in_household")
+    reset("receiver_select_box_living_arrangement_senior_household")
+    reset("receiver_select_box_indigenous_status")
+    reset("receiver_select_box_visible_minority")
+    reset("receiver_select_box_group_religious_participation")
+    update_receiver_df()
+    update_giver_df()
+  })
   
   
   ### Giver filters and charts
@@ -956,6 +954,20 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       rename(!!input$giver_select_box := 1, "count" := 2)
     
     final_table
+  })
+  
+  observeEvent(input$reset, {
+    # giver chart reset
+    reset("giver_select_box_sex")
+    reset("giver_select_box_age")
+    reset("giver_select_box_pop_centre")
+    reset("giver_select_box_partner_in_household")
+    reset("giver_select_box_indigenous status")
+    reset("giver_select_box_visible_minority")
+    reset("giver_select_box_religious_participation")
+    reset("giver_select_box_receiver_main_health_condition")
+    update_giver_df()
+    update_receiver_df()
   })
 }
 
