@@ -496,7 +496,7 @@ ui <- function(request) {
                 tabPanel(
                   "Counts",
                   plotOutput("receiver_selected_chart"),
-                  textOutput("filters_applied"),
+                  uiOutput("filters_applied"),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
@@ -1011,38 +1011,34 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_giver_df()
   })
   
-  output$filters_applied <- renderText({
-    applied_filters <- list()
-    
-    if (input$receiver_select_box_sex != default) {
-      applied_filters <- c(applied_filters, paste("Sex:", input$receiver_select_box_sex))
-    }
-    if (input$receiver_select_box_age != default) {
-      applied_filters <- c(applied_filters, paste("Age group:", input$receiver_select_box_age))
-    }
-    if (input$receiver_select_box_pop_centre != default) {
-      applied_filters <- c(applied_filters, paste("Urban/Rural status:", input$receiver_select_box_pop_centre))
-    }
-    if (input$receiver_select_box_partner_in_household != default) {
-      applied_filters <- c(applied_filters, paste("Partner in household:", input$receiver_select_box_partner_in_household))
-    }
-    if (input$receiver_select_box_living_arrangement_senior_household != default) {
-      applied_filters <- c(applied_filters, paste("Living arrangement:", input$receiver_select_box_living_arrangement_senior_household))
-    }
-    if (input$receiver_select_box_indigenous_status != default) {
-      applied_filters <- c(applied_filters, paste("Indigenous status:", input$receiver_select_box_indigenous_status))
-    }
-    if (input$receiver_select_box_visible_minority != default) {
-      applied_filters <- c(applied_filters, paste("Visible minority status:", input$receiver_select_box_visible_minority))
-    }
-    if (input$receiver_select_box_group_religious_participation != default) {
-      applied_filters <- c(applied_filters, paste("Religious participation:", input$receiver_select_box_group_religious_participation))
-    }
+  output$filters_applied <- renderUI({
+    applied_filters <- list(
+      c(paste("Sex: ", 
+              names(filter_sex)[which(filter_sex == input$receiver_select_box_sex)])),
+      c(paste("Age group: ", 
+              names(filter_age_group[which(filter_age_group == input$receiver_select_box_age)]))),
+      c(paste("Urban/Rural status: ", 
+              names(filter_pop_centre[which(filter_pop_centre == input$receiver_select_box_pop_centre)]))),
+      c(paste("Partner in household: ", 
+              names(filter_partner_in_household[which(filter_partner_in_household == input$receiver_select_box_partner_in_household)]))),
+      c(paste("Living Arrangement: ", 
+              names(filter_living_arrangement_senior_household[which(filter_living_arrangement_senior_household == input$receiver_select_box_living_arrangement_senior_household)]))),
+      c(paste("Indigenous Status: ", 
+              names(filter_indigenous_status[which(filter_indigenous_status == input$receiver_select_box_indigenous_status)]))),
+      c(paste("Visible Minority Status: ",
+              names(filter_visible_minority_status[which(filter_visible_minority_status == input$receiver_select_box_visible_minority)]))),
+      c(paste("Religious Participation: ",
+              names(filter_group_religious_participation[which(filter_group_religious_participation == input$receiver_select_box_group_religious_participation)])))
+    )
     
     if (length(applied_filters) == 0) {
       "None"
     } else {
-      paste(applied_filters, collapse = "; ")
+      tags$ul(
+        lapply(applied_filters, function(filter) {
+          tags$li(filter)
+        })
+      )
     }
   })
 }
