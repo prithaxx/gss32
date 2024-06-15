@@ -496,6 +496,7 @@ ui <- function(request) {
                 tabPanel(
                   "Counts",
                   plotOutput("receiver_selected_chart"),
+                  textOutput("filters_applied"),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
@@ -506,10 +507,11 @@ ui <- function(request) {
                   "Percentages", 
                   plotOutput("receiver_percentage"),
                   hr(),
+                  
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
                     column(2, actionButton("resetReceiverPercentage", "Reset"))
-                  )
+                    )
                   ),
                 tabPanel(
                   "Tables",
@@ -1007,6 +1009,41 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     reset("giver_select_box_receiver_main_health_condition")
     update_receiver_df()
     update_giver_df()
+  })
+  
+  output$filters_applied <- renderText({
+    applied_filters <- list()
+    
+    if (input$receiver_select_box_sex != default) {
+      applied_filters <- c(applied_filters, paste("Sex:", input$receiver_select_box_sex))
+    }
+    if (input$receiver_select_box_age != default) {
+      applied_filters <- c(applied_filters, paste("Age group:", input$receiver_select_box_age))
+    }
+    if (input$receiver_select_box_pop_centre != default) {
+      applied_filters <- c(applied_filters, paste("Urban/Rural status:", input$receiver_select_box_pop_centre))
+    }
+    if (input$receiver_select_box_partner_in_household != default) {
+      applied_filters <- c(applied_filters, paste("Partner in household:", input$receiver_select_box_partner_in_household))
+    }
+    if (input$receiver_select_box_living_arrangement_senior_household != default) {
+      applied_filters <- c(applied_filters, paste("Living arrangement:", input$receiver_select_box_living_arrangement_senior_household))
+    }
+    if (input$receiver_select_box_indigenous_status != default) {
+      applied_filters <- c(applied_filters, paste("Indigenous status:", input$receiver_select_box_indigenous_status))
+    }
+    if (input$receiver_select_box_visible_minority != default) {
+      applied_filters <- c(applied_filters, paste("Visible minority status:", input$receiver_select_box_visible_minority))
+    }
+    if (input$receiver_select_box_group_religious_participation != default) {
+      applied_filters <- c(applied_filters, paste("Religious participation:", input$receiver_select_box_group_religious_participation))
+    }
+    
+    if (length(applied_filters) == 0) {
+      "None"
+    } else {
+      paste(applied_filters, collapse = "; ")
+    }
   })
 }
 
