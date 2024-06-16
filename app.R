@@ -496,6 +496,11 @@ ui <- function(request) {
                 tabPanel(
                   "Counts",
                   plotOutput("receiver_selected_chart"),
+                  br(),
+                  fluidRow(
+                    p(HTML("<strong>Filters Applied: </strong>")),
+                    uiOutput("filters_applied_receiver")
+                  ),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
@@ -505,11 +510,16 @@ ui <- function(request) {
                 tabPanel(
                   "Percentages", 
                   plotOutput("receiver_percentage"),
+                  br(),
+                  fluidRow(
+                    p(HTML("<strong>Filters Applied: </strong>")),
+                    uiOutput("filters_applied_receiver_percentage")
+                  ),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
                     column(2, actionButton("resetReceiverPercentage", "Reset"))
-                  )
+                    )
                   ),
                 tabPanel(
                   "Tables",
@@ -603,6 +613,10 @@ ui <- function(request) {
                 tabPanel(
                   "Counts",
                   plotOutput("giver_selected_chart"),
+                  fluidRow(
+                    p(HTML("<strong>Filters Applied: </strong>")),
+                    uiOutput("filters_applied_giver")
+                  ),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
@@ -612,6 +626,10 @@ ui <- function(request) {
                 tabPanel(
                   "Percentages",
                   plotOutput("giver_percentage"),
+                  fluidRow(
+                    p(HTML("<strong>Filters Applied: </strong>")),
+                    uiOutput("filters_applied_giver_percentage")
+                  ),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
@@ -848,6 +866,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     final_table
   })
   
+  
   observeEvent(input$resetReceiverCount, {
     reset("receiver_select_box_sex")
     reset("receiver_select_box_age")
@@ -874,6 +893,47 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_giver_df()
   })
   
+  # Live filter updates- Receiver charts
+  temp <- output$filters_applied_receiver <- renderUI({
+    applied_filters <- list()
+    
+    if(input$receiver_select_box_sex != "-1"){
+      applied_filters <- c(applied_filters, paste("Sex: ", names(filter_sex)[which(filter_sex == input$receiver_select_box_sex)]))
+    }
+    if(input$receiver_select_box_age != "-1"){
+      applied_filters <- c(applied_filters, paste("Age group: ", names(filter_age_group)[which(filter_age_group == input$receiver_select_box_age)]))
+    }
+    if(input$receiver_select_box_pop_centre != "-1"){
+      applied_filters <- c(applied_filters, paste("Urban/ Rural status: ", names(filter_pop_centre)[which(filter_pop_centre == input$receiver_select_box_pop_centre)]))
+    }
+    if(input$receiver_select_box_partner_in_household != "-1"){
+      applied_filters <- c(applied_filters, paste("Partner in Household: ", names(filter_partner_in_household)[which(filter_partner_in_household == input$receiver_select_box_partner_in_household)]))
+    }
+    if(input$receiver_select_box_living_arrangement_senior_household != "-1"){
+      applied_filters <- c(applied_filters, paste("Living Arrangement: ", names(filter_living_arrangement_senior_household)[which(filter_living_arrangement_senior_household == input$receiver_select_box_living_arrangement_senior_household)]))
+    }
+    if(input$receiver_select_box_indigenous_status != "-1"){
+      applied_filters <- c(applied_filters, paste("Indigenous status: ", names(filter_indigenous_status)[which(filter_indigenous_status == input$receiver_select_box_indigenous_status)]))
+    }
+    if(input$receiver_select_box_visible_minority != "-1"){
+      applied_filters <- c(applied_filters, paste("Visible minority status: ", names(filter_visible_minority_status)[which(filter_visible_minority_status == input$receiver_select_box_visible_minority)]))
+    }
+    if(input$receiver_select_box_group_religious_participation != "-1"){
+      applied_filters <- c(applied_filters, paste("Religious Participation: ", names(filter_group_religious_participation)[which(filter_group_religious_participation == input$receiver_select_box_group_religious_participation)]))
+    }
+    
+    if(length(applied_filters)==0){
+      "None"
+    } else {
+      tags$ul(
+        lapply(applied_filters, function(filter){
+          tags$li(filter)
+        })
+      )
+    }
+  })
+  
+  output$filters_applied_receiver_percentage <- renderUI({temp})
   
   ### Giver filters and charts
   update_giver_df <- reactive({
@@ -981,6 +1041,51 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     final_table
   })
   
+  # Update which filters are being applied live
+  temp2 <- output$filters_applied_giver <- renderUI({
+    applied_filters <- list()
+    
+    if (input$giver_select_box_sex != "-1") {
+      applied_filters <- c(applied_filters, paste("Sex:", names(filter_sex)[which(filter_sex == input$giver_select_box_sex)]))
+    }
+    if (input$giver_select_box_age != "-1") {
+      applied_filters <- c(applied_filters, paste("Age group:", names(filter_age_group[which(filter_age_group == input$giver_select_box_age)])))
+    }
+    if (input$giver_select_box_pop_centre != "-1") {
+      applied_filters <- c(applied_filters, paste("Urban/Rural status:", names(filter_pop_centre[which(filter_pop_centre == input$giver_select_box_pop_centre)])))
+    }
+    if (input$giver_select_box_partner_in_household != "-1") {
+      applied_filters <- c(applied_filters, paste("Partner in household:",  names(filter_partner_in_household[which(filter_partner_in_household == input$giver_select_box_partner_in_household)])))
+    }
+    if (input$giver_select_box_living_arrangement_senior_household != "-1") {
+      applied_filters <- c(applied_filters, paste("Living arrangement:", names(filter_living_arrangement_senior_household[which(filter_living_arrangement_senior_household == input$giver_select_box_living_arrangement_senior_household)])))
+    }
+    if (input$giver_select_box_indigenous_status != "-1") {
+      applied_filters <- c(applied_filters, paste("Indigenous status:",  names(filter_indigenous_status[which(filter_indigenous_status == input$giver_select_box_indigenous_status)])))
+    }
+    if (input$giver_select_box_visible_minority != "-1") {
+      applied_filters <- c(applied_filters, paste("Visible minority status:", names(filter_visible_minority_status[which(filter_visible_minority_status == input$giver_select_box_visible_minority)])))
+    }
+    if (input$giver_select_box_group_religious_participation != "-1") {
+      applied_filters <- c(applied_filters, paste("Religious participation:",  names(filter_group_religious_participation[which(filter_group_religious_participation == input$giver_select_box_group_religious_participation)])))
+    }
+    if (input$giver_select_box_receiver_main_health_condition != "-1"){
+      applied_filters <- c(applied_filters, paste("Main Health Condition:", names(filter_receiver_main_health_conditions[which(filter_receiver_main_health_conditions == input$giver_select_box_receiver_main_health_condition)])))
+    }
+    
+    
+    if (length(applied_filters) == 0) {
+      "None"
+    } else {
+      tags$ul(
+        lapply(applied_filters, function(filter) {
+          tags$li(filter)
+        })
+      )
+    }
+  })
+  output$filters_applied_giver_percentage <- renderUI({temp2})
+  
   observeEvent(input$resetGiverCount, {
     reset("giver_select_box_sex")
     reset("giver_select_box_age")
@@ -989,7 +1094,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     reset("giver_select_box_living_arrangement_senior_household")
     reset("giver_select_box_indigenous_status")
     reset("giver_select_box_visible_minority")
-    reset("giver_select_box_religious_participation")
+    reset("giver_select_box_group_religious_participation")
     reset("giver_select_box_receiver_main_health_condition")
     update_receiver_df()
     update_giver_df()
@@ -1003,7 +1108,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     reset("giver_select_box_living_arrangement_senior_household")
     reset("giver_select_box_indigenous_status")
     reset("giver_select_box_visible_minority")
-    reset("giver_select_box_religious_participation")
+    reset("giver_select_box_group_religious_participation")
     reset("giver_select_box_receiver_main_health_condition")
     update_receiver_df()
     update_giver_df()
