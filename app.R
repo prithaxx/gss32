@@ -206,7 +206,7 @@ giver_ui_config <- list(
     count_chart = chart,
     pct_chart = chart_pct,
     input_vector = help_activities,
-    code = help_activity_codes,
+    code = activity_give_help_codes,
     y = y_activity_give_help,
     caption = "Count for the type of activities for which respondents considered to be a care giver assisted with in the past 12 months.",
     title = "Types of activities respondents provided help with - Past 12 months",
@@ -214,7 +214,7 @@ giver_ui_config <- list(
     y_axis = "Count",
     caption_pct = "Proportion of caregiver respondents who report providing the help to caree in the past 12 months with each type of activity.",
     y_axis_pct = "Proportion",
-    table = tab_multi_var_maker(df_giver, help_activities, help_activity_codes, y_activity_give_help),
+    table = tab_multi_var_maker(df_giver, help_activities, activity_give_help_codes, y_activity_give_help),
     title_fragment = "of People who Provided Help with an Activity"
   ),
   "Age of Caree" = list(
