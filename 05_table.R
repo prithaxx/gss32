@@ -8,6 +8,9 @@
 tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   start <- x_options[1]
   end <- x_options[length(x_options)]
+  
+  # the total frequencies are creating problems with the percentage denominators. 
+  # Not removing them because I'm not sure where else these values are being used.
   total_male <- sum(df$SEX == 1)
   total_female <- sum(df$SEX == 2)
   total_age_65_74 <- sum(df$AGEGR10 == 6)
@@ -32,8 +35,8 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
           sum(df$SEX == 2 & df[[cols]] == i)
         }
       }),
-      male_percentage = round(Male / total_male, 2),
-      female_percentage = round(Female / total_female, 2),
+      male_percentage = round(Male / count, 2),
+      female_percentage = round(Female / count, 2),
       age_65_74 = sapply(start:end, function(i) {
         if (!is.null(col2)) {
           sum(df$AGEGR10 == 6 & df[[cols]] == i & df[[col2]] == response_code)
@@ -48,8 +51,8 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
           sum(df$AGEGR10 == 7 & df[[cols]] == i)
         }
       }),
-      age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
-      age_75_percentage = round(age_75 / total_age_75, 2),
+      age_65_74_percentage = round(age_65_74 / count, 2),
+      age_75_percentage = round(age_75 / count, 2),
       alzheimers = sapply(start:end, function(i) {
         if (!is.null(col2)) {
           sum(df$PRP10GR == 8 & df[[cols]] == i & df[[col2]] == response_code)
@@ -64,9 +67,9 @@ tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
           sum(df$AGEGR10 != 6 & df[[cols]] == i)
         }
       }),
-      alzheimers_percentage = round(alzheimers / total_alzheimers, 2),
+      alzheimers_percentage = round(alzheimers / count, 2),
       non_alzheimers_percentage =
-        round(non_alzheimers / total_non_alzheimers, 2),
+        round(non_alzheimers / count, 2),
     )
 }
 
@@ -93,25 +96,25 @@ tab_helper_multi_var <- function(df, count, x_options, cols) {
       Female = sapply(seq_along(x_options), function(i) {
         sum(df$SEX == 2 & df[[cols[i]]] == 1)
       }),
-      male_percentage = round(Male / total_male, 2),
-      female_percentage = round(Female / total_female, 2),
+      male_percentage = round(Male / count, 2),
+      female_percentage = round(Female / count, 2),
       age_65_74 = sapply(seq_along(x_options), function(i) {
         sum(df$AGEGR10 == 6 & df[[cols[i]]] == 1)
       }),
       age_75 = sapply(seq_along(x_options), function(i) {
         sum(df$AGEGR10 == 7 & df[[cols[i]]] == 1)
       }),
-      age_65_74_percentage = round(age_65_74 / total_age_65_74, 2),
-      age_75_percentage = round(age_75 / total_age_75, 2),
+      age_65_74_percentage = round(age_65_74 / count, 2),
+      age_75_percentage = round(age_75 / count, 2),
       alzheimers = sapply(seq_along(x_options), function(i) {
         sum(df$PRP10GR == 8 & df[[cols[i]]] == 1)
       }),
       non_alzheimers = sapply(seq_along(x_options), function(i) {
         sum(df$PRP10GR != 8 & df[[cols[i]]] == 1)
       }),
-      alzheimers_percentage = round(alzheimers / total_alzheimers, 2),
+      alzheimers_percentage = round(alzheimers / count, 2),
       non_alzheimers_percentage =
-        round(non_alzheimers / total_non_alzheimers, 2),
+        round(non_alzheimers / count, 2),
     )
 }
 
