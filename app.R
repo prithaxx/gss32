@@ -745,9 +745,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     } else if(input$general_selected_box == general_charts[3]) {
       chart_general_sex(df_giver_sex, "Caregivers and their Primary Carees by Sex (age 65+)", "Top row: Sex of Caregiver Respondent. Bottom row: Sex of their Primary Carees.", "Sex", "Count")
     } else if(input$general_selected_box == general_charts[4]){
-      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Count of respondents in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.","Caree Relationships", "Count")
+      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Count of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.","Caree Relationships", "Count")
     } else if (input$general_selected_box == general_charts[5]){
-      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
+      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })
   
@@ -758,9 +758,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     } else if(input$general_selected_box == general_charts[2]){
       # TODO: create primary sex percent chart
     } else if(input$general_selected_box == general_charts[4]){
-      chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Proportion of respondents in each grouping: Spuse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
+      chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Proportion of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
     } else if(input$general_selected_box == general_charts[5]){
-      chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Proportion of respondents in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
+      chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Proportion of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
     }
   })
   
