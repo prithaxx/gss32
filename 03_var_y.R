@@ -26,6 +26,17 @@ disability_freq <- c(
   more_three_pop <- nrow(filter(df_union, DTYPER == 3))
 )
 
+# Sex of Care Receiver and Giver Respondents 
+receiver_sex_freq <- c(
+  receiver_male <- nrow(filter(df_receiver, SEX == 1)),
+  receiver_female <- nrow(filter(df_receiver, SEX == 2))
+)
+
+giver_sex_freq <- c(
+  giver_male <- nrow(filter(df_giver, SEX == 1)),
+  giver_female <- nrow(filter(df_giver, SEX == 2))
+)
+
 primary_giver_sex_freq <- c(
   primary_giver_male <- nrow(filter(df_receiver, PGN_25 == 1)),
   primary_giver_female <- nrow(filter(df_receiver, PGN_25 == 2))
