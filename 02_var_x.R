@@ -124,6 +124,30 @@ dwelling_distances <- c(
   "3+ hours by car" = 7
 )
 
+end_of_life_care <- c(
+  "Physical Modifications of Home",
+  "Financial assistance to cover additional costs",
+  "Time off work without loss of pay",
+  "Better Physical Health or Stamina",
+  "Health related training",
+  "Home care support",
+  "Some other condition"
+)
+
+caregiving_social_consequences <- c(
+  "Spend less time with spouse/ partner",
+  "Spend less time with children",
+  "Spend less time with other family members",
+  "Spend less time with friends",
+  "Spend less time on social activities or hobbies",
+  "Spend less time relaxing or taking care of myself",
+  "Spend less time volunteering for an organization",
+  "Spend less time participating in political, social, or cultural groups",
+  "Make holiday plans and change or cancel them",
+  "Not make holiday plans at all",
+  "Move residences"
+)
+
 # TODO: check this - there must be a never option? B/c percentage table is off... (for now I have edited caption to reflect)
 primary_help_banking_freq <- c(
   "Daily" = 1,

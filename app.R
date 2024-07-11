@@ -343,6 +343,38 @@ giver_ui_config <- list(
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
+  ),
+  "Respondent prefers to provide end-of-life care at home" = list(
+    index = 14,
+    count_chart = chart,
+    pct_chart = chart_pct,
+    input_vector = end_of_life_care,
+    code = end_of_life_care_codes,
+    y = y_end_of_life_care,
+    caption = "Frequency of the types of conditions given by respondents considered to be a care giver",
+    title = "Conditions that would enable Respondent to provide end-of-life care in their own home",
+    x_axis = "Conditions",
+    y_axis = "Count",
+    caption_pct = "Proportion of the types of conditions given by respondents considered to be a care giver",
+    y_axis_pct = "Proportion",
+    table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
+    title_fragment = "of Respondents who prefer providing end-of-life care at home"
+  ),
+  "Social Consequences of Respondent's Caregiving Responsibilities" = list(
+    index = 15,
+    count_chart = chart,
+    pct_chart = chart_pct,
+    input_vector = caregiving_social_consequences,
+    code = caregiving_social_consequences_codes,
+    y = y_caregiving_social_consequences,
+    caption = "SET ONE HERE",
+    title = "Social Consequences of the Respondent's Caregiving Responsibilities",
+    x_axis = "Social Conseqeunces",
+    y_axis = "Count",
+    caption_pct = "SET ONE HERE",
+    y_axis_pct = "Proportion",
+    table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
+    title_fragment = "SET ONE HERE"
   )
 )
 
