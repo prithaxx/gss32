@@ -769,10 +769,14 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     if (input$general_selected_box == general_charts[1]) {
       tab_general(pop_name, pop_freq)
     } else if(input$general_selected_box == general_charts[2]){
-      df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
+      df_receiver_sex |>
+        rename("Sex" = sex, "Count" = freq, "Chart Description" = type)
     } else if(input$general_selected_box == general_charts[3]){
-      tab_general(caree_relationship, caree_freq)
+      df_giver_sex |>
+        rename("Sex" = sex, "Count" = freq, "Chart Description" = type)
     } else if(input$general_selected_box == general_charts[4]){
+      tab_general(caree_relationship, caree_freq)
+    } else if(input$general_selected_box == general_charts[5]){
       tab_general(disability_counter, disability_freq)
     }
   })
