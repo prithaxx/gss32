@@ -26,6 +26,17 @@ disability_freq <- c(
   more_three_pop <- nrow(filter(df_union, DTYPER == 3))
 )
 
+# Sex of Care Receiver and Giver Respondents 
+receiver_sex_freq <- c(
+  receiver_male <- nrow(filter(df_receiver, SEX == 1)),
+  receiver_female <- nrow(filter(df_receiver, SEX == 2))
+)
+
+giver_sex_freq <- c(
+  giver_male <- nrow(filter(df_giver, SEX == 1)),
+  giver_female <- nrow(filter(df_giver, SEX == 2))
+)
+
 primary_giver_sex_freq <- c(
   primary_giver_male <- nrow(filter(df_receiver, PGN_25 == 1)),
   primary_giver_female <- nrow(filter(df_receiver, PGN_25 == 2))
@@ -199,6 +210,58 @@ y_financial_hardship <- function(df) {
     financial_hardship_7 <- nrow(filter(df, ICF2_350 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
   )
 }
+
+y_end_of_life_care <- function(df){
+  end_of_life_care_freq <- c(
+    home_modifications <- nrow(filter(df, CEH_10 == 1)),
+    financial_cost <- nrow(filter(df, CEH_20 == 1)),
+    time_off_work <- nrow(filter(df, CEH_30 == 1)),
+    health_stamina <- nrow(filter(df, CEH_40 == 1)),
+    health_training <- nrow(filter(df, CEH_50 == 1)),
+    home_care_support <- nrow(filter(df, CEH_60 == 1)),
+    other_condition <- nrow(filter(df, CEH_70 == 1))
+  )
+}
+
+end_of_life_care_codes <- c(
+  "CEH_10",
+  "CEH_20",
+  "CEH_30",
+  "CEH_40",
+  "CEH_50",
+  "CEH_60",
+  "CEH_70"
+)
+
+y_caregiving_social_consequences <- function(df){
+  caregiving_social_consequences_freq <- c(
+    spouse <- nrow(filter(df, ICL_110 == 1)),
+    children <- nrow(filter(df, ICL_120 == 1)),
+    family <- nrow(filter(df, ICL_130 == 1)),
+    friends <- nrow(filter(df, ICL_135 == 1)),
+    hobbies <- nrow(filter(df, ICL_140 == 1)),
+    relax <- nrow(filter(df, ICL_150 == 1)),
+    volunteering <- nrow(filter(df, ICL_152 == 1)),
+    groups <- nrow(filter(df, ICL_154 == 1)),
+    plans <- nrow(filter(df, ICL_160 == 1)),
+    holiday <- nrow(filter(df, ICL_170 == 1)),
+    residences <- nrow(filter(df, ICL_180 == 1))
+  )
+}
+
+caregiving_social_consequences_codes <- c(
+  "ICL_110",
+  "ICL_120",
+  "ICL_130",
+  "ICL_135",
+  "ICL_140",
+  "ICL_150",
+  "ICL_152",
+  "ICL_154",
+  "ICL_160",
+  "ICL_170",
+  "ICL_180"
+)
 
 ### Generic function for calculating y-variables
 # df <- dataframe

@@ -68,26 +68,29 @@ total_giver_female <- nrow(apply_filter(df_giver, 2, "SEX"))
 
 # General Charts ####
 ## Sex of primary caregiver and primary care receiver ####
-shcl <- farver::decode_colour(viridisLite::viridis(length(unique(df_primary_sex$sex))), "rgb", "hcl") 
-slabel_col <- ifelse(shcl[, "l"] > 50, "black", "white") 
-
-c_primary_sex <- ggplot(
-  data = df_primary_sex,
-  mapping = aes(x = sex, y = freq, fill = sex)
-) +
-  geom_col() +
-  geom_text(aes(color=sex,label = freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-  ggtitle("Primary Care Giver and Receiver by Sex (age 65+)") +
-  labs(caption = str_wrap("Top row. Caree sex, as reported by caregiver respondents. Bottom row. Caregiver Sex as reported by care receiver respondents", width = 115)) +
-  xlab("Sex") +
-  ylab("Count") +
-  facet_wrap(~type, ncol = 1) +
-#  scale_fill_viridis_d(begin = 0.2, end = 0.8) +    
-  scale_color_manual(values = slabel_col) + 
-  scale_fill_viridis_d(begin = 0.2, end = 0.8) +
-  theme(axis.text.x = element_text(size=13)) +
-  guides(fill = "none") +
-  theme(plot.caption = element_text(hjust = 0, size = 14))
+chart_general_sex <- function(df, title, caption, x_axis, y_axis){
+  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(df$sex))), "rgb", "hcl") 
+  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
+  
+  c <- ggplot(
+    data = df,
+    mapping = aes(x = sex, y = freq, fill = sex)
+  ) +
+    geom_col() +
+    geom_text(aes(color=sex,label = freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
+    ggtitle(title) +
+    labs(caption = str_wrap(caption, width = 115)) +
+    xlab(x_axis) +
+    ylab(y_axis) +
+    facet_wrap(~type, ncol = 1) +
+    scale_color_manual(values = label_col) + 
+    scale_fill_viridis_d(begin = 0.2, end = 0.8) +
+    theme(axis.text.x = element_text(size=13)) +
+    guides(fill = "none") +
+    theme(plot.caption = element_text(hjust = 0, size = 14))
+  
+  return (c)
+}
 
 # ---------------------- "GENERAL" CHART FUNCTION ----------------------
 # input : vector on which we are working. 

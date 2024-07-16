@@ -11,13 +11,14 @@ source("03_var_y.R")
 
 general_charts <- list(
   "Respondent Groups",
-  "Sex of Primary Caregivers and Care Receivers",
+  "Sex of Care Receiving Respondents",
+  "Sex of Care Giver Respondents",
   "Relationship between Caree and Receiver",
   "Number of Disability Types in Respondents"
 )
 
 receiver_ui_config <- list(
-  "Health Conditions Experienced" = list(
+  "Main Heath Condition of Respondent" = list(
     index = 1,
     count_chart = chart,
     pct_chart = chart_pct,
@@ -25,7 +26,7 @@ receiver_ui_config <- list(
     y = NULL,
     code = "PRA_10GR",
     caption = "Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.",
-    title = "Health Conditions Experienced by Respondents",
+    title = "Main Health Condition due to which Respondent receives care",
     x_axis = "Health Condition",
     y_axis = "Count",
     caption_pct = "Proportion of care receiver respondents reporting item as their main health condition.",
@@ -342,6 +343,38 @@ giver_ui_config <- list(
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
+  ),
+  "COnditions that would enable Respondent to provide end-of-life care in their own home" = list(
+    index = 14,
+    count_chart = chart,
+    pct_chart = chart_pct,
+    input_vector = end_of_life_care,
+    code = end_of_life_care_codes,
+    y = y_end_of_life_care,
+    caption = "Frequency of the types of conditions given by respondents considered to be a care giver",
+    title = "Conditions that would enable Respondent to provide end-of-life care in their own home",
+    x_axis = "Conditions",
+    y_axis = "Count",
+    caption_pct = "Proportion of the types of conditions given by respondents considered to be a care giver",
+    y_axis_pct = "Proportion",
+    table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
+    title_fragment = "of Respondents who prefer providing end-of-life care at home"
+  ),
+  "Social Consequences of Respondent's Caregiving Responsibilities" = list(
+    index = 15,
+    count_chart = chart,
+    pct_chart = chart_pct,
+    input_vector = caregiving_social_consequences,
+    code = caregiving_social_consequences_codes,
+    y = y_caregiving_social_consequences,
+    caption = "Frequency of the types of consequences faced by respondents considered to be a care giver",
+    title = "Social Consequences of the Respondent's Caregiving Responsibilities",
+    x_axis = "Social Conseqeunces",
+    y_axis = "Count",
+    caption_pct = "Proportion of the types of consequences faced by respondents considered to be care giver",
+    y_axis_pct = "Proportion",
+    table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
+    title_fragment = "of Respondents facing different types of social consequences due to caregiving"
   )
 )
 
@@ -740,11 +773,13 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     if (input$general_selected_box == general_charts[1]) {
       chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.","Respondent groups", "Count")
     } else if(input$general_selected_box == general_charts[2]) {
-      c_primary_sex
-    } else if(input$general_selected_box == general_charts[3]){
-      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Count of respondents in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.","Caree Relationships", "Count")
-    } else if (input$general_selected_box == general_charts[4]){
-      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
+      chart_general_sex(df_receiver_sex, "Care Receiver and their Primary Caregiver by Sex (age 65+)", "Top row: Sex of Care Receiver Respondent. Bottom row: Caregiver sex as reported by care receiver respondents", "Sex", "Count")
+    } else if(input$general_selected_box == general_charts[3]) {
+      chart_general_sex(df_giver_sex, "Caregivers and their Primary Carees by Sex (age 65+)", "Top row: Sex of Caregiver Respondent. Bottom row: Sex of their Primary Carees.", "Sex", "Count")
+    } else if(input$general_selected_box == general_charts[4]){
+      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Count of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.","Caree Relationships", "Count")
+    } else if (input$general_selected_box == general_charts[5]){
+      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })
   
@@ -754,10 +789,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       chart_general_pct(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Proportion of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs", "Respondent groups", "Proportion")
     } else if(input$general_selected_box == general_charts[2]){
       # TODO: create primary sex percent chart
-    } else if(input$general_selected_box == general_charts[3]){
-      chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship between Caree and Receiver", "Proportion of respondents in each grouping: Spuse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
     } else if(input$general_selected_box == general_charts[4]){
-      chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Proportion of respondents in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
+      chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Proportion of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
+    } else if(input$general_selected_box == general_charts[5]){
+      chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Proportion of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
     }
   })
   
@@ -766,10 +801,14 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     if (input$general_selected_box == general_charts[1]) {
       tab_general(pop_name, pop_freq)
     } else if(input$general_selected_box == general_charts[2]){
-      df_primary_sex %>% rename("Sex" = sex, "Count" = freq)
+      df_receiver_sex |>
+        rename("Sex" = sex, "Count" = freq, "Chart Description" = type)
     } else if(input$general_selected_box == general_charts[3]){
-      tab_general(caree_relationship, caree_freq)
+      df_giver_sex |>
+        rename("Sex" = sex, "Count" = freq, "Chart Description" = type)
     } else if(input$general_selected_box == general_charts[4]){
+      tab_general(caree_relationship, caree_freq)
+    } else if(input$general_selected_box == general_charts[5]){
       tab_general(disability_counter, disability_freq)
     }
   })

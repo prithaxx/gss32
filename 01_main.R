@@ -36,5 +36,5 @@ df_giver_alzheimers <- df_giver %>% filter(PRP10GR == 8)
 df_giver_no_alzheimers <- df_giver %>% filter(PRP10GR != 8)
 
 # Giver-Receiver Relationship
-df_caree_relations <- df_giver |>
+df_caree_relations <- df_receiver |>
   filter(PGG10GR >= 1 & PGG10GR <= 6)
