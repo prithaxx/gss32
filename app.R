@@ -18,7 +18,7 @@ general_charts <- list(
 )
 
 receiver_ui_config <- list(
-  "Health Conditions Experienced" = list(
+  "Main Heath Condition of Respondent" = list(
     index = 1,
     count_chart = chart,
     pct_chart = chart_pct,
@@ -26,7 +26,7 @@ receiver_ui_config <- list(
     y = NULL,
     code = "PRA_10GR",
     caption = "Count for main health conditions for which respondents considered to be a care receiver and 65 years of age or older received help.",
-    title = "Health Conditions Experienced by Respondents",
+    title = "Main Health Condition due to which Respondent receives care",
     x_axis = "Health Condition",
     y_axis = "Count",
     caption_pct = "Proportion of care receiver respondents reporting item as their main health condition.",
@@ -344,7 +344,7 @@ giver_ui_config <- list(
     table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Respondents who have a Disability indicator"
   ),
-  "Respondent prefers to provide end-of-life care at home" = list(
+  "COnditions that would enable Respondent to provide end-of-life care in their own home" = list(
     index = 14,
     count_chart = chart,
     pct_chart = chart_pct,
@@ -367,14 +367,14 @@ giver_ui_config <- list(
     input_vector = caregiving_social_consequences,
     code = caregiving_social_consequences_codes,
     y = y_caregiving_social_consequences,
-    caption = "SET ONE HERE",
+    caption = "Frequency of the types of consequences faced by respondents considered to be a care giver",
     title = "Social Consequences of the Respondent's Caregiving Responsibilities",
     x_axis = "Social Conseqeunces",
     y_axis = "Count",
-    caption_pct = "SET ONE HERE",
+    caption_pct = "Proportion of the types of consequences faced by respondents considered to be care giver",
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
-    title_fragment = "SET ONE HERE"
+    title_fragment = "of Respondents facing different types of social consequences due to caregiving"
   )
 )
 
