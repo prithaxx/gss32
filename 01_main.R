@@ -42,43 +42,29 @@ df_caree_relations <- df_receiver |>
 
 # The four main populations in the dataset ------
 # Care-Receiver charts
-# Male care-recievrs who have male carers
-df_male_caree_male_carer <- GSS_PUMF_2018 |>
-  filter(CAR_110 == 1 | CAR_115 == 1 & SEX == 1) |>
-  filter(PGN_25 == 1)
-
+# Male care-receivers who have male carers
+df_male_caree_male_carer <- df_receiver |>
+  filter(SEX == 1 & PGN_25 == 1)
 # Male care-receivers who have female carers
-df_male_caree_female_carer <- GSS_PUMF_2018 |>
-  filter(CAR_110 == 1 | CAR_115 == 1 & SEX == 1) |>
-  filter(PGN_25 == 2)
-
-# Femeale care-receivers who have male carers
-df_female_caree_male_carer <- GSS_PUMF_2018 |>
-  filter(CAR_110 == 1 | CAR_115 == 1 & SEX == 2) |>
-  filter(PGN_25 == 1)
-
+df_male_caree_female_carer <- df_receiver |>
+  filter(SEX == 1 & PGN_25 == 2)
+# Female care-receivers who have male carers
+df_female_caree_male_carer <- df_receiver |>
+  filter(SEX == 2 & PGN_25 == 1)
 # Female care-receivers who have female carers
-df_female_caree_female_carer <- GSS_PUMF_2018 |>
-  filter(CAR_110 == 1 | CAR_115 == 1 & SEX == 2) |>
-  filter(PGN_25 == 2)
+df_female_caree_female_carer <- df_receiver |>
+  filter(SEX == 2 & PGN_25 == 2)
 
-# Caregiver chaers
+# Caregiver charts
 # Male caregivers who care for older males
-df_male_carer_male_caree <- GSS_PUMF_2018 |>
-  filter(ICG_110 == 1 | ICG_115 == 1 & SEX == 1) |>
-  filter(CRRCPAGR >= 14 & CRRCPAGR <= 20 & PRN_25 == 1)
-
+df_male_carer_male_caree <- df_giver |>
+  filter(SEX == 1 & PRN_25 == 1)
 # Male caregivers who care for older females
-df_male_carer_female_caree <- GSS_PUMF_2018 |>
-  filter(ICG_110 == 1 | ICG_115 == 1 & SEX == 1) |>
-  filter(CRRCPAGR >= 14 & CRRCPAGR <= 20 & PRN_25 == 2)
-
+df_male_carer_female_caree <- df_giver |>
+  filter(SEX == 1 & PRN_25 == 2)
 # Female caregivers who care for older males
-df_female_carer_male_caree <- GSS_PUMF_2018 |>
-  filter(ICG_110 == 1 | ICG_115 == 1 & SEX == 2) |>
-  filter(CRRCPAGR >= 14 & CRRCPAGR <= 20 & PRN_25 == 1)
-
-# Femake caregivers who care for older females
-df_female_carer_female_caree <- GSS_PUMF_2018 |>
-  filter(ICG_110 == 1 | ICG_115 == 1 & SEX == 2) |>
-  filter(CRRCPAGR >= 14 & CRRCPAGR <= 20 & PRN_25 == 2)
+df_female_carer_male_caree <- df_giver |>
+  filter(SEX == 2 & PRN_25 == 1)
+# Female caregivers who care for older females
+df_female_carer_female_caree <- df_giver |>
+  filter(SEX == 2 & PRN_25 == 2)
