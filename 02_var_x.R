@@ -8,6 +8,18 @@ pop_name <- c(
 
 primary_sex <- c("male", "female")
 
+primary_receiver_sex <- c("male", "male", "female", "female")
+
+# primary_receiver_sex <- c("Male carees who have male carers",
+#                           "Male carees who have female carers",
+#                           "Female carees who have male carers",
+#                           "Female carees who have female carers")
+
+primary_giver_sex <- c("Male carers who have male carees",
+                       "Male carers who have female carees",
+                       "Female carers who have male carees",
+                       "Female carers who have female carees")
+
 caree_relationship <- c(
   "Spouse/ Partner",
   "Son",

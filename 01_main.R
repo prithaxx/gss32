@@ -79,6 +79,6 @@ df_female_carer_male_caree <- GSS_PUMF_2018 |>
   filter(CRRCPAGR >= 14 & CRRCPAGR <= 20 & PRN_25 == 1)
 
 # Femake caregivers who care for older females
-df_male_carer_male_caree <- GSS_PUMF_2018 |>
+df_female_carer_female_caree <- GSS_PUMF_2018 |>
   filter(ICG_110 == 1 | ICG_115 == 1 & SEX == 2) |>
   filter(CRRCPAGR >= 14 & CRRCPAGR <= 20 & PRN_25 == 2)

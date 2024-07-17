@@ -391,6 +391,7 @@ default <- 0
 
 ui <- function(request) {
   print(request)
+  
   fluidPage(
     useShinyjs(),
     includeCSS("www/app.css"),
@@ -772,13 +773,19 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   output$general_selected_chart <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
       chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.","Respondent groups", "Count")
-    } else if(input$general_selected_box == general_charts[2]) {
-      chart_general_sex(df_receiver_sex, "Care Receiver and their Primary Caregiver by Sex (age 65+)", "Top row: Sex of Care Receiver Respondent. Bottom row: Caregiver sex as reported by care receiver respondents", "Sex", "Count")
-    } else if(input$general_selected_box == general_charts[3]) {
+    } 
+    else if(input$general_selected_box == general_charts[2]) {
+      # chart_general(primary_sex, receiver_sex_freq, "GSS 2018 - Sex of Respondent groups considered to be Care Receivers", "Count of respondents considered to be care receivers by sex", "Sex", "Count")
+      # chart_general(primary_receiver_sex, primary_receiver_sex_freq, "GSS 2018 - Sex of Care Receivers and their Primary Caregivers", "Count of Care Receivers and their Primary Caregivers by sex", "Sex of Care Receivers and their Primary Caregivers", "Count")
+      chart_general_sex(df_receiver_sex, "Care Receivers and their Primary Caregivers by Sex", "Top row: Sex of Care Receiver Respondent. Bottom row: Sex of Care Receiver Respondent and their Primary Care Giver", "Sex", "Count")
+    } 
+    else if(input$general_selected_box == general_charts[3]) {
       chart_general_sex(df_giver_sex, "Caregivers and their Primary Carees by Sex (age 65+)", "Top row: Sex of Caregiver Respondent. Bottom row: Sex of their Primary Carees.", "Sex", "Count")
-    } else if(input$general_selected_box == general_charts[4]){
+    } 
+    else if(input$general_selected_box == general_charts[4]){
       chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Count of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.","Caree Relationships", "Count")
-    } else if (input$general_selected_box == general_charts[5]){
+    } 
+    else if (input$general_selected_box == general_charts[5]){
       chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })

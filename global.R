@@ -76,7 +76,7 @@ chart_general_sex <- function(df, title, caption, x_axis, y_axis){
     data = df,
     mapping = aes(x = sex, y = freq, fill = sex)
   ) +
-    geom_col() +
+    geom_col(position = position_dodge()) +  # Use position_dodge() for dodged bars
     geom_text(aes(color=sex,label = freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
     ggtitle(title) +
     labs(caption = str_wrap(caption, width = 115)) +
@@ -91,6 +91,8 @@ chart_general_sex <- function(df, title, caption, x_axis, y_axis){
   
   return (c)
 }
+
+
 
 # ---------------------- "GENERAL" CHART FUNCTION ----------------------
 # input : vector on which we are working. 
