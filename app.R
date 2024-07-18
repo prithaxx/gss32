@@ -775,8 +775,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.","Respondent groups", "Count")
     } 
     else if(input$general_selected_box == general_charts[2]) {
-      # chart_general(primary_sex, receiver_sex_freq, "GSS 2018 - Sex of Respondent groups considered to be Care Receivers", "Count of respondents considered to be care receivers by sex", "Sex", "Count")
-      # chart_general(primary_receiver_sex, primary_receiver_sex_freq, "GSS 2018 - Sex of Care Receivers and their Primary Caregivers", "Count of Care Receivers and their Primary Caregivers by sex", "Sex of Care Receivers and their Primary Caregivers", "Count")
       chart_general_sex(df_receiver_sex, "Care Receivers and their Primary Caregivers by Sex", "Top row: Sex of Care Receiver Respondent. Bottom row: Sex of Care Receiver Respondent and their Primary Care Giver", "Sex", "Count")
     } 
     else if(input$general_selected_box == general_charts[3]) {
