@@ -1171,6 +1171,9 @@ if (toupper(Sys.getenv("GSS32_DEVMODE")) == "TRUE") {
   devmode(TRUE)
 }
 enableBookmarking("url")
-addResourcePath("img", "www/images")
+# Can re-add this if/when static images are added to the app. For the time being
+# having this in here means the directory needs to be created in order to run
+# the app without crashing.
+# addResourcePath("img", "www/images")
 
 shinyApp(ui = ui, server = server, options = options)
