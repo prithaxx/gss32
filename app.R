@@ -445,7 +445,8 @@ ui <- function(request) {
                 ),
                 tabPanel(
                   "Percentages",
-                  plotOutput("general_percentage")
+                  plotOutput("general_percentage"),
+                  uiOutput("conditional_additional_pct_plot")
                 ),
                 tabPanel(
                   "Tables",
@@ -794,7 +795,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     if (input$general_selected_box == general_charts[1]) {
       chart_general_pct(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Proportion of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs", "Respondent groups", "Proportion")
     } else if(input$general_selected_box == general_charts[2]){
-      # TODO: create primary sex percent chart
+      chart_general_pct(primary_sex, receiver_sex_freq, "GSS 2018 - Care receiver Respondents by sex", "Proportion of care receiver respondents by sex", "Sex", "Proportion")
+    } else if(input$general_selected_box == general_charts[3]){
+      chart_general_pct(primary_sex, giver_sex_freq, "GSS 2018 - Caregiver Respondents by sex", "Proportion of caregiver respondents by sex", "Sex", "Proportion")
     } else if(input$general_selected_box == general_charts[4]){
       chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Proportion of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
     } else if(input$general_selected_box == general_charts[5]){
@@ -802,6 +805,21 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     }
   })
   
+  output$conditional_additional_pct_plot <- renderUI({
+    if (input$general_selected_box == general_charts[2] || input$general_selected_box == general_charts[3]) {
+      plotOutput("additional_pct_plot")
+    }
+  })
+  
+  output$additional_pct_plot <- renderPlot({
+    if (input$general_selected_box == general_charts[2]) {
+      chart_general_pct(primary_receiver_sex, primary_receiver_sex_freq, "Care receivers Respondents and their primary caregivers by Sex", "Propotion of respondents in each grouping: male carees with male carers, male carees with female cares,
+                   female carees with male carers, female carees with female carers", "Sex", "Proportion")
+    } else if(input$general_selected_box == general_charts[3]){
+      chart_general_pct(primary_giver_sex, primary_giver_sex_freq, "Caregiver Respondents and their primary care receivers by Sex", 'Propotion of respondents in each grouping: male carers with male carees, male carers with female carees,
+                    female carers with male carees, female carers with female carees', "Sex", "Propotion")
+    }
+  })
   
   # general table
   output$general_table <- renderTable({
