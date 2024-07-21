@@ -38,13 +38,17 @@ giver_sex_freq <- c(
 )
 
 primary_giver_sex_freq <- c(
-  primary_giver_male <- nrow(filter(df_receiver, PGN_25 == 1)),
-  primary_giver_female <- nrow(filter(df_receiver, PGN_25 == 2))
+  nrow(df_male_carer_male_caree),
+  nrow(df_male_carer_female_caree),
+  nrow(df_female_carer_male_caree),
+  nrow(df_female_carer_female_caree)
 )
 
 primary_receiver_sex_freq <- c(
-  primary_receiver_male <- nrow(filter(df_giver, PRN_25 == 1)),
-  primary_receiver_female <- nrow(filter(df_giver, PRN_25 == 2))
+  nrow(df_male_caree_male_carer),
+  nrow(df_male_caree_female_carer),
+  nrow(df_female_caree_male_carer),
+  nrow(df_female_caree_female_carer)
 )
 
 # Care receiver response y variables

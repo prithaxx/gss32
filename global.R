@@ -66,32 +66,6 @@ total_receiver_female <- nrow(apply_filter(df_receiver, 2, "SEX"))
 total_giver_male <- nrow(apply_filter(df_giver, 1, "SEX"))
 total_giver_female <- nrow(apply_filter(df_giver, 2, "SEX"))
 
-# General Charts ####
-## Sex of primary caregiver and primary care receiver ####
-chart_general_sex <- function(df, title, caption, x_axis, y_axis){
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(df$sex))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  
-  c <- ggplot(
-    data = df,
-    mapping = aes(x = sex, y = freq, fill = sex)
-  ) +
-    geom_col() +
-    geom_text(aes(color=sex,label = freq), position = position_stack(vjust = 0.5), show.legend = FALSE) +
-    ggtitle(title) +
-    labs(caption = str_wrap(caption, width = 115)) +
-    xlab(x_axis) +
-    ylab(y_axis) +
-    facet_wrap(~type, ncol = 1) +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(begin = 0.2, end = 0.8) +
-    theme(axis.text.x = element_text(size=13)) +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-  
-  return (c)
-}
-
 # ---------------------- "GENERAL" CHART FUNCTION ----------------------
 # input : vector on which we are working. 
 # frequency : vector of counts from var_y
