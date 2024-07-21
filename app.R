@@ -440,7 +440,12 @@ ui <- function(request) {
                 id = "general_chart_type",
                 tabPanel(
                   "Counts",
-                  plotOutput("general_selected_chart")
+                  plotOutput("general_selected_chart"),
+                  # conditionalPanel(
+                  #   condition = "input$general_selected_box == 'general_charts[2]'",
+                  #   plotOutput("additional_plot")
+                  # )
+                  uiOutput("conditional_additional_plot")
                 ),
                 tabPanel(
                   "Percentages",
@@ -449,11 +454,7 @@ ui <- function(request) {
                 tabPanel(
                   "Tables",
                   tableOutput("general_table")
-                ) # table id
-                # tabPanel(
-                #   "Statistical Significance",
-                #   "Statisical significance of data will be displayed here"
-                # )
+                ) 
               )
             )
           )
@@ -768,25 +769,44 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   output_receiver_df <- df_receiver
   output_giver_df <- df_giver
-  
   # general counts tab
   output$general_selected_chart <- renderPlot({
     if (input$general_selected_box == general_charts[1]) {
-      chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.","Respondent groups", "Count")
-    } 
-    else if(input$general_selected_box == general_charts[2]) {
+      chart_general(pop_name, pop_freq, "GSS 2018 - Respondent groups", "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.", "Respondent groups", "Count")
+    } else if (input$general_selected_box == general_charts[2]) {
       chart_general_sex(df_receiver_sex, "Care Receivers and their Primary Caregivers by Sex", "Top row: Sex of Care Receiver Respondent. Bottom row: Sex of Care Receiver Respondent and their Primary Care Giver", "Sex", "Count")
-    } 
-    else if(input$general_selected_box == general_charts[3]) {
+    } else if (input$general_selected_box == general_charts[3]) {
       chart_general_sex(df_giver_sex, "Caregivers and their Primary Carees by Sex (age 65+)", "Top row: Sex of Caregiver Respondent. Bottom row: Sex of their Primary Carees.", "Sex", "Count")
-    } 
-    else if(input$general_selected_box == general_charts[4]){
-      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Count of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.","Caree Relationships", "Count")
-    } 
-    else if (input$general_selected_box == general_charts[5]){
-      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.","Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
+    } else if (input$general_selected_box == general_charts[4]) {
+      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Count of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.", "Caree Relationships", "Count")
+    } else if (input$general_selected_box == general_charts[5]) {
+      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })
+  
+  # output$additional_plot <- renderPlot({
+  #   if (input$general_selected_box == general_charts[2]) {
+  #     # Additional plot code goes here
+  #     chart_general_sex(df_receiver_sex, "Care Receivers and their Primary Caregivers by Sex", "Top row: Sex of Care Receiver Respondent. Bottom row: Sex of Care Receiver Respondent and their Primary Care Giver", "Sex", "Count")
+  #   }
+  # })
+  # 
+  # # Ensure additional_plot is initialized
+  # outputOptions(output, "additional_plot", suspendWhenHidden = FALSE)
+  
+  output$conditional_additional_plot <- renderUI({
+    if (input$general_selected_box == general_charts[2]) {
+      plotOutput("additional_plot")
+    }
+  })
+  
+  output$additional_plot <- renderPlot({
+    if (input$general_selected_box == general_charts[2]) {
+      # Additional plot code goes here
+      additional_chart_function(df_additional_data)
+    }
+  })
+  
   
   # general percentage
   output$general_percentage <- renderPlot({
