@@ -449,7 +449,8 @@ ui <- function(request) {
                 ),
                 tabPanel(
                   "Tables",
-                  tableOutput("general_table")
+                  tableOutput("general_table"),
+                  uiOutput("conditional_additional_table")
                 ) 
               )
             )
@@ -801,20 +802,33 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     }
   })
   
+  
   # general table
   output$general_table <- renderTable({
     if (input$general_selected_box == general_charts[1]) {
       tab_general(pop_name, pop_freq)
     } else if(input$general_selected_box == general_charts[2]){
-      df_receiver_sex |>
-        rename("Sex" = sex, "Count" = freq, "Chart Description" = type)
+      tab_general(primary_sex, receiver_sex_freq)
     } else if(input$general_selected_box == general_charts[3]){
-      df_giver_sex |>
-        rename("Sex" = sex, "Count" = freq, "Chart Description" = type)
+      tab_general(primary_sex, giver_sex_freq)
     } else if(input$general_selected_box == general_charts[4]){
       tab_general(caree_relationship, caree_freq)
     } else if(input$general_selected_box == general_charts[5]){
       tab_general(disability_counter, disability_freq)
+    }
+  })
+  
+  output$conditional_additional_table <- renderUI({
+    if (input$general_selected_box == general_charts[2] || input$general_selected_box == general_charts[3]) {
+      tableOutput("additional_table")
+    }
+  })
+  
+  output$additional_table <- renderTable({
+    if (input$general_selected_box == general_charts[2]) {
+      tab_general(primary_receiver_sex, primary_receiver_sex_freq)
+    } else if(input$general_selected_box == general_charts[3]){
+      tab_general(primary_giver_sex, primary_giver_sex_freq)
     }
   })
   
