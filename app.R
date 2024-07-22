@@ -574,8 +574,14 @@ ui <- function(request) {
               ),
               selectInput(
                 "giver_select_box_age",
-                "Filter by age of caree",
+                "Filter by age of primary caree",
                 filter_age_group,
+                selected = default
+              ),
+              selectInput(
+                "giver_select_box_own_age",
+                "Filter by age respondent",
+                filter_own_age_group,
                 selected = default
               ),
               selectInput(
@@ -960,7 +966,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       applied_filters <- c(applied_filters, paste("Sex: ", names(filter_sex)[which(filter_sex == input$receiver_select_box_sex)]))
     }
     if(input$receiver_select_box_age != "-1"){
-      applied_filters <- c(applied_filters, paste("Age group: ", names(filter_age_group)[which(filter_age_group == input$receiver_select_box_age)]))
+      applied_filters <- c(applied_filters, paste("Primary Carer's Age group: ", names(filter_age_group)[which(filter_age_group == input$receiver_select_box_age)]))
     }
     if(input$receiver_select_box_pop_centre != "-1"){
       applied_filters <- c(applied_filters, paste("Urban/ Rural status: ", names(filter_pop_centre)[which(filter_pop_centre == input$receiver_select_box_pop_centre)]))
@@ -1013,7 +1019,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     )
     df_filtered <- apply_filter(
       df_filtered,
-      strtoi(input$giver_select_box_age), "AGEGR10"
+      strtoi(input$giver_select_box_age), "CRRCPAGR"
+    )
+    df_filtered <- apply_filter(
+      df_filtered,
+      strtoi(input$giver_select_box_own_age), "AGEGR10"
     )
     df_filtered <- apply_filter(
       df_filtered,
@@ -1116,6 +1126,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     if (input$giver_select_box_age != "-1") {
       applied_filters <- c(applied_filters, paste("Age group:", names(filter_age_group[which(filter_age_group == input$giver_select_box_age)])))
     }
+    if(input$giver_select_box_own_age != "-1"){
+      applied_filters <- c(applied_filters, paste("Respondent's Age Group: ", names(filter_own_age_group)[which(filter_own_age_group == input$giver_select_box_own_age)]))
+    }
     if (input$giver_select_box_pop_centre != "-1") {
       applied_filters <- c(applied_filters, paste("Urban/Rural status:", names(filter_pop_centre[which(filter_pop_centre == input$giver_select_box_pop_centre)])))
     }
@@ -1168,6 +1181,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   observeEvent(input$resetGiverCount, {
     reset("giver_select_box_sex")
     reset("giver_select_box_age")
+    reset("giver_select_box_own_age")
     reset("giver_select_box_pop_centre")
     reset("giver_select_box_living_arrangement_senior_household")
     reset("giver_select_box_indigenous_status")
@@ -1181,6 +1195,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   observeEvent(input$resetGiverPercentage, {
     reset("giver_select_box_sex")
     reset("giver_select_box_age")
+    reset("giver_select_box_own_age")
     reset("giver_select_box_pop_centre")
     reset("giver_select_box_living_arrangement_senior_household")
     reset("giver_select_box_indigenous_status")
