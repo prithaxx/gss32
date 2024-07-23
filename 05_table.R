@@ -8,6 +8,9 @@
 tab_helper <- function(df, count, x_options, cols, col2 = NULL, response_code) {
   start <- x_options[1]
   end <- x_options[length(x_options)]
+  
+  # the total frequencies are creating problems with the percentage denominators. 
+  # Not removing them because I'm not sure where else these values are being used.
   total_male <- sum(df$SEX == 1)
   total_female <- sum(df$SEX == 2)
   total_age_65_74 <- sum(df$AGEGR10 == 6)

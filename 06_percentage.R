@@ -1,3 +1,7 @@
+# ------- "GENERAL" SEX PERCENTAGE CHART FUNCTION -----------
+#chart_general_sex_pct <- 
+
+
 # -------- "GENERAL" PERCENTAGE CHART FUNCTION -----------------
 # input : vector on which we are working. 
 # frequency : vector of counts from var_y

@@ -8,6 +8,16 @@ pop_name <- c(
 
 primary_sex <- c("male", "female")
 
+primary_receiver_sex <- c("Male Carees with Male Carers",
+                          "Male Carees with Female Carers",
+                          "Female Carees with Male Carers",
+                          "Female Carees with Female Carers")
+
+primary_giver_sex <- c("Male Carers who have Male Carees",
+                       "Male Carers who have Female Carees",
+                       "Female Carers who have Male Carees",
+                       "Female Carers who have Female Carees")
+
 caree_relationship <- c(
   "Spouse/ Partner",
   "Son",
@@ -124,6 +134,30 @@ dwelling_distances <- c(
   "3+ hours by car" = 7
 )
 
+end_of_life_care <- c(
+  "Physical Modifications of Home",
+  "Financial assistance to cover additional costs",
+  "Time off work without loss of pay",
+  "Better Physical Health or Stamina",
+  "Health related training",
+  "Home care support",
+  "Some other condition"
+)
+
+caregiving_social_consequences <- c(
+  "Spend less time with spouse/ partner",
+  "Spend less time with children",
+  "Spend less time with other family members",
+  "Spend less time with friends",
+  "Spend less time on social activities or hobbies",
+  "Spend less time relaxing or taking care of myself",
+  "Spend less time volunteering for an organization",
+  "Spend less time participating in political, social, or cultural groups",
+  "Make holiday plans and change or cancel them",
+  "Not make holiday plans at all",
+  "Move residences"
+)
+
 # TODO: check this - there must be a never option? B/c percentage table is off... (for now I have edited caption to reflect)
 primary_help_banking_freq <- c(
   "Daily" = 1,
@@ -184,17 +218,22 @@ filter_age_group <- list(
   "75 years and over" = 7
 )
 
+filter_own_age_group <- list(
+  "All" = no_filter,
+  "15 to 24 years" = 1,
+  "25 to 34 years" = 2,
+  "35 to 44 years" = 3,
+  "45 to 45 years" = 4,
+  "55 to 64 years" = 5,
+  "65 to 74 years" = 6,
+  "75 years and over" = 7
+)
+
 filter_pop_centre <- list(
   "All" = no_filter,
   "Larger ubran population centres" = 1,
   "Rural areas and small population" = 2,
   "Prince Edward Island" = 3
-)
-
-filter_partner_in_household <- list(
-  "All" = no_filter,
-  "Yes" = 1,
-  "No" = 2
 )
 
 filter_living_arrangement_senior_household <- list(
