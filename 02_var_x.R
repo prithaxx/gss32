@@ -218,17 +218,22 @@ filter_age_group <- list(
   "75 years and over" = 7
 )
 
+filter_own_age_group <- list(
+  "All" = no_filter,
+  "15 to 24 years" = 1,
+  "25 to 34 years" = 2,
+  "35 to 44 years" = 3,
+  "45 to 45 years" = 4,
+  "55 to 64 years" = 5,
+  "65 to 74 years" = 6,
+  "75 years and over" = 7
+)
+
 filter_pop_centre <- list(
   "All" = no_filter,
   "Larger ubran population centres" = 1,
   "Rural areas and small population" = 2,
   "Prince Edward Island" = 3
-)
-
-filter_partner_in_household <- list(
-  "All" = no_filter,
-  "Yes" = 1,
-  "No" = 2
 )
 
 filter_living_arrangement_senior_household <- list(

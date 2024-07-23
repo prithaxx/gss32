@@ -13,8 +13,8 @@ general_charts <- list(
   "Respondent Groups",
   "Sex of Care Receiving Respondents",
   "Sex of Care Giver Respondents",
-  "Relationship between Caree and Receiver",
-  "Number of Disability Types in Respondents"
+  "Relationship between Caree and Primary Carer",
+  "Number of Disability Types in all Respondents"
 )
 
 receiver_ui_config <- list(
@@ -32,7 +32,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of care receiver respondents reporting item as their main health condition.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_maker(df_receiver, health_conditions, "PRA_10GR"),
-    title_fragment = "of People with Health Conditions"
+    title_fragment = "of Care Receiving Respondents with Health Conditions"
   ),
   "Activities Respondent Gets Help With" = list(
     index = 2,
@@ -48,7 +48,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of the type of activities for which respondents considered to be a care receiver and 65 years o fage or older received with family, friends or neighbours in the past 12 months.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_multi_var_maker(df_receiver, help_activities, help_activity_codes, y_activity_receive_help),
-    title_fragment = "of People who Received Help with an Activity"
+    title_fragment = "of Care Receiving Respondents who received Help with an Activity"
   ),
   "Age of Respondent's Primary Caregiver" = list(
     index = 3,
@@ -64,7 +64,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of care receiver respondents reporting their primary caregiver's age.",
     y_axis_pct = "Proportion",
     table = tab_maker(df_receiver, giver_age_group, "CRGVAGGR"),
-    title_fragment = "of people and the Age of Respondent's Primary Caregiver"
+    title_fragment = "of Care Receiving Respondents and the Age of their Primary Caregiver"
   ),
   "Activities Assisted by Professionals" = list(
     index = 4,
@@ -80,8 +80,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of care receiver respondents reporting they received help from a professional in the past 12 months with each activity",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_multi_var_maker(df_receiver, help_activities, help_activity_pro_codes, y_activity_receive_help_pro),
-    title_fragment = "of People who Received Professional Help with an
-      Activity"
+    title_fragment = "of Care Receiving Respondents who Received Professional Help with an Activity"
   ),
   "Hours of Help Received per Week" = list(
     index = 5,
@@ -97,8 +96,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of care receiever repsondents reporting avergae number of hours of help received, per week from family, friends or neighbours.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_maker(df_receiver, help_hours, "HAR_10C"),
-    title_fragment = "of People and the Number of Hours of Help Received
-      - Per Average Week"
+    title_fragment = "of Care Receiving Respondents and the Number of Hours of Help Received - Per Average Week"
   ),
   "Primary Caregiver Distance Away" = list(
     index = 6,
@@ -114,8 +112,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of care receiver respondents reporting distance by care between themselves and their primary caregiver.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_maker(df_receiver, dwelling_distances, "PGD_10"),
-    title_fragment ="of People and the Distance Between the Respondent and the Caregiver's
-      Dwellings"
+    title_fragment ="of Care Receiving Respondents and the Distance Between them and their Caregiver's Dwellings"
   ),
   "Banking Help Received - frequency" = list(
     index = 7,
@@ -131,8 +128,7 @@ receiver_ui_config <- list(
     caption_pct = "Of care receiver respondents reporting that they did receive help with managing their finances in the past 12 months, proportion reporting each freqeuncy level of help.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_maker(df_receiver, primary_help_banking_freq, "ARB_20"),
-    title_fragment = "of People and the Frequency Their Primary Caregiver Helped
-      with Banking"
+    title_fragment = "of Care Receiving Respondents and the Frequency Their Primary Caregiver Helped with Banking"
   ),
   "Banking Help Received - hours" = list(
     index = 8,
@@ -148,8 +144,7 @@ receiver_ui_config <- list(
     caption_pct = "Of care receiver respondents reporting that they did receive help with managing their finances in the past 12 months, proportion reporting numbers of hours of banking assistance achieved.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_maker(df_receiver, primary_help_banking_hours, "ARB_30C"),
-    title_fragment = "of People and Number of Hours their Primary Caregiver
-      Helped with Banking"
+    title_fragment = "of Care Receiving Respondents and Number of Hours their Primary Caregiver Helped with Banking"
   ),
   "Respondent Didn't Receive Care" = list(
     index = 9,
@@ -165,7 +160,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion for the main reasons why respondents considered to be a carereciver and 65 years of age or older did not receive the care they need.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_maker(df_receiver, received_nohelp_reasons, "DVCNR20"),
-    title_fragment = "of Respondents and the reasons why they did not receive help"
+    title_fragment = "of Care Receiving Respondents and the reasons why they did not receive help"
   ),
   "Respondent has a Disability Indicator" = list(
     index = 10,
@@ -181,7 +176,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of the type of disability indicators within respondents considered to be a care receiver and 65 years if age or older.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_multi_var_maker(df_receiver, disability_indicators, disability_codes, y_disability_indicator),
-    title_fragment = "of Respondents who have a Disability indicator"
+    title_fragment = "of Care Receiving Respondents who have a Disability indicator"
   ),
   "Services/ People who cared for Respondent" = list(
     index = 11,
@@ -197,7 +192,7 @@ receiver_ui_config <- list(
     caption_pct = "Proportion of the type of caree (Friends/Family, Professional or Both) for the respondent considered to be a care receiver and 65 years of age or older.",
     y_axis_pct = "Proportion of Care Receiver Respondents (65+)",
     table = tab_multi_var_maker(df_receiver, caree_type, caree_codes, y_caree_type),
-    title_fragment = "of Respondents who have a type of Caree"
+    title_fragment = "of Care Receiving Respondents who have a type of Caree"
   )
 )
 
@@ -216,9 +211,9 @@ giver_ui_config <- list(
     caption_pct = "Proportion of caregiver respondents who report providing the help to caree in the past 12 months with each type of activity.",
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, help_activities, activity_give_help_codes, y_activity_give_help),
-    title_fragment = "of People who Provided Help with an Activity"
+    title_fragment = "of Caregiving Respondents who Provided Help with an Activity"
   ),
-  "Age of Caree" = list(
+  "Age of Primary Caree" = list(
     index = 2,
     count_chart = chart,
     pct_chart = chart_pct,
@@ -232,8 +227,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of groups of ages of respondents considered to be a care receiver.",
     y_axis_pct = "Proportion",
     table = tab_maker(df_giver, primary_receiver_age_group, "CRRCPAGR"),
-    title_fragment = "of people and the Age of Respondent's Primary Care
-        Receiver"
+    title_fragment = "of Caregiving Respondents and the Age of Respondent's Primary Care Receiver"
   ),
   "Hours of Help Respondent Provides to Caree" = list(
     index = 3,
@@ -249,8 +243,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of the number of hours of help provided per activity per week by respondent considered to be a care giver.",
     y_axis_pct = "Proportion",
     table = tab_maker(df_giver, help_hours, "HAP_10C"),
-    title_fragment = "of People and the Number of Hours of Help Provided -
-        Per Average Week"
+    title_fragment = "of Caregiving Respondents and the Number of Hours of Help Provided - Per Average Week"
   ),
   "Distance to Caree" = list(
     index = 4,
@@ -266,8 +259,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion for the distance by car between respondents considered to be a care giver, and their caree's dwelling.",
     y_axis_pct = "Proportion",
     table = tab_maker(df_giver, dwelling_distances, "PRD_10"),
-    title_fragment = "of People and the Distance Between them and the Care
-        Receiver's Dwellings"
+    title_fragment = "of Caregiving Respondents and the Distance Between them and the Care Receiver's Dwellings"
   ),
   "Banking Help Provided to Caree - frequency" = list(
     index = 5,
@@ -283,8 +275,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of the number of times the respondent considered to be a care giver assisted caree with banking.",
     y_axis_pct = "Proportion",
     table = tab_maker(df_giver, primary_help_banking_freq, "ARB_20"),
-    title_fragment = "of People and the Frequency they Provided Help to Their
-        Primary Care Receiver with Banking"
+    title_fragment = "of Caregiving Respondents and the Frequency they Provided Help to Their Primary Care Receiver with Banking"
   ),
   "Banking Help Provided to Caree - hours" = list(
     index = 6,
@@ -300,8 +291,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of the number of hours the respondent considered to be care giver assisted caree with banking",
     y_axis_pct = "Proportion",
     table = tab_maker(df_giver, primary_help_banking_hours, "ARB_30C"),
-    title_fragment = "of People and Number of Hours they Provided Help with
-        Banking"
+    title_fragment = "of Caregiving Respondents and Number of Hours they Provided Help with Banking"
   ),
   "Out of Pocket Caregiving Expenses" = list(
     index = 11,
@@ -317,8 +307,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of out-of-pocket expenses of the respondent considered to be care giver for a caree's caregiving responsibilites.",
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket),
-    title_fragment = "of People who had out-of-pocket Expenses From Caregiving
-        - Past 12 months"
+    title_fragment = "of Caregiving Respondents who had out-of-pocket Expenses From Caregiving - Past 12 months"
   ),
   "Financial Hardship due to Caregiving" = list(
     index = 12,
@@ -342,7 +331,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of the type of disability indicators within respondents considered to be a care giver.",
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
-    title_fragment = "of Respondents who have a Disability indicator"
+    title_fragment = "of Caregiving Respondents who have a Disability indicator"
   ),
   "COnditions that would enable Respondent to provide end-of-life care in their own home" = list(
     index = 14,
@@ -358,7 +347,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of the types of conditions given by respondents considered to be a care giver",
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
-    title_fragment = "of Respondents who prefer providing end-of-life care at home"
+    title_fragment = "of Caregiving Respondents who prefer providing end-of-life care at home"
   ),
   "Social Consequences of Respondent's Caregiving Responsibilities" = list(
     index = 15,
@@ -374,7 +363,7 @@ giver_ui_config <- list(
     caption_pct = "Proportion of the types of consequences faced by respondents considered to be care giver",
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
-    title_fragment = "of Respondents facing different types of social consequences due to caregiving"
+    title_fragment = "of Caregiving Respondents facing different types of social consequences due to caregiving"
   )
 )
 
@@ -488,12 +477,6 @@ ui <- function(request) {
                 selected = default
               ),
               selectInput(
-                "receiver_select_box_partner_in_household",
-                "Filter by spouse/partner living with older adult:",
-                choices = filter_partner_in_household,
-                selected = default
-              ),
-              selectInput(
                 "receiver_select_box_living_arrangement_senior_household",
                 "Filter by living arrangement of older adult:",
                 choices = filter_living_arrangement_senior_household,
@@ -536,7 +519,6 @@ ui <- function(request) {
                   ),
                   br(),
                   fluidRow(
-                    p(HTML("<strong>Population:</strong>")),
                     uiOutput("group_by_applied_receiver")
                   ),
                   hr(),
@@ -555,7 +537,6 @@ ui <- function(request) {
                   ),
                   br(),
                   fluidRow(
-                    p(HTML("<strong>Population:</strong>")),
                     uiOutput("group_by_applied_receiver_percentage")
                   ),
                   hr(),
@@ -593,20 +574,20 @@ ui <- function(request) {
               ),
               selectInput(
                 "giver_select_box_age",
-                "Filter by age of caree",
+                "Filter by age of primary caree",
                 filter_age_group,
+                selected = default
+              ),
+              selectInput(
+                "giver_select_box_own_age",
+                "Filter by age respondent",
+                filter_own_age_group,
                 selected = default
               ),
               selectInput(
                 "giver_select_box_pop_centre",
                 "Filter by urban/rural status of caree",
                 filter_pop_centre,
-                selected = default
-              ),
-              selectInput(
-                "giver_select_box_partner_in_household",
-                "Filter by Spouse/Partner living with caree",
-                filter_partner_in_household,
                 selected = default
               ),
               selectInput(
@@ -657,7 +638,6 @@ ui <- function(request) {
                     uiOutput("filters_applied_giver")
                   ),
                   br(),
-                  p(HTML("<strong>Population:</strong>")),
                   uiOutput("group_by_applied_giver"),
                   hr(),
                   fluidRow(
@@ -673,7 +653,6 @@ ui <- function(request) {
                     uiOutput("filters_applied_giver_percentage")
                   ),
                   br(),
-                  p(HTML("<strong>Population:</strong>")),
                   uiOutput("group_by_applied_giver_percentage"),
                   hr(),
                   fluidRow(
@@ -784,9 +763,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     } else if (input$general_selected_box == general_charts[3]) {
       chart_general(primary_sex, giver_sex_freq, "GSS 2018 - Caregiver Respondents by sex", "Count of caregiver respondents by sex", "Sex", "Count")
     } else if (input$general_selected_box == general_charts[4]) {
-      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Count of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.", "Caree Relationships", "Count")
+      chart_general(caree_relationship, caree_freq, "GSS 2018 - Relationship of Primary Caregiver with Respondent (Care Receiver)", "Count of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Other.", "Caree Relationships", "Count")
     } else if (input$general_selected_box == general_charts[5]) {
-      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Count of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
+      chart_general(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types in both Caree and Carer - Grouped", "Count of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts (None, 1, 2 or 3, >3.", "Counts")
     }
   })
  
@@ -815,9 +794,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     } else if(input$general_selected_box == general_charts[3]){
       chart_general_pct(primary_sex, giver_sex_freq, "GSS 2018 - Caregiver Respondents by sex", "Proportion of caregiver respondents by sex", "Sex", "Proportion")
     } else if(input$general_selected_box == general_charts[4]){
-      chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship between Respondent (Care Receiver) and their Primary Caregiver", "Proportion of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
+      chart_general_pct(caree_relationship, caree_freq, "GSS 2018 - Relationship of Primary Caregiver with Respondent (Care Receiver)", "Proportion of relationships in each grouping: Spouse/Partner, Son, Daughter, Parent, Other Family Members, Others.", "Caree Relationships", "Proportion")
     } else if(input$general_selected_box == general_charts[5]){
-      chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types - Grouped", "Proportion of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
+      chart_general_pct(disability_counter, disability_freq, "GSS 2018 - Number of Disability Types in both Caree and Carer - Grouped", "Proportion of respondents (both caree and caregiver) in each grouping: None, 1, 2 or 3, >3.", "Groups of Disability Counts(None, 1, 2 or 3, >3", "Proportion")
     }
   })
   
@@ -879,10 +858,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     filtered_df <- apply_filter(
       filtered_df,
       strtoi(input$receiver_select_box_pop_centre), "LUC_RST"
-    )
-    filtered_df <- apply_filter(
-      filtered_df,
-      strtoi(input$receiver_select_box_partner_in_household), "PHSDFLG"
     )
     filtered_df <- apply_filter(
       filtered_df,
@@ -963,7 +938,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     reset("receiver_select_box_sex")
     reset("receiver_select_box_age")
     reset("receiver_select_box_pop_centre")
-    reset("receiver_select_box_partner_in_household")
     reset("receiver_select_box_living_arrangement_senior_household")
     reset("receiver_select_box_indigenous_status")
     reset("receiver_select_box_visible_minority")
@@ -976,7 +950,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     reset("receiver_select_box_sex")
     reset("receiver_select_box_age")
     reset("receiver_select_box_pop_centre")
-    reset("receiver_select_box_partner_in_household")
     reset("receiver_select_box_living_arrangement_senior_household")
     reset("receiver_select_box_indigenous_status")
     reset("receiver_select_box_visible_minority")
@@ -993,13 +966,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       applied_filters <- c(applied_filters, paste("Sex: ", names(filter_sex)[which(filter_sex == input$receiver_select_box_sex)]))
     }
     if(input$receiver_select_box_age != "-1"){
-      applied_filters <- c(applied_filters, paste("Age group: ", names(filter_age_group)[which(filter_age_group == input$receiver_select_box_age)]))
+      applied_filters <- c(applied_filters, paste("Primary Carer's Age group: ", names(filter_age_group)[which(filter_age_group == input$receiver_select_box_age)]))
     }
     if(input$receiver_select_box_pop_centre != "-1"){
       applied_filters <- c(applied_filters, paste("Urban/ Rural status: ", names(filter_pop_centre)[which(filter_pop_centre == input$receiver_select_box_pop_centre)]))
-    }
-    if(input$receiver_select_box_partner_in_household != "-1"){
-      applied_filters <- c(applied_filters, paste("Partner in Household: ", names(filter_partner_in_household)[which(filter_partner_in_household == input$receiver_select_box_partner_in_household)]))
     }
     if(input$receiver_select_box_living_arrangement_senior_household != "-1"){
       applied_filters <- c(applied_filters, paste("Living Arrangement: ", names(filter_living_arrangement_senior_household)[which(filter_living_arrangement_senior_household == input$receiver_select_box_living_arrangement_senior_household)]))
@@ -1029,11 +999,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   group_temp <- output$group_by_applied_receiver <- renderUI({
     if(input$receiver_radio == 2){
-      HTML(paste("Male Care receiver respondents: ", total_receiver_male, 
+      HTML(paste("<strong>Population:</strong><br>","Male Care receiver respondents: ", total_receiver_male, 
             "<br>Female Care receiver respondents: ", total_receiver_female))
     } 
     else if(input$receiver_radio == 3){
-      HTML(paste("Care Receiver respondents aged 65-74: ", sum(df_receiver$AGEGR10 == 6),
+      HTML(paste("<strong>Population:</strong><br>","Care Receiver respondents aged 65-74: ", sum(df_receiver$AGEGR10 == 6),
                  "<br>Care Receiver respondents aged 75+: ", sum(df_receiver$AGEGR10 == 7)))
     }
   })
@@ -1049,15 +1019,15 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     )
     df_filtered <- apply_filter(
       df_filtered,
-      strtoi(input$giver_select_box_age), "AGEGR10"
+      strtoi(input$giver_select_box_age), "CRRCPAGR"
+    )
+    df_filtered <- apply_filter(
+      df_filtered,
+      strtoi(input$giver_select_box_own_age), "AGEGR10"
     )
     df_filtered <- apply_filter(
       df_filtered,
       strtoi(input$giver_select_box_pop_centre), "LUC_RST"
-    )
-    df_filtered <- apply_filter(
-      df_filtered,
-      strtoi(input$giver_select_box_partner_in_household), "PHSDFLG"
     )
     df_filtered <- apply_filter(
       df_filtered,
@@ -1156,11 +1126,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     if (input$giver_select_box_age != "-1") {
       applied_filters <- c(applied_filters, paste("Age group:", names(filter_age_group[which(filter_age_group == input$giver_select_box_age)])))
     }
+    if(input$giver_select_box_own_age != "-1"){
+      applied_filters <- c(applied_filters, paste("Respondent's Age Group: ", names(filter_own_age_group)[which(filter_own_age_group == input$giver_select_box_own_age)]))
+    }
     if (input$giver_select_box_pop_centre != "-1") {
       applied_filters <- c(applied_filters, paste("Urban/Rural status:", names(filter_pop_centre[which(filter_pop_centre == input$giver_select_box_pop_centre)])))
-    }
-    if (input$giver_select_box_partner_in_household != "-1") {
-      applied_filters <- c(applied_filters, paste("Partner in household:",  names(filter_partner_in_household[which(filter_partner_in_household == input$giver_select_box_partner_in_household)])))
     }
     if (input$giver_select_box_living_arrangement_senior_household != "-1") {
       applied_filters <- c(applied_filters, paste("Living arrangement:", names(filter_living_arrangement_senior_household[which(filter_living_arrangement_senior_household == input$giver_select_box_living_arrangement_senior_household)])))
@@ -1193,15 +1163,15 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   group_temp2 <- output$group_by_applied_giver <- renderUI({
     if(input$giver_radio == 2){
-      HTML(paste("Male Caregiver Respondents: ", total_giver_male,
+      HTML(paste("<strong>Population:</strong><br>","Male Caregiver Respondents: ", total_giver_male,
                  "<br>Female Caregiver Respondents: ", total_giver_female))
     }
     else if(input$giver_radio == 3){
-      HTML(paste("Caregiver respondents aged 65-74: ", sum(df_giver$AGEGR10 == 6),
+      HTML(paste("<strong>Population:</strong><br>","Caregiver respondents aged 65-74: ", sum(df_giver$AGEGR10 == 6),
                  "<br>Caregiver respondents aged 75+: ", sum(df_giver$AGEGR10 == 7)))
     }
     else if(input$giver_radio == 4){
-      HTML(paste("Caregiver cares for a caree with alzheimer's: ", sum(df_giver$PRP10GR == 8),
+      HTML(paste("<strong>Population:</strong><br>","Caregiver cares for a caree with alzheimer's: ", sum(df_giver$PRP10GR == 8),
                  "<br>Caregiver cares for a caree with other health conditions: ", sum(df_giver$PRP10GR != 8)))
     }
   })
@@ -1211,8 +1181,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   observeEvent(input$resetGiverCount, {
     reset("giver_select_box_sex")
     reset("giver_select_box_age")
+    reset("giver_select_box_own_age")
     reset("giver_select_box_pop_centre")
-    reset("giver_select_box_partner_in_household")
     reset("giver_select_box_living_arrangement_senior_household")
     reset("giver_select_box_indigenous_status")
     reset("giver_select_box_visible_minority")
@@ -1225,8 +1195,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   observeEvent(input$resetGiverPercentage, {
     reset("giver_select_box_sex")
     reset("giver_select_box_age")
+    reset("giver_select_box_own_age")
     reset("giver_select_box_pop_centre")
-    reset("giver_select_box_partner_in_household")
     reset("giver_select_box_living_arrangement_senior_household")
     reset("giver_select_box_indigenous_status")
     reset("giver_select_box_visible_minority")
