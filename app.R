@@ -878,6 +878,19 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     )
     
     output_receiver_df <<- filtered_df
+    
+    group_temp <- output$group_by_applied_receiver <- renderUI({
+      if(input$receiver_radio == 2){
+        HTML(paste("<strong>Population:</strong><br>","Male Care receiver respondents: ", sum(output_receiver_df$SEX == 1),
+                   "<br>Female Care receiver respondents: ", sum(output_receiver_df$SEX == 2)))
+      }
+      else if(input$receiver_radio == 3){
+        HTML(paste("<strong>Population:</strong><br>","Care Receiver respondents aged 65-74: ", sum(output_receiver_df$AGEGR10 == 6),
+                   "<br>Care Receiver respondents aged 75+: ", sum(output_receiver_df$AGEGR10 == 7)))
+      }
+    })
+    
+    output$group_by_applied_receiver_percentage <- renderUI({group_temp})
   })
   
   # receiver counts tab
@@ -997,19 +1010,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   output$filters_applied_receiver_percentage <- renderUI({temp})
   
-  group_temp <- output$group_by_applied_receiver <- renderUI({
-    if(input$receiver_radio == 2){
-      HTML(paste("<strong>Population:</strong><br>","Male Care receiver respondents: ", total_receiver_male, 
-            "<br>Female Care receiver respondents: ", total_receiver_female))
-    } 
-    else if(input$receiver_radio == 3){
-      HTML(paste("<strong>Population:</strong><br>","Care Receiver respondents aged 65-74: ", sum(df_receiver$AGEGR10 == 6),
-                 "<br>Care Receiver respondents aged 75+: ", sum(df_receiver$AGEGR10 == 7)))
-    }
-  })
-  
-  output$group_by_applied_receiver_percentage <- renderUI({group_temp})
-  
   ### Giver filters and charts
   update_giver_df <- reactive({
     # filter by sex
@@ -1052,6 +1052,23 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     )
     
     output_giver_df <<- df_filtered
+    
+    group_temp2 <- output$group_by_applied_giver <- renderUI({
+      if(input$giver_radio == 2){
+        HTML(paste("<strong>Population:</strong><br>","Male Caregiver Respondents: ", sum(output_giver_df$SEX == 1),
+                   "<br>Female Caregiver Respondents: ", sum(output_giver_df$SEX == 2)))
+      }
+      else if(input$giver_radio == 3){
+        HTML(paste("<strong>Population:</strong><br>","Caregiver respondents aged 65-74: ", sum(output_giver_df$AGEGR10 == 6),
+                   "<br>Caregiver respondents aged 75+: ", sum(output_giver_df$AGEGR10 == 7)))
+      }
+      else if(input$giver_radio == 4){
+        HTML(paste("<strong>Population:</strong><br>","Caregiver cares for a caree with alzheimer's: ", sum(output_giver_df$PRP10GR == 8),
+                   "<br>Caregiver cares for a caree with other health conditions: ", sum(output_giver_df$PRP10GR != 8)))
+      }
+    })
+    
+    output$group_by_applied_giver_percentage <- renderUI({group_temp2})
   })
   
   # giver counts tab
@@ -1161,22 +1178,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   })
   output$filters_applied_giver_percentage <- renderUI({temp2})
   
-  group_temp2 <- output$group_by_applied_giver <- renderUI({
-    if(input$giver_radio == 2){
-      HTML(paste("<strong>Population:</strong><br>","Male Caregiver Respondents: ", total_giver_male,
-                 "<br>Female Caregiver Respondents: ", total_giver_female))
-    }
-    else if(input$giver_radio == 3){
-      HTML(paste("<strong>Population:</strong><br>","Caregiver respondents aged 65-74: ", sum(df_giver$AGEGR10 == 6),
-                 "<br>Caregiver respondents aged 75+: ", sum(df_giver$AGEGR10 == 7)))
-    }
-    else if(input$giver_radio == 4){
-      HTML(paste("<strong>Population:</strong><br>","Caregiver cares for a caree with alzheimer's: ", sum(df_giver$PRP10GR == 8),
-                 "<br>Caregiver cares for a caree with other health conditions: ", sum(df_giver$PRP10GR != 8)))
-    }
-  })
-  
-  output$group_by_applied_giver_percentage <- renderUI({group_temp2})
   
   observeEvent(input$resetGiverCount, {
     reset("giver_select_box_sex")
