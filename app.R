@@ -547,7 +547,12 @@ ui <- function(request) {
                   ),
                 tabPanel(
                   "Tables",
-                  tableOutput("receiver_table")
+                  tableOutput("receiver_table"),
+                  hr(),
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetReceiverTable", "Reset"))
+                  )
                 ) 
               )
             )
@@ -662,7 +667,12 @@ ui <- function(request) {
                 ), # giver percentages
                 tabPanel(
                   "Tables",
-                  tableOutput("giver_table")
+                  tableOutput("giver_table"),
+                  hr(),
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetGiverTable", "Reset"))
+                  )
                 ) 
               )
             )
@@ -941,23 +951,21 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   # receiver table tab
   output$receiver_table <- renderTable({
+    update_receiver_df()
     dataset_name <- input$receiver_select_box
     config <- receiver_ui_config[[dataset_name]]
-    
-    update_receiver_df()
     filtered_table <- tab_chooser(output_receiver_df, config$input_vector, config$code, config$y)
     
     if(input$receiver_radio == 2){
       final_table <- filtered_table |>
-        select(x_options, count, percentage, Male, Female, male_percentage, female_percentage) 
+        select(x_options, count, percentage, Male, male_percentage, Female, female_percentage) 
     } else if(input$receiver_radio == 3){
       final_table <- filtered_table |>
-        select(x_options, count, percentage, age_65_74, age_75, age_65_74_percentage, age_75_percentage)
+        select(x_options, count, percentage, age_65_74, age_65_74_percentage, age_75, age_75_percentage)
     } else{
       final_table <- filtered_table |>
         select(x_options, count, percentage)
     }
-    
     final_table <- final_table |>
       rename(!!dataset_name := x_options)
     
@@ -965,30 +973,29 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   })
   
   
+  resetReceiverSelections <- function(session) {
+    updateRadioButtons(session, "receiver_radio", selected = 1)
+    updateSelectInput(session, "receiver_select_box_sex", selected = -1)
+    updateSelectInput(session, "receiver_select_box_age", selected = -1)
+    updateSelectInput(session, "receiver_select_box_pop_centre", selected = -1)
+    updateSelectInput(session, "receiver_select_box_living_arrangement_senior_household", selected = -1)
+    updateSelectInput(session, "receiver_select_box_indigenous_status", selected = -1)
+    updateSelectInput(session, "receiver_select_box_visible_minority", selected = -1)
+    updateSelectInput(session, "receiver_select_box_group_religious_participation", selected = -1)
+    update_receiver_df()
+    update_giver_df()
+  }
   
   observeEvent(input$resetReceiverCount, {
-    reset("receiver_select_box_sex")
-    reset("receiver_select_box_age")
-    reset("receiver_select_box_pop_centre")
-    reset("receiver_select_box_living_arrangement_senior_household")
-    reset("receiver_select_box_indigenous_status")
-    reset("receiver_select_box_visible_minority")
-    reset("receiver_select_box_group_religious_participation")
-    update_receiver_df()
-    update_giver_df()
+    resetReceiverSelections(session)
+  })
+  observeEvent(input$resetReceiverPercentage, {
+    resetReceiverSelections(session)
+  })
+  observeEvent(input$resetReceiverTable, {
+    resetReceiverSelections(session)
   })
   
-  observeEvent(input$resetReceiverPercentage, {
-    reset("receiver_select_box_sex")
-    reset("receiver_select_box_age")
-    reset("receiver_select_box_pop_centre")
-    reset("receiver_select_box_living_arrangement_senior_household")
-    reset("receiver_select_box_indigenous_status")
-    reset("receiver_select_box_visible_minority")
-    reset("receiver_select_box_group_religious_participation")
-    update_receiver_df()
-    update_giver_df()
-  })
   
   # Live filter updates- Receiver charts
   temp <- output$filters_applied_receiver <- renderUI({
@@ -1148,13 +1155,26 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # giver table tab
   output$giver_table <- renderTable({
     update_giver_df()
+    dataset_name <- input$giver_select_box
+    config <- giver_ui_config[[dataset_name]]
+    filtered_table <- tab_chooser(output_giver_df, config$input_vector, config$code, config$y)
     
-    config <- giver_ui_config[[input$giver_select_box]]
-    final_table <- config$table  # This only works for charts that run with tab_maker
-    #final_table <- config$table(output_giver_df) # This only works for charts that run withour tab_maker
-    
-    final_table <- final_table %>%
-      rename(!!input$giver_select_box := 1, "count" := 2)
+    if(input$giver_radio == 2){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, Male, male_percentage, Female, female_percentage) 
+    } else if(input$giver_radio == 3){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, age_65_74, age_65_74_percentage, age_75, age_75_percentage)
+    } else if(input$giver_radio == 4){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, alzheimers, alzheimers_percentage, non_alzheimers, non_alzheimers_percentage)
+    } 
+    else{
+      final_table <- filtered_table |>
+        select(x_options, count, percentage)
+    }
+    final_table <- final_table |>
+      rename(!!dataset_name := x_options)
     
     final_table
   })
@@ -1204,35 +1224,33 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   })
   output$filters_applied_giver_percentage <- renderUI({temp2})
   
-  
-  observeEvent(input$resetGiverCount, {
-    reset("giver_select_box_sex")
-    reset("giver_select_box_age")
-    reset("giver_select_box_own_age")
-    reset("giver_select_box_pop_centre")
-    reset("giver_select_box_living_arrangement_senior_household")
-    reset("giver_select_box_indigenous_status")
-    reset("giver_select_box_visible_minority")
-    reset("giver_select_box_group_religious_participation")
-    reset("giver_select_box_receiver_main_health_condition")
+  resetGiverSelections <- function(session) {
+    updateRadioButtons(session, "giver_radio", selected = 1)
+    updateSelectInput(session, "giver_select_box_sex", selected = -1)
+    updateSelectInput(session, "giver_select_box_age", selected = -1)
+    updateSelectInput(session, "giver_select_box_own_age", selected = -1)
+    updateSelectInput(session, "giver_select_box_pop_centre", selected = -1)
+    updateSelectInput(session, "giver_select_box_living_arrangement_senior_household", selected = -1)
+    updateSelectInput(session, "giver_select_box_indigenous_status", selected = -1)
+    updateSelectInput(session, "giver_select_box_visible_minority", selected = -1)
+    updateSelectInput(session, "giver_select_box_group_religious_participation", selected = -1)
+    updateSelectInput(session, "giver_select_box_receiver_main_health_condition", selected = -1)
     update_receiver_df()
     update_giver_df()
+  }
+  
+  observeEvent(input$resetGiverCount, {
+    resetGiverSelections(session)
   })
   
   observeEvent(input$resetGiverPercentage, {
-    reset("giver_select_box_sex")
-    reset("giver_select_box_age")
-    reset("giver_select_box_own_age")
-    reset("giver_select_box_pop_centre")
-    reset("giver_select_box_living_arrangement_senior_household")
-    reset("giver_select_box_indigenous_status")
-    reset("giver_select_box_visible_minority")
-    reset("giver_select_box_group_religious_participation")
-    reset("giver_select_box_receiver_main_health_condition")
-    update_receiver_df()
-    update_giver_df()
+    resetGiverSelections(session)
+  })
+  observeEvent(input$resetGiverTable, {
+    resetGiverSelections(session)
   })
 }
+  
 
 options <- list()
 
