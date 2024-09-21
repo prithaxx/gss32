@@ -309,16 +309,16 @@ giver_ui_config <- list(
     table = tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket),
     title_fragment = "of Caregiving Respondents who had out-of-pocket Expenses From Caregiving - Past 12 months"
   ),
-  "Financial Hardship due to Caregiving" = list(
-    index = 12,
-    count_chart = chart_financial_hardship,
-    pct_chart = chart_financial_hardship_percent,
-    table = tab_financial_hardship,
-    title_fragment = "who Experienced Financial Hardship Because of Caregiving
-        Responsibilities"
-  ),
+  # "Financial Hardship due to Caregiving" = list(
+  #   index = 12,
+  #   count_chart = chart_financial_hardship,
+  #   pct_chart = chart_financial_hardship_percent,
+  #   table = tab_financial_hardship,
+  #   title_fragment = "who Experienced Financial Hardship Because of Caregiving
+  #       Responsibilities"
+  # ),
   "Respondent has a Diability Indicator" = list(
-    index = 13,
+    index = 12,
     count_chart = chart,
     pct_chart = chart_pct,
     input_vector = disability_indicators,
@@ -333,8 +333,8 @@ giver_ui_config <- list(
     table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Caregiving Respondents who have a Disability indicator"
   ),
-  "COnditions that would enable Respondent to provide end-of-life care in their own home" = list(
-    index = 14,
+  "Conditions that would enable Respondent to provide end-of-life care in their own home" = list(
+    index = 13,
     count_chart = chart,
     pct_chart = chart_pct,
     input_vector = end_of_life_care,
@@ -350,7 +350,7 @@ giver_ui_config <- list(
     title_fragment = "of Caregiving Respondents who prefer providing end-of-life care at home"
   ),
   "Social Consequences of Respondent's Caregiving Responsibilities" = list(
-    index = 15,
+    index = 14,
     count_chart = chart,
     pct_chart = chart_pct,
     input_vector = caregiving_social_consequences,
@@ -878,6 +878,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     )
     
     output_receiver_df <<- filtered_df
+    print(output_receiver_df)
     
     male_pop <-  sum(output_receiver_df$SEX == 1)
     female_pop <-  sum(output_receiver_df$SEX == 2)
@@ -941,15 +942,28 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   # receiver table tab
   output$receiver_table <- renderTable({
+    dataset_name <- input$receiver_select_box
+    config <- receiver_ui_config[[dataset_name]]
+    
     update_receiver_df()
     
-    config <- receiver_ui_config[[input$receiver_select_box]]
-    final_table <- config$table  
-    final_table <- final_table %>%
-      rename(!!input$receiver_select_box := 1, "count" := 2)
+    if(input$receiver_radio == 2){
+      final_table <- config$table |>
+        select(x_options, count, percentage, Male, Female, male_percentage, female_percentage) 
+    } else if(input$receiver_radio == 3){
+      final_table <- config$table |>
+        select(x_options, count, percentage, age_65_74, age_75, age_65_74_percentage, age_75_percentage)
+    } else{
+      final_table <- config$table |>
+        select(x_options, count, percentage)
+    }
+    
+    final_table <- final_table |>
+      rename(!!dataset_name := x_options)
     
     final_table
   })
+  
   
   
   observeEvent(input$resetReceiverCount, {
