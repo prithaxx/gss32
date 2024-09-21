@@ -878,7 +878,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     )
     
     output_receiver_df <<- filtered_df
-    print(output_receiver_df)
     
     male_pop <-  sum(output_receiver_df$SEX == 1)
     female_pop <-  sum(output_receiver_df$SEX == 2)
@@ -946,15 +945,16 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     config <- receiver_ui_config[[dataset_name]]
     
     update_receiver_df()
+    filtered_table <- tab_chooser(output_receiver_df, config$input_vector, config$code, config$y)
     
     if(input$receiver_radio == 2){
-      final_table <- config$table |>
+      final_table <- filtered_table |>
         select(x_options, count, percentage, Male, Female, male_percentage, female_percentage) 
     } else if(input$receiver_radio == 3){
-      final_table <- config$table |>
+      final_table <- filtered_table |>
         select(x_options, count, percentage, age_65_74, age_75, age_65_74_percentage, age_75_percentage)
     } else{
-      final_table <- config$table |>
+      final_table <- filtered_table |>
         select(x_options, count, percentage)
     }
     
