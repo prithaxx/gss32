@@ -309,14 +309,6 @@ giver_ui_config <- list(
     table = tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket),
     title_fragment = "of Caregiving Respondents who had out-of-pocket Expenses From Caregiving - Past 12 months"
   ),
-  # "Financial Hardship due to Caregiving" = list(
-  #   index = 12,
-  #   count_chart = chart_financial_hardship,
-  #   pct_chart = chart_financial_hardship_percent,
-  #   table = tab_financial_hardship,
-  #   title_fragment = "who Experienced Financial Hardship Because of Caregiving
-  #       Responsibilities"
-  # ),
   "Respondent has a Diability Indicator" = list(
     index = 12,
     count_chart = chart,
@@ -364,6 +356,22 @@ giver_ui_config <- list(
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
     title_fragment = "of Caregiving Respondents facing different types of social consequences due to caregiving"
+  ),
+  "Financial Hardship due to Caregiving" = list(
+    index = 15,
+    count_chart = chart,
+    pct_chart = chart_pct,
+    input_vector = financial_hardship,
+    code = financial_hardship_codes,
+    y = y_financial_hardship,
+    caption = "Count of the types of Financial Hardships faced by respondents considered to be a care giver",
+    title = "Financial Hardships due to Caregiving",
+    x_axis = "Types of Financial Harships",
+    y_axis = "Count",
+    caption_pct = "Proportion of the types of Financial Hardships faced by respondents considered to be care giver",
+    y_axis_pct = "Proportion",
+    table = tab_multi_var_maker(df_giver, financial_hardship, financial_hardship_codes, y_financial_hardship),
+    title_fragment = "who Experienced Financial Hardship Because of Caregiving Responsibilities"
   )
 )
 
