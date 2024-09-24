@@ -140,31 +140,3 @@ chart <- function(df, input, code, y, title, caption, x_axis, y_axis){
   
   return (c)
 }
-
-### Financial hardship
-chart_financial_hardship <- function(df_giver) {
-  df_financial_hardship <- tab_financial_hardship(df_giver)
-  hcl <- farver::decode_colour(viridisLite::viridis(length(unique(financial_hardship))), "rgb", "hcl") 
-  label_col <- ifelse(hcl[, "l"] > 50, "black", "white") 
-  c_financial_hardship <- ggplot(
-    data = df_financial_hardship,
-    mapping = aes(
-      x = fct_inorder(financial_hardship),
-      y = count,
-      fill = financial_hardship
-    )
-  ) +
-    geom_col() +
-    geom_text(aes(color=financial_hardship, label = count), position = position_stack(vjust = 0.5), show.legend=FALSE) +
-    ggtitle("Financial hardship because of caregiving (65+) responsibilities from 735 caregivers") +
-    xlab("Expense categories") +
-    ylab("Count") +
-    scale_x_discrete(labels = str_wrap(df_financial_hardship$financial_hardship, width = 13)) +
-    scale_color_manual(values = label_col) + 
-    scale_fill_viridis_d(option  = "viridis") +
-    theme(axis.text.x = element_text(size=13)) +
-    guides(fill = "none") +
-    theme(plot.caption = element_text(hjust = 0, size = 14))
-
-  return(c_financial_hardship)
-}
