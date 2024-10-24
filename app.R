@@ -437,11 +437,20 @@ ui <- function(request) {
                 id = "general_chart_type",
                 tabPanel(
                   "Counts",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn-gcc", "Save"))
+                  ),
+                  hr(),
                   plotOutput("general_selected_chart"),
                   uiOutput("conditional_additional_plot")
                 ),
                 tabPanel(
                   "Percentages",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn-gcp", "Save"))
+                  ),
                   plotOutput("general_percentage"),
                   uiOutput("conditional_additional_pct_plot")
                 ),
@@ -519,6 +528,11 @@ ui <- function(request) {
                 id = "receiver_chart_type",
                 tabPanel(
                   "Counts",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn-rc", "Save"))
+                  ),
+                  hr(),
                   plotOutput("receiver_selected_chart"),
                   br(),
                   fluidRow(
@@ -536,7 +550,12 @@ ui <- function(request) {
                   )
                 ),
                 tabPanel(
-                  "Percentages", 
+                  "Percentages",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn-rp", "Save"))
+                  ),
+                  hr(),
                   plotOutput("receiver_percentage"),
                   br(),
                   fluidRow(
@@ -645,6 +664,11 @@ ui <- function(request) {
                 id = "giver_chart_type",
                 tabPanel(
                   "Counts",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn-gc", "Save"))
+                  ),
+                  hr(),
                   plotOutput("giver_selected_chart"),
                   fluidRow(
                     p(HTML("<strong>Filters Applied: </strong>")),
@@ -660,6 +684,11 @@ ui <- function(request) {
                 ),
                 tabPanel(
                   "Percentages",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn-gp", "Save"))
+                  ),
+                  hr(),
                   plotOutput("giver_percentage"),
                   fluidRow(
                     p(HTML("<strong>Filters Applied: </strong>")),
@@ -686,7 +715,13 @@ ui <- function(request) {
             )
           )
         )
-      )
+      ),
+      # Data Vignettes tab for users to save their own charts.
+      tabPanel(
+        "Data Vignettes",
+        id = "data_vignettes"
+        
+      ) # end Data Vignettes
     ),
     fluidRow(
       h3("Highlighted Charts/Tables"),
