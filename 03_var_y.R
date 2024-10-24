@@ -197,15 +197,15 @@ financial_hardship_codes <- c(
   "ICF2_340",
   "ICF2_350"
 )
-y_financial_hardship <- function(df) {
+y_financial_hardship <- function(df_giver) {
   financial_hardship_freq <- c(
-    financial_hardship_1 <- nrow(filter(df, ICF2_290 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
-    financial_hardship_2 <- nrow(filter(df, ICF2_300 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
-    financial_hardship_3 <- nrow(filter(df, ICF2_310 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
-    financial_hardship_4 <- nrow(filter(df, ICF2_320 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
-    financial_hardship_5 <- nrow(filter(df, ICF2_330 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
-    financial_hardship_6 <- nrow(filter(df, ICF2_340 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20))),
-    financial_hardship_7 <- nrow(filter(df, ICF2_350 == 1 & (CRRCPAGR >= 14 & CRRCPAGR <= 20)))
+    financial_hardship_1 <- nrow(filter(df_giver, ICF2_290 == 1)),
+    financial_hardship_2 <- nrow(filter(df_giver, ICF2_300 == 1)),
+    financial_hardship_3 <- nrow(filter(df_giver, ICF2_310 == 1)),
+    financial_hardship_4 <- nrow(filter(df_giver, ICF2_320 == 1)),
+    financial_hardship_5 <- nrow(filter(df_giver, ICF2_330 == 1)),
+    financial_hardship_6 <- nrow(filter(df_giver, ICF2_340 == 1)),
+    financial_hardship_7 <- nrow(filter(df_giver, ICF2_350 == 1))
   )
 }
 

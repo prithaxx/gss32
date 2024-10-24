@@ -309,16 +309,8 @@ giver_ui_config <- list(
     table = tab_multi_var_maker(df_giver, out_of_pocket_expenses, out_of_pocket_codes, y_out_of_pocket),
     title_fragment = "of Caregiving Respondents who had out-of-pocket Expenses From Caregiving - Past 12 months"
   ),
-  "Financial Hardship due to Caregiving" = list(
-    index = 12,
-    count_chart = chart_financial_hardship,
-    pct_chart = chart_financial_hardship_percent,
-    table = tab_financial_hardship,
-    title_fragment = "who Experienced Financial Hardship Because of Caregiving
-        Responsibilities"
-  ),
   "Respondent has a Diability Indicator" = list(
-    index = 13,
+    index = 12,
     count_chart = chart,
     pct_chart = chart_pct,
     input_vector = disability_indicators,
@@ -333,8 +325,8 @@ giver_ui_config <- list(
     table = tab_multi_var_maker(df_giver, disability_indicators, disability_codes, y_disability_indicator),
     title_fragment = "of Caregiving Respondents who have a Disability indicator"
   ),
-  "COnditions that would enable Respondent to provide end-of-life care in their own home" = list(
-    index = 14,
+  "Conditions that would enable Respondent to provide end-of-life care in their own home" = list(
+    index = 13,
     count_chart = chart,
     pct_chart = chart_pct,
     input_vector = end_of_life_care,
@@ -350,7 +342,7 @@ giver_ui_config <- list(
     title_fragment = "of Caregiving Respondents who prefer providing end-of-life care at home"
   ),
   "Social Consequences of Respondent's Caregiving Responsibilities" = list(
-    index = 15,
+    index = 14,
     count_chart = chart,
     pct_chart = chart_pct,
     input_vector = caregiving_social_consequences,
@@ -364,6 +356,22 @@ giver_ui_config <- list(
     y_axis_pct = "Proportion",
     table = tab_multi_var_maker(df_giver, end_of_life_care, end_of_life_care_codes, y_end_of_life_care),
     title_fragment = "of Caregiving Respondents facing different types of social consequences due to caregiving"
+  ),
+  "Financial Hardship due to Caregiving" = list(
+    index = 15,
+    count_chart = chart,
+    pct_chart = chart_pct,
+    input_vector = financial_hardship,
+    code = financial_hardship_codes,
+    y = y_financial_hardship,
+    caption = "Count of the types of Financial Hardships faced by respondents considered to be a care giver",
+    title = "Financial Hardships due to Caregiving",
+    x_axis = "Types of Financial Harships",
+    y_axis = "Count",
+    caption_pct = "Proportion of the types of Financial Hardships faced by respondents considered to be care giver",
+    y_axis_pct = "Proportion",
+    table = tab_multi_var_maker(df_giver, financial_hardship, financial_hardship_codes, y_financial_hardship),
+    title_fragment = "who Experienced Financial Hardship Because of Caregiving Responsibilities"
   )
 )
 
@@ -547,7 +555,12 @@ ui <- function(request) {
                   ),
                 tabPanel(
                   "Tables",
-                  tableOutput("receiver_table")
+                  tableOutput("receiver_table"),
+                  hr(),
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetReceiverTable", "Reset"))
+                  )
                 ) 
               )
             )
@@ -662,7 +675,12 @@ ui <- function(request) {
                 ), # giver percentages
                 tabPanel(
                   "Tables",
-                  tableOutput("giver_table")
+                  tableOutput("giver_table"),
+                  hr(),
+                  fluidRow(
+                    column(4, p("Reset all filters to default settings?")),
+                    column(2, actionButton("resetGiverTable", "Reset"))
+                  )
                 ) 
               )
             )
@@ -942,39 +960,50 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # receiver table tab
   output$receiver_table <- renderTable({
     update_receiver_df()
+    dataset_name <- input$receiver_select_box
+    config <- receiver_ui_config[[dataset_name]]
+    filtered_table <- tab_chooser(output_receiver_df, config$input_vector, config$code, config$y)
     
-    config <- receiver_ui_config[[input$receiver_select_box]]
-    final_table <- config$table  
-    final_table <- final_table %>%
-      rename(!!input$receiver_select_box := 1, "count" := 2)
+    if(input$receiver_radio == 2){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, Male, male_percentage, Female, female_percentage) 
+    } else if(input$receiver_radio == 3){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, age_65_74, age_65_74_percentage, age_75, age_75_percentage)
+    } else{
+      final_table <- filtered_table |>
+        select(x_options, count, percentage)
+    }
+    final_table <- final_table |>
+      rename(!!dataset_name := x_options)
     
     final_table
   })
   
   
-  observeEvent(input$resetReceiverCount, {
-    reset("receiver_select_box_sex")
-    reset("receiver_select_box_age")
-    reset("receiver_select_box_pop_centre")
-    reset("receiver_select_box_living_arrangement_senior_household")
-    reset("receiver_select_box_indigenous_status")
-    reset("receiver_select_box_visible_minority")
-    reset("receiver_select_box_group_religious_participation")
+  resetReceiverSelections <- function(session) {
+    updateRadioButtons(session, "receiver_radio", selected = 1)
+    updateSelectInput(session, "receiver_select_box_sex", selected = -1)
+    updateSelectInput(session, "receiver_select_box_age", selected = -1)
+    updateSelectInput(session, "receiver_select_box_pop_centre", selected = -1)
+    updateSelectInput(session, "receiver_select_box_living_arrangement_senior_household", selected = -1)
+    updateSelectInput(session, "receiver_select_box_indigenous_status", selected = -1)
+    updateSelectInput(session, "receiver_select_box_visible_minority", selected = -1)
+    updateSelectInput(session, "receiver_select_box_group_religious_participation", selected = -1)
     update_receiver_df()
     update_giver_df()
+  }
+  
+  observeEvent(input$resetReceiverCount, {
+    resetReceiverSelections(session)
+  })
+  observeEvent(input$resetReceiverPercentage, {
+    resetReceiverSelections(session)
+  })
+  observeEvent(input$resetReceiverTable, {
+    resetReceiverSelections(session)
   })
   
-  observeEvent(input$resetReceiverPercentage, {
-    reset("receiver_select_box_sex")
-    reset("receiver_select_box_age")
-    reset("receiver_select_box_pop_centre")
-    reset("receiver_select_box_living_arrangement_senior_household")
-    reset("receiver_select_box_indigenous_status")
-    reset("receiver_select_box_visible_minority")
-    reset("receiver_select_box_group_religious_participation")
-    update_receiver_df()
-    update_giver_df()
-  })
   
   # Live filter updates- Receiver charts
   temp <- output$filters_applied_receiver <- renderUI({
@@ -1134,13 +1163,26 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # giver table tab
   output$giver_table <- renderTable({
     update_giver_df()
+    dataset_name <- input$giver_select_box
+    config <- giver_ui_config[[dataset_name]]
+    filtered_table <- tab_chooser(output_giver_df, config$input_vector, config$code, config$y)
     
-    config <- giver_ui_config[[input$giver_select_box]]
-    final_table <- config$table  # This only works for charts that run with tab_maker
-    #final_table <- config$table(output_giver_df) # This only works for charts that run withour tab_maker
-    
-    final_table <- final_table %>%
-      rename(!!input$giver_select_box := 1, "count" := 2)
+    if(input$giver_radio == 2){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, Male, male_percentage, Female, female_percentage) 
+    } else if(input$giver_radio == 3){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, age_65_74, age_65_74_percentage, age_75, age_75_percentage)
+    } else if(input$giver_radio == 4){
+      final_table <- filtered_table |>
+        select(x_options, count, percentage, alzheimers, alzheimers_percentage, non_alzheimers, non_alzheimers_percentage)
+    } 
+    else{
+      final_table <- filtered_table |>
+        select(x_options, count, percentage)
+    }
+    final_table <- final_table |>
+      rename(!!dataset_name := x_options)
     
     final_table
   })
@@ -1190,35 +1232,33 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   })
   output$filters_applied_giver_percentage <- renderUI({temp2})
   
-  
-  observeEvent(input$resetGiverCount, {
-    reset("giver_select_box_sex")
-    reset("giver_select_box_age")
-    reset("giver_select_box_own_age")
-    reset("giver_select_box_pop_centre")
-    reset("giver_select_box_living_arrangement_senior_household")
-    reset("giver_select_box_indigenous_status")
-    reset("giver_select_box_visible_minority")
-    reset("giver_select_box_group_religious_participation")
-    reset("giver_select_box_receiver_main_health_condition")
+  resetGiverSelections <- function(session) {
+    updateRadioButtons(session, "giver_radio", selected = 1)
+    updateSelectInput(session, "giver_select_box_sex", selected = -1)
+    updateSelectInput(session, "giver_select_box_age", selected = -1)
+    updateSelectInput(session, "giver_select_box_own_age", selected = -1)
+    updateSelectInput(session, "giver_select_box_pop_centre", selected = -1)
+    updateSelectInput(session, "giver_select_box_living_arrangement_senior_household", selected = -1)
+    updateSelectInput(session, "giver_select_box_indigenous_status", selected = -1)
+    updateSelectInput(session, "giver_select_box_visible_minority", selected = -1)
+    updateSelectInput(session, "giver_select_box_group_religious_participation", selected = -1)
+    updateSelectInput(session, "giver_select_box_receiver_main_health_condition", selected = -1)
     update_receiver_df()
     update_giver_df()
+  }
+  
+  observeEvent(input$resetGiverCount, {
+    resetGiverSelections(session)
   })
   
   observeEvent(input$resetGiverPercentage, {
-    reset("giver_select_box_sex")
-    reset("giver_select_box_age")
-    reset("giver_select_box_own_age")
-    reset("giver_select_box_pop_centre")
-    reset("giver_select_box_living_arrangement_senior_household")
-    reset("giver_select_box_indigenous_status")
-    reset("giver_select_box_visible_minority")
-    reset("giver_select_box_group_religious_participation")
-    reset("giver_select_box_receiver_main_health_condition")
-    update_receiver_df()
-    update_giver_df()
+    resetGiverSelections(session)
+  })
+  observeEvent(input$resetGiverTable, {
+    resetGiverSelections(session)
   })
 }
+  
 
 options <- list()
 

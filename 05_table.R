@@ -166,31 +166,3 @@ tab_chooser <- function(df, input, code, y){
   }
   return (df)
 }
-
-
-# TODO: Special table function, try to fix this later if possible.
-tab_financial_hardship <- function(df) {
-  count <- y_financial_hardship(df)
-
-  total_male <- sum(df$SEX == 1)
-  total_female <- sum(df$SEX == 2)
-  x_options <- financial_hardship
-  cols <- financial_hardship_codes
-  cols2 <- "CRRCPAGR"
-
-  df_output <- tibble(x_options, count) %>%
-    mutate(
-      percentage = count / sum(count),
-      Male = sapply(seq_along(x_options), function(i) {
-        sum(df$SEX == 1 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
-      }),
-      Female = sapply(seq_along(x_options), function(i) {
-        sum(df$SEX == 2 & df[[cols[i]]] == 1 & (df[[cols2]] >= 14 & df[[cols2]] <= 20))
-      }),
-      male_percentage = round(Male / total_male, 2),
-      female_percentage = round(Female / total_female, 2),
-    ) %>%
-    rename(financial_hardship = x_options)
-
-  return(df_output)
-}
