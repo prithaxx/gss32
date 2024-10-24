@@ -36,5 +36,35 @@ df_giver_alzheimers <- df_giver %>% filter(PRP10GR == 8)
 df_giver_no_alzheimers <- df_giver %>% filter(PRP10GR != 8)
 
 # Giver-Receiver Relationship
-df_caree_relations <- df_giver |>
+df_caree_relations <- df_receiver |>
   filter(PGG10GR >= 1 & PGG10GR <= 6)
+
+
+# The four main populations in the dataset ------
+# Care-Receiver charts
+# Male care-receivers who have male carers
+df_male_caree_male_carer <- df_receiver |>
+  filter(SEX == 1 & PGN_25 == 1)
+# Male care-receivers who have female carers
+df_male_caree_female_carer <- df_receiver |>
+  filter(SEX == 1 & PGN_25 == 2)
+# Female care-receivers who have male carers
+df_female_caree_male_carer <- df_receiver |>
+  filter(SEX == 2 & PGN_25 == 1)
+# Female care-receivers who have female carers
+df_female_caree_female_carer <- df_receiver |>
+  filter(SEX == 2 & PGN_25 == 2)
+
+# Caregiver charts
+# Male caregivers who care for older males
+df_male_carer_male_caree <- df_giver |>
+  filter(SEX == 1 & PRN_25 == 1)
+# Male caregivers who care for older females
+df_male_carer_female_caree <- df_giver |>
+  filter(SEX == 1 & PRN_25 == 2)
+# Female caregivers who care for older males
+df_female_carer_male_caree <- df_giver |>
+  filter(SEX == 2 & PRN_25 == 1)
+# Female caregivers who care for older females
+df_female_carer_female_caree <- df_giver |>
+  filter(SEX == 2 & PRN_25 == 2)
