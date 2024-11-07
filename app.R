@@ -439,7 +439,7 @@ ui <- function(request) {
                   "Counts",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn-gcc", "Save"))
+                    column(width = 4, actionButton("savebtn_gcc", "Save"))
                   ),
                   hr(),
                   plotOutput("general_selected_chart"),
@@ -449,7 +449,7 @@ ui <- function(request) {
                   "Percentages",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn-gcp", "Save"))
+                    column(width = 4, actionButton("savebtn_gcp", "Save"))
                   ),
                   plotOutput("general_percentage"),
                   uiOutput("conditional_additional_pct_plot")
@@ -530,7 +530,7 @@ ui <- function(request) {
                   "Counts",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn-rc", "Save"))
+                    column(width = 4, actionButton("savebtn_rc", "Save"))
                   ),
                   hr(),
                   plotOutput("receiver_selected_chart"),
@@ -553,7 +553,7 @@ ui <- function(request) {
                   "Percentages",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn-rp", "Save"))
+                    column(width = 4, actionButton("savebtn_rp", "Save"))
                   ),
                   hr(),
                   plotOutput("receiver_percentage"),
@@ -666,7 +666,7 @@ ui <- function(request) {
                   "Counts",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn-gc", "Save"))
+                    column(width = 4, actionButton("savebtn_gc", "Save"))
                   ),
                   hr(),
                   plotOutput("giver_selected_chart"),
@@ -686,7 +686,7 @@ ui <- function(request) {
                   "Percentages",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn-gp", "Save"))
+                    column(width = 4, actionButton("savebtn_gp", "Save"))
                   ),
                   hr(),
                   plotOutput("giver_percentage"),
@@ -1029,15 +1029,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_giver_df()
   }
   
-  observeEvent(input$resetReceiverCount, {
+  observeEvent(c(input$resetReceiverCount, input$resetReceiverPercentage, input$resetReceiverTable), {
     resetReceiverSelections(session)
-  })
-  observeEvent(input$resetReceiverPercentage, {
-    resetReceiverSelections(session)
-  })
-  observeEvent(input$resetReceiverTable, {
-    resetReceiverSelections(session)
-  })
+  }, ignoreInit = TRUE)
   
   
   # Live filter updates- Receiver charts
@@ -1282,16 +1276,23 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_giver_df()
   }
   
-  observeEvent(input$resetGiverCount, {
+  observeEvent(c(input$resetGiverCount, input$resetGiverPercentage, input$resetGiverTable), {
     resetGiverSelections(session)
-  })
+  }, ignoreInit = TRUE)
   
-  observeEvent(input$resetGiverPercentage, {
-    resetGiverSelections(session)
-  })
-  observeEvent(input$resetGiverTable, {
-    resetGiverSelections(session)
-  })
+  # Saving data vignettes
+  observeEvent(c(input$savebtn_gcc, input$savebtn_gcp, input$savebtn_rc, 
+                 input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
+    showModal(modalDialog(
+      title = "Save Data Vignette",
+      textInput("vignette_name", "Enter a name for your vignette", placeholder= "Vignette name"),
+      footer = tagList(
+        modalButton("Cancel"),
+        actionButton("confirm_save", "Save")
+      )
+    ))
+  }, ignoreInit = TRUE)
+  
 }
   
 
