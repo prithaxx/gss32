@@ -719,7 +719,8 @@ ui <- function(request) {
       # Data Vignettes tab for users to save their own charts.
       tabPanel(
         "Data Vignettes",
-        id = "data_vignettes"
+        id = "data_vignettes",
+        uiOutput("saved_plots")
         
       ) # end Data Vignettes
     ),
@@ -786,6 +787,14 @@ ui <- function(request) {
 }
 
 server <- function(input, output, session) { # nolint: cyclocomp_linter.
+  
+  saved_charts <- reactiveVal({
+    if (file.exists("saved_charts.rds")){
+      readRDS("saved_charts.rds")
+    } else{
+      list()
+    }
+  })
   
   observeEvent(input$receiver_radio, {
     if (input$receiver_radio != 1) {
@@ -1281,9 +1290,21 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   }, ignoreInit = TRUE)
   
   # Saving data vignettes
+  input_selected <- reactiveVal(NULL)
+  
   observeEvent(c(input$savebtn_gcc, input$savebtn_gcp, input$savebtn_rc, 
                  input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
-    showModal(modalDialog(
+    
+     clicked_button <- NULL
+     if (!is.null(input$savebtn_gcc)) clicked_button <- "savebtn_gcc"
+     if (!is.null(input$savebtn_gcp)) clicked_button <- "savebtn_gcp"
+     if (!is.null(input$savebtn_rc)) clicked_button <- "savebtn_rc"
+     if (!is.null(input$savebtn_rp)) clicked_button <- "savebtn_rp"
+     if (!is.null(input$savebtn_gc)) clicked_button <- "savebtn_gc"
+     if (!is.null(input$savebtn_gp)) clicked_button <- "savebtn_gp"
+     
+     input_selected(clicked_button)
+     showModal(modalDialog(
       title = "Save Data Vignette",
       textInput("vignette_name", "Enter a name for your vignette", placeholder= "Vignette name"),
       footer = tagList(
@@ -1292,6 +1313,46 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       )
     ))
   }, ignoreInit = TRUE)
+  
+  # Click on save 
+  observeEvent(input$confirm_save, {
+    clicked_button <- input_selected()
+    removeModal()
+    current_chart <- list(
+      # details of chart here
+    )
+    chart_list <- saved_charts()
+    chart_list[[length(hist_list) + 1]] <- current_chart
+    saved_charts(chart_list)
+    saveRDS(chart_list, "saved_charts.rds")
+  })
+  
+  # Create buttons for saved charts
+  output$saved_plots <- renderUI({
+    chart_list <- saved_charts()
+    if(length(chart_list) == 0){
+      return(h4("No saved histograms"))
+    }
+    buttons <- lapply(1:length(chart_list), function(i){
+      chart_data <- chart_list[[i]]
+      actionButton(paste0("load_chart_", i), chart_data$name) #change the $name
+    })
+    do.call(tagList, buttons)
+  })
+  
+  # Load and display saved charts
+  observe({
+    chart_list <- saved_charts()
+    lapply(1:length(chart_list), function(i) {
+      observeEvent(input[[paste0("load_chart_", i)]], {
+        chart_data <- chart_list[[i]]
+        
+        # updateRadioButtons(session, "radio", selected = hist_data$month)
+        # updateSelectInput(session, "select", selected = hist_data$constraint)
+        # updateSliderInput(session, "bins", value = hist_data$bins)
+      })
+    })
+  })
   
 }
   
