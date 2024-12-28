@@ -720,7 +720,8 @@ ui <- function(request) {
       tabPanel(
         "Data Vignettes",
         id = "data_vignettes",
-        uiOutput("saved_plots")
+        uiOutput("saved_plots"),
+        plotOutput("saved_data_vignettes")
         
       ) # end Data Vignettes
     ),
@@ -1289,7 +1290,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     resetGiverSelections(session)
   }, ignoreInit = TRUE)
   
-  # Saving data vignettes
+  
+  
+  # Saving data vignettes ----------------------------------------------------------
   input_selected <- reactiveVal(NULL)
   
   observeEvent(c(input$savebtn_gcc, input$savebtn_gcp, input$savebtn_rc, 
@@ -1314,18 +1317,32 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     ))
   }, ignoreInit = TRUE)
   
+  
   # Click on save 
   observeEvent(input$confirm_save, {
     clicked_button <- input_selected()
     removeModal()
+    
+    vignette_name <- input$vignette_name
+    
     current_chart <- list(
-      # details of chart here
+      vignette_name = vignette_name,
+      chart_type = input$general_selected_box,
+      x_data = pop_name,
+      y_data = pop_freq,
+      title = "GSS 2018 - Respondent groups",
+      subtitle = "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.",
+      x_label = "Respondent groups",
+      y_label = "Count"
     )
+    
+
     chart_list <- saved_charts()
-    chart_list[[length(hist_list) + 1]] <- current_chart
+    chart_list[[length(chart_list) + 1]] <- current_chart
     saved_charts(chart_list)
     saveRDS(chart_list, "saved_charts.rds")
   })
+  
   
   # Create buttons for saved charts
   output$saved_plots <- renderUI({
@@ -1335,24 +1352,37 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     }
     buttons <- lapply(1:length(chart_list), function(i){
       chart_data <- chart_list[[i]]
-      actionButton(paste0("load_chart_", i), chart_data$name) #change the $name
+      actionButton(paste0("load_chart_", i), chart_data$vignette_name) #change the $name
     })
     do.call(tagList, buttons)
   })
   
+  
   # Load and display saved charts
   observe({
     chart_list <- saved_charts()
-    lapply(1:length(chart_list), function(i) {
-      observeEvent(input[[paste0("load_chart_", i)]], {
-        chart_data <- chart_list[[i]]
-        
-        # updateRadioButtons(session, "radio", selected = hist_data$month)
-        # updateSelectInput(session, "select", selected = hist_data$constraint)
-        # updateSliderInput(session, "bins", value = hist_data$bins)
+    
+    if (length(chart_list) > 0) {
+      lapply(1:length(chart_list), function(i) {
+        observeEvent(input[[paste0("load_chart_", i)]], {
+          chart_data <- chart_list[[i]]
+          
+          # Render the selected chart
+          output$saved_data_vignettes <- renderPlot({
+            chart_general(
+              chart_data$x_data,
+              chart_data$y_data,
+              chart_data$title,
+              chart_data$subtitle,
+              chart_data$x_label,
+              chart_data$y_label
+            )
+          })
+        })
       })
-    })
+    }
   })
+  
   
 }
   
