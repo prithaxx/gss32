@@ -1318,69 +1318,62 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   }, ignoreInit = TRUE)
   
   
-  # Click on save 
+  saved_links <- reactiveVal(list())
+  
   observeEvent(input$confirm_save, {
     clicked_button <- input_selected()
     removeModal()
     
     vignette_name <- input$vignette_name
     
-    current_chart <- list(
-      vignette_name = vignette_name,
-      chart_type = input$general_selected_box,
-      x_data = pop_name,
-      y_data = pop_freq,
-      title = "GSS 2018 - Respondent groups",
-      subtitle = "Count of respondents in each grouping: caregivers, care receivers, and persons with unmet caregiving needs.",
-      x_label = "Respondent groups",
-      y_label = "Count"
+    # Generate dynamic link with selected filters
+    chart_link <- paste0(
+      "/?_inputs_",
+      "&chart_panel=%22Receiver%20Response%20Charts%22",
+      "&general_chart_type=%22", input$general_selected_box, "%22",
+      "&receiver_chart_type=%22", input$receiver_chart_type, "%22",
+      "&receiver_select_box=%22", input$receiver_select_box, "%22",
+      "&receiver_select_box_sex=%22", input$receiver_select_box_sex, "%22",
+      "&receiver_select_box_age=%22", input$receiver_select_box_age, "%22",
+      "&receiver_select_box_pop_centre=%22", input$receiver_select_box_pop_centre, "%22",
+      "&receiver_select_box_living_arrangement_senior_household=%22", input$receiver_select_box_living_arrangement_senior_household, "%22",
+      "&receiver_select_box_indigenous_status=%22", input$receiver_select_box_indigenous_status, "%22",
+      "&receiver_select_box_visible_minority=%22", input$receiver_select_box_visible_minority, "%22",
+      "&receiver_select_box_group_religious_participation=%22", input$receiver_select_box_group_religious_participation, "%22",
+      "&receiver_radio=%22", input$receiver_radio, "%22"
     )
     
-
+    # Create a new saved chart entry
+    current_chart <- list(
+      vignette_name = vignette_name,
+      chart_link = chart_link,
+      chart_title = paste("Saved Chart: ", vignette_name)
+    )
+    
+    # Update saved charts list
     chart_list <- saved_charts()
     chart_list[[length(chart_list) + 1]] <- current_chart
     saved_charts(chart_list)
-    saveRDS(chart_list, "saved_charts.rds")
   })
   
-  
-  # Create buttons for saved charts
+  # Render the saved charts as clickable thumbnails
   output$saved_plots <- renderUI({
     chart_list <- saved_charts()
-    if(length(chart_list) == 0){
-      return(h4("No saved histograms"))
-    }
-    buttons <- lapply(1:length(chart_list), function(i){
-      chart_data <- chart_list[[i]]
-      actionButton(paste0("load_chart_", i), chart_data$vignette_name) #change the $name
-    })
-    do.call(tagList, buttons)
-  })
-  
-  
-  # Load and display saved charts
-  observe({
-    chart_list <- saved_charts()
+    if (length(chart_list) == 0) return(NULL)
     
-    if (length(chart_list) > 0) {
-      lapply(1:length(chart_list), function(i) {
-        observeEvent(input[[paste0("load_chart_", i)]], {
-          chart_data <- chart_list[[i]]
-          
-          # Render the selected chart
-          output$saved_data_vignettes <- renderPlot({
-            chart_general(
-              chart_data$x_data,
-              chart_data$y_data,
-              chart_data$title,
-              chart_data$subtitle,
-              chart_data$x_label,
-              chart_data$y_label
-            )
-          })
-        })
+    div(
+      class = "row",
+      lapply(chart_list, function(chart) {
+        div(
+          class = "col-xs-6 col-md-3",
+          a(
+            class = "thumbnail bg-warning",
+            href = chart$chart_link,
+            p(class = "h4 text-center", chart$chart_title)
+          )
+        )
       })
-    }
+    )
   })
   
   
