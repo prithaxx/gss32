@@ -720,8 +720,7 @@ ui <- function(request) {
       tabPanel(
         "Data Vignettes",
         id = "data_vignettes",
-        uiOutput("saved_plots"),
-        plotOutput("saved_data_vignettes")
+        uiOutput("saved_charts_ui")
         
       ) # end Data Vignettes
     ),
@@ -788,14 +787,6 @@ ui <- function(request) {
 }
 
 server <- function(input, output, session) { # nolint: cyclocomp_linter.
-  
-  saved_charts <- reactiveVal({
-    if (file.exists("saved_charts.rds")){
-      readRDS("saved_charts.rds")
-    } else{
-      list()
-    }
-  })
   
   observeEvent(input$receiver_radio, {
     if (input$receiver_radio != 1) {
@@ -1296,8 +1287,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   input_selected <- reactiveVal(NULL)
   
   observeEvent(c(input$savebtn_gcc, input$savebtn_gcp, input$savebtn_rc, 
-                 input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
-    
+   input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
+     
      clicked_button <- NULL
      if (!is.null(input$savebtn_gcc)) clicked_button <- "savebtn_gcc"
      if (!is.null(input$savebtn_gcp)) clicked_button <- "savebtn_gcp"
@@ -1307,24 +1298,39 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
      if (!is.null(input$savebtn_gp)) clicked_button <- "savebtn_gp"
      
      input_selected(clicked_button)
+     
      showModal(modalDialog(
-      title = "Save Data Vignette",
-      textInput("vignette_name", "Enter a name for your vignette", placeholder= "Vignette name"),
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("confirm_save", "Save")
-      )
-    ))
-  }, ignoreInit = TRUE)
+       title = "Save Data Vignette",
+       textInput("vignette_name", "Enter a name for your vignette", placeholder = "Vignette name"),
+       textInput("vignette_description", "Enter a description for your vignette", placeholder = "Vignette description"),  # <-- Added this
+       footer = tagList(
+         modalButton("Cancel"),
+         actionButton("confirm_save", "Save")
+       )
+     ))
+
+   }, ignoreInit = TRUE)
   
   
-  saved_links <- reactiveVal(list())
   
+  # Function to load saved charts from file
+  load_saved_charts <- function() {
+    if (file.exists("saved_charts.rds")) {
+      return(readRDS("saved_charts.rds"))
+    }
+    return(list())  # Return empty list if no file exists
+  }
+  
+  # Reactive value to store saved charts
+  saved_charts <- reactiveVal(load_saved_charts())
+  
+  # Click on Save
   observeEvent(input$confirm_save, {
     clicked_button <- input_selected()
     removeModal()
     
     vignette_name <- input$vignette_name
+    vignette_description <- input$vigentte_description
     
     # Generate dynamic link with selected filters
     chart_link <- paste0(
@@ -1346,18 +1352,22 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     # Create a new saved chart entry
     current_chart <- list(
       vignette_name = vignette_name,
+      vignette_description = vignette_description,
       chart_link = chart_link,
-      chart_title = paste("Saved Chart: ", vignette_name)
+      chart_title = paste(vignette_name, ": ",  vignette_description)
     )
     
-    # Update saved charts list
+    # Update saved charts list (persisting data)
     chart_list <- saved_charts()
     chart_list[[length(chart_list) + 1]] <- current_chart
     saved_charts(chart_list)
+    
+    # Save to file
+    saveRDS(chart_list, "saved_charts.rds")
   })
   
   # Render the saved charts as clickable thumbnails
-  output$saved_plots <- renderUI({
+  output$saved_charts_ui <- renderUI({
     chart_list <- saved_charts()
     if (length(chart_list) == 0) return(NULL)
     
@@ -1375,7 +1385,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       })
     )
   })
-  
   
 }
   
