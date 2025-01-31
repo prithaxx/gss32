@@ -1301,8 +1301,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
      
      showModal(modalDialog(
        title = "Save Data Vignette",
-       textInput("vignette_name", "Enter a name for your vignette", placeholder = "Vignette name"),
-       textInput("vignette_description", "Enter a description for your vignette", placeholder = "Vignette description"),  # <-- Added this
+       textInput("vignette_description", "Enter a short description for your vignette", placeholder = "Vignette description"),
        footer = tagList(
          modalButton("Cancel"),
          actionButton("confirm_save", "Save")
@@ -1324,52 +1323,70 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # Reactive value to store saved charts
   saved_charts <- reactiveVal(load_saved_charts())
   
-  # Click on Save
   observeEvent(input$confirm_save, {
     clicked_button <- input_selected()
     removeModal()
     
     vignette_name <- input$vignette_name
-    vignette_description <- input$vigentte_description
+    vignette_description <- input$vignette_description
     
-    # Generate dynamic link with selected filters
-    chart_link <- paste0(
-      "/?_inputs_",
-      "&chart_panel=%22Receiver%20Response%20Charts%22",
-      "&general_chart_type=%22", input$general_selected_box, "%22",
-      "&receiver_chart_type=%22", input$receiver_chart_type, "%22",
-      "&receiver_select_box=%22", input$receiver_select_box, "%22",
-      "&receiver_select_box_sex=%22", input$receiver_select_box_sex, "%22",
-      "&receiver_select_box_age=%22", input$receiver_select_box_age, "%22",
-      "&receiver_select_box_pop_centre=%22", input$receiver_select_box_pop_centre, "%22",
-      "&receiver_select_box_living_arrangement_senior_household=%22", input$receiver_select_box_living_arrangement_senior_household, "%22",
-      "&receiver_select_box_indigenous_status=%22", input$receiver_select_box_indigenous_status, "%22",
-      "&receiver_select_box_visible_minority=%22", input$receiver_select_box_visible_minority, "%22",
-      "&receiver_select_box_group_religious_participation=%22", input$receiver_select_box_group_religious_participation, "%22",
-      "&receiver_radio=%22", input$receiver_radio, "%22"
-    )
+    # Generate dynamic link based on selected chart type
+    if (clicked_button %in% c("savebtn_rc", "savebtn_rp")) {
+      # Receiver chart
+      chart_link <- paste0(
+        "/?_inputs_",
+        "&chart_panel=%22Receiver%20Response%20Charts%22",
+        "&general_chart_type=%22", input$general_selected_box, "%22",
+        "&receiver_chart_type=%22", input$receiver_chart_type, "%22",
+        "&receiver_select_box=%22", input$receiver_select_box, "%22",
+        "&receiver_select_box_sex=%22", input$receiver_select_box_sex, "%22",
+        "&receiver_select_box_age=%22", input$receiver_select_box_age, "%22",
+        "&receiver_select_box_pop_centre=%22", input$receiver_select_box_pop_centre, "%22",
+        "&receiver_select_box_living_arrangement_senior_household=%22", input$receiver_select_box_living_arrangement_senior_household, "%22",
+        "&receiver_select_box_indigenous_status=%22", input$receiver_select_box_indigenous_status, "%22",
+        "&receiver_select_box_visible_minority=%22", input$receiver_select_box_visible_minority, "%22",
+        "&receiver_select_box_group_religious_participation=%22", input$receiver_select_box_group_religious_participation, "%22",
+        "&receiver_radio=%22", input$receiver_radio, "%22"
+      )
+    } else if (clicked_button %in% c("savebtn_gc", "savebtn_gp")) {
+      # Giver chart
+      chart_link <- paste0(
+        "/?_inputs_",
+        "&chart_panel=%22Giver%20Response%20Charts%22",
+        "&general_chart_type=%22", input$general_selected_box, "%22",
+        "&giver_chart_type=%22", input$giver_chart_type, "%22",
+        "&giver_select_box=%22", input$giver_select_box, "%22",
+        "&giver_select_box_sex=%22", input$giver_select_box_sex, "%22",
+        "&giver_select_box_age=%22", input$giver_select_box_age, "%22",
+        "&giver_select_box_own_age=%22", input$giver_select_box_own_age, "%22",
+        "&giver_select_box_pop_centre=%22", input$giver_select_box_pop_centre, "%22",
+        "&giver_select_box_living_arrangement_senior_household=%22", input$giver_select_box_living_arrangement_senior_household, "%22",
+        "&giver_select_box_indigenous_status=%22", input$giver_select_box_indigenous_status, "%22",
+        "&giver_select_box_visible_minority=%22", input$giver_select_box_visible_minority, "%22",
+        "&giver_select_box_group_religious_participation=%22", input$giver_select_box_group_religious_participation, "%22",
+        "&giver_select_box_receiver_main_health_condition=%22", input$giver_select_box_receiver_main_health_condition, "%22",
+        "&giver_radio=%22", input$giver_radio, "%22"
+      )
+    }
     
-    # Create a new saved chart entry
     current_chart <- list(
-      vignette_name = vignette_name,
       vignette_description = vignette_description,
       chart_link = chart_link,
-      chart_title = paste(vignette_name, ": ",  vignette_description)
+      chart_title = paste(vignette_description)
     )
     
-    # Update saved charts list (persisting data)
     chart_list <- saved_charts()
     chart_list[[length(chart_list) + 1]] <- current_chart
     saved_charts(chart_list)
     
-    # Save to file
+    # Save to file for persistence
     saveRDS(chart_list, "saved_charts.rds")
   })
   
-  # Render the saved charts as clickable thumbnails
+  # Render saved charts as clickable thumbnails
   output$saved_charts_ui <- renderUI({
     chart_list <- saved_charts()
-    if (length(chart_list) == 0) return(NULL)
+    if (length(chart_list) == 0) return(tags$p("No saved charts yet."))
     
     div(
       class = "row",
@@ -1385,6 +1402,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       })
     )
   })
+  
   
 }
   
