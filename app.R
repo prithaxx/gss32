@@ -437,11 +437,20 @@ ui <- function(request) {
                 id = "general_chart_type",
                 tabPanel(
                   "Counts",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_gcc", "Save"))
+                  ),
+                  hr(),
                   plotOutput("general_selected_chart"),
                   uiOutput("conditional_additional_plot")
                 ),
                 tabPanel(
                   "Percentages",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_gcp", "Save"))
+                  ),
                   plotOutput("general_percentage"),
                   uiOutput("conditional_additional_pct_plot")
                 ),
@@ -519,6 +528,11 @@ ui <- function(request) {
                 id = "receiver_chart_type",
                 tabPanel(
                   "Counts",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_rc", "Save"))
+                  ),
+                  hr(),
                   plotOutput("receiver_selected_chart"),
                   br(),
                   fluidRow(
@@ -536,7 +550,12 @@ ui <- function(request) {
                   )
                 ),
                 tabPanel(
-                  "Percentages", 
+                  "Percentages",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_rp", "Save"))
+                  ),
+                  hr(),
                   plotOutput("receiver_percentage"),
                   br(),
                   fluidRow(
@@ -645,6 +664,11 @@ ui <- function(request) {
                 id = "giver_chart_type",
                 tabPanel(
                   "Counts",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_gc", "Save"))
+                  ),
+                  hr(),
                   plotOutput("giver_selected_chart"),
                   fluidRow(
                     p(HTML("<strong>Filters Applied: </strong>")),
@@ -660,6 +684,11 @@ ui <- function(request) {
                 ),
                 tabPanel(
                   "Percentages",
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_gp", "Save"))
+                  ),
+                  hr(),
                   plotOutput("giver_percentage"),
                   fluidRow(
                     p(HTML("<strong>Filters Applied: </strong>")),
@@ -686,7 +715,14 @@ ui <- function(request) {
             )
           )
         )
-      )
+      ),
+      # Data Vignettes tab for users to save their own charts.
+      tabPanel(
+        "Data Vignettes",
+        id = "data_vignettes",
+        uiOutput("saved_charts_ui")
+        
+      ) # end Data Vignettes
     ),
     fluidRow(
       h3("Highlighted Charts/Tables"),
@@ -994,15 +1030,9 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_giver_df()
   }
   
-  observeEvent(input$resetReceiverCount, {
+  observeEvent(c(input$resetReceiverCount, input$resetReceiverPercentage, input$resetReceiverTable), {
     resetReceiverSelections(session)
-  })
-  observeEvent(input$resetReceiverPercentage, {
-    resetReceiverSelections(session)
-  })
-  observeEvent(input$resetReceiverTable, {
-    resetReceiverSelections(session)
-  })
+  }, ignoreInit = TRUE)
   
   
   # Live filter updates- Receiver charts
@@ -1247,16 +1277,133 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     update_giver_df()
   }
   
-  observeEvent(input$resetGiverCount, {
+  observeEvent(c(input$resetGiverCount, input$resetGiverPercentage, input$resetGiverTable), {
     resetGiverSelections(session)
+  }, ignoreInit = TRUE)
+  
+  
+  
+  # Saving data vignettes ----------------------------------------------------------
+  input_selected <- reactiveVal(NULL)
+  
+  observeEvent(c(input$savebtn_gcc, input$savebtn_gcp, input$savebtn_rc, 
+   input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
+     
+     clicked_button <- NULL
+     if (!is.null(input$savebtn_gcc)) clicked_button <- "savebtn_gcc"
+     if (!is.null(input$savebtn_gcp)) clicked_button <- "savebtn_gcp"
+     if (!is.null(input$savebtn_rc)) clicked_button <- "savebtn_rc"
+     if (!is.null(input$savebtn_rp)) clicked_button <- "savebtn_rp"
+     if (!is.null(input$savebtn_gc)) clicked_button <- "savebtn_gc"
+     if (!is.null(input$savebtn_gp)) clicked_button <- "savebtn_gp"
+     
+     input_selected(clicked_button)
+     
+     showModal(modalDialog(
+       title = "Save Data Vignette",
+       textInput("vignette_description", "Enter a short description for your vignette", placeholder = "Vignette description"),
+       footer = tagList(
+         modalButton("Cancel"),
+         actionButton("confirm_save", "Save")
+       )
+     ))
+
+   }, ignoreInit = TRUE)
+  
+  
+  
+  # Function to load saved charts from file
+  load_saved_charts <- function() {
+    if (file.exists("saved_charts.rds")) {
+      return(readRDS("saved_charts.rds"))
+    }
+    return(list())  # Return empty list if no file exists
+  }
+  
+  # Reactive value to store saved charts
+  saved_charts <- reactiveVal(load_saved_charts())
+  
+  observeEvent(input$confirm_save, {
+    clicked_button <- input_selected()
+    removeModal()
+    
+    vignette_name <- input$vignette_name
+    vignette_description <- input$vignette_description
+    
+    # Generate dynamic link based on selected chart type
+    if (clicked_button %in% c("savebtn_rc", "savebtn_rp")) {
+      # Receiver chart
+      chart_link <- paste0(
+        "/?_inputs_",
+        "&chart_panel=%22Receiver%20Response%20Charts%22",
+        "&general_chart_type=%22", input$general_selected_box, "%22",
+        "&receiver_chart_type=%22", input$receiver_chart_type, "%22",
+        "&receiver_select_box=%22", input$receiver_select_box, "%22",
+        "&receiver_select_box_sex=%22", input$receiver_select_box_sex, "%22",
+        "&receiver_select_box_age=%22", input$receiver_select_box_age, "%22",
+        "&receiver_select_box_pop_centre=%22", input$receiver_select_box_pop_centre, "%22",
+        "&receiver_select_box_living_arrangement_senior_household=%22", input$receiver_select_box_living_arrangement_senior_household, "%22",
+        "&receiver_select_box_indigenous_status=%22", input$receiver_select_box_indigenous_status, "%22",
+        "&receiver_select_box_visible_minority=%22", input$receiver_select_box_visible_minority, "%22",
+        "&receiver_select_box_group_religious_participation=%22", input$receiver_select_box_group_religious_participation, "%22",
+        "&receiver_radio=%22", input$receiver_radio, "%22"
+      )
+    } else if (clicked_button %in% c("savebtn_gc", "savebtn_gp")) {
+      # Giver chart
+      chart_link <- paste0(
+        "/?_inputs_",
+        "&chart_panel=%22Giver%20Response%20Charts%22",
+        "&general_chart_type=%22", input$general_selected_box, "%22",
+        "&giver_chart_type=%22", input$giver_chart_type, "%22",
+        "&giver_select_box=%22", input$giver_select_box, "%22",
+        "&giver_select_box_sex=%22", input$giver_select_box_sex, "%22",
+        "&giver_select_box_age=%22", input$giver_select_box_age, "%22",
+        "&giver_select_box_own_age=%22", input$giver_select_box_own_age, "%22",
+        "&giver_select_box_pop_centre=%22", input$giver_select_box_pop_centre, "%22",
+        "&giver_select_box_living_arrangement_senior_household=%22", input$giver_select_box_living_arrangement_senior_household, "%22",
+        "&giver_select_box_indigenous_status=%22", input$giver_select_box_indigenous_status, "%22",
+        "&giver_select_box_visible_minority=%22", input$giver_select_box_visible_minority, "%22",
+        "&giver_select_box_group_religious_participation=%22", input$giver_select_box_group_religious_participation, "%22",
+        "&giver_select_box_receiver_main_health_condition=%22", input$giver_select_box_receiver_main_health_condition, "%22",
+        "&giver_radio=%22", input$giver_radio, "%22"
+      )
+    }
+    
+    current_chart <- list(
+      vignette_description = vignette_description,
+      chart_link = chart_link,
+      chart_title = paste(vignette_description)
+    )
+    
+    chart_list <- saved_charts()
+    chart_list[[length(chart_list) + 1]] <- current_chart
+    saved_charts(chart_list)
+    
+    # Save to file for persistence
+    saveRDS(chart_list, "saved_charts.rds")
   })
   
-  observeEvent(input$resetGiverPercentage, {
-    resetGiverSelections(session)
+  # Render saved charts as clickable thumbnails
+  output$saved_charts_ui <- renderUI({
+    chart_list <- saved_charts()
+    if (length(chart_list) == 0) return(tags$p("No saved charts yet."))
+    
+    div(
+      class = "row",
+      lapply(chart_list, function(chart) {
+        div(
+          class = "col-xs-6 col-md-3",
+          a(
+            class = "thumbnail bg-warning",
+            href = chart$chart_link,
+            p(class = "h4 text-center", chart$chart_title)
+          )
+        )
+      })
+    )
   })
-  observeEvent(input$resetGiverTable, {
-    resetGiverSelections(session)
-  })
+  
+  
 }
   
 
