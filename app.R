@@ -539,7 +539,6 @@ ui <- function(request) {
                     p(HTML("<strong>Filters Applied: </strong>")),
                     uiOutput("filters_applied_receiver")
                   ),
-                  br(),
                   fluidRow(
                     uiOutput("group_by_applied_receiver")
                   ),
@@ -562,7 +561,6 @@ ui <- function(request) {
                     p(HTML("<strong>Filters Applied: </strong>")),
                     uiOutput("filters_applied_receiver_percentage")
                   ),
-                  br(),
                   fluidRow(
                     uiOutput("group_by_applied_receiver_percentage")
                   ),
@@ -575,6 +573,11 @@ ui <- function(request) {
                 tabPanel(
                   "Tables",
                   tableOutput("receiver_table"),
+                  hr(),
+                  fluidRow(
+                    p(HTML("<strong>Filters Applied: </strong>")),
+                    uiOutput("filters_applied_receiver_table")
+                  ),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
@@ -674,7 +677,6 @@ ui <- function(request) {
                     p(HTML("<strong>Filters Applied: </strong>")),
                     uiOutput("filters_applied_giver")
                   ),
-                  br(),
                   uiOutput("group_by_applied_giver"),
                   hr(),
                   fluidRow(
@@ -694,7 +696,6 @@ ui <- function(request) {
                     p(HTML("<strong>Filters Applied: </strong>")),
                     uiOutput("filters_applied_giver_percentage")
                   ),
-                  br(),
                   uiOutput("group_by_applied_giver_percentage"),
                   hr(),
                   fluidRow(
@@ -705,6 +706,11 @@ ui <- function(request) {
                 tabPanel(
                   "Tables",
                   tableOutput("giver_table"),
+                  hr(),
+                  fluidRow(
+                    p(HTML("<strong>Filters Applied: </strong>")),
+                    uiOutput("filters_applied_giver_table")
+                  ),
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
@@ -1073,6 +1079,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   })
   
   output$filters_applied_receiver_percentage <- renderUI({temp})
+  output$filters_applied_receiver_table <- renderUI({temp})
   
   ### Giver filters and charts
   update_giver_df <- reactive({
@@ -1261,6 +1268,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     }
   })
   output$filters_applied_giver_percentage <- renderUI({temp2})
+  output$filters_applied_giver_table <- renderUI({temp2})
   
   resetGiverSelections <- function(session) {
     updateRadioButtons(session, "giver_radio", selected = 1)
