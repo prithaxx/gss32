@@ -437,20 +437,11 @@ ui <- function(request) {
                 id = "general_chart_type",
                 tabPanel(
                   "Counts",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gcc", "Save"))
-                  ),
-                  hr(),
                   plotOutput("general_selected_chart"),
                   uiOutput("conditional_additional_plot")
                 ),
                 tabPanel(
                   "Percentages",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gcp", "Save"))
-                  ),
                   plotOutput("general_percentage"),
                   uiOutput("conditional_additional_pct_plot")
                 ),
@@ -1294,16 +1285,19 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # Saving data vignettes ----------------------------------------------------------
   input_selected <- reactiveVal(NULL)
   
-  observeEvent(c(input$savebtn_gcc, input$savebtn_gcp, input$savebtn_rc, 
-   input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
+  observeEvent(c(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
      
-     clicked_button <- NULL
-     if (!is.null(input$savebtn_gcc)) clicked_button <- "savebtn_gcc"
-     if (!is.null(input$savebtn_gcp)) clicked_button <- "savebtn_gcp"
-     if (!is.null(input$savebtn_rc)) clicked_button <- "savebtn_rc"
-     if (!is.null(input$savebtn_rp)) clicked_button <- "savebtn_rp"
-     if (!is.null(input$savebtn_gc)) clicked_button <- "savebtn_gc"
-     if (!is.null(input$savebtn_gp)) clicked_button <- "savebtn_gp"
+    if (input$savebtn_rc > 0 && input$savebtn_rc == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_rc"
+    } else if (input$savebtn_rp > 0 && input$savebtn_rp == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_rp"
+    } else if (input$savebtn_gc > 0 && input$savebtn_gc == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_gc"
+    } else if (input$savebtn_gp > 0 && input$savebtn_gp == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_gp"
+    }
+    
+    print(paste("Clicked button:", clicked_button))  # Debugging output
      
      input_selected(clicked_button)
      
