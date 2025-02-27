@@ -1299,7 +1299,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     
     print(paste("Clicked button:", clicked_button))  # Debugging output
      
-     input_selected(clicked_button)
+    input_selected(clicked_button)
      
      showModal(modalDialog(
        title = "Save Data Vignette",
@@ -1398,7 +1398,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
           a(
             class = "thumbnail bg-warning",
             href = chart$chart_link,
-            p(class = "h4 text-center", chart$chart_title)
+            div(
+              img(src = "chart_icon.jpg", height = "50px", width = "50px", style = "display: block; margin: 0 auto;"),  
+              p(class = "h4", chart$chart_title)
+            )
           )
         )
       })
