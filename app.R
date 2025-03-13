@@ -1332,7 +1332,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     vignette_name <- input$vignette_name
     vignette_description <- input$vignette_description
     
-  
     # Generate dynamic link based on selected chart type
     if (clicked_button %in% c("savebtn_rc", "savebtn_rp")) {
       # Receiver chart
@@ -1372,19 +1371,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       )
     }
     
-    
-    # Define image filename and path2
-    image_filename <- paste0("chart_", as.numeric(Sys.time()), ".png")
-    image_path <- paste0("www/", image_filename)
-    
-    # Call Puppeteer script to capture screenshot
-    system(paste("node generate_image.js", chart_link, image_path))
-    
     current_chart <- list(
       vignette_description = vignette_description,
       chart_link = chart_link,
-      chart_title = paste(vignette_description),
-      chart_img = image_filename
+      chart_title = paste(vignette_description)
     )
     
     chart_list <- saved_charts()
@@ -1408,8 +1398,10 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
           a(
             class = "thumbnail bg-warning",
             href = chart$chart_link,
-            img(src = paste0("/", chart$chart_img), width = "100%"),  # Show saved screenshot
-            p(class = "h4 text-center", chart$chart_title)
+            div(
+              img(src = "chart_icon.jpg", height = "50px", width = "50px", style = "display: block; margin: 0 auto;"),  
+              p(class = "h4", chart$chart_title)
+            )
           )
         )
       })
