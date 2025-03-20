@@ -1289,10 +1289,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   
   # Saving data vignettes ----------------------------------------------------------
+  # Saving data vignettes ----------------------------------------------------------
   input_selected <- reactiveVal(NULL)
   
   observeEvent(c(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
-     
+    
     if (input$savebtn_rc > 0 && input$savebtn_rc == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
       clicked_button <- "savebtn_rc"
     } else if (input$savebtn_rp > 0 && input$savebtn_rp == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
@@ -1305,19 +1306,17 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     
     print(paste("Clicked button:", clicked_button))  # Debugging output
     input_selected(clicked_button)
-     
-     showModal(modalDialog(
-       title = "Save Data Vignette",
-       textInput("vignette_description", "Enter a short description for your vignette", placeholder = "Vignette description"),
-       footer = tagList(
-         modalButton("Cancel"),
-         actionButton("confirm_save", "Save")
-       )
-     ))
-
-   }, ignoreInit = TRUE)
-  
-  
+    
+    showModal(modalDialog(
+      title = "Save Data Vignette",
+      textInput("vignette_description", "Enter a short description for your vignette", placeholder = "Vignette description"),
+      selectInput("vignette_tags", "Select tags (optional)", choices = c("General", "Receiver", "Giver"), multiple = TRUE),
+      footer = tagList(
+        modalButton("Cancel"),
+        actionButton("confirm_save", "Save")
+      )
+    ))
+  }, ignoreInit = TRUE)
   
   # Function to load saved charts from file
   load_saved_charts <- function() {
@@ -1334,8 +1333,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     clicked_button <- input_selected()
     removeModal()
     
-    vignette_name <- input$vignette_name
     vignette_description <- input$vignette_description
+    vignette_tags <- input$vignette_tags  # Store selected tags
     
     # Generate dynamic link based on selected chart type
     if (clicked_button %in% c("savebtn_rc", "savebtn_rp")) {
@@ -1379,7 +1378,8 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     current_chart <- list(
       vignette_description = vignette_description,
       chart_link = chart_link,
-      chart_title = paste(vignette_description)
+      chart_title = paste(vignette_description),
+      vignette_tags = vignette_tags  # Store selected tags
     )
     
     chart_list <- saved_charts()
@@ -1403,12 +1403,14 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
           a(
             class = "thumbnail bg-warning",
             href = chart$chart_link,
-            p(class = "h4 text-center", chart$chart_title)
+            p(class = "h4 text-center", chart$chart_title),
+            p(class = "text-muted text-center", paste("Tags:", paste(chart$vignette_tags, collapse = ", "))) # Display tags
           )
         )
       })
     )
   })
+  
   
   
 }
