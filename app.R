@@ -1,9 +1,10 @@
-#The main Shiny application.
+# The main Shiny application.
 # Defines the interface for the application, and ties the UI elements to the
 # various charts that are defined across the other modules.
 
 library(shiny)
 library(shinyjs)
+library(bslib)
 source("global.R")
 source("01_main.R")
 source("02_var_x.R")
@@ -391,7 +392,12 @@ ui <- function(request) {
   
   fluidPage(
     useShinyjs(),
-    includeCSS("www/app.css"),
+    singleton(
+      tags$head(tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"))
+    ),
+    singleton(
+      tags$head(tags$script(src = "captureChart.js"))
+    ),
     includeCSS("www/app.css"),
     titlePanel("Explore the 2018 General Social Survey on Caregiving and Care
       Receiving"),
@@ -403,12 +409,6 @@ ui <- function(request) {
           li("Care receivers who are 65 years old or older, or"),
           li("Caregivers who provide assistance to individuals who are 65
               years old or older")
-          # removing this from the text header
-          # li("Both care receivers who are 65 years old or older while
-          # simultaneously acting as caregivers to other care receivers who are
-          # 65 years old or older"),
-          #li("People 65 or older who need help but are not currently
-          #    receiving care.")
         ),
         p("These groups of respondents are likely providing insights into the
             experiences and challenges related to receiving or providing care for
@@ -437,7 +437,8 @@ ui <- function(request) {
                 id = "general_chart_type",
                 tabPanel(
                   "Counts",
-                  plotOutput("general_selected_chart"),
+                  div(class = "chart-container", plotOutput("general_selected_chart")),
+                  actionButton("capture_chart", "Capture Chart Screenshot"),
                   uiOutput("conditional_additional_plot")
                 ),
                 tabPanel(
@@ -792,6 +793,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       enable("radio_select_box")
     }
   })
+  
+  observeEvent(input$capture_chart, {
+    session$sendCustomMessage("captureChart", list(selector = ".chart-container"))
+  })
+  
   
   observe({
     # This observer triggers every time an input changes
@@ -1298,8 +1304,7 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     }
     
     print(paste("Clicked button:", clicked_button))  # Debugging output
-     
-     input_selected(clicked_button)
+    input_selected(clicked_button)
      
      showModal(modalDialog(
        title = "Save Data Vignette",
