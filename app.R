@@ -438,7 +438,7 @@ ui <- function(request) {
                 tabPanel(
                   "Counts",
                   div(class = "chart-container", plotOutput("general_selected_chart")),
-                  actionButton("capture_chart", "Capture Chart Screenshot"),
+                  #actionButton("capture_chart", "Capture Chart Screenshot"),
                   uiOutput("conditional_additional_plot")
                 ),
                 tabPanel(
@@ -1289,7 +1289,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   
   
   # Saving data vignettes ----------------------------------------------------------
-  # Saving data vignettes ----------------------------------------------------------
   input_selected <- reactiveVal(NULL)
   
   observeEvent(c(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
@@ -1310,7 +1309,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     showModal(modalDialog(
       title = "Save Data Vignette",
       textInput("vignette_description", "Enter a short description for your vignette", placeholder = "Vignette description"),
-      selectInput("vignette_tags", "Select tags (optional)", choices = c("General", "Receiver", "Giver"), multiple = TRUE),
+      checkboxGroupInput("vignette_tags", "Select tags (optional)", choices = c("Giver", "Receiver", "General", "Other")),
+      conditionalPanel(
+        condition = "input.vignette_tags.includes('Other')",
+        textInput("vignette_other_tag", "Enter custom tag", placeholder = "Custom tag")
+      ),
       footer = tagList(
         modalButton("Cancel"),
         actionButton("confirm_save", "Save")
@@ -1336,9 +1339,12 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     vignette_description <- input$vignette_description
     vignette_tags <- input$vignette_tags  # Store selected tags
     
+    if ("Other" %in% vignette_tags) {
+      vignette_tags <- c(setdiff(vignette_tags, "Other"), input$vignette_other_tag)
+    }
+    
     # Generate dynamic link based on selected chart type
     if (clicked_button %in% c("savebtn_rc", "savebtn_rp")) {
-      # Receiver chart
       chart_link <- paste0(
         "/?_inputs_",
         "&chart_panel=%22Receiver%20Response%20Charts%22",
@@ -1355,7 +1361,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         "&receiver_radio=%22", input$receiver_radio, "%22"
       )
     } else if (clicked_button %in% c("savebtn_gc", "savebtn_gp")) {
-      # Giver chart
       chart_link <- paste0(
         "/?_inputs_",
         "&chart_panel=%22Giver%20Response%20Charts%22",
@@ -1378,19 +1383,18 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     current_chart <- list(
       vignette_description = vignette_description,
       chart_link = chart_link,
-      chart_title = paste(vignette_description),
-      vignette_tags = vignette_tags  # Store selected tags
+      chart_title = vignette_description,
+      vignette_tags = vignette_tags
     )
     
     chart_list <- saved_charts()
     chart_list[[length(chart_list) + 1]] <- current_chart
     saved_charts(chart_list)
     
-    # Save to file for persistence
     saveRDS(chart_list, "saved_charts.rds")
   })
   
-  # Render saved charts as clickable thumbnails
+  # Render saved charts with color-coded tags
   output$saved_charts_ui <- renderUI({
     chart_list <- saved_charts()
     if (length(chart_list) == 0) return(tags$p("No saved charts yet."))
@@ -1398,20 +1402,24 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     div(
       class = "row",
       lapply(chart_list, function(chart) {
+        tag_colors <- list("Giver" = "red", "Receiver" = "blue", "General" = "green")
+        tag_elements <- lapply(chart$vignette_tags, function(tag) {
+          tag_color <- ifelse(tag %in% names(tag_colors), tag_colors[[tag]], "pink")
+          span(class = "badge", style = paste("background-color:", tag_color, "; margin: 2px; padding: 5px;"), tag)
+        })
+        
         div(
           class = "col-xs-6 col-md-3",
           a(
             class = "thumbnail bg-warning",
             href = chart$chart_link,
             p(class = "h4 text-center", chart$chart_title),
-            p(class = "text-muted text-center", paste("Tags:", paste(chart$vignette_tags, collapse = ", "))) # Display tags
+            div(class = "text-center", tag_elements)
           )
         )
       })
     )
   })
-  
-  
   
 }
   
