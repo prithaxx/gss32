@@ -1,9 +1,10 @@
-#The main Shiny application.
+# The main Shiny application.
 # Defines the interface for the application, and ties the UI elements to the
 # various charts that are defined across the other modules.
 
 library(shiny)
 library(shinyjs)
+library(bslib)
 source("global.R")
 source("01_main.R")
 source("02_var_x.R")
@@ -391,7 +392,12 @@ ui <- function(request) {
   
   fluidPage(
     useShinyjs(),
-    includeCSS("www/app.css"),
+    singleton(
+      tags$head(tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"))
+    ),
+    singleton(
+      tags$head(tags$script(src = "captureChart.js"))
+    ),
     includeCSS("www/app.css"),
     titlePanel("Explore the 2018 General Social Survey on Caregiving and Care
       Receiving"),
@@ -403,12 +409,6 @@ ui <- function(request) {
           li("Care receivers who are 65 years old or older, or"),
           li("Caregivers who provide assistance to individuals who are 65
               years old or older")
-          # removing this from the text header
-          # li("Both care receivers who are 65 years old or older while
-          # simultaneously acting as caregivers to other care receivers who are
-          # 65 years old or older"),
-          #li("People 65 or older who need help but are not currently
-          #    receiving care.")
         ),
         p("These groups of respondents are likely providing insights into the
             experiences and challenges related to receiving or providing care for
@@ -437,20 +437,12 @@ ui <- function(request) {
                 id = "general_chart_type",
                 tabPanel(
                   "Counts",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gcc", "Save"))
-                  ),
-                  hr(),
-                  plotOutput("general_selected_chart"),
+                  div(class = "chart-container", plotOutput("general_selected_chart")),
+                  #actionButton("capture_chart", "Capture Chart Screenshot"),
                   uiOutput("conditional_additional_plot")
                 ),
                 tabPanel(
                   "Percentages",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gcp", "Save"))
-                  ),
                   plotOutput("general_percentage"),
                   uiOutput("conditional_additional_pct_plot")
                 ),
@@ -530,7 +522,7 @@ ui <- function(request) {
                   "Counts",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_rc", "Save"))
+                    column(width = 4, actionButton("savebtn_rc", "Share"))
                   ),
                   hr(),
                   plotOutput("receiver_selected_chart"),
@@ -552,7 +544,7 @@ ui <- function(request) {
                   "Percentages",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_rp", "Save"))
+                    column(width = 4, actionButton("savebtn_rp", "Share"))
                   ),
                   hr(),
                   plotOutput("receiver_percentage"),
@@ -669,7 +661,7 @@ ui <- function(request) {
                   "Counts",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gc", "Save"))
+                    column(width = 4, actionButton("savebtn_gc", "Share"))
                   ),
                   hr(),
                   plotOutput("giver_selected_chart"),
@@ -688,7 +680,7 @@ ui <- function(request) {
                   "Percentages",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gp", "Save"))
+                    column(width = 4, actionButton("savebtn_gp", "Share"))
                   ),
                   hr(),
                   plotOutput("giver_percentage"),
@@ -801,6 +793,11 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
       enable("radio_select_box")
     }
   })
+  
+  observeEvent(input$capture_chart, {
+    session$sendCustomMessage("captureChart", list(selector = ".chart-container"))
+  })
+  
   
   observe({
     # This observer triggers every time an input changes
@@ -1294,31 +1291,35 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
   # Saving data vignettes ----------------------------------------------------------
   input_selected <- reactiveVal(NULL)
   
-  observeEvent(c(input$savebtn_gcc, input$savebtn_gcp, input$savebtn_rc, 
-   input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
-     
-     clicked_button <- NULL
-     if (!is.null(input$savebtn_gcc)) clicked_button <- "savebtn_gcc"
-     if (!is.null(input$savebtn_gcp)) clicked_button <- "savebtn_gcp"
-     if (!is.null(input$savebtn_rc)) clicked_button <- "savebtn_rc"
-     if (!is.null(input$savebtn_rp)) clicked_button <- "savebtn_rp"
-     if (!is.null(input$savebtn_gc)) clicked_button <- "savebtn_gc"
-     if (!is.null(input$savebtn_gp)) clicked_button <- "savebtn_gp"
-     
-     input_selected(clicked_button)
-     
-     showModal(modalDialog(
-       title = "Save Data Vignette",
-       textInput("vignette_description", "Enter a short description for your vignette", placeholder = "Vignette description"),
-       footer = tagList(
-         modalButton("Cancel"),
-         actionButton("confirm_save", "Save")
-       )
-     ))
-
-   }, ignoreInit = TRUE)
-  
-  
+  observeEvent(c(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp), {
+    
+    if (input$savebtn_rc > 0 && input$savebtn_rc == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_rc"
+    } else if (input$savebtn_rp > 0 && input$savebtn_rp == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_rp"
+    } else if (input$savebtn_gc > 0 && input$savebtn_gc == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_gc"
+    } else if (input$savebtn_gp > 0 && input$savebtn_gp == max(input$savebtn_rc, input$savebtn_rp, input$savebtn_gc, input$savebtn_gp, na.rm = TRUE)) {
+      clicked_button <- "savebtn_gp"
+    }
+    
+    print(paste("Clicked button:", clicked_button))  # Debugging output
+    input_selected(clicked_button)
+    
+    showModal(modalDialog(
+      title = "Save Data Vignette",
+      textInput("vignette_description", "Enter a short description for your vignette", placeholder = "Vignette description"),
+      checkboxGroupInput("vignette_tags", "Select tags (optional)", choices = c("Giver", "Receiver", "General", "Other")),
+      conditionalPanel(
+        condition = "input.vignette_tags.includes('Other')",
+        textInput("vignette_other_tag", "Enter custom tag", placeholder = "Custom tag")
+      ),
+      footer = tagList(
+        modalButton("Cancel"),
+        actionButton("confirm_save", "Save")
+      )
+    ))
+  }, ignoreInit = TRUE)
   
   # Function to load saved charts from file
   load_saved_charts <- function() {
@@ -1335,12 +1336,15 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     clicked_button <- input_selected()
     removeModal()
     
-    vignette_name <- input$vignette_name
     vignette_description <- input$vignette_description
+    vignette_tags <- input$vignette_tags  # Store selected tags
+    
+    if ("Other" %in% vignette_tags) {
+      vignette_tags <- c(setdiff(vignette_tags, "Other"), input$vignette_other_tag)
+    }
     
     # Generate dynamic link based on selected chart type
     if (clicked_button %in% c("savebtn_rc", "savebtn_rp")) {
-      # Receiver chart
       chart_link <- paste0(
         "/?_inputs_",
         "&chart_panel=%22Receiver%20Response%20Charts%22",
@@ -1357,7 +1361,6 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
         "&receiver_radio=%22", input$receiver_radio, "%22"
       )
     } else if (clicked_button %in% c("savebtn_gc", "savebtn_gp")) {
-      # Giver chart
       chart_link <- paste0(
         "/?_inputs_",
         "&chart_panel=%22Giver%20Response%20Charts%22",
@@ -1380,18 +1383,18 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     current_chart <- list(
       vignette_description = vignette_description,
       chart_link = chart_link,
-      chart_title = paste(vignette_description)
+      chart_title = vignette_description,
+      vignette_tags = vignette_tags
     )
     
     chart_list <- saved_charts()
     chart_list[[length(chart_list) + 1]] <- current_chart
     saved_charts(chart_list)
     
-    # Save to file for persistence
     saveRDS(chart_list, "saved_charts.rds")
   })
   
-  # Render saved charts as clickable thumbnails
+  # Render saved charts with color-coded tags
   output$saved_charts_ui <- renderUI({
     chart_list <- saved_charts()
     if (length(chart_list) == 0) return(tags$p("No saved charts yet."))
@@ -1399,18 +1402,24 @@ server <- function(input, output, session) { # nolint: cyclocomp_linter.
     div(
       class = "row",
       lapply(chart_list, function(chart) {
+        tag_colors <- list("Giver" = "red", "Receiver" = "blue", "General" = "green")
+        tag_elements <- lapply(chart$vignette_tags, function(tag) {
+          tag_color <- ifelse(tag %in% names(tag_colors), tag_colors[[tag]], "pink")
+          span(class = "badge", style = paste("background-color:", tag_color, "; margin: 2px; padding: 5px;"), tag)
+        })
+        
         div(
           class = "col-xs-6 col-md-3",
           a(
             class = "thumbnail bg-warning",
             href = chart$chart_link,
-            p(class = "h4 text-center", chart$chart_title)
+            p(class = "h4 text-center", chart$chart_title),
+            div(class = "text-center", tag_elements)
           )
         )
       })
     )
   })
-  
   
 }
   
