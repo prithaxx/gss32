@@ -520,11 +520,7 @@ ui <- function(request) {
                 id = "receiver_chart_type",
                 tabPanel(
                   "Counts",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_rc", "Share"))
-                  ),
-                  hr(),
+                  
                   plotOutput("receiver_selected_chart"),
                   br(),
                   fluidRow(
@@ -537,16 +533,15 @@ ui <- function(request) {
                   hr(),
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
-                    column(2, actionButton("resetReceiverCount", "Reset"))
-                  )
+                    column(2, actionButton("resetReceiverCount", "Reset")),
+                  ),
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_rc", "Share"))
+                  ),
                 ),
                 tabPanel(
                   "Percentages",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_rp", "Share"))
-                  ),
-                  hr(),
                   plotOutput("receiver_percentage"),
                   br(),
                   fluidRow(
@@ -560,7 +555,11 @@ ui <- function(request) {
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
                     column(2, actionButton("resetReceiverPercentage", "Reset"))
-                    )
+                    ),
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_rp", "Share"))
+                  ),
                   ),
                 tabPanel(
                   "Tables",
@@ -659,11 +658,6 @@ ui <- function(request) {
                 id = "giver_chart_type",
                 tabPanel(
                   "Counts",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gc", "Share"))
-                  ),
-                  hr(),
                   plotOutput("giver_selected_chart"),
                   fluidRow(
                     p(HTML("<strong>Filters Applied: </strong>")),
@@ -674,15 +668,14 @@ ui <- function(request) {
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
                     column(2, actionButton("resetGiverCount", "Reset"))
-                  )
+                  ),
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_gc", "Share"))
+                  ),
                 ),
                 tabPanel(
                   "Percentages",
-                  fluidRow(
-                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gp", "Share"))
-                  ),
-                  hr(),
                   plotOutput("giver_percentage"),
                   fluidRow(
                     p(HTML("<strong>Filters Applied: </strong>")),
@@ -693,7 +686,11 @@ ui <- function(request) {
                   fluidRow(
                     column(4, p("Reset all filters to default settings?")),
                     column(2, actionButton("resetGiverPercentage", "Reset"))
-                  )
+                  ),
+                  fluidRow(
+                    column(width = 4, p(HTML("Do you want to save your vignette?"))),
+                    column(width = 4, actionButton("savebtn_gp", "Share"))
+                  ),
                 ), # giver percentages
                 tabPanel(
                   "Tables",
