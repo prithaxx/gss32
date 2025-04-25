@@ -60,3 +60,5 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+saved_charts.rds
+gss32.Rproj
