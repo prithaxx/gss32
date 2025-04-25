@@ -522,7 +522,7 @@ ui <- function(request) {
                   "Counts",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_rc", "Save"))
+                    column(width = 4, actionButton("savebtn_rc", "Share"))
                   ),
                   hr(),
                   plotOutput("receiver_selected_chart"),
@@ -544,7 +544,7 @@ ui <- function(request) {
                   "Percentages",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_rp", "Save"))
+                    column(width = 4, actionButton("savebtn_rp", "Share"))
                   ),
                   hr(),
                   plotOutput("receiver_percentage"),
@@ -661,7 +661,7 @@ ui <- function(request) {
                   "Counts",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gc", "Save"))
+                    column(width = 4, actionButton("savebtn_gc", "Share"))
                   ),
                   hr(),
                   plotOutput("giver_selected_chart"),
@@ -680,7 +680,7 @@ ui <- function(request) {
                   "Percentages",
                   fluidRow(
                     column(width = 4, p(HTML("Do you want to save your vignette?"))),
-                    column(width = 4, actionButton("savebtn_gp", "Save"))
+                    column(width = 4, actionButton("savebtn_gp", "Share"))
                   ),
                   hr(),
                   plotOutput("giver_percentage"),
